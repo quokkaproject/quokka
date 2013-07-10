@@ -5,4 +5,5 @@ mongoengine
 flask_mongoengine
 blinker
 Flask-Assets
+Flask-Babel
 -e git+git@github.com:rochacbruno/Flask-SuperAdmin.git#egg=Flask_SuperAdmin
