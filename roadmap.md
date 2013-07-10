@@ -3,8 +3,8 @@ Quokka Roadmap
 
 Core
 ====
-* auth module with generic switchable User model
-* Media center (for images and files), thumbnail engine, video/audio manager
+* auth module with generic switchable User model (http://pythonhosted.org/Flask-Security/)
+* Media center (for images and files), thumbnail engine, video/audio manager/ flask-uploads
 * Rich text Aloha editor widget
 * core models for Site, Channels(MPTT), Categories, Tags, Slug, Published, Image, Config  etc...
 * ContentBox
@@ -12,6 +12,7 @@ Core
 * admin index view (customizable)
 * i18n
 * Blueprints manager admin view (manage folder, package etc..)
+* Theming support (take a look at flask-themes)
 
 Blueprints (built_in)
 =====================
@@ -20,6 +21,7 @@ Blueprints (built_in)
 * Album
 * Page
 * Search
+* API with flask-restful http://flask-restful.readthedocs.org/en/latest/
 
 Blueprints (blueprint central)
 ==============================

@@ -12,6 +12,8 @@ Flask-Gravatar
 Flask-HTMLBuilder
 Flask-Login
 Flask-Principal
+Flask-Security
 Flask-Mail
 Flask-Testing
+flask-restful
 -e git+git@github.com:rochacbruno/Flask-SuperAdmin.git#egg=Flask_SuperAdmin
