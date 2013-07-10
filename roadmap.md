@@ -3,7 +3,6 @@ Quokka Roadmap
 
 Core
 ====
-* auth module with generic switchable User model (http://pythonhosted.org/Flask-Security/)
 * Media center (for images and files), thumbnail engine, video/audio manager/ flask-uploads
 * Rich text Aloha editor widget
 * core models for Site, Channels(MPTT), Categories, Tags, Slug, Published, Image, Config  etc...
@@ -21,6 +20,7 @@ Docs
 
 Blueprints (built_in)
 =====================
+* Accounts
 * Post
 * Comment
 * Album
