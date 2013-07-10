@@ -22,7 +22,9 @@ app.config.from_object('settings')
 
 load_blueprints_from_packages(app)
 load_blueprints_from_folder(app)
-create_admin(app)
+
+if app.config.get('SUPER_ADMIN'):
+    create_admin(app)
 
 if __name__ == "__main__":
     app.run()
