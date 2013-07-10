@@ -15,12 +15,14 @@ __copyright__ = u"Copyright 2013, Quokka Project"
 from flask import Flask
 from utils.blueprints import load_blueprints_from_packages
 from utils.blueprints import load_blueprints_from_folder
+from admin import create_admin
 
 app = Flask(__name__)
 app.config.from_object('settings')
 
 load_blueprints_from_packages(app)
 load_blueprints_from_folder(app)
+create_admin(app)
 
 if __name__ == "__main__":
     app.run()
