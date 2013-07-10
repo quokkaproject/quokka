@@ -13,7 +13,7 @@ class Content(db.DynamicDocument):
     comments = db.ListField(db.EmbeddedDocumentField('Comment'))
 
     def get_absolute_url(self):
-        return url_for('post', kwargs={"slug": self.slug})
+        return url_for(self.URL_NAMESPACE, slug=self.slug)
 
     def __unicode__(self):
         return self.title

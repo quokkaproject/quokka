@@ -6,4 +6,5 @@ from quokka.core.models import Content
 
 
 class Post(Content):
+    URL_NAMESPACE = 'posts.detail'
     body = db.StringField(required=True)

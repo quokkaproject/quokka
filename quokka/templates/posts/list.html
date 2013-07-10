@@ -2,7 +2,7 @@
 
 {% block content %}
     {% for post in posts %}
-      <h2><a href="{{ url_for('posts.detail', slug=post.slug) }}">{{ post.title }}</a></h2>
+      <h2><a href="{{ post.get_absolute_url() }}">{{ post.title }}</a></h2>
 
         {% if post.body %}
           {% if post.post_type == 'Quote' %}
