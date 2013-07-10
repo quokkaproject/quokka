@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*
-import os
 from flask.ext.superadmin import Admin
 from flask.ext.superadmin.contrib import fileadmin
 

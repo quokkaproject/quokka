@@ -29,18 +29,6 @@ class Content(db.DynamicDocument):
     }
 
 
-# class BlogPost(Post):
-#     body = db.StringField(required=True)
-
-
-# class Video(Post):
-#     embed_code = db.StringField(required=True)
-
-
-# class Image(Post):
-#     image_url = db.StringField(required=True, max_length=255)
-
-
 # class Quote(Post):
 #     body = db.StringField(required=True)
 #     author = db.StringField(verbose_name="Author Name", required=True, max_length=255)
