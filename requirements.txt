@@ -11,5 +11,6 @@ Flask-Creole
 Flask-Gravatar
 Flask-HTMLBuilder
 Flask-Login
+Flask-Principal
 Flask-Mail
 -e git+git@github.com:rochacbruno/Flask-SuperAdmin.git#egg=Flask_SuperAdmin
