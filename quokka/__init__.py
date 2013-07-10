@@ -20,11 +20,11 @@ from admin import create_admin
 app = Flask(__name__)
 app.config.from_object('settings')
 
+if app.config.get('SUPER_ADMIN'):
+    admin = create_admin(app)
+
 load_blueprints_from_packages(app)
 load_blueprints_from_folder(app)
-
-if app.config.get('SUPER_ADMIN'):
-    create_admin(app)
 
 if __name__ == "__main__":
     app.run()

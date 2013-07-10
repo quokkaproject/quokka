@@ -39,6 +39,17 @@ def load_blueprints_from_folder(app):
             mods[fname] = imp.load_module(fname, f, filename, descr)
             app.register_blueprint(getattr(mods[fname], object_name))
 
+            # register admin
+            if os.path.exists(os.path.join(path, fname, 'admin.py')):
+
+                f, filename, descr = imp.find_module(
+                    'admin',
+                    [os.path.join(path, fname)]
+                )
+
+                # by loading the module the admin.register is executed
+                imp.load_module(fname, f, filename, descr)
+
         elif os.path.isfile(os.path.join(path, fname)):
 
             name, ext = os.path.splitext(fname)
