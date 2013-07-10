@@ -26,5 +26,11 @@ if app.config.get('SUPER_ADMIN'):
 load_blueprints_from_packages(app)
 load_blueprints_from_folder(app)
 
+try:
+    from flask_debugtoolbar import DebugToolbarExtension
+    toolbar = DebugToolbarExtension(app)
+except:
+    pass
+
 if __name__ == "__main__":
     app.run()
