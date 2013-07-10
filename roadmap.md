@@ -9,7 +9,6 @@ Core
 * core models for Site, Channels(MPTT), Categories, Tags, Slug, Published, Image, Config  etc...
 * ContentBox
 * Core generic views
-* HTML Helpers
 * admin index view (customizable)
 * i18n
 * Blueprints manager admin view (manage folder, package etc..)
