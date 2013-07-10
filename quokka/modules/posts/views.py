@@ -4,7 +4,6 @@
 from flask import request, redirect, render_template, url_for
 from flask.views import MethodView
 from flask.ext.mongoengine.wtf import model_form
-
 from quokka.core.models import Comment
 from .models import Post
 

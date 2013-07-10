@@ -5,7 +5,10 @@ import datetime
 from flask import url_for
 from quokka.core.db import db
 
+#Channel
 
+
+# Content
 class Content(db.DynamicDocument):
     created_at = db.DateTimeField(default=datetime.datetime.now, required=True)
     title = db.StringField(max_length=255, required=True)

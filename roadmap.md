@@ -14,6 +14,11 @@ Core
 * Blueprints manager admin view (manage folder, package etc..)
 * Theming support (take a look at flask-themes)
 
+Docs
+===
+- http://pythonhosted.org/Flask-Security/configuration.html
+- from flask.ext.security import login_required, roles_required, roles_accepted
+
 Blueprints (built_in)
 =====================
 * Post
