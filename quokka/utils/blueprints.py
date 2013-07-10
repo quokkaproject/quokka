@@ -31,7 +31,8 @@ def load_blueprints_from_folder(app):
     object_name = app.config.get('BLUEPRINTS_OBJECT_NAME', 'module')
 
     for fname in dir_list:
-        if os.path.isdir(os.path.join(path, fname)) and \
+        if not os.path.exists(os.path.join(path, fname, 'DISABLED')) and  \
+                os.path.isdir(os.path.join(path, fname)) and \
                 os.path.exists(os.path.join(path, fname, '__init__.py')):
 
             f, filename, descr = imp.find_module(fname, [path])
