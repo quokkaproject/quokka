@@ -3,3 +3,4 @@ flask-script
 WTForms
 mongoengine
 flask_mongoengine
+Flask-SuperAdmin
