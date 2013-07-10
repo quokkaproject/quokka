@@ -23,6 +23,10 @@ app.config.from_object('settings')
 if app.config.get('SUPER_ADMIN'):
     admin = create_admin(app)
 
+if app.config.get('GRAVATAR'):
+    from flask.ext.gravatar import Gravatar
+    gravatar = Gravatar(app, **app.config.get('GRAVATAR'))
+
 load_blueprints_from_packages(app)
 load_blueprints_from_folder(app)
 

@@ -34,3 +34,11 @@ FILE_ADMIN = [
 
 DEBUG = True
 DEBUG_TB_INTERCEPT_REDIRECTS = False
+
+GRAVATAR = {
+    'size': 100,
+    'rating': 'g',
+    'default': 'retro',
+    'force_default': False,
+    'force_lower': False
+}
