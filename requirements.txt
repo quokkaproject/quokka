@@ -4,4 +4,5 @@ WTForms
 mongoengine
 flask_mongoengine
 blinker
+Flask-Assets
 -e git+git@github.com:rochacbruno/Flask-SuperAdmin.git#egg=Flask_SuperAdmin
