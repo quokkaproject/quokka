@@ -7,4 +7,5 @@ blinker
 Flask-Assets
 Flask-Babel
 Flask-Bcrypt
+Flask-Creole
 -e git+git@github.com:rochacbruno/Flask-SuperAdmin.git#egg=Flask_SuperAdmin
