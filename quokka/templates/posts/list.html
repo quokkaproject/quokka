@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block content %}
+    {% for post in posts %}
+      <h2><a href="{{ url_for('posts.detail', slug=post.slug) }}">{{ post.title }}</a></h2>
+
+        {% if post.body %}
+          {% if post.post_type == 'Quote' %}
+            <blockquote>{{ post.body|truncate(100) }}</blockquote>
+            <p>{{ post.author }}</p>
+          {% else %}
+            <p>{{ post.body|truncate(100) }}</p>
+          {% endif %}
+        {% endif %}
+        {% if post.embed_code %}
+          {{ post.embed_code|safe() }}
+        {% endif %}
+        {% if post.image_url %}
+          <p><img src="{{ post.image_url }}" /><p>
+        {% endif %}
+
+      <p>
+        {{ post.created_at.strftime('%H:%M %Y-%m-%d') }} |
+        {% with total=post.comments|length %}
+            {{ total }} comment {%- if total > 1 %}s{%- endif -%}
+        {% endwith %}
+      </p>
+    {% endfor %}
+{% endblock %}
