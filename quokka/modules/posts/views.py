@@ -7,10 +7,14 @@ from flask.ext.mongoengine.wtf import model_form
 from quokka.core.models import Comment
 from .models import Post
 
+import logging
+logger = logging.getLogger()
+
 
 class ListView(MethodView):
 
     def get(self):
+        logger.info('getting list of posts')
         posts = Post.objects.all()
         return render_template('posts/list.html', posts=posts)
 
