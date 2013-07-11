@@ -13,19 +13,22 @@ __license__ = u"MIT License"
 __copyright__ = u"Copyright 2013, Quokka Project"
 
 from flask import Flask
+from flask.ext.babel import Babel
 from utils.blueprints import load_blueprints_from_packages
 from utils.blueprints import load_blueprints_from_folder
-from admin import create_admin
+from core.admin import create_admin
 
 app = Flask(__name__)
 app.config.from_object('settings')
 
-if app.config.get('SUPER_ADMIN'):
-    admin = create_admin(app)
+babel = Babel(app)
 
 if app.config.get('GRAVATAR'):
     from flask.ext.gravatar import Gravatar
     gravatar = Gravatar(app, **app.config.get('GRAVATAR'))
+
+if app.config.get('SUPER_ADMIN'):
+    admin = create_admin(app)
 
 load_blueprints_from_packages(app)
 load_blueprints_from_folder(app)
