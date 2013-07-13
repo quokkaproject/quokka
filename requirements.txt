@@ -15,6 +15,5 @@ Flask-Principal
 Flask-Security
 Flask-Mail
 Flask-Testing
-flask-restful
 -e git+https://github.com/rochacbruno/Flask-SuperAdmin.git#egg=Flask_SuperAdmin
 flask-debugtoolbar
