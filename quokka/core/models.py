@@ -4,6 +4,7 @@
 import datetime
 from flask import url_for
 from quokka.core.db import db
+from quokka import admin
 
 #Channel
 
@@ -13,7 +14,7 @@ class Content(db.DynamicDocument):
     created_at = db.DateTimeField(default=datetime.datetime.now, required=True)
     title = db.StringField(max_length=255, required=True)
     slug = db.StringField(max_length=255, required=True, unique=True)
-    comments = db.ListField(db.EmbeddedDocumentField('Comment'))
+    comments = db.ListField(db.ReferenceField('Comment'))
 
     def get_absolute_url(self):
         return url_for(self.URL_NAMESPACE, slug=self.slug)
@@ -32,12 +33,11 @@ class Content(db.DynamicDocument):
     }
 
 
-# class Quote(Post):
-#     body = db.StringField(required=True)
-#     author = db.StringField(verbose_name="Author Name", required=True, max_length=255)
-
-
-class Comment(db.EmbeddedDocument):
+class Comment(db.Document):
     created_at = db.DateTimeField(default=datetime.datetime.now, required=True)
     body = db.StringField(verbose_name="Comment", required=True)
     author = db.StringField(verbose_name="Name", max_length=255, required=True)
+    published = db.BooleanField(default=True)
+
+
+admin.register(Comment, category="content")

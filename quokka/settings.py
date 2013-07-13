@@ -1,7 +1,13 @@
 #coding: utf-8
 import os
 
-MONGODB_SETTINGS = {'DB': "quokka_1"}
+# MONGODB_SETTINGS = {'DB': "quokka_1"}  # use in localhost
+MONGODB_SETTINGS = {'DB': "quokka",
+                    'USERNAME': 'quokka',
+                    'PASSWORD': open('.db_password.txt').read().strip(),
+                    'HOST': 'ds035498.mongolab.com',
+                    'PORT': 35498}  # use for mongolab
+
 SECRET_KEY = "KeepThisS3cr3t"
 
 PROJECT_ROOT = os.path.abspath(os.path.dirname(__file__))
@@ -36,6 +42,16 @@ DEBUG = True
 DEBUG_TB_INTERCEPT_REDIRECTS = False
 DEBUG_TB_PROFILER_ENABLED = True
 DEBUG_TB_TEMPLATE_EDITOR_ENABLED = True
+DEBUG_TB_PANELS = (
+    'flask_debugtoolbar.panels.versions.VersionDebugPanel',
+    'flask_debugtoolbar.panels.timer.TimerDebugPanel',
+    'flask_debugtoolbar.panels.headers.HeaderDebugPanel',
+    'flask_debugtoolbar.panels.request_vars.RequestVarsDebugPanel',
+    'flask_debugtoolbar.panels.template.TemplateDebugPanel',
+    'flask.ext.mongoengine.panels.MongoDebugPanel',
+    'flask_debugtoolbar.panels.logger.LoggingPanel',
+    'flask_debugtoolbar.panels.profiler.ProfilerDebugPanel',
+)
 
 GRAVATAR = {
     'size': 100,
@@ -52,7 +68,7 @@ MAIL_PORT = 587
 MAIL_USE_TLS = True
 MAIL_USERNAME = 'rochacbruno@gmail.com'
 # Create a email_password.txt in a safe location
-MAIL_PASSWORD = open('/home/rochacbruno/email_password.txt').read()
+MAIL_PASSWORD = open('.email_password.txt').read()
 
 # http://pythonhosted.org/Flask-Security/configuration.html
 SECURITY_PASSWORD_HASH = 'pbkdf2_sha512'

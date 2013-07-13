@@ -19,7 +19,7 @@ from utils.blueprints import load_blueprints_from_folder
 from core.admin import create_admin
 
 app = Flask(__name__)
-app.config.from_object('settings')
+app.config.from_object('quokka.settings')
 
 babel = Babel(app)
 

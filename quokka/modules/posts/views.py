@@ -44,6 +44,7 @@ class DetailView(MethodView):
         if form.validate():
             comment = Comment()
             form.populate_obj(comment)
+            comment.save()
 
             post = context.get('post')
             post.comments.append(comment)

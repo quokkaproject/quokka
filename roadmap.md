@@ -51,3 +51,8 @@ https://github.com/dcolish/flask-markdown
 https://github.com/zzzsochi/Flask-Gravatar
 https://github.com/mattupstate/flask-rq
 https://github.com/kazoup/flask-elasticsearch
+
+
+/home/rochacbruno/tumblelog/bin/uwsgi -s /tmp/uwsgi.sock -w quokka:app
+
+https://flask-mongoengine.readthedocs.org/en/latest/

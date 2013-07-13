@@ -26,6 +26,8 @@ pip-log.txt
 .tox
 nosetests.xml
 
+.email_password.txt
+.db_password.txt
 # Translations
 *.mo
 
