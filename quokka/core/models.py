@@ -16,7 +16,7 @@ class Publishable(object):
     last_updated_by = db.ReferenceField(User)
     
 class Slugged(object):
-    slug = db.StringField(max_length=255, required=True, unique=True)
+    slug = db.StringField(max_length=255, required=True)
 
 class Commentable(object):
     comments = db.ListField(db.ReferenceField('Comment'))
@@ -37,7 +37,7 @@ class Channel(db.DynamicDocument, Publishable, Slugged):
     name = db.StringField(max_length=255, required=True)
     description = db.StringField()
     show_in_menu = db.BooleanField(default=False)
-    is_homepage = db.BooleanField(default=False, unique=True)
+    is_homepage = db.BooleanField(default=False)
     include_in_rss = db.BooleanField(default=False)
     indexable = db.BooleanField(default=True)
     canonical_url = db.StringField()
