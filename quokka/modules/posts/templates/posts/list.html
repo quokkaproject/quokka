@@ -22,10 +22,14 @@
         {% endif %}
 
       <p>
-        {{ post.created_at.strftime('%H:%M %Y-%m-%d') }} |
+        {{ post.created_at.strftime('%H:%M %Y-%m-%d') }} 
+        
+        {# note: disabled because comments are excluded from query
+        |
         {% with total=post.comments|length %}
             {{ total }} comment {%- if total > 1 %}s{%- endif -%}
         {% endwith %}
+        #}
       </p>
     {% endfor %}
 {% endblock %}
