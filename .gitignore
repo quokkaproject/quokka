@@ -28,6 +28,7 @@ nosetests.xml
 
 .email_password.txt
 .db_password.txt
+local_settings
 # Translations
 *.mo
 
