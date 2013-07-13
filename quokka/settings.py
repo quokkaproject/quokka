@@ -38,7 +38,7 @@ FILE_ADMIN = [
     }
 ]
 
-DEBUG = True
+DEBUG = False
 
 # Debug toolbar only works if installed
 # pip install flask-debugtoolbar
@@ -55,7 +55,7 @@ DEBUG_TB_PANELS = (
     'flask_debugtoolbar.panels.logger.LoggingPanel',
     'flask_debugtoolbar.panels.profiler.ProfilerDebugPanel',
 )
-DEBUG_TOOLBAR_ENABLED = True
+DEBUG_TOOLBAR_ENABLED = False
 
 
 GRAVATAR = {
