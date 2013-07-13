@@ -21,7 +21,7 @@ class ListView(MethodView):
 
 class DetailView(MethodView):
 
-    form = model_form(Comment, exclude=['created_at'])
+    form = model_form(Comment, exclude=['created_at', 'created_by', 'published', 'updated_at', 'last_updated_by'])
 
     def get_context(self, slug):
         post = Post.objects.get_or_404(slug=slug)
@@ -44,7 +44,7 @@ class DetailView(MethodView):
         if form.validate():
             comment = Comment()
             form.populate_obj(comment)
-            comment.save()
+            comment.save(validate=False)
 
             post = context.get('post')
             post.comments.append(comment)

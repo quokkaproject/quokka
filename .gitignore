@@ -28,7 +28,7 @@ nosetests.xml
 
 .email_password.txt
 .db_password.txt
-local_settings
+local_settings.py
 # Translations
 *.mo
 
