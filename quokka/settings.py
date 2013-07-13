@@ -1,10 +1,11 @@
 #coding: utf-8
 import os
+from utils.settings import get_password
 
 # MONGODB_SETTINGS = {'DB': "quokka_1"}  # use in localhost
 MONGODB_SETTINGS = {'DB': "quokka",
                     'USERNAME': 'quokka',
-                    'PASSWORD': open('.db_password.txt').read().strip(),
+                    'PASSWORD': get_password('db'),
                     'HOST': 'ds035498.mongolab.com',
                     'PORT': 35498}  # use for mongolab
 
@@ -73,7 +74,7 @@ MAIL_PORT = 587
 MAIL_USE_TLS = True
 MAIL_USERNAME = 'rochacbruno@gmail.com'
 # Create a email_password.txt in a safe location
-MAIL_PASSWORD = open('.email_password.txt').read()
+MAIL_PASSWORD = get_password('email')
 
 # http://pythonhosted.org/Flask-Security/configuration.html
 SECURITY_PASSWORD_HASH = 'pbkdf2_sha512'
