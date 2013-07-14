@@ -1,6 +1,10 @@
 Quokka Roadmap
 ==============
 
+Todo
+====
+Change every __import__ with importlib http://docs.python.org/2.7/library/importlib.html
+
 Core
 ====
 * Media center (for images and files), thumbnail engine, video/audio manager/ flask-uploads
