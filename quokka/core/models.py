@@ -17,9 +17,17 @@ class Publishable(object):
     
 class Slugged(object):
     slug = db.StringField(max_length=255, required=True)
-
+    
+class Comment(db.EmbeddedDocument, Publishable):
+    body = db.StringField(verbose_name="Comment", required=True)
+    author = db.StringField(verbose_name="Name", max_length=255, required=True)
+    published = db.BooleanField(default=True)
+    
+    def __unicode__(self):
+        return "{}-{}...".format(self.author, self.body[:10])
+    
 class Commentable(object):
-    comments = db.ListField(db.ReferenceField('Comment'))
+    comments = db.ListField(db.EmbeddedDocumentField(Comment))
     
 class Imaged(object):
     """TODO: IMplement ImageField"""
@@ -75,15 +83,4 @@ class Content(db.DynamicDocument, Publishable, Slugged, Commentable, Channeling)
         'ordering': ['-created_at']
     }
 
-
-class Comment(db.Document, Publishable):
-    body = db.StringField(verbose_name="Comment", required=True)
-    author = db.StringField(verbose_name="Name", max_length=255, required=True)
-    published = db.BooleanField(default=True)
-    
-    def __unicode__(self):
-        return "{}-{}...".format(self.author, self.body[:10])
-
-
-admin.register(Comment, category="content")
 admin.register(Channel)
