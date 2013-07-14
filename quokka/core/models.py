@@ -7,7 +7,10 @@ from quokka.core.db import db
 from quokka import admin
 from quokka.modules.accounts.models import User
 
-# Commom
+###############################################################
+# Commom extendable base classes
+###############################################################
+
 class Publishable(object):
     published = db.BooleanField(default=False)
     created_at = db.DateTimeField(default=datetime.datetime.now)
@@ -15,9 +18,11 @@ class Publishable(object):
     created_by = db.ReferenceField(User)
     last_updated_by = db.ReferenceField(User)
     
+
 class Slugged(object):
     slug = db.StringField(max_length=255, required=True)
     
+
 class Comment(db.EmbeddedDocument, Publishable):
     body = db.StringField(verbose_name="Comment", required=True)
     author = db.StringField(verbose_name="Name", max_length=255, required=True)
@@ -26,20 +31,20 @@ class Comment(db.EmbeddedDocument, Publishable):
     def __unicode__(self):
         return "{}-{}...".format(self.author, self.body[:10])
     
+    meta = {
+        'indexes': ['-created_at'],
+        'ordering': ['-created_at']
+    }
+
+
 class Commentable(object):
     comments = db.ListField(db.EmbeddedDocumentField(Comment))
-    
+
+
 class Imaged(object):
     """TODO: IMplement ImageField"""
     pass 
 
-class Channeling(object):
-    channel = db.ReferenceField('Channel', required=True)
-    # Objects can be in only one main channel it gives an url
-    # but the objects can also be relates to other channels
-    channels = db.ListField(db.ReferenceField('Channel'))
-    
-#Channel
 
 class Channel(db.DynamicDocument, Publishable, Slugged):
     name = db.StringField(max_length=255, required=True)
@@ -60,10 +65,19 @@ class Channel(db.DynamicDocument, Publishable, Slugged):
     
     def __unicode__(self):
         return "{}-{}".format(self.name, self.long_slug)
-    
-    
 
-# Content
+
+class Channeling(object):
+    channel = db.ReferenceField(Channel, required=True)
+    # Objects can be in only one main channel it gives an url
+    # but the objects can also be relates to other channels
+    channels = db.ListField(db.ReferenceField('Channel'))
+
+
+###############################################################
+# Base Content for every new content to extend. inheritance=True
+###############################################################    
+    
 class Content(db.DynamicDocument, Publishable, Slugged, Commentable, Channeling):
     title = db.StringField(max_length=255, required=True)
 
