@@ -24,7 +24,7 @@ def load_blueprints_from_folder(app):
 
     path = os.path.join(
         app.config.get('PROJECT_ROOT', '..'),
-        app.config.get('BLUEPRINTS_PATH', 'blueprints')
+        app.config.get('BLUEPRINTS_PATH', 'modules')
     )
 
     dir_list = os.listdir(path)
