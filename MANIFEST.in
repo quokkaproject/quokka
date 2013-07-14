@@ -1,4 +1,11 @@
 include README.md
 include CHANGELOG.md
-include quooka/templates
-include quooka/static
+include LICENSE
+include Makefile
+include requirements.txt
+include roadmap.md
+recursive-include quooka/templates *
+recursive-include quooka/static *
+recursive-include quokka/modules/posts/templates *
+recursive-include quokka/modules/posts/static *
+recursive-include quokka/modules *
