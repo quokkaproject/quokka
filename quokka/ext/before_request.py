@@ -2,4 +2,6 @@
 
 
 def configure(app):
-    pass
+    @app.before_first_request
+    def initialize():
+        print "Called only once, when the first request comes in"
