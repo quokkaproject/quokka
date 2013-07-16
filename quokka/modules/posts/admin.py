@@ -6,6 +6,7 @@ from quokka.core.admin.models import Roled
 
 from .models import Post
 
+
 class BigTextArea(TextArea):
     def __init__(self, *args, **kwargs):
         super(BigTextArea, self).__init__()
@@ -13,7 +14,7 @@ class BigTextArea(TextArea):
         self.cols = kwargs.get('cols')
         self.css_cls = kwargs.get('css_cls')
         self.style_ = kwargs.get('style_')
-        
+
     def __call__(self, field, **kwargs):
         c = kwargs.pop('class', '') or kwargs.pop('class_', '')
         kwargs['class'] = u'%s %s' % (self.css_cls, c)
@@ -21,8 +22,8 @@ class BigTextArea(TextArea):
         kwargs['cols'] = self.cols
         kwargs['style'] = self.style_
         return super(BigTextArea, self).__call__(field, **kwargs)
-    
-        
+
+
 class PostAdmin(Roled, ModelAdmin):
     roles_accepted = ('admin', 'editor')
     list_display = ('title', 'slug', 'channel', 'published')
@@ -43,11 +44,11 @@ class PostAdmin(Roled, ModelAdmin):
     delete_template = 'admin/model/delete.html'
     search_fields = ['title', 'body']
     actions = None
-    field_overrides = {'channels':{'label': 'Extra Channels', 'description': 'Optional'}}   
+    field_overrides = {'channels': {'label': 'Extra Channels', 'description': 'Optional'}}
     # a dictionary of field_name: overridden_params_dict, e.g.
     # { 'first_name': { 'label': 'First', 'description': 'This is first name' } }
     # parameters that can be overridden: label, description, validators, filters, default
     field_args = {'body': {'widget': BigTextArea(rows=20, cols=20, css_cls="html_editor", style_="margin: 0px; width: 725px; height: 360px;")}}
-    
-    
+
+
 admin.register(Post, PostAdmin, category="content")

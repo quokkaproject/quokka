@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*
-from flask import request, session
+
 from flask.ext.superadmin import Admin
 from flask.ext.superadmin.contrib import fileadmin
 from .views import IndexView
@@ -19,19 +19,8 @@ def create_admin(app):
     admin = Admin(app, index_view=IndexView(), **SUPER_ADMIN)
 
     babel = app.extensions.get('babel')
-
     if babel:
-
-        @babel.localeselector
-        def get_locale():
-            override = request.args.get('lang')
-
-            if override:
-                session['lang'] = override
-
-            return session.get('lang', 'en')
-
-        admin.locale_selector(get_locale)
+        admin.locale_selector(babel.localeselector)
 
     for entry in app.config.get('FILE_ADMIN', []):
         admin.add_view(

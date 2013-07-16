@@ -13,19 +13,15 @@ __license__ = u"MIT License"
 __copyright__ = u"Copyright 2013, Quokka Project"
 
 from flask import Flask
-from flask.ext.babel import Babel
-from utils.blueprints import load_blueprints_from_packages
-from utils.blueprints import load_blueprints_from_folder
+from ext import configure_extensions
+from ext.blueprints import load_blueprints_from_packages
+from ext.blueprints import load_blueprints_from_folder
 from core.admin import create_admin
 
 app = Flask(__name__)
 app.config.from_object('quokka.settings')
 
-babel = Babel(app)
-
-if app.config.get('GRAVATAR'):
-    from flask.ext.gravatar import Gravatar
-    gravatar = Gravatar(app, **app.config.get('GRAVATAR'))
+configure_extensions(app)
 
 if app.config.get('SUPER_ADMIN'):
     admin = create_admin(app)
@@ -39,6 +35,3 @@ if app.config.get('DEBUG_TOOLBAR_ENABLED'):
         toolbar = DebugToolbarExtension(app)
     except:
         pass
-
-if __name__ == "__main__":
-    app.run()

@@ -1,12 +1,9 @@
 # coding: utf8
 from flask import Blueprint
 from flask.ext.security import Security, MongoEngineUserDatastore
-from flask.ext.mail import Mail
 
 from quokka import app
 from quokka.core.db import db
-
-mail = Mail(app)
 
 from .models import Role, User
 

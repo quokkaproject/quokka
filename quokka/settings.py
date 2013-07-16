@@ -1,5 +1,6 @@
 #coding: utf-8
 import os
+import logging
 from utils.settings import get_password
 
 # MONGODB_SETTINGS = {'DB': "quokka_1"}  # use in localhost
@@ -10,6 +11,8 @@ MONGODB_SETTINGS = {'DB': "quokka",
                     'PORT': 35498}  # use for mongolab
 
 SECRET_KEY = "KeepThisS3cr3t"
+
+CACHE_TYPE = "simple"
 
 PROJECT_ROOT = os.path.abspath(os.path.dirname(__file__))
 MEDIA_ROOT = os.path.join(PROJECT_ROOT, 'media')
@@ -39,6 +42,9 @@ FILE_ADMIN = [
     }
 ]
 
+COLLECT_STATIC_ROOT = STATIC_ROOT
+
+MODE = 'production'
 DEBUG = False
 
 # Debug toolbar only works if installed
@@ -76,6 +82,8 @@ MAIL_USERNAME = 'rochacbruno@gmail.com'
 # Create a email_password.txt in a safe location
 MAIL_PASSWORD = get_password('email')
 
+DEFAULT_MAIL_SENDER = None
+
 # http://pythonhosted.org/Flask-Security/configuration.html
 SECURITY_PASSWORD_HASH = 'pbkdf2_sha512'
 SECURITY_URL_PREFIX = '/accounts'
@@ -87,7 +95,28 @@ SECURITY_RECOVERABLE = True
 SECURITY_TRACKABLE = True
 
 
+DEALER_PARAMS = dict(
+    backends=('git', 'mercurial', 'simple', 'null')
+)
+
+
+# Babel
+BABEL_LANGUAGES = ['en', 'pt-br']
+BABEL_DEFAULT_LOCALE = 'en'
+
+
+# WTForms
+CSRF_ENABLED = True
+CSRF_SESSION_KEY = "somethingimpossibletoguess"
+
+
 try:
     from local_settings import *
 except:
     pass
+
+logging.basicConfig(
+    level=logging.DEBUG,
+    format='%(asctime)s %(name)-12s %(levelname)-8s %(message)s',
+    datefmt='%d.%m %H:%M:%S')
+logging.info("Core settings loaded.")
