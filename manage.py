@@ -3,14 +3,23 @@
 
 from flask.ext.script import Manager, Server
 from flask.ext.collect import Collect
-from quokka import app
+from quokka import create_app
 from quokka.core.db import db
+from quokka.tests import Test
 from quokka.ext.blueprints import load_blueprint_commands
 
+app = create_app()
+
 manager = Manager(app)
+manager.add_option("-c", "--config",
+                   dest="config", required=False,
+                   default='quokka.settings')
 
 collect = Collect()
 collect.init_script(manager)
+
+
+manager.add_command("test", Test())
 
 
 @manager.shell

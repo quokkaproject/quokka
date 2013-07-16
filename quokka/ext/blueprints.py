@@ -5,11 +5,11 @@ import imp
 from flask.ext.script import Command
 
 
-def load_blueprints_from_packages(app):
+def load_from_packages(app):
     pass
 
 
-def load_blueprints_from_folder(app):
+def load_from_folder(app):
     """
         This code looks for any modules or packages in the given
         directory, loads them

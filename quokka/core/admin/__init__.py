@@ -6,7 +6,11 @@ from flask.ext.superadmin.contrib import fileadmin
 from .views import IndexView
 
 
-def create_admin(app):
+def create_admin(app=None):
+    return Admin(index_view=IndexView())
+
+
+def configure_admin(app, admin):
 
     SUPER_ADMIN = app.config.get(
         'SUPER_ADMIN',
@@ -16,7 +20,10 @@ def create_admin(app):
         }
     )
 
-    admin = Admin(app, index_view=IndexView(), **SUPER_ADMIN)
+    for k, v in SUPER_ADMIN.items():
+        setattr(admin, k, v)
+
+    # admin.init_app(app)
 
     babel = app.extensions.get('babel')
     if babel:
@@ -33,4 +40,5 @@ def create_admin(app):
             )
         )
 
+    admin.init_app(app)
     return admin
