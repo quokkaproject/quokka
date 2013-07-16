@@ -2,6 +2,8 @@
 
 
 from flask.ext.security import current_user
+from flask.ext.security.utils import url_for_security
+from flask import redirect
 
 
 class Roled(object):
@@ -15,3 +17,9 @@ class Roled(object):
             )
             return accessible
         return True
+
+    def _handle_view(self, name, *args, **kwargs):
+        if not current_user.is_authenticated():
+            return redirect(url_for_security('login', next="/admin"))
+        if not self.is_accessible():
+            return self.render("admin/denied.html")
