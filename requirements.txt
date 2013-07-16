@@ -15,5 +15,9 @@ Flask-Principal
 Flask-Security
 Flask-Mail
 Flask-Testing
--e git+https://github.com/rochacbruno/Flask-SuperAdmin.git#egg=Flask_SuperAdmin
+Flask-Cache
+https://github.com/rochacbruno/Flask-SuperAdmin/tarball/master
 flask-debugtoolbar
+dealer
+flask-collect
+
