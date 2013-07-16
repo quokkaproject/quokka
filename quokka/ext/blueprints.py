@@ -1,7 +1,7 @@
 # coding: utf-8
 import os
 import imp
-
+import logging
 from flask.ext.script import Command
 
 
@@ -50,7 +50,10 @@ def load_from_folder(app):
                 )
 
                 # by loading the module the admin.register is executed
-                imp.load_module(fname, f, filename, descr)
+                try:
+                    imp.load_module(fname, f, filename, descr)
+                except Exception as e:
+                    logging.warning(e.message)
 
         elif os.path.isfile(os.path.join(path, fname)):
 

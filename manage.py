@@ -9,7 +9,6 @@ from quokka.tests import Test
 from quokka.ext.blueprints import load_blueprint_commands
 
 app = create_app()
-
 manager = Manager(app)
 manager.add_option("-c", "--config",
                    dest="config", required=False,
