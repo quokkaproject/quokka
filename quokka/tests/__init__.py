@@ -1,28 +1,20 @@
 
 import os
-from flask.ext.script import Command, Option
 
 
-class Test(Command):
+class Test(object):
     "Run tests."
 
-    start_discovery_dir = "quokka/tests"
+    def __init__(self, start_discovery_dir=None, *args, **kwargs):
+        self.start_discovery_dir = start_discovery_dir or "quokka/tests"
 
-    def get_options(self):
-        return [
-            Option(
-                '--start_discover', '-s', dest='start_discovery',
-                help='Pattern to search for features',
-                default=self.start_discovery_dir),
-        ]
-
-    def run(self, start_discovery):
+    def run(self):
         import unittest
 
-        if os.path.exists(start_discovery):
+        if os.path.exists(self.start_discovery_dir):
             argv = ["quokka", "discover"]
-            argv += ["-s", start_discovery]
+            argv += ["-s", self.start_discovery_dir]
 
             unittest.main(argv=argv)
         else:
-            print("Directory '%s' was not found in project root." % start_discovery)
+            print("Directory '%s' was not found in project root." % self.start_discovery_dir)

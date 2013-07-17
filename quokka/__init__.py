@@ -21,7 +21,7 @@ from core.admin import create_admin
 admin = create_admin()
 
 
-def create_app(config=None, **settings):
+def create_app(config=None, test=False, admin_instance=None, **settings):
     app = Flask('quokka')
     app.config.from_envvar("APP_SETTINGS", silent=True)
     app.config.from_object(config or 'quokka.settings')
@@ -32,17 +32,18 @@ def create_app(config=None, **settings):
         app.config.from_object('base.config.%s' % mode)
 
     # Local settings
-    app.config.from_pyfile(
-        os.path.join(os.path.dirname(__file__), 'local_settings.py'),
-        silent=True
-    )
+    if not test:
+        app.config.from_pyfile(
+            os.path.join(os.path.dirname(__file__), 'local_settings.py'),
+            silent=True
+        )
 
     # Overide settings
     app.config.update(settings)
 
-    with app.test_request_context():
-        from ext import configure_extensions
-        configure_extensions(app, admin)
+    # with app.test_request_context():
+    from ext import configure_extensions
+    configure_extensions(app, admin_instance or admin)
 
     # app.wsgi_app = HTTPMethodOverrideMiddleware(app.wsgi_app)
     return app

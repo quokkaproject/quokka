@@ -21,6 +21,7 @@ def load_from_folder(app):
             https://github.com/smartboyathome/
                Cheshire-Engine/blob/master/ScoringServer/utils.py
     """
+    DEBUG = app.config.get('DEBUG')
 
     path = os.path.join(
         app.config.get('PROJECT_ROOT', '..'),
@@ -53,7 +54,8 @@ def load_from_folder(app):
                 try:
                     imp.load_module(fname, f, filename, descr)
                 except Exception as e:
-                    logging.warning(e.message)
+                    if DEBUG:
+                        logging.warning(e.message)
 
         elif os.path.isfile(os.path.join(path, fname)):
 
