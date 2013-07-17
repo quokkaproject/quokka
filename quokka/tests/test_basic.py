@@ -25,20 +25,7 @@ class BasicTestCase(TestCase):
                           test=True,
                           admin_instance=self.admin)
 
-    def test_app_has_admin(self):
-        self.assertTrue(self.app.extensions.get("admin"))
-
-    def test_app_has_mongoengine(self):
-        self.assertTrue(self.app.extensions.get("mongoengine"))
-
-    def test_admin_requires_password(self):
-        t = Twill(self.app)
-        with t:
-            url = t.url('/admin')
-            t.browser.go(url)
-            self.assertTrue('login' in t.browser.result.page)
-
-    def test_has_db(self):
+    def test_has_mongoengine(self):
         self.assertTrue(self.app.extensions.get('mongoengine'))
 
     def test_db_is_connected_in_the_test_database(self):
@@ -50,6 +37,16 @@ class BasicTestCase(TestCase):
         self.assertTrue(
             db.connection.host == dbconf.get('HOST', 'localhost')
         )
+
+    def test_app_has_admin(self):
+        self.assertTrue(self.app.extensions.get("admin"))
+
+    def test_admin_requires_password(self):
+        t = Twill(self.app)
+        with t:
+            url = t.url('/admin')
+            t.browser.go(url)
+            self.assertTrue('login' in t.browser.result.page)
 
 
 if __name__ == '__main__':
