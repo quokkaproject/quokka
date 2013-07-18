@@ -1,10 +1,4 @@
 # -*- coding: utf-8 -*-
-"""
-    wsgi
-    ~~~~
-
-    overholt wsgi module
-"""
 
 from werkzeug.serving import run_simple
 from werkzeug.wsgi import DispatcherMiddleware

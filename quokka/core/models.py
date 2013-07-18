@@ -79,7 +79,8 @@ class Channeling(object):
 # Base Content for every new content to extend. inheritance=True
 ###############################################################
 
-class Content(db.DynamicDocument, Publishable, Slugged, Commentable, Channeling):
+class Content(db.DynamicDocument,
+              Publishable, Slugged, Commentable, Channeling):
     title = db.StringField(max_length=255, required=True)
 
     def get_absolute_url(self):

@@ -20,4 +20,5 @@ https://github.com/rochacbruno/Flask-SuperAdmin/tarball/master
 flask-debugtoolbar
 dealer
 flask-collect
+flake8
 

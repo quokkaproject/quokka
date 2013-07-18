@@ -44,11 +44,26 @@ class PostAdmin(Roled, ModelAdmin):
     delete_template = 'admin/model/delete.html'
     search_fields = ['title', 'body']
     actions = None
-    field_overrides = {'channels': {'label': 'Extra Channels', 'description': 'Optional'}}
+    field_overrides = {
+        'channels': {'label': 'Extra Channels', 'description': 'Optional'}
+    }
+
     # a dictionary of field_name: overridden_params_dict, e.g.
-    # { 'first_name': { 'label': 'First', 'description': 'This is first name' } }
-    # parameters that can be overridden: label, description, validators, filters, default
-    field_args = {'body': {'widget': BigTextArea(rows=20, cols=20, css_cls="html_editor", style_="margin: 0px; width: 725px; height: 360px;")}}
+    # { 'first_name':
+    #     { 'label': 'First', 'description': 'This is first name' } }
+    # parameters that can be overridden: label, description,
+    # validators, filters, default
+
+    field_args = {
+        'body': {
+            'widget': BigTextArea(
+                rows=20,
+                cols=20,
+                css_cls="html_editor",
+                style_="margin: 0px; width: 725px; height: 360px;"
+            )
+        }
+    }
 
 
 admin.register(Post, PostAdmin, category="content")

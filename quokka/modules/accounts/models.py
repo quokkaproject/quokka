@@ -28,10 +28,8 @@ class User(db.Document, UserMixin):
     current_login_ip = db.StringField(max_length=255)
     login_count = db.IntField()
 
-
     def get_display_name(self):
         return u"{} <{}>"
-
 
     def __unicode__(self):
         return u"{} <{}>".format(self.name or '', self.email)

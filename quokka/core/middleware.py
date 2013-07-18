@@ -7,14 +7,16 @@ class HTTPMethodOverrideMiddleware(object):
     """The HTTPMethodOverrideMiddleware middleware implements the hidden HTTP
     method technique. Not all web browsers support every HTTP method, such as
     DELETE and PUT. This middleware class allows clients to provide a method
-    override parameter via an HTTP header value or a querystring parameter. This
-    middleware will look for the header paramter first followed by the
+    override parameter via an HTTP header value or a querystring parameter.
+    This middleware will look for the header paramter first followed by the
     querystring. The default HTTP header name is `X-HTTP-METHOD-OVERRIDE` and
-    the default querystring parameter name is `__METHOD__`. These can be changed
-    via the constructor parameters `header_name` and `querystring_param`
-    respectively. Additionally, a list of allowed HTTP methods may be specified
-    via the `allowed_methods` constructor parameter. The default allowed methods
-    are GET, HEAD, POST, DELETE, PUT, PATCH, and OPTIONS.
+    the default querystring parameter name is `__METHOD__`.
+    These can be changed via the constructor parameters `header_name`
+    and `querystring_param`respectively.
+    Additionally, a list of allowed HTTP methods may be specified
+    via the `allowed_methods` constructor parameter.
+    The default allowed methods are GET, HEAD, POST, DELETE, PUT, PATCH,
+    and OPTIONS.
     """
 
     bodyless_methods = frozenset(['GET', 'HEAD', 'OPTIONS', 'DELETE'])
