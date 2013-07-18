@@ -29,7 +29,7 @@ def create_app(config=None, test=False, admin_instance=None, **settings):
     # Settings from mode
     mode = os.environ.get('MODE')
     if mode:
-        app.config.from_object('base.config.%s' % mode)
+        app.config.from_object('quokka.%s_settings' % mode)
 
     # Local settings
     if not test:

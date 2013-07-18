@@ -2,7 +2,7 @@
 import os
 from utils.settings import get_password
 
-MONGODB_SETTINGS = {'DB': "quokka_1"}  # use in localhost
+MONGODB_SETTINGS = {'DB': "quokka_test"}  # use in localhost
 # MONGODB_SETTINGS = {'DB': "quokka",
 #                     'USERNAME': 'quokka',
 #                     'PASSWORD': get_password('db'),
