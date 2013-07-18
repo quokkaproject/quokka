@@ -15,7 +15,7 @@ def configure(app):
         information available to the client, the status code 404 (Not Found)
         can be used instead.
         """
-        return render_template("access_forbidden.html"), 403
+        return render_template("errors/access_forbidden.html"), 403
 
     @app.errorhandler(404)
     def page_not_found(error):
@@ -32,7 +32,7 @@ def configure(app):
         refused,
         or when no other response is applicable.
         """
-        return render_template("page_not_found.html"), 404
+        return render_template("errors/page_not_found.html"), 404
 
     @app.errorhandler(405)
     def method_not_allowed_page(error):
@@ -43,8 +43,8 @@ def configure(app):
         Allow header
         containing a list of valid methods for the requested resource.
         """
-        return render_template("method_not_allowed.html"), 405
+        return render_template("errors/method_not_allowed.html"), 405
 
     @app.errorhandler(500)
     def server_error_page(error):
-        return render_template("server_error.html"), 500
+        return render_template("errors/server_error.html"), 500

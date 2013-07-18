@@ -32,7 +32,7 @@ class PostAdmin(Roled, ModelAdmin):
     only = None
     fields = None
     readonly_fields = []
-    fields_order = ['title', 'slug', 'channel', 'channels',
+    fields_order = ['title', 'slug', 'channel', 'channels', 'summary',
                     'body', 'published', 'comments']
     form = None
     can_edit = True

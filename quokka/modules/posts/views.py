@@ -15,7 +15,7 @@ class ListView(MethodView):
 
     def get(self):
         logger.info('getting list of posts')
-        posts = Post.objects.exclude('comments').all()
+        posts = Post.objects.all()
         return render_template('posts/list.html', posts=posts)
 
 

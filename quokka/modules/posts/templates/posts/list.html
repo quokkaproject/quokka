@@ -5,30 +5,23 @@
     {% for post in posts %}
       <h2><a href="{{ post.get_absolute_url() }}">{{ post.title }}</a></h2>
 
-        {% if post.body %}
-          {% if post.post_type == 'Quote' %}
-            <blockquote>{{ post.body|truncate(100)|safe() }}</blockquote>
-            <p>{{ post.author }}</p>
-          {% else %}
-            <p>{{ post.body|truncate(100)|safe() }}</p>
-          {% endif %}
+        {% if post.summary %}
+           <p>{{ post.summary|truncate(255)|safe() }}</p>
         {% endif %}
+
         {% if post.embed_code %}
           {{ post.embed_code|safe() }}
         {% endif %}
+
         {% if post.image_url %}
           <p><img src="{{ post.image_url }}" /><p>
         {% endif %}
 
       <p>
-        {{ post.created_at.strftime('%H:%M %Y-%m-%d') }} 
-        
-        {# note: disabled because comments are excluded from query
-        |
+        {{ post.created_at.strftime('%H:%M %Y-%m-%d') }} |
         {% with total=post.comments|length %}
             {{ total }} comment {%- if total > 1 %}s{%- endif -%}
         {% endwith %}
-        #}
       </p>
     {% endfor %}
 {% endblock %}

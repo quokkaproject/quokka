@@ -82,6 +82,7 @@ class Channeling(object):
 class Content(db.DynamicDocument,
               Publishable, Slugged, Commentable, Channeling):
     title = db.StringField(max_length=255, required=True)
+    summary = db.StringField(required=False)
 
     def get_absolute_url(self):
         return url_for(self.URL_NAMESPACE, slug=self.slug)
