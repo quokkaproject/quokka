@@ -86,8 +86,8 @@ password: ***not1234***
 
 #### Enjoy!
 
-Sample home page: http://localhost:5000
-Admin interface http://localhost:5000/admin
+- Sample home page: http://localhost:5000
+- Admin interface http://localhost:5000/admin
 
 Extending
 ==========
@@ -124,6 +124,12 @@ Just drop your module package in **quokka/modules** restart your server and done
 
 Quokka admin also provides a web interface for admin-users to install and ENABLE/DISABLE modules.
 
+Admin interface
+================
+
+Admin interface uses a customized version of Flask-SuperAdmin
+
+![admin_overview](/docs/admin_overview.png)
 
 Project tree
 ============
@@ -237,3 +243,6 @@ Project tree
 29 directories, 75 files
 ```
 
+![python](/docs/python_powered.png)
+![flask](/docs/flask_powered.png)
+![mongo](/docs/mongo_powered.jpg)
