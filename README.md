@@ -51,18 +51,17 @@ Installing and running
 > Note: You need to have mongoDB installed on your server, optionally you can use mongolab.
 
 ```bash
-(quokka-env)$ youreditor quokka/settings.py
+(quokka-env)~/quokka-env/quokka$ youreditor quokka/settings.py
 ######## YOUR EDITOR ################
 
 MONGODB_SETTINGS = {'DB': "quokka_1"}
-
 
 ######################################
 ```
 
 #### Test
 ```bash
-(quokka-env)$ python runtests.py
+(quokka-env)~/quokka-env/quokka$ python runtests.py
 ...
 ----------------------------------------------------------------------
 Ran 400 tests in 0.230s
@@ -73,7 +72,7 @@ OK
 
 #### Create a super user
 ```bash
-(quokka-env)$ python manage.py createsuperuser
+(quokka-env)~/quokka-env/quokka$ python manage.py createsuperuser
 Name: Input your name
 Email: You@You.com
 password: ***not1234***
@@ -81,7 +80,7 @@ password: ***not1234***
 
 #### Run
 ```bash
-(quokka-env)$ python manage.py runserver
+(quokka-env)~/quokka-env/quokka$ python manage.py runserver
 17.07 17:06:24 werkzeug     INFO      * Running on http://127.0.0.1:5000/
 ```
 
