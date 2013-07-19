@@ -2,6 +2,7 @@
 
 from flask.ext.script import (Command, Option, prompt,
                               prompt_pass, prompt_choices)
+from flask.ext.security.utils import encrypt_password
 from .models import User, Role
 
 
@@ -60,7 +61,7 @@ class CreateSuperUser(Command):
             user = User.objects.create(
                 name=name,
                 email=email,
-                password=password,
+                password=encrypt_password(password),
                 active=True,
                 roles=[admin]
             )
@@ -107,7 +108,7 @@ class CreateUser(Command):
             user = User.objects.create(
                 name=name,
                 email=email,
-                password=password,
+                password=encrypt_password(password),
                 active=True,
                 roles=[role]
             )

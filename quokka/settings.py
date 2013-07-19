@@ -1,7 +1,7 @@
 #coding: utf-8
 import os
 import logging
-from utils.settings import get_password
+#from quokka.utils.settings import get_password
 
 MONGODB_SETTINGS = {'DB': "quokka_1"}  # use in localhost
 # MONGODB_SETTINGS = {'DB': "quokka",
