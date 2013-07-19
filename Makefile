@@ -1,3 +1,6 @@
+.PHONY: run
+run: test
+	python manage.py runserver
 
 .PHONY: test
 test: pep8
