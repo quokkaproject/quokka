@@ -35,20 +35,21 @@ Installing and running
 #### On a *nix shell, do:
 
 ```bash
-~/$ git clone https://github.com/rochacbruno/quokka
-~/$ ...cloning in to quokka
 ~/$ virtualenv quokka-env
 ~/$ ... creating virtualenv in quokka-env........
-~/$ source quokka-env/bin/activate
-```
-
-```bash
-(quokka-env)~/$ cd quokka
-(quokka-env)~/quokka$ pip install -r requirements.txt
+~/$ cd quokka-env
+~/quokka-env$ source bin/activate
+(quokka-env)~/quokka-env$ git clone https://github.com/rochacbruno/quokka
+(quokka-env)~/quokka-env$ ...cloning in to quokka
+(quokka-env)~/quokka-env$ cd quokka
+(quokka-env)~/quokka-env/quokka$ pip install -r requirements.txt
 ```
 
 
 #### configure your DATABASE settings
+
+> Note: You need to have mongoDB installed on your server, optionally you can use mongolab.
+
 ```bash
 (quokka-env)$ youreditor quokka/settings.py
 ######## YOUR EDITOR ################
