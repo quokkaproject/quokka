@@ -32,7 +32,7 @@ local_settings.py
 # Translations
 *.mo
 
-media/
+media/*
 
 # Mr Developer
 .mr.developer.cfg
