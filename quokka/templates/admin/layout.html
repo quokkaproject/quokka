@@ -93,6 +93,33 @@
     <script src="{{ url_for('admin.static', filename='chosen/chosen.jquery.min.js') }}" type="text/javascript"></script>
     <script src="{{ url_for('admin.static', filename='js/jquery.browser.js') }}" type="text/javascript"></script>
 
+    <script src="//tinymce.cachefly.net/4.0/tinymce.min.js"></script>
+    <!-- TODO: Do a local instalation fallback to tinymce -->
+
+    <script>
+            // tinymce.init({selector:'.html_editor'});
+    </script>
+    <script type="text/javascript">
+    tinymce.init({
+        selector: ".html_editor",
+        content_css : "{{ url_for('admin.static', filename='bootstrap/css/bootstrap.css') }}, {{ url_for('admin.static', filename='bootstrap/css/bootstrap-responsive.css') }}",
+        theme: "modern",
+        plugins: [
+            "advlist autolink lists link image charmap print preview hr anchor pagebreak",
+            "searchreplace wordcount visualblocks visualchars code fullscreen",
+            "insertdatetime media nonbreaking save table contextmenu directionality",
+            "emoticons template paste textcolor"
+        ],
+        toolbar1: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image",
+        toolbar2: "print preview media | forecolor backcolor emoticons",
+        image_advtab: true,
+        templates: [
+            {title: 'Test template 1', content: 'Test 1'},
+            {title: 'Test template 2', content: 'Test 2'}
+        ]
+    });
+    </script>
+
     {% block tail %}
     {% endblock %}
   </body>
