@@ -21,4 +21,6 @@ flask-debugtoolbar
 dealer
 flask-collect
 flake8
-
+passlib
+twill
+markupsafe
