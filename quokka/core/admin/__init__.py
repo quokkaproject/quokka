@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*
 
+from flask import request, session
 from flask.ext.admin import Admin
 from flask.ext.admin.contrib import fileadmin
 from .views import IndexView
@@ -23,12 +24,20 @@ def configure_admin(app, admin):
     for k, v in ADMIN.items():
         setattr(admin, k, v)
 
-    # babel = app.extensions.get('babel')
-    # if babel:
-    #     try:
-    #         admin.locale_selector(babel.localeselector)
-    #     except:
-    #         pass  # Exception: Can not add locale_selector second time.
+    babel = app.extensions.get('babel')
+    if babel:
+        try:
+            @babel.localeselector
+            def get_locale():
+                override = request.args.get('lang')
+
+                if override:
+                    session['lang'] = override
+
+                return session.get('lang', 'en')
+            admin.locale_selector(get_locale)
+        except:
+            pass  # Exception: Can not add locale_selector second time.
 
     for entry in app.config.get('FILE_ADMIN', []):
         try:
