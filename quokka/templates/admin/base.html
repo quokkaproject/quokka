@@ -1,0 +1,63 @@
+{% import 'admin/layout.html' as layout with context -%}
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>{% block title %}{% if admin_view.category %}{{ admin_view.category }} - {% endif %}{{ admin_view.name }} - {{ admin_view.admin.name }}{% endblock %}</title>
+    {% block head_meta %}
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="">
+        <meta name="author" content="">
+    {% endblock %}
+    {% block head_css %}
+        <link href="{{ url_for('admin.static', filename='bootstrap/css/bootstrap.css') }}" rel="stylesheet">
+        <link href="{{ url_for('admin.static', filename='bootstrap/css/bootstrap-responsive.css') }}" rel="stylesheet">
+        <link href="{{ url_for('admin.static', filename='admin/css/admin.css') }}" rel="stylesheet">
+    {% endblock %}
+    {% block head %}
+    {% endblock %}
+    {% block head_tail %}
+    {% endblock %}
+  </head>
+  <body>
+    {% block page_body %}
+    <div class="container">
+      <div class="navbar">
+        <div class="navbar-inner">
+          {% block brand %}
+          <span class="brand">{{ admin_view.admin.name }}</span>
+          {% endblock %}
+          <ul class="nav">
+            {{ layout.menu() }}
+          </ul>
+          <ul class="nav pull-right">
+            {{ layout.menu_links() }}
+
+            {% block access_control %}
+
+            <li class="divider-vertical"></li>
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown"> <img src="{{current_user.email | gravatar(size=20) }}" /> {{current_user.name}} <b class="caret"></b></a>
+                <ul class="dropdown-menu">
+                    <li><a href="{{url_for_security('change_password')}}">Change password</a></li>
+                    <li><a href="{{url_for_security('logout')}}">Logout</a></li>
+                </ul>
+            </li>
+
+            {% endblock %}
+          </ul>
+        </div>
+      </div>
+
+      {{ layout.messages() }}
+
+      {% block body %}{% endblock %}
+    </div>
+    {% endblock %}
+    <script src="{{ url_for('admin.static', filename='vendor/jquery-1.8.3.min.js') }}" type="text/javascript"></script>
+    <script src="{{ url_for('admin.static', filename='bootstrap/js/bootstrap.min.js') }}" type="text/javascript"></script>
+    <script src="{{ url_for('admin.static', filename='select2/select2.min.js') }}" type="text/javascript"></script>
+
+    {% block tail %}
+    {% endblock %}
+  </body>
+</html>

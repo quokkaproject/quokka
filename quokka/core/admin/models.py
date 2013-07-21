@@ -1,6 +1,7 @@
 # coding : utf -8
 
-
+from flask.ext.admin.contrib.mongoengine import ModelView
+from flask.ext.admin import AdminIndexView
 from flask.ext.security import current_user
 from flask.ext.security.utils import url_for_security
 from flask import redirect
@@ -23,3 +24,11 @@ class Roled(object):
             return redirect(url_for_security('login', next="/admin"))
         if not self.is_accessible():
             return self.render("admin/denied.html")
+
+
+class ModelAdmin(Roled, ModelView):
+    pass
+
+
+class BaseIndexView(Roled, AdminIndexView):
+    pass

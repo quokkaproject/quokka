@@ -18,7 +18,7 @@ MEDIA_ROOT = os.path.join(PROJECT_ROOT, 'media')
 STATIC_ROOT = os.path.join(PROJECT_ROOT, 'static')
 BLUEPRINTS_PATH = 'modules'
 BLUEPRINTS_OBJECT_NAME = 'module'
-SUPER_ADMIN = {'name': 'Quokka admin', 'url': '/admin'}
+ADMIN = {'name': 'Quokka admin', 'url': '/admin'}
 
 FILE_ADMIN = [
     {

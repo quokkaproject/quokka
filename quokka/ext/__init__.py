@@ -13,7 +13,8 @@ from . import (generic, babel, blueprints, error_handlers, context_processors,
 
 
 def configure_extensions(app, admin):
-    babel.configure(app)
+    # babel.configure(app)
+    babel
     generic.configure(app)
     Cache(app)
     Mail(app)

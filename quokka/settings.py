@@ -19,7 +19,7 @@ MEDIA_ROOT = os.path.join(PROJECT_ROOT, 'media')
 STATIC_ROOT = os.path.join(PROJECT_ROOT, 'static')
 BLUEPRINTS_PATH = 'modules'
 BLUEPRINTS_OBJECT_NAME = 'module'
-SUPER_ADMIN = {'name': 'Quokka admin', 'url': '/admin'}
+ADMIN = {'name': 'Quokka admin', 'url': '/admin'}
 
 ADMIN_BRAND = """
 <div class='brand'>
@@ -32,22 +32,25 @@ ADMIN_BRAND = """
 
 FILE_ADMIN = [
     {
-        "name": "template_files",
+        "name": "Template files",
         "category": "files",
         "path": os.path.join(PROJECT_ROOT, 'templates'),
-        "url": "/template_files"
+        "url": "/template_files",
+        "endpoint": "template_files"
     },
     {
-        "name": "static_files",
+        "name": "Static files",
         "category": "files",
         "path": STATIC_ROOT,
-        "url": "/static_files"
+        "url": "/static",
+        "endpoint": "static_files"
     },
     {
-        "name": "media_files",
+        "name": "Media files",
         "category": "files",
         "path": MEDIA_ROOT,
-        "url": "/media_files"
+        "url": "/media",
+        "endpoint": "media_files"
     }
 ]
 
