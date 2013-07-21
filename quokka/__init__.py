@@ -55,7 +55,7 @@ def create_api(config=None, **settings):
 
 def create_celery_app(app=None):
     from celery import Celery
-    app = app or create_app('quokka', os.path.dirname(__file__))
+    app = app or create_app()
     celery = Celery(__name__, broker=app.config['CELERY_BROKER_URL'])
     celery.conf.update(app.config)
     TaskBase = celery.Task

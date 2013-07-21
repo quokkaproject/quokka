@@ -30,10 +30,10 @@ class PostAdmin(Roled, ModelAdmin):
     list_per_page = 20
     exclude = ['created_at', 'created_by', 'updated_at', 'last_updated_by']
     only = None
-    fields = None
+    # fields = None
     readonly_fields = []
-    fields_order = ['title', 'slug', 'channel', 'channels', 'summary',
-                    'body', 'published', 'comments']
+    # fields = ['title', 'slug', 'channel', 'channels', 'summary', 'body',
+              # 'published', 'comments']
     form = None
     can_edit = True
     can_create = True
