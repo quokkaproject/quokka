@@ -7,6 +7,7 @@ from quokka.core.db import db
 from quokka import admin
 from quokka.core.admin.models import ModelAdmin
 from quokka.modules.accounts.models import User
+from quokka.utils.text import slugify
 
 ###############################################################
 # Commom extendable base classes
@@ -15,6 +16,7 @@ from quokka.modules.accounts.models import User
 
 class Publishable(object):
     published = db.BooleanField(default=False)
+    available_at = db.DateTimeField(default=datetime.datetime.now)
     created_at = db.DateTimeField(default=datetime.datetime.now)
     updated_at = db.DateTimeField(default=datetime.datetime.now)
     created_by = db.ReferenceField(User)
@@ -22,7 +24,9 @@ class Publishable(object):
 
 
 class Slugged(object):
-    slug = db.StringField(max_length=255, required=True)
+    slug = db.StringField(max_length=255)
+    long_slug = db.StringField()
+    mpath = db.StringField()
 
 
 class Comment(db.EmbeddedDocument, Publishable):
@@ -34,7 +38,7 @@ class Comment(db.EmbeddedDocument, Publishable):
         return "{}-{}...".format(self.author, self.body[:10])
 
     meta = {
-        'indexes': ['-created_at'],
+        'indexes': ['-created_at', '-available_at'],
         'ordering': ['-created_at']
     }
 
@@ -49,7 +53,7 @@ class Imaged(object):
 
 
 class Channel(db.DynamicDocument, Publishable, Slugged):
-    name = db.StringField(max_length=255, required=True)
+    title = db.StringField(max_length=255, required=True)
     description = db.StringField()
     show_in_menu = db.BooleanField(default=False)
     is_homepage = db.BooleanField(default=False)
@@ -59,14 +63,38 @@ class Channel(db.DynamicDocument, Publishable, Slugged):
     order = db.IntField(default=0)
 
     # MPTT
-    parent = db.ReferenceField('self')
-    parent_slug = db.StringField(max_length=255)
-    parent_long_slug = db.StringField(max_length=255)
-    mpath = db.StringField()
-    long_slug = db.StringField()
+    parent = db.ReferenceField('self', required=False, default=None)
 
     def __unicode__(self):
-        return "{}-{}".format(self.name, self.long_slug)
+        return "{}-{}".format(self.title, self.long_slug)
+
+    def clean(self):
+        if self.is_homepage and Channel.objects(is_homepage=True):
+            raise db.ValidationError(u"Home page already exists")
+
+    def save(self, *args, **kwargs):
+
+        if self.parent and self.parent.is_homepage:
+            self.parent = None
+
+        if self.slug:
+            self.slug = slugify(self.slug)
+        else:
+            self.slug = slugify(self.title)
+
+        if self.parent and self.parent != self:
+            self.long_slug = "/".join(
+                [self.parent.long_slug, self.slug]
+            )
+
+            self.mpath = "".join(
+                [self.parent.mpath, self.slug, ',']
+            )
+        else:
+            self.long_slug = self.slug
+            self.mpath = ",%s," % self.slug
+
+        super(Channel, self).save(*args, **kwargs)
 
 
 class Channeling(object):
@@ -74,6 +102,7 @@ class Channeling(object):
     # Objects can be in only one main channel it gives an url
     # but the objects can also be relates to other channels
     channels = db.ListField(db.ReferenceField('Channel'))
+    show_on_channel = db.BooleanField(default=True)
 
 
 ###############################################################
@@ -85,25 +114,48 @@ class Content(db.DynamicDocument,
     title = db.StringField(max_length=255, required=True)
     summary = db.StringField(required=False)
 
-    def get_absolute_url(self):
-        return url_for(self.URL_NAMESPACE, slug=self.slug)
-
-    def __unicode__(self):
-        return self.title
-
-    @property
-    def post_type(self):
-        return self.__class__.__name__
-
     meta = {
         'allow_inheritance': True,
         'indexes': ['-created_at', 'slug'],
         'ordering': ['-created_at']
     }
 
+    def get_absolute_url(self):
+        if self.channel.is_homepage:
+            long_slug = self.slug
+        else:
+            long_slug = self.long_slug
+
+        try:
+            return url_for(self.URL_NAMESPACE, long_slug=long_slug)
+        except:
+            return url_for('.detail', long_slug=long_slug)
+
+    def __unicode__(self):
+        return self.title
+
+    @property
+    def content_type(self):
+        return self.__class__.__name__
+
+    def save(self, *args, **kwargs):
+
+        if self.slug:
+            self.slug = slugify(self.slug)
+        else:
+            self.slug = slugify(self.title)
+
+        self.long_slug = "/".join(
+            [self.channel.long_slug, self.slug]
+        )
+
+        self.mpath = "".join([self.channel.mpath, self.slug, ','])
+
+        super(Content, self).save(*args, **kwargs)
+
 
 class ChannelAdmin(ModelAdmin):
     roles_accepted = ('admin', 'editor')
-    column_list = ('name', 'long_slug', 'is_homepage')
+    column_list = ('title', 'long_slug', 'is_homepage')
 
 admin.add_view(ChannelAdmin(Channel, category='Content'))

@@ -37,7 +37,8 @@ class PostAdmin(ModelAdmin):
     column_searchable_list = ('title', 'body', 'summary')
 
     form_columns = ['title', 'slug', 'channel', 'channels', 'summary', 'body',
-                    'published', 'comments']
+                    'published', 'show_on_channel', 'comments']
+                    #TODO: SOLVE THE DATEPICKER PROBLEM
     # form_excluded_columns = []
     # form = None
     # form_overrides = None

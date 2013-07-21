@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+    {% for content in contents %}
+      <h2><a href="{{ content.get_absolute_url() }}">{{ content.title }}</a></h2>
+
+        {% if content.summary %}
+           <p>{{ content.summary|truncate(255)|safe() }}</p>
+        {% endif %}
+
+        {% if content.embed_code %}
+          {{ content.embed_code|safe() }}
+        {% endif %}
+
+        {% if content.image_url %}
+          <p><img src="{{ content.image_url }}" /><p>
+        {% endif %}
+
+      <p>
+        {{ content.created_at.strftime('%H:%M %Y-%m-%d') }} |
+        {% with total=content.comments|length %}
+            {{ total }} comment {%- if total > 1 %}s{%- endif -%}
+        {% endwith %}
+      </p>
+    {% endfor %}
+{% endblock %}
