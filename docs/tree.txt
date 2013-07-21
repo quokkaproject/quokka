@@ -1,29 +1,14 @@
 .
-├── docs
-│   ├── avatar.png
-│   ├── logo.png
-│   ├── _themes
-│   │   ├── flask
-│   │   │   ├── layout.html
-│   │   │   ├── relations.html
-│   │   │   ├── static
-│   │   │   │   ├── flasky.css_t
-│   │   │   │   └── small_flask.css
-│   │   │   └── theme.conf
-│   │   ├── flask_small
-│   │   │   ├── layout.html
-│   │   │   ├── static
-│   │   │   │   └── flasky.css_t
-│   │   │   └── theme.conf
-│   │   ├── flask_theme_support.py
-│   │   ├── LICENSE
-│   │   └── README
-│   └── tree.txt
 ├── LICENSE
 ├── Makefile
 ├── manage.py
 ├── MANIFEST.in
 ├── quokka
+│   ├── babel
+│   │   ├── babel.bat
+│   │   ├── babel.ini
+│   │   ├── babel.sh
+│   │   └── quokka.pot
 │   ├── bin
 │   │   ├── __init__.py
 │   │   └── quokka-admin.py
@@ -39,7 +24,8 @@
 │   │   ├── __init__.py
 │   │   ├── mail.py
 │   │   ├── middleware.py
-│   │   └── models.py
+│   │   ├── models.py
+│   │   └── widgets.py
 │   ├── ext
 │   │   ├── babel.py
 │   │   ├── before_request.py
@@ -79,20 +65,55 @@
 │   │   ├── admin
 │   │   ├── css
 │   │   ├── img
+│   │   │   └── logo.png
 │   │   └── js
 │   ├── templates
 │   │   ├── admin
+│   │   │   ├── base.html
+│   │   │   ├── custom
+│   │   │   │   ├── create.html
+│   │   │   │   └── edit.html
 │   │   │   ├── denied.html
-│   │   │   ├── index.html
-│   │   │   └── layout.html
+│   │   │   └── index.html
 │   │   ├── base.html
-│   │   └── _forms.html
+│   │   ├── errors
+│   │   │   ├── access_forbidden.html
+│   │   │   ├── method_not_allowed.html
+│   │   │   ├── page_not_found.html
+│   │   │   └── server_error.html
+│   │   ├── _forms.html
+│   │   └── security
+│   │       ├── change_password.html
+│   │       ├── email
+│   │       │   ├── change_notice.html
+│   │       │   ├── change_notice.txt
+│   │       │   ├── confirmation_instructions.html
+│   │       │   ├── confirmation_instructions.txt
+│   │       │   ├── login_instructions.html
+│   │       │   ├── login_instructions.txt
+│   │       │   ├── reset_instructions.html
+│   │       │   ├── reset_instructions.txt
+│   │       │   ├── reset_notice.html
+│   │       │   ├── reset_notice.txt
+│   │       │   ├── welcome.html
+│   │       │   └── welcome.txt
+│   │       ├── forgot_password.html
+│   │       ├── login_user.html
+│   │       ├── _macros.html
+│   │       ├── _menu.html
+│   │       ├── _messages.html
+│   │       ├── register_user.html
+│   │       ├── reset_password.html
+│   │       ├── send_confirmation.html
+│   │       └── send_login.html
 │   ├── tests
 │   │   ├── __init__.py
 │   │   └── test_basic.py
 │   ├── test_settings.py
 │   └── utils
+│       ├── dateformat.py
 │       ├── __init__.py
+│       ├── routing.py
 │       ├── settings.py
 │       └── translation.py
 ├── README.md
@@ -104,4 +125,4 @@
 ├── setup.py
 └── wsgi.py
 
-29 directories, 75 files
+34 directories, 116 files
