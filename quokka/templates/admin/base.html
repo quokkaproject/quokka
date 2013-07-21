@@ -24,7 +24,7 @@
       <div class="navbar">
         <div class="navbar-inner">
           {% block brand %}
-          <span class="brand">{{ admin_view.admin.name }}</span>
+          <span class="brand"><img src="/static/img/logo.png" alt="{{ admin_view.admin.name }}" height="20" style="height: 20px;"/></span>
           {% endblock %}
           <ul class="nav">
             {{ layout.menu() }}

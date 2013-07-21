@@ -48,7 +48,12 @@ class PostAdmin(ModelAdmin):
             'cols': 20,
             'class': 'html_editor',
             'style': "margin: 0px; width: 725px; height: 360px;"
-        }
+        },
+        'summary': {
+            'style': 'width: 400px; height: 100px;'
+        },
+        'title': {'style': 'width: 400px'},
+        'slug': {'style': 'width: 400px'},
     }
 
     # form_args = {
