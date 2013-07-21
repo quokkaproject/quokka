@@ -1,8 +1,9 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*
 
-from flask.ext.superadmin import Admin
-from flask.ext.superadmin.contrib import fileadmin
+from flask import request, session
+from flask.ext.admin import Admin
+from flask.ext.admin.contrib import fileadmin
 from .views import IndexView
 
 
@@ -12,23 +13,29 @@ def create_admin(app=None):
 
 def configure_admin(app, admin):
 
-    SUPER_ADMIN = app.config.get(
-        'SUPER_ADMIN',
+    ADMIN = app.config.get(
+        'ADMIN',
         {
             'name': 'Quokka Admin',
             'url': '/admin'
         }
     )
 
-    for k, v in SUPER_ADMIN.items():
+    for k, v in ADMIN.items():
         setattr(admin, k, v)
-
-    # admin.init_app(app)
 
     babel = app.extensions.get('babel')
     if babel:
         try:
-            admin.locale_selector(babel.localeselector)
+            @babel.localeselector
+            def get_locale():
+                override = request.args.get('lang')
+
+                if override:
+                    session['lang'] = override
+
+                return session.get('lang', 'en')
+            admin.locale_selector(get_locale)
         except:
             pass  # Exception: Can not add locale_selector second time.
 
@@ -40,7 +47,7 @@ def configure_admin(app, admin):
                     entry['url'],
                     name=entry['name'],
                     category=entry['category'],
-                    endpoint=entry['name']
+                    endpoint=entry['endpoint']
                 )
             )
         except:
