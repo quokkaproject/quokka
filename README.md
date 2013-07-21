@@ -3,7 +3,7 @@
 Quokka project - Flask and MongoDB powered CMS
 ===============================================
 
-![logo](/docs/logo.png)
+![logo](docs/logo.png)
 
 
 Quokka is a flexible content management platform powered by Python, Flask and MongoDB.
@@ -23,7 +23,7 @@ Requirements
 - Flask-Mail
 - Flask-Script
 - Flask-Security
-- Flask-SuperAdmin
+- Flask-Admin
 - Flask-Testing
 - Flask-WTF
 - Flask-Mongoengine
@@ -130,10 +130,10 @@ Admin interface
 Admin interface is powered by Flask-Admin customized with access control and theme tweaks.
 
 Listing
-![admin_list](/docs/admin_list.png)
+![admin_list](docs/admin_list.png)
 
 Posting
-![admin_overview](/docs/admin_overview.png)
+![admin_overview](docs/admin_overview.png)
 
 Project tree
 ============
@@ -247,6 +247,6 @@ Project tree
 29 directories, 75 files
 ```
 
-![python](/docs/python_powered.png)
-![flask](/docs/flask_powered.png)
-![mongo](/docs/mongo_powered.jpg)
+![python](docs/python_powered.png)
+![flask](docs/flask_powered.png)
+![mongo](docs/mongo_powered.jpg)
