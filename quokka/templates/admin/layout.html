@@ -32,8 +32,9 @@
 
       <div class="row">
         <div class="span2">
+
           {% block brand %}
-          <span class="brand">{{ admin_view.admin.name }}</span>
+             {{ config.get('ADMIN_BRAND', '')|safe }}
           {% endblock %}
 
           {% block menu %}

@@ -21,6 +21,15 @@ BLUEPRINTS_PATH = 'modules'
 BLUEPRINTS_OBJECT_NAME = 'module'
 SUPER_ADMIN = {'name': 'Quokka admin', 'url': '/admin'}
 
+ADMIN_BRAND = """
+<div class='brand'>
+    <a href="/admin" title="Replace it with your logo in settings.ADMIN_BRAND">
+        <img src='/static/img/logo.png' width='180' />
+    </a>
+</div>
+<br>
+""".strip()
+
 FILE_ADMIN = [
     {
         "name": "template_files",
