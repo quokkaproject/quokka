@@ -5,6 +5,7 @@ import datetime
 from flask import url_for
 from quokka.core.db import db
 from quokka import admin
+from quokka.core.admin.models import ModelAdmin
 from quokka.modules.accounts.models import User
 
 ###############################################################
@@ -100,4 +101,9 @@ class Content(db.DynamicDocument,
         'ordering': ['-created_at']
     }
 
-admin.register(Channel)
+
+class ChannelAdmin(ModelAdmin):
+    roles_accepted = ('admin', 'editor')
+    column_list = ('name', 'long_slug', 'is_homepage')
+
+admin.add_view(ChannelAdmin(Channel, category='Content'))

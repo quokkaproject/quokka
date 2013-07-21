@@ -1,20 +1,18 @@
 # coding : utf -8
 from quokka import admin
-from flask.ext.superadmin import model
-from quokka.core.admin.models import Roled
+from quokka.core.admin.models import ModelAdmin
 from .models import Role, User
 
 
-class UserAdmin(Roled, model.ModelAdmin):
+class UserAdmin(ModelAdmin):
     roles_accepted = ('admin',)
-    list_display = ('name', 'email', 'active',
-                    'last_login_at', 'login_count')
+    column_list = ('name', 'email', 'active',
+                   'last_login_at', 'login_count')
 
 
-class RoleAdmin(Roled, model.ModelAdmin):
+class RoleAdmin(ModelAdmin):
     roles_accepted = ('admin',)
-    list_display = ('name', 'description')
+    column_list = ('name', 'description')
 
-
-admin.register(Role, RoleAdmin, category='accounts')
-admin.register(User, UserAdmin, category='accounts')
+admin.add_view(UserAdmin(User, category="Accounts"))
+admin.add_view(RoleAdmin(Role, category="Accounts"))

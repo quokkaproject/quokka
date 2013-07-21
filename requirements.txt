@@ -16,7 +16,8 @@ Flask-Security
 Flask-Mail
 Flask-Testing
 Flask-Cache
-https://github.com/rochacbruno/Flask-SuperAdmin/tarball/master
+https://github.com/mrjoes/flask-admin/tarball/master
+https://github.com/mrjoes/flask-babelex/tarball/master
 flask-debugtoolbar
 dealer
 flask-collect

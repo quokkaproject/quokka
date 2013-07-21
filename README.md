@@ -127,8 +127,12 @@ Quokka admin also provides a web interface for admin-users to install and ENABLE
 Admin interface
 ================
 
-Admin interface uses a customized version of Flask-SuperAdmin
+Admin interface is powered by Flask-Admin customized with access control and theme tweaks.
 
+Listing
+![admin_list](/docs/admin_list.png)
+
+Posting
 ![admin_overview](/docs/admin_overview.png)
 
 Project tree
