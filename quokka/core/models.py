@@ -178,5 +178,4 @@ class ChannelAdmin(ModelAdmin):
                     'published', 'canonical_url']
 
 
-
 admin.register(Channel, ChannelAdmin, category="Content")
