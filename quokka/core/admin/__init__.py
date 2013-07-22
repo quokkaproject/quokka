@@ -1,14 +1,32 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*
 
+import logging
+
 from flask import request, session
 from flask.ext.admin import Admin
 from flask.ext.admin.contrib import fileadmin
+from .models import ModelAdmin
 from .views import IndexView
+
+logger = logging.getLogger()
+
+
+class QuokkaAdmin(Admin):
+    def register(self, model, view=None, *args, **kwargs):
+        View = view or ModelAdmin
+        try:
+            self.add_view(View(model, *args, **kwargs))
+        except Exception as e:
+            logger.warning(
+                "admin.register({}, {}, {}, {}) error: {}".format(
+                    model, view, args, kwargs, e.message
+                )
+            )
 
 
 def create_admin(app=None):
-    return Admin(index_view=IndexView())
+    return QuokkaAdmin(app, index_view=IndexView())
 
 
 def configure_admin(app, admin):
