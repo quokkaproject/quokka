@@ -1,18 +1,10 @@
 Quokka Roadmap
 ==============
 
-Todo
-====
-Change every __import__ with importlib http://docs.python.org/2.7/library/importlib.html
-
 Core
 ====
 * Media center (for images and files), thumbnail engine, video/audio manager/ flask-uploads
-* Rich text Aloha editor widget
-* core models for Site, Channels(MPTT), Categories, Tags, Slug, Published, Image, Config  etc...
 * ContentBox
-* Core generic views
-* admin index view (customizable)
 * i18n
 * Blueprints manager admin view (manage folder, package etc..)
 * Theming support (take a look at flask-themes)

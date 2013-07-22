@@ -62,6 +62,11 @@ class Imaged(object):
     pass
 
 
+class Tagged(object):
+    """TODO: implement tags"""
+    pass
+
+
 class Channel(db.DynamicDocument, Publishable, Slugged):
     title = db.StringField(max_length=255, required=True)
     description = db.StringField()
@@ -170,6 +175,31 @@ class Content(db.DynamicDocument,
         self.mpath = "".join([self.channel.mpath, self.slug, ','])
 
         super(Content, self).save(*args, **kwargs)
+
+
+class ConfigValue(db.EmbeddedDocument):
+    FORMATS = (
+        ('json', "json"),
+        ('text', "text"),
+        ('int', "int"),
+        ('float', "float"),
+    )
+    key = db.StringField(max_length=255)
+    value = db.StringField()
+    format = db.StringField(choices=FORMATS)
+
+
+class Config(db.DynamicDocument):
+    group = db.StringField(max_length=255)
+    description = db.StringField()
+    values = db.ListField(db.EmbeddedDocumentField(ConfigValue))
+
+
+###############################################################
+# Admin views
+###############################################################
+
+admin.register(Config, category="Settings")
 
 
 class ChannelAdmin(ModelAdmin):

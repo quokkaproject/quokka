@@ -1,6 +1,6 @@
 # coding: utf-8
 
-from quokka.core.models import Channel
+from quokka.core.models import Channel, Config, ConfigValue
 
 
 def configure(app):
@@ -20,4 +20,14 @@ def configure(app):
                 canonical_url="/",
                 order=0,
                 published=True,
+            )
+
+        if not Config.objects.count():
+            Config.objects.create(
+                group="global",
+                description="GLobal preferences for the website",
+                values=[
+                    ConfigValue(key="example", value="example_value",
+                                format="text")
+                ]
             )
