@@ -1,8 +1,8 @@
 {% extends 'admin/model/edit.html' %}
-
+<script src="//tinymce.cachefly.net/4.0/tinymce.min.js"></script>
 {% block tail %}
     {{ super() }}
-    <script src="//tinymce.cachefly.net/4.0/tinymce.min.js"></script>
+    <script src="{{ url_for('static', filename='tinymce/tinymce.min.js') }}"></script>
     <script src="{{ url_for('static', filename='admin/custom.js') }}"></script>
     <!-- TODO: Do a local instalation fallback to tinymce -->
     <script type="text/javascript">
