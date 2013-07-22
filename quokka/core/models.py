@@ -28,6 +28,12 @@ class Slugged(object):
     long_slug = db.StringField()
     mpath = db.StringField()
 
+    def validate_slug(self, title=None):
+        if self.slug:
+            self.slug = slugify(self.slug)
+        else:
+            self.slug = slugify(title or self.title)
+
 
 class Comment(db.EmbeddedDocument, Publishable):
     body = db.StringField(verbose_name="Comment", required=True)
@@ -74,13 +80,10 @@ class Channel(db.DynamicDocument, Publishable, Slugged):
 
     def save(self, *args, **kwargs):
 
-        if self.parent and self.parent.is_homepage:
-            self.parent = None
+        # if self.parent and self.parent.is_homepage:
+        #     self.parent = None
 
-        if self.slug:
-            self.slug = slugify(self.slug)
-        else:
-            self.slug = slugify(self.title)
+        self.validate_slug()
 
         if self.parent and self.parent != self:
             self.long_slug = "/".join(
@@ -140,10 +143,7 @@ class Content(db.DynamicDocument,
 
     def save(self, *args, **kwargs):
 
-        if self.slug:
-            self.slug = slugify(self.slug)
-        else:
-            self.slug = slugify(self.title)
+        self.validate_slug()
 
         self.long_slug = "/".join(
             [self.channel.long_slug, self.slug]
