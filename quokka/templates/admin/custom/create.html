@@ -3,6 +3,7 @@
 {% block tail %}
     {{ super() }}
     <script src="//tinymce.cachefly.net/4.0/tinymce.min.js"></script>
+    <script src="{{ url_for('static', filename='admin/custom.js') }}"></script>
     <!-- TODO: Do a local instalation fallback to tinymce -->
     <script type="text/javascript">
     tinymce.init({
@@ -22,6 +23,10 @@
             {title: 'Test template 1', content: 'Test 1'},
             {title: 'Test template 2', content: 'Test 2'}
         ]
+    });
+
+    $("#title").keyup(function(){
+        $("#slug").val(slugify($(this).val()));
     });
     </script>
 {% endblock %}
