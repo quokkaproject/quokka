@@ -71,6 +71,19 @@ class Channel(db.DynamicDocument, Publishable, Slugged):
     # MPTT
     parent = db.ReferenceField('self', required=False, default=None)
 
+    @classmethod
+    def get_homepage(cls, attr=None):
+        try:
+            homepage = cls.objects.get(is_homepage=True)
+        except Exception, e:
+            print str(e)
+            return None
+        else:
+            if not attr:
+                return homepage
+            else:
+                return getattr(homepage, attr, homepage)
+
     def __unicode__(self):
         return "{}-{}".format(self.title, self.long_slug)
 
