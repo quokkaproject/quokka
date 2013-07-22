@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+import logging
 import datetime
 from flask import url_for
 from quokka.core.db import db
@@ -8,6 +9,9 @@ from quokka import admin
 from quokka.core.admin.models import ModelAdmin
 from quokka.modules.accounts.models import User
 from quokka.utils.text import slugify
+
+logger = logging.getLogger()
+
 
 ###############################################################
 # Commom extendable base classes
@@ -76,7 +80,7 @@ class Channel(db.DynamicDocument, Publishable, Slugged):
         try:
             homepage = cls.objects.get(is_homepage=True)
         except Exception, e:
-            print str(e)
+            logger.info("There is no homepage: %s" % e.message)
             return None
         else:
             if not attr:
@@ -88,7 +92,8 @@ class Channel(db.DynamicDocument, Publishable, Slugged):
         return "{}-{}".format(self.title, self.long_slug)
 
     def clean(self):
-        if self.is_homepage and Channel.objects(is_homepage=True):
+        homepage = Channel.objects(is_homepage=True)
+        if self.is_homepage and homepage and not self in homepage:
             raise db.ValidationError(u"Home page already exists")
 
     def save(self, *args, **kwargs):
