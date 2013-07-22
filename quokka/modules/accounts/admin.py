@@ -14,5 +14,6 @@ class RoleAdmin(ModelAdmin):
     roles_accepted = ('admin',)
     column_list = ('name', 'description')
 
-admin.add_view(UserAdmin(User, category="Accounts"))
-admin.add_view(RoleAdmin(Role, category="Accounts"))
+
+admin.register(User, UserAdmin, category="Accounts")
+admin.register(Role, RoleAdmin, category="Accounts")

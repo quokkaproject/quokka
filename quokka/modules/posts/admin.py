@@ -37,8 +37,7 @@ class PostAdmin(ModelAdmin):
     column_searchable_list = ('title', 'body', 'summary')
 
     form_columns = ['title', 'slug', 'channel', 'channels', 'summary', 'body',
-                    'published', 'show_on_channel', 'comments']
-                    #TODO: SOLVE THE DATEPICKER PROBLEM
+                    'published', 'show_on_channel', 'available_at', 'comments']
     # form_excluded_columns = []
     # form = None
     # form_overrides = None
@@ -70,4 +69,4 @@ class PostAdmin(ModelAdmin):
     # page_size = 20
 
 
-admin.add_view(PostAdmin(Post, category='Content'))
+admin.register(Post, PostAdmin, category="Content")

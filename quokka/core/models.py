@@ -170,5 +170,13 @@ class Content(db.DynamicDocument,
 class ChannelAdmin(ModelAdmin):
     roles_accepted = ('admin', 'editor')
     column_list = ('title', 'long_slug', 'is_homepage')
+    column_filters = ['published', 'is_homepage', 'include_in_rss',
+                      'show_in_menu', 'indexable']
+    column_searchable_list = ('title', 'description')
+    form_columns = ['title', 'slug', 'description', 'parent', 'is_homepage',
+                    'include_in_rss', 'indexable', 'show_in_menu', 'order',
+                    'published', 'canonical_url']
 
-admin.add_view(ChannelAdmin(Channel, category='Content'))
+
+
+admin.register(Channel, ChannelAdmin, category="Content")
