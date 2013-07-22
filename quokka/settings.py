@@ -26,21 +26,21 @@ FILE_ADMIN = [
         "name": "Template files",
         "category": "files",
         "path": os.path.join(PROJECT_ROOT, 'templates'),
-        "url": "/template_files",
+        "url": "/template_files/",  # create nginx rule
         "endpoint": "template_files"
     },
     {
         "name": "Static files",
         "category": "files",
         "path": STATIC_ROOT,
-        "url": "/static",
+        "url": "/static/",  # served by flask
         "endpoint": "static_files"
     },
     {
         "name": "Media files",
         "category": "files",
         "path": MEDIA_ROOT,
-        "url": "/media",
+        "url": "/media/",  # Create nginx rule
         "endpoint": "media_files"
     }
 ]
