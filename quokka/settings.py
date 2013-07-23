@@ -17,6 +17,10 @@ CACHE_TYPE = "simple"
 PROJECT_ROOT = os.path.abspath(os.path.dirname(__file__))
 MEDIA_ROOT = os.path.join(PROJECT_ROOT, 'media')
 STATIC_ROOT = os.path.join(PROJECT_ROOT, 'static')
+# Files on MAP_STATIC_ROOT will be served from /static/
+# example: /static/favicon.ico will be served as /favicon.ico
+MAP_STATIC_ROOT = ('/robots.txt', '/sitemap.xml', '/favicon.ico')
+
 BLUEPRINTS_PATH = 'modules'
 BLUEPRINTS_OBJECT_NAME = 'module'
 ADMIN = {'name': 'Quokka admin', 'url': '/admin'}

@@ -204,7 +204,7 @@ admin.register(Config, category="Settings")
 
 class ChannelAdmin(ModelAdmin):
     roles_accepted = ('admin', 'editor')
-    column_list = ('title', 'long_slug', 'is_homepage')
+    column_list = ('title', 'long_slug', 'is_homepage', 'published')
     column_filters = ['published', 'is_homepage', 'include_in_rss',
                       'show_in_menu', 'indexable']
     column_searchable_list = ('title', 'description')
