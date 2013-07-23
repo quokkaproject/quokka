@@ -2,6 +2,7 @@
 
 from flask.ext.admin.contrib.mongoengine import ModelView
 from flask.ext.admin import AdminIndexView
+from flask.ext.admin.actions import action
 from flask.ext.security import current_user
 from flask.ext.security.utils import url_for_security
 from flask import redirect
@@ -27,7 +28,13 @@ class Roled(object):
 
 
 class ModelAdmin(Roled, ModelView):
-    pass
+
+    @action('toggle_publish', 'Publish/Unpublish', 'Publish/Unpublish?')
+    def action_merge(self, ids):
+        for i in ids:
+            instance = self.model.objects.get(id=i)
+            instance.published = not instance.published
+            instance.save()
 
 
 class BaseIndexView(Roled, AdminIndexView):

@@ -33,7 +33,7 @@ class PostAdmin(ModelAdmin):
     # column_default_sort = 'pk'
     # column_choices = {'column': ('value', 'display')}
     #  column_display_pk = True
-    column_filters = ['published']
+    column_filters = ['published', 'title']
     column_searchable_list = ('title', 'body', 'summary')
 
     form_columns = ['title', 'slug', 'channel', 'channels', 'summary', 'body',
