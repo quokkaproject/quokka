@@ -37,6 +37,7 @@ class PostAdmin(ModelAdmin):
     column_searchable_list = ('title', 'body', 'summary')
 
     form_columns = ['title', 'slug', 'channel', 'channels', 'summary', 'body',
+                    'main_image', 'main_image_caption',
                     'published', 'show_on_channel', 'available_at', 'comments']
     # form_excluded_columns = []
     # form = None

@@ -58,8 +58,8 @@ class Commentable(object):
 
 
 class Imaged(object):
-    """TODO: IMplement ImageField"""
-    pass
+    main_image = db.ImageField(thumbnail_size=(100, 100, True))
+    main_image_caption = db.StringField()
 
 
 class Tagged(object):
@@ -135,7 +135,7 @@ class Channeling(object):
 # Base Content for every new content to extend. inheritance=True
 ###############################################################
 
-class Content(db.DynamicDocument,
+class Content(db.DynamicDocument, Imaged,
               Publishable, Slugged, Commentable, Channeling):
     title = db.StringField(max_length=255, required=True)
     summary = db.StringField(required=False)
