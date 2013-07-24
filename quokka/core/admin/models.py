@@ -1,11 +1,16 @@
 # coding : utf -8
+import random
+import datetime
 
 from flask.ext.admin.contrib.mongoengine import ModelView
+from flask.ext.admin.babel import gettext, ngettext, lazy_gettext
 from flask.ext.admin import AdminIndexView
 from flask.ext.admin.actions import action
 from flask.ext.security import current_user
 from flask.ext.security.utils import url_for_security
-from flask import redirect
+from flask import redirect, flash, url_for
+
+from quokka.modules.accounts.models import User
 
 
 class Roled(object):
@@ -29,12 +34,46 @@ class Roled(object):
 
 class ModelAdmin(Roled, ModelView):
 
-    @action('toggle_publish', 'Publish/Unpublish', 'Publish/Unpublish?')
-    def action_merge(self, ids):
+    def get_instance(self, i):
+        try:
+            return self.model.objects.get(id=i)
+        except self.model.DoesNotExist:
+            flash(gettext("Item not found %(i)s", i=i), "error")
+
+    @action('toggle_publish',
+            lazy_gettext('Publish/Unpublish'),
+            lazy_gettext('Publish/Unpublish?'))
+    def action_toggle_publish(self, ids):
         for i in ids:
-            instance = self.model.objects.get(id=i)
+            instance = self.get_instance(i)
             instance.published = not instance.published
             instance.save()
+        count = len(ids)
+        flash(ngettext('Item successfully published/Unpublished.',
+                       '%(count)s items were successfully'
+                       ' published/Unpublished.',
+              count,
+              count=count))
+
+    @action('clone_item',
+            lazy_gettext('Create a copy'),
+            lazy_gettext('Are you sure you want a copy?'))
+    def action_clone_item(self, ids):
+        if len(ids) > 1:
+            flash(gettext("You can select only one item for this action"),
+                  'error')
+            return
+
+        instance = self.get_instance(ids[0])
+        new = instance.from_json(instance.to_json())
+        new.id = None
+        new.published = False
+        new.last_updated_by = User.objects.get(id=current_user.id)
+        new.updated_at = datetime.datetime.now()
+        new.slug = "{}-{}".format(new.slug, random.getrandbits(32))
+        new.save()
+
+        return redirect(url_for('.edit_view', id=new.id))
 
 
 class BaseIndexView(Roled, AdminIndexView):

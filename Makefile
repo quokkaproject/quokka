@@ -2,6 +2,10 @@
 run: test
 	python manage.py runserver
 
+.PHONY: shell
+shell:
+	python manage.py shell
+
 .PHONY: test
 test: pep8
 	python runtests.py
