@@ -1,4 +1,5 @@
 # coding : utf -8
+import json
 import random
 import datetime
 
@@ -8,7 +9,7 @@ from flask.ext.admin import AdminIndexView
 from flask.ext.admin.actions import action
 from flask.ext.security import current_user
 from flask.ext.security.utils import url_for_security
-from flask import redirect, flash, url_for
+from flask import redirect, flash, url_for, Response
 
 from quokka.modules.accounts.models import User
 
@@ -74,6 +75,37 @@ class ModelAdmin(Roled, ModelView):
         new.save()
 
         return redirect(url_for('.edit_view', id=new.id))
+
+    @action('export_to_json', lazy_gettext('Export as json'))
+    def export_to_json(self, ids):
+        qs = self.model.objects(id__in=ids)
+
+        return Response(
+            qs.to_json(),
+            mimetype="text/json",
+            headers={
+                "Content-Disposition":
+                "attachment;filename=%s.json" % self.model.__name__.lower()
+            }
+        )
+
+    @action('export_to_csv', lazy_gettext('Export as csv'))
+    def export_to_csv(self, ids):
+        qs = json.loads(self.model.objects(id__in=ids).to_json())
+
+        def generate():
+            yield ','.join(qs[0].keys()) + '\n'
+            for item in qs:
+                yield ','.join([str(i) for i in item.values()]) + '\n'
+
+        return Response(
+            generate(),
+            mimetype="text/csv",
+            headers={
+                "Content-Disposition":
+                "attachment;filename=%s.csv" % self.model.__name__.lower()
+            }
+        )
 
 
 class BaseIndexView(Roled, AdminIndexView):

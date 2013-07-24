@@ -4,6 +4,7 @@
 import logging
 import datetime
 from flask import url_for
+from flask.ext.security import current_user
 from quokka.core.db import db
 from quokka import admin
 from quokka.core.admin.models import ModelAdmin
@@ -26,6 +27,19 @@ class Publishable(object):
     created_by = db.ReferenceField(User)
     last_updated_by = db.ReferenceField(User)
 
+    def save(self, *args, **kwargs):
+        self.updated_at = datetime.datetime.now()
+
+        try:
+            user = User.object.get(id=current_user.id)
+            if not self.id:
+                self.created_by = user
+            self.last_updated_by = user
+        except Exception as e:
+            logger.warning("No user to save the model: %s" % e.message)
+
+        super(Publishable, self).save(*args, **kwargs)
+
 
 class Slugged(object):
     slug = db.StringField(max_length=255)
@@ -39,7 +53,7 @@ class Slugged(object):
             self.slug = slugify(title or self.title)
 
 
-class Comment(db.EmbeddedDocument, Publishable):
+class Comment(Publishable, db.EmbeddedDocument):
     body = db.StringField(verbose_name="Comment", required=True)
     author = db.StringField(verbose_name="Name", max_length=255, required=True)
     published = db.BooleanField(default=True)
@@ -67,7 +81,7 @@ class Tagged(object):
     pass
 
 
-class Channel(db.DynamicDocument, Publishable, Slugged):
+class Channel(Publishable, Slugged, db.DynamicDocument):
     title = db.StringField(max_length=255, required=True)
     description = db.StringField()
     show_in_menu = db.BooleanField(default=False)
@@ -135,8 +149,8 @@ class Channeling(object):
 # Base Content for every new content to extend. inheritance=True
 ###############################################################
 
-class Content(db.DynamicDocument, Imaged,
-              Publishable, Slugged, Commentable, Channeling):
+class Content(Imaged, Publishable, Slugged, Commentable, Channeling,
+              db.DynamicDocument):
     title = db.StringField(max_length=255, required=True)
     summary = db.StringField(required=False)
 
@@ -189,7 +203,7 @@ class ConfigValue(db.EmbeddedDocument):
     format = db.StringField(choices=FORMATS)
 
 
-class Config(db.DynamicDocument):
+class Config(Publishable, db.DynamicDocument):
     group = db.StringField(max_length=255)
     description = db.StringField()
     values = db.ListField(db.EmbeddedDocumentField(ConfigValue))
