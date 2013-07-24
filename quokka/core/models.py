@@ -3,8 +3,10 @@
 
 import logging
 import datetime
-from flask import url_for
+import random
+from flask import url_for, current_app
 from flask.ext.security import current_user
+from flask.ext.admin.babel import lazy_gettext
 from quokka.core.db import db
 from quokka import admin
 from quokka.core.admin.models import ModelAdmin
@@ -31,7 +33,7 @@ class Publishable(object):
         self.updated_at = datetime.datetime.now()
 
         try:
-            user = User.object.get(id=current_user.id)
+            user = User.objects.get(id=current_user.id)
             if not self.id:
                 self.created_by = user
             self.last_updated_by = user
@@ -45,6 +47,46 @@ class Slugged(object):
     slug = db.StringField(max_length=255)
     long_slug = db.StringField()
     mpath = db.StringField()
+
+    def _create_mpath_long_slug(self):
+        try:
+            if self.parent and self.parent != self:
+                self.long_slug = "/".join(
+                    [self.parent.long_slug, self.slug]
+                )
+
+                self.mpath = "".join(
+                    [self.parent.mpath, self.slug, ',']
+                )
+            else:
+                self.long_slug = self.slug
+                self.mpath = ",%s," % self.slug
+        except:
+            logger.info("excepting to content validate_long_slug")
+            self.long_slug = "/".join(
+                [self.channel.long_slug, self.slug]
+            )
+
+            self.mpath = "".join([self.channel.mpath, self.slug, ','])
+
+    def validate_long_slug(self):
+
+        self._create_mpath_long_slug()
+
+        filters = dict(long_slug=self.long_slug)
+        if self.id:
+            filters['id__ne'] = self.id
+
+        exist = self.__class__.objects(**filters)
+        if exist.count():
+            if current_app.config.get('SMART_SLUG_ENABLED', False):
+                self.slug = "{}-{}".format(self.slug, random.getrandbits(32))
+                self._create_mpath_long_slug()
+            else:
+                raise db.ValidationError(
+                    lazy_gettext("%(slug)s slug already exists",
+                                 slug=self.long_slug)
+                )
 
     def validate_slug(self, title=None):
         if self.slug:
@@ -113,26 +155,13 @@ class Channel(Publishable, Slugged, db.DynamicDocument):
     def clean(self):
         homepage = Channel.objects(is_homepage=True)
         if self.is_homepage and homepage and not self in homepage:
-            raise db.ValidationError(u"Home page already exists")
+            raise db.ValidationError(lazy_gettext(u"Home page already exists"))
+        super(Channel, self).clean()
 
     def save(self, *args, **kwargs):
 
-        # if self.parent and self.parent.is_homepage:
-        #     self.parent = None
-
         self.validate_slug()
-
-        if self.parent and self.parent != self:
-            self.long_slug = "/".join(
-                [self.parent.long_slug, self.slug]
-            )
-
-            self.mpath = "".join(
-                [self.parent.mpath, self.slug, ',']
-            )
-        else:
-            self.long_slug = self.slug
-            self.mpath = ",%s," % self.slug
+        self.validate_long_slug()
 
         super(Channel, self).save(*args, **kwargs)
 
@@ -181,12 +210,7 @@ class Content(Imaged, Publishable, Slugged, Commentable, Channeling,
     def save(self, *args, **kwargs):
 
         self.validate_slug()
-
-        self.long_slug = "/".join(
-            [self.channel.long_slug, self.slug]
-        )
-
-        self.mpath = "".join([self.channel.mpath, self.slug, ','])
+        self.validate_long_slug()
 
         super(Content, self).save(*args, **kwargs)
 
@@ -213,7 +237,14 @@ class Config(Publishable, db.DynamicDocument):
 # Admin views
 ###############################################################
 
-admin.register(Config, category="Settings")
+class ConfigAdmin(ModelAdmin):
+    roles_accepted = ('admin', 'developer')
+    column_list = ("group", "description", "published",
+                   "created_at", "updated_at")
+    column_filters = ("group", "description")
+    form_columns = ("group", "description", "published", "values")
+
+admin.register(Config, ConfigAdmin, category="Settings")
 
 
 class ChannelAdmin(ModelAdmin):

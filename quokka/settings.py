@@ -61,6 +61,12 @@ MAP_STATIC_ROOT = ('/robots.txt', '/sitemap.xml', '/favicon.ico')
 
 
 """
+If enabled admin will leave creation of repeated slugs
+but will append a random int i.e: blog-post-2342342
+"""
+SMART_SLUG_ENABLED = False
+
+"""
 Blueprints are quokka-modules, you don't need to install
 just develop or download and drop in your modules folder
 by default it is in /modules, you can change if needed
