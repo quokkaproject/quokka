@@ -1,12 +1,12 @@
 # coding: utf-8
 
-from quokka.core.models import Channel, Config, ConfigValue
+from quokka.core.models import Channel, Config, CustomValue
 
 
 def configure(app):
     @app.before_first_request
     def initialize():
-        print "Called only once, when the first request comes in"
+        print("Called only once, when the first request comes in")
         if not Channel.objects.count():
             # Create homepage if it does not exists
             Channel.objects.create(
@@ -27,7 +27,7 @@ def configure(app):
                 group="global",
                 description="GLobal preferences for the website",
                 values=[
-                    ConfigValue(key="example", value="example_value",
+                    CustomValue(name="example", value="example_value",
                                 format="text")
                 ]
             )

@@ -1,4 +1,6 @@
 # coding : utf -8
+from flask.ext.htmlbuilder import html
+from flask.ext.admin.babel import lazy_gettext
 from quokka import admin
 from quokka.core.admin.models import ModelAdmin
 
@@ -22,23 +24,32 @@ class PostAdmin(ModelAdmin):
     edit_template = 'admin/custom/edit.html'
     create_template = 'admin/custom/create.html'
 
-    column_list = ('title', 'slug', 'channel', 'published')
+    column_list = ('title', 'slug', 'channel', 'published', 'view_on_site')
+
+    def view_on_site(self, request, obj, fieldname, *args, **kwargs):
+        return html.a(
+            href=obj.get_absolute_url('detail'),
+            target='_blank',
+        )(html.i(class_="icon icon-eye-open", style="margin-right: 5px;")(),
+          lazy_gettext('View on site'))
+
     # column_exclude_list = []
 
-    # column_formatters = {}
+    column_formatters = {'view_on_site': view_on_site}
     # column_type_formatters = {}
     # column_labels = {}
     # column_descriptions = {}
     # column_sortable_list = [] / ('name', ('user', 'user.username'))
     # column_default_sort = 'pk'
     # column_choices = {'column': ('value', 'display')}
-    #  column_display_pk = True
+    # column_display_pk = True
     column_filters = ['published', 'title']
     column_searchable_list = ('title', 'body', 'summary')
 
-    form_columns = ['title', 'slug', 'channel', 'channels', 'summary', 'body',
-                    'main_image', 'main_image_caption',
-                    'published', 'show_on_channel', 'available_at', 'comments']
+    form_columns = ['title', 'slug', 'channel', 'related_channels', 'summary',
+                    'body', 'main_image', 'main_image_caption', 'published',
+                    'show_on_channel', 'available_at', 'tags', 'comments',
+                    'values']
     # form_excluded_columns = []
     # form = None
     # form_overrides = None

@@ -30,9 +30,9 @@ class CreateRole(Command):
                 description=description
             )
         else:
-            role = u"Cant create the role"
+            role = "Cant create the role"
 
-        print role
+        print(role)
 
 
 class CreateSuperUser(Command):
@@ -66,9 +66,9 @@ class CreateSuperUser(Command):
                 roles=[admin]
             )
         else:
-            user = u"Cant create the supersuser"
+            user = "Cant create the supersuser"
 
-        print user
+        print(user)
 
 
 class CreateUser(Command):
@@ -113,6 +113,6 @@ class CreateUser(Command):
                 roles=[role]
             )
         else:
-            user = u"Cant create the supersuser"
+            user = "Cant create the user"
 
-        print user
+        print(user)

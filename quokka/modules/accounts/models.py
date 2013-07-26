@@ -11,7 +11,7 @@ class Role(db.Document, RoleMixin):
     description = db.StringField(max_length=255)
 
     def __unicode__(self):
-        return u"{} ({})".format(self.name, self.description or 'Role')
+        return "{} ({})".format(self.name, self.description or 'Role')
 
 
 class User(db.Document, UserMixin):
@@ -20,7 +20,9 @@ class User(db.Document, UserMixin):
     password = db.StringField(max_length=255)
     active = db.BooleanField(default=True)
     confirmed_at = db.DateTimeField()
-    roles = db.ListField(db.ReferenceField(Role), default=[])
+    roles = db.ListField(
+        db.ReferenceField(Role, reverse_delete_rule=db.DENY), default=[]
+    )
 
     last_login_at = db.DateTimeField()
     current_login_at = db.DateTimeField()
@@ -28,8 +30,5 @@ class User(db.Document, UserMixin):
     current_login_ip = db.StringField(max_length=255)
     login_count = db.IntField()
 
-    def get_display_name(self):
-        return u"{} <{}>"
-
     def __unicode__(self):
-        return u"{} <{}>".format(self.name or '', self.email)
+        return "{} <{}>".format(self.name or '', self.email)

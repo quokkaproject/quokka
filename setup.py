@@ -26,7 +26,7 @@ try:
 except:
     long_description = quokka.__description__
 
-setup( name='quokka',
+setup(name='quokka',
       version=quokka.__version__,
       description=quokka.__description__,
       long_description=long_description,

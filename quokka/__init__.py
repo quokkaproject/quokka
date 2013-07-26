@@ -5,16 +5,16 @@ VERSION = (0, 1, 0)
 
 __version__ = ".".join(map(str, VERSION))
 __status__ = "Development"
-__description__ = u"Flexible & modular CMS powered by Flask and MongoDB"
-__author__ = u"Bruno Rocha"
+__description__ = "Flexible & modular CMS powered by Flask and MongoDB"
+__author__ = "Bruno Rocha"
 __credits__ = []
-__email__ = u"quokka-developers@googlegroups.com"
-__license__ = u"MIT License"
-__copyright__ = u"Copyright 2013, Quokka Project"
+__email__ = "quokka-developers@googlegroups.com"
+__license__ = "MIT License"
+__copyright__ = "Copyright 2013, Quokka Project"
 
 import os
 from flask import Flask
-from core.admin import create_admin
+from .core.admin import create_admin
 # from quokka.core.middleware import HTTPMethodOverrideMiddleware
 
 
@@ -42,7 +42,7 @@ def create_app(config=None, test=False, admin_instance=None, **settings):
     app.config.update(settings)
 
     # with app.test_request_context():
-    from ext import configure_extensions
+    from .ext import configure_extensions
     configure_extensions(app, admin_instance or admin)
 
     # app.wsgi_app = HTTPMethodOverrideMiddleware(app.wsgi_app)

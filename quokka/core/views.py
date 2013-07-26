@@ -1,6 +1,7 @@
 # coding: utf-8
 
 import logging
+import collections
 from datetime import datetime
 from flask import request, redirect, render_template, url_for
 from flask.views import MethodView
@@ -40,16 +41,17 @@ class ContentList(MethodView):
 class ContentDetail(MethodView):
     form = model_form(
         Comment,
-        exclude=['created_at', 'created_by',
-                 'published', 'updated_at', 'last_updated_by']
+        exclude=['created_at', 'created_by', 'published']
     )
 
     def get_context(self, long_slug):
         now = datetime.now()
         homepage = Channel.objects.get(is_homepage=True)
-        if long_slug.startswith(homepage.slug):
+
+        if long_slug.startswith(homepage.slug) and \
+                len(long_slug.split('/')) < 3:
             slug = long_slug.split('/')[-1]
-            return redirect(url_for('.detail', long_slug=slug))
+            return redirect(url_for('detail', long_slug=slug))
 
         try:
             content = Content.objects.get(
@@ -75,7 +77,7 @@ class ContentDetail(MethodView):
 
     def get(self, long_slug):
         context = self.get_context(long_slug)
-        if callable(context):
+        if isinstance(context, collections.Callable):
             return context
         return render_template('content/detail.html', **context)
 

@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-#coding: utf-8
+# coding: utf-8
 
 """
 This functions created by Alvaro Justen (Turicas)
@@ -15,7 +15,7 @@ def slugify(text, encoding=None,
     while '--' in clean_text:
         clean_text = clean_text.replace('--', '-')
     ascii_text = normalize('NFKD', clean_text).encode('ascii', 'ignore')
-    strict_text = map(lambda x: x if x in permitted_chars else '', ascii_text)
+    strict_text = [x if x in permitted_chars else '' for x in ascii_text]
     return ''.join(strict_text)
 
 
@@ -37,3 +37,8 @@ def abbreviate(name, pretty=False):
             tiny_name = False
     result.append(names[-1])
     return ' '.join(result)
+
+
+if __name__ == '__main__':
+    print((slugify("Selling England by the pound")))
+    print((slugify("1234 benção amanhã compro melões é @ $".decode('utf8'))))

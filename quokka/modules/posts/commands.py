@@ -20,4 +20,4 @@ class ListPosts(Command):
             posts = posts(title=title)
 
         for post in posts:
-            print post
+            print(post)

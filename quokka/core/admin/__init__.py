@@ -39,7 +39,7 @@ def configure_admin(app, admin):
         }
     )
 
-    for k, v in ADMIN.items():
+    for k, v in list(ADMIN.items()):
         setattr(admin, k, v)
 
     babel = app.extensions.get('babel')

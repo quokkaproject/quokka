@@ -8,6 +8,9 @@ class UserAdmin(ModelAdmin):
     roles_accepted = ('admin',)
     column_list = ('name', 'email', 'active',
                    'last_login_at', 'login_count')
+    form_columns = ('name', 'email', 'roles', 'active', 'confirmed_at',
+                    'last_login_at', 'current_login_at', 'last_login_ip',
+                    'current_login_ip', 'login_count')
 
 
 class RoleAdmin(ModelAdmin):

@@ -94,9 +94,9 @@ class ModelAdmin(Roled, ModelView):
         qs = json.loads(self.model.objects(id__in=ids).to_json())
 
         def generate():
-            yield ','.join(qs[0].keys()) + '\n'
+            yield ','.join(list(qs[0].keys())) + '\n'
             for item in qs:
-                yield ','.join([str(i) for i in item.values()]) + '\n'
+                yield ','.join([str(i) for i in list(item.values())]) + '\n'
 
         return Response(
             generate(),
