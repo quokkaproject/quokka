@@ -27,7 +27,7 @@ def configure(app):
                 group="global",
                 description="GLobal preferences for the website",
                 values=[
-                    CustomValue(name="example", value="example_value",
+                    CustomValue(name="example", rawvalue="example_value",
                                 format="text")
                 ]
             )

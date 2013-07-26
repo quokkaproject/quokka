@@ -17,6 +17,5 @@ class Test(object):
 
             unittest.main(argv=argv)
         else:
-            print(
-                "Directory '%s' was not found in project root."
-                % self.start_discovery_dir)
+            print(("Directory '%s' was not found in project root."
+                   % self.start_discovery_dir))
