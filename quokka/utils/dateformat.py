@@ -47,4 +47,6 @@ def pretty_date(time=False):
 
 if __name__ == "__main__":
     import datetime
-    print((pretty_date(datetime.datetime.now() - datetime.timedelta(hours=18))))
+    print(
+        (pretty_date(datetime.datetime.now() - datetime.timedelta(hours=18)))
+    )
