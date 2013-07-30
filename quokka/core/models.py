@@ -116,11 +116,6 @@ class Commentable(object):
     comments = db.ListField(db.EmbeddedDocumentField(Comment))
 
 
-class Imaged(object):
-    main_image = db.StringField()
-    main_image_caption = db.StringField()
-
-
 class Tagged(object):
     tags = db.ListField(db.StringField(max_length=50))
 
@@ -189,6 +184,11 @@ class HasCustomValue(object):
         super(HasCustomValue, self).clean()
 
 
+class Imaged(object):
+    main_image = db.ReferenceField("Image")
+    main_image_caption = db.StringField(max_length=255)
+
+
 class Channel(HasCustomValue, Publishable, Slugged, db.DynamicDocument):
     title = db.StringField(max_length=255, required=True)
     description = db.StringField()
@@ -217,7 +217,7 @@ class Channel(HasCustomValue, Publishable, Slugged, db.DynamicDocument):
                 return getattr(homepage, attr, homepage)
 
     def __unicode__(self):
-        return "{}-{}".format(self.title, self.long_slug)
+        return self.long_slug
 
     def clean(self):
         homepage = Channel.objects(is_homepage=True)
@@ -244,9 +244,31 @@ class Channeling(object):
     show_on_channel = db.BooleanField(default=True)
 
 
-###############################################################
-# Base Content for every new content to extend. inheritance=True
-###############################################################
+class ChannelingNotRequired(Channeling):
+    channel = db.ReferenceField(Channel, required=False,
+                                reverse_delete_rule=db.NULLIFY)
+
+
+class Archive(HasCustomValue, Publishable, ChannelingNotRequired,
+              Tagged, Slugged, db.DynamicDocument):
+    title = db.StringField(max_length=255, required=True)
+    summary = db.StringField(required=False)
+    path = db.StringField()
+
+    meta = {
+        'allow_inheritance': True,
+        'indexes': ['-created_at', 'slug'],
+        'ordering': ['-created_at']
+    }
+
+
+class File(Archive):
+    pass
+
+
+class Image(Archive):
+    pass
+
 
 class Config(HasCustomValue, Publishable, db.DynamicDocument):
     group = db.StringField(max_length=255)
@@ -254,6 +276,11 @@ class Config(HasCustomValue, Publishable, db.DynamicDocument):
 
     def __unicode__(self):
         return self.group
+
+
+###############################################################
+# Base Content for every new content to extend. inheritance=True
+###############################################################
 
 
 class Content(HasCustomValue, Imaged, Publishable, Slugged, Commentable,
@@ -319,3 +346,15 @@ class ChannelAdmin(ModelAdmin):
 
 
 admin.register(Channel, ChannelAdmin, category="Content")
+
+
+class FileAdmin(ModelAdmin):
+    roles_accepted = ('admin', 'editor')
+
+admin.register(File, FileAdmin, category='Content')
+
+
+class ImageAdmin(ModelAdmin):
+    roles_accepted = ('admin', 'editor')
+
+admin.register(Image, ImageAdmin, category='Content')
