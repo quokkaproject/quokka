@@ -8,6 +8,7 @@
     <title>Quokka CMS basic template</title>
     <link href="//cdn.jsdelivr.net/foundation/4.3.1/css/normalize.css" rel="stylesheet">
     <link href="//cdn.jsdelivr.net/foundation/4.3.1/css/foundation.min.css" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/main.css') }}" rel="stylesheet">
     <script src="//cdn.jsdelivr.net/modernizr/2.6.2/modernizr.min.js"></script>
     {% block head %}{% endblock %}
   </head>
@@ -94,6 +95,8 @@
       <script src="//cdn.jsdelivr.net/foundation/4.3.1/js/foundation/foundation.tooltips.js"></script>
       <script src="//cdn.jsdelivr.net/foundation/4.3.1/js/foundation/foundation.topbar.js"></script>
       <script src="//cdn.jsdelivr.net/foundation/4.3.1/js/foundation/foundation.interchange.js"></script>
+
+      <script src="{{ url_for('static', filename='js/main.js')}}"></script>
     <script>
       $(document).foundation();
     </script>

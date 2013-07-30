@@ -203,6 +203,9 @@ class Channel(HasCustomValue, Publishable, Slugged, db.DynamicDocument):
     parent = db.ReferenceField('self', required=False, default=None,
                                reverse_delete_rule=db.DENY)
 
+    def get_ancestors(self, menu=True):
+        return self.__class__.objects(parent=self, show_in_menu=True)
+
     @classmethod
     def get_homepage(cls, attr=None):
         try:
@@ -220,7 +223,7 @@ class Channel(HasCustomValue, Publishable, Slugged, db.DynamicDocument):
         return self.long_slug
 
     def get_absolute_url(self):
-        return "/{}".format(self.long_slug)
+        return "/{}/".format(self.long_slug)
 
     def clean(self):
         homepage = Channel.objects(is_homepage=True)

@@ -10,4 +10,5 @@ def configure(app):
     def inject_channels():
         now = datetime.datetime.now()
         return dict(channels=Channel.objects(published=True,
-                                             available_at__lte=now))
+                                             available_at__lte=now,
+                                             parent=None))

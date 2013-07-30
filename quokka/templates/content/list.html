@@ -1,3 +1,4 @@
+{% import '_menu.html' as menu with context -%}
 {% extends "base.html" %}
 
 {% block content %}
@@ -25,12 +26,11 @@
       </p>
     {% endfor %}
 </div>
+
 <div class="large-4 columns">
+    <div class="channel-menu">
     <h3>Channels</h3>
-    <ul class="side-nav">
-    {% for channel in channels %}
-        <li class="active"><a href="{{ channel.get_absolute_url() }}"> {{ channel.title }}</a></li>
-    {% endfor %}
-    </ul>
+        {{ menu.build_nodes(nodes=channels) }}
+    </div>
 </div>
 {% endblock %}

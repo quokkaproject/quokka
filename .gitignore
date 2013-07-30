@@ -32,6 +32,8 @@ local_settings.py
 # Translations
 *.mo
 
+*.nja
+
 media/*
 
 # Mr Developer
