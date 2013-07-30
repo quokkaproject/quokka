@@ -360,6 +360,8 @@ admin.register(Channel, ChannelAdmin, category="Content")
 
 class FileAdmin(ModelAdmin):
     roles_accepted = ('admin', 'editor')
+    column_list = ('title', 'path', 'published')
+    form_columns = ['title', 'path', 'published']
 
     form_overrides = {
         'path': form.FileUploadField
@@ -378,6 +380,8 @@ admin.register(File, FileAdmin, category='Content')
 
 class ImageAdmin(ModelAdmin):
     roles_accepted = ('admin', 'editor')
+    column_list = ('title', 'path', 'thumb', 'published')
+    form_columns = ['title', 'path', 'published']
 
     def _list_thumbnail(view, context, model, name):
         if not model.path:
@@ -391,7 +395,7 @@ class ImageAdmin(ModelAdmin):
         )
 
     column_formatters = {
-        'path': _list_thumbnail
+        'thumb': _list_thumbnail
     }
 
     form_extra_fields = {
