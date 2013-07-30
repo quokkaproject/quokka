@@ -398,7 +398,8 @@ class ImageAdmin(ModelAdmin):
         'path': form.ImageUploadField(
             'Image',
             path=os.path.join(settings.MEDIA_ROOT, 'images'),
-            thumbnail_size=(100, 100, True)
+            thumbnail_size=(100, 100, True),
+            endpoint="media"
         )
     }
 
