@@ -2,12 +2,15 @@
 {% import "_forms.html" as forms %}
 
 {% block page_header %}
+<div class="large-12 columns">
   <div class="page-header">
     <h1>{{ content.title }}</h1>
   </div>
+</div>
 {% endblock %}
 
 {% block content %}
+<div class="large-12 columns">
   {% if content.body %}
   {% if content.content_type == 'Quote' %}
     <blockquote>{{ content.body|safe() }}</blockquote>
@@ -38,7 +41,8 @@
     <form action="{{content.get_absolute_url()}}" method="post">
       {{ forms.render(form) }}
       <div class="actions">
-        <input type="submit" class="btn primary" value="comment">
+        <input type="submit" class="button" value="comment">
       </div>
     </form>
+</div>
 {% endblock %}

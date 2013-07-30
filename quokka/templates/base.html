@@ -1,32 +1,102 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
+<!--[if IE 8]>         <html class="no-js lt-ie9" lang="en"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width" />
     <title>Quokka CMS basic template</title>
-    <link href="http://twitter.github.com/bootstrap/1.4.0/bootstrap.css" rel="stylesheet">
-    <style>.content {padding-top: 80px;}</style>
+    <link href="//cdn.jsdelivr.net/foundation/4.3.1/css/normalize.css" rel="stylesheet">
+    <link href="//cdn.jsdelivr.net/foundation/4.3.1/css/foundation.min.css" rel="stylesheet">
+    <script src="//cdn.jsdelivr.net/modernizr/2.6.2/modernizr.min.js"></script>
+    {% block head %}{% endblock %}
   </head>
 
   <body>
 
     {%- block topbar -%}
-    <div class="topbar">
-      <div class="fill">
-        <div class="container">
-          <h2>
-              <a href="/" class="brand">Quokka</a> <small>Starring Flask, MongoDB and MongoEngine</small>
-          </h2>
+    <div class="contain-to-grid">
+    <nav class="top-bar" style="">
+        <ul class="title-area">
+          <!-- Title Area -->
+          <li class="name">
+            <h1><a href="/">Quokka <small>Starring Flask, MongoDB and MongoEngine</small></a></h1>
+          </li>
+          <!-- Remove the class "menu-icon" to get rid of menu icon. Take out "Menu" to just have icon alone -->
+          <li class="toggle-topbar menu-icon"><a href="#"><span>Menu</span></a></li>
+        </ul>
+
+
+      <section class="top-bar-section">
+
+          <!-- Right Nav Section -->
+          <ul class="right">
+            <li class="divider hide-for-small"></li>
+            <li class="has-dropdown not-click"><a href="#">Access</a>
+
+              <ul class="dropdown"><li class="title back js-generated"><h5><a href="#">« Back</a></h5></li>
+                <li class=""><label>Dropdown Level 1 Label</label></li>
+                <li class="has-dropdown not-click"><a href="#" class="">Dropdown Level 1a</a>
+
+                  <ul class="dropdown"><li class="title back js-generated"><h5><a href="#">« Back</a></h5></li>
+                    <li class=""><a href="#">Dropdown Level 2a</a></li>
+                    <li class=""><a href="#">Dropdown Level 2b</a></li>
+                    <li class="has-dropdown not-click"><a href="#">Dropdown Level 2c</a>
+
+                      <ul class="dropdown"><li class="title back js-generated"><h5><a href="#">« Back</a></h5></li>
+                        <li class=""><a href="#">Dropdown Level 3a</a></li>
+                        <li class=""><a href="#">Dropdown Level 3b</a></li>
+                        <li class=""><a href="#">Dropdown Level 3c</a></li>
+                      </ul>
+                    </li>
+                    <li class=""><a href="#">Dropdown Level 2d</a></li>
+                    <li class=""><a href="#">Dropdown Level 2e</a></li>
+                    <li class=""><a href="#">Dropdown Level 2f</a></li>
+                  </ul>
+                </li>
+                <li class=""><a href="#">Dropdown Level 1b</a></li>
+                <li class=""><a href="#">Dropdown Level 1c</a></li>
+                <li class="divider"></li>
+                <li class=""><label>Dropdown Level 1 Label</label></li>
+                <li class=""><a href="#">Dropdown Level 1d</a></li>
+                <li class=""><a href="#">Dropdown Level 1e</a></li>
+                <li class=""><a href="#">Dropdown Level 1f</a></li>
+                <li class="divider"></li>
+                <li class=""><a href="#">See all →</a></li>
+              </ul>
+            </li>
+          </ul>
+        </section></nav>
         </div>
-      </div>
-    </div>
     {%- endblock -%}
 
-    <div class="container">
-      <div class="content">
+    <div class="row">
         {% block page_header %}{% endblock %}
-        {% block content %}{% endblock %}
-      </div>
     </div>
+    <div class="row">
+        {% block content %}{% endblock %}
+    </div>
+
+      <script src="//cdn.jsdelivr.net/jquery/2.0.3/jquery-2.0.3.min.js"></script>
+      <script src="//cdn.jsdelivr.net/foundation/4.3.1/js/foundation/foundation.js"></script>
+      <script src="//cdn.jsdelivr.net/foundation/4.3.1/js/foundation/foundation.js"></script>
+      <script src="//cdn.jsdelivr.net/foundation/4.3.1/js/foundation/foundation.alerts.js"></script>
+      <script src="//cdn.jsdelivr.net/foundation/4.3.1/js/foundation//foundation.clearing.js"></script>
+      <script src="//cdn.jsdelivr.net/foundation/4.3.1/js/foundation/foundation.cookie.js"></script>
+      <script src="//cdn.jsdelivr.net/foundation/4.3.1/js/foundation/foundation.dropdown.js"></script>
+      <script src="//cdn.jsdelivr.net/foundation/4.3.1/js/foundation/foundation.forms.js"></script>
+      <script src="//cdn.jsdelivr.net/foundation/4.3.1/js/foundation/foundation.joyride.js"></script>
+      <script src="//cdn.jsdelivr.net/foundation/4.3.1/js/foundation/foundation.magellan.js"></script>
+      <script src="//cdn.jsdelivr.net/foundation/4.3.1/js/foundation//foundation.orbit.js"></script>
+      <script src="//cdn.jsdelivr.net/foundation/4.3.1/js/foundation/foundation.placeholder.js"></script>
+      <script src="//cdn.jsdelivr.net/foundation/4.3.1/js/foundation/foundation.reveal.js"></script>
+      <script src="//cdn.jsdelivr.net/foundation/4.3.1/js/foundation/foundation.section.js"></script>
+      <script src="//cdn.jsdelivr.net/foundation/4.3.1/js/foundation/foundation.tooltips.js"></script>
+      <script src="//cdn.jsdelivr.net/foundation/4.3.1/js/foundation/foundation.topbar.js"></script>
+      <script src="//cdn.jsdelivr.net/foundation/4.3.1/js/foundation/foundation.interchange.js"></script>
+    <script>
+      $(document).foundation();
+    </script>
     {% block js_footer %}{% endblock %}
   </body>
 </html>
