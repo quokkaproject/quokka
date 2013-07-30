@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+import os
 import json
 import logging
 import datetime
@@ -8,11 +9,14 @@ import random
 from flask import url_for, current_app
 from flask.ext.security import current_user
 from flask.ext.admin.babel import lazy_gettext
+from flask.ext.admin import form
+from jinja2 import Markup
 from quokka.core.db import db
 from quokka import admin
 from quokka.core.admin.models import ModelAdmin
 from quokka.modules.accounts.models import User
 from quokka.utils.text import slugify
+from quokka import settings
 
 logger = logging.getLogger()
 
@@ -357,10 +361,46 @@ admin.register(Channel, ChannelAdmin, category="Content")
 class FileAdmin(ModelAdmin):
     roles_accepted = ('admin', 'editor')
 
+    form_overrides = {
+        'path': form.FileUploadField
+    }
+
+    form_args = {
+        'path': {
+            'label': 'File',
+            'path': os.path.join(settings.MEDIA_ROOT, 'files')
+        }
+    }
+
+
 admin.register(File, FileAdmin, category='Content')
 
 
 class ImageAdmin(ModelAdmin):
     roles_accepted = ('admin', 'editor')
+
+    def _list_thumbnail(view, context, model, name):
+        if not model.path:
+            return ''
+
+        return Markup(
+            '<img src="%s">' % url_for(
+                'media',
+                filename="images/{}".format(form.thumbgen_filename(model.path))
+            )
+        )
+
+    column_formatters = {
+        'path': _list_thumbnail
+    }
+
+    form_extra_fields = {
+        'path': form.ImageUploadField(
+            'Image',
+            path=os.path.join(settings.MEDIA_ROOT, 'images'),
+            thumbnail_size=(100, 100, True)
+        )
+    }
+
 
 admin.register(Image, ImageAdmin, category='Content')
