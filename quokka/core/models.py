@@ -219,6 +219,9 @@ class Channel(HasCustomValue, Publishable, Slugged, db.DynamicDocument):
     def __unicode__(self):
         return self.long_slug
 
+    def get_absolute_url(self):
+        return "/{}".format(self.long_slug)
+
     def clean(self):
         homepage = Channel.objects(is_homepage=True)
         if self.is_homepage and homepage and not self in homepage:

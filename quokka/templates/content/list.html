@@ -27,5 +27,10 @@
 </div>
 <div class="large-4 columns">
     <h3>Channels</h3>
+    <ul class="side-nav">
+    {% for channel in channels %}
+        <li class="active"><a href="{{ channel.get_absolute_url() }}"> {{ channel.title }}</a></li>
+    {% endfor %}
+    </ul>
 </div>
 {% endblock %}
