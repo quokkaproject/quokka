@@ -1,3 +1,4 @@
+[![Flattr](http://api.flattr.com/button/flattr-badge-large.png)](http://flattr.com/thing/1680610/rochacbrunoquokka-on-GitHub)
 [![Gittip](http://badgr.co/gittip/rochacbruno.png)](https://www.gittip.com/rochacbruno/)
 [![Stories in Ready](http://badge.waffle.io/rochacbruno/quokka.png)](http://waffle.io/rochacbruno/quokka)
 [![Build Status](https://drone.io/github.com/rochacbruno/quokka/status.png)](https://drone.io/github.com/rochacbruno/quokka/latest)
