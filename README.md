@@ -33,6 +33,23 @@ Requirements
 - Flask-Mongoengine
 
 
+Current features
+================
+- Customizable admin interface
+- Channel based content organization with multi-level unlimited nested channels (MPTT)
+- Beauty urls and SMART-SLUG
+- Default basic website theme based on zurb.foundation css framework
+- Extensible with Flask Blueprints modules
+- Management commands
+- Celery ready
+- Blog/News posting app
+- Comments
+- Role Based Access control for content and admin interface
+- Admin file browser
+- Tinymce WISIWYG Editor
+- Mobile detect middleware (if needed, defaut is responsible)
+
+
 Installing and running
 ======================
 
