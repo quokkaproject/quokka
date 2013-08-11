@@ -292,3 +292,4 @@ Project tree
 ![python](docs/python_powered.png)
 ![flask](docs/flask_powered.png)
 ![mongo](docs/mongo_powered.jpg)
+[![pythonhub](docs/pythonhub_mini.png)](http://github.com/pythonhub)
