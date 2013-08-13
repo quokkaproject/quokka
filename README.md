@@ -80,7 +80,10 @@ MONGODB_SETTINGS = {'DB': "quokka_1"}
 ######################################
 ```
 
-#### Test
+#### Test (optional)
+
+> NOTE: Before running the tests you need to specify a database connection for tests in test_settings.py
+
 ```bash
 (quokka-env)~/quokka-env/quokka$ python runtests.py
 ...
@@ -109,6 +112,8 @@ password: ***not1234***
 
 - Sample home page: http://localhost:5000
 - Admin interface http://localhost:5000/admin
+
+> NOTE: There are **make** commands available for test: make test, run: make run, shell: make shell
 
 Extending
 ==========
@@ -292,4 +297,4 @@ Project tree
 ![python](docs/python_powered.png)
 ![flask](docs/flask_powered.png)
 ![mongo](docs/mongo_powered.jpg)
-[![pythonhub](docs/pythonhub_mini.png)](http://github.com/pythonhub)
+[![pythonhub](http://secure.gravatar.com/avatar/fa9ccd40c6da8a0a934a383ffeb988e6?s=78)](http://github.com/pythonhub)
