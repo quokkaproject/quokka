@@ -53,6 +53,14 @@ Current features
 Installing and running
 ======================
 
+> NOTE: Quokka was tested in Linux and MacOs running in virtual-env with Python 2.7.
+
+> Not sure if it installs in windows, python 2.6 or 3.x, your help is appreciated for tests.
+
+
+
+> IMPORTANT: Use ```pip install -r requirements.txt``` to install dependencies, some packages are setted to specific versions.
+
 #### On a *nix shell, do:
 
 ```bash
