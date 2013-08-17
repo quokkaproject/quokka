@@ -35,6 +35,8 @@ class Roled(object):
 
 class ModelAdmin(Roled, ModelView):
 
+    form_subdocuments = {}
+
     def get_instance(self, i):
         try:
             return self.model.objects.get(id=i)

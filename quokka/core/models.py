@@ -354,6 +354,8 @@ class ChannelAdmin(ModelAdmin):
                     'include_in_rss', 'indexable', 'show_in_menu', 'order',
                     'published', 'canonical_url', 'values']
 
+    form_subdocuments = {}
+
 
 admin.register(Channel, ChannelAdmin, category="Content")
 
