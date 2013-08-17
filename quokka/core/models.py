@@ -372,7 +372,7 @@ class FileAdmin(ModelAdmin):
     form_args = {
         'path': {
             'label': 'File',
-            'path': os.path.join(settings.MEDIA_ROOT, 'files')
+            'base_path': os.path.join(settings.MEDIA_ROOT, 'files')
         }
     }
 
@@ -403,7 +403,7 @@ class ImageAdmin(ModelAdmin):
     form_extra_fields = {
         'path': form.ImageUploadField(
             'Image',
-            path=os.path.join(settings.MEDIA_ROOT, 'images'),
+            base_path=os.path.join(settings.MEDIA_ROOT, 'images'),
             thumbnail_size=(100, 100, True),
             endpoint="media"
         )
