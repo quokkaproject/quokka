@@ -9,7 +9,7 @@ Flask-Babel
 Flask-Bcrypt
 Flask-Creole
 Flask-Gravatar
-Flask-HTMLBuilder
+https://github.com/majorz/flask-htmlbuilder/tarball/master
 Flask-Login
 Flask-Principal
 https://github.com/AleshGood/flask-security/tarball/develop
