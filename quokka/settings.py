@@ -18,7 +18,7 @@ Import it if you want to pass some password to your configs.
 """
 DB for localhost
 """
-MONGODB_SETTINGS = {'DB': "quokka_1"}
+MONGODB_SETTINGS = {'DB': "quokka_db"}
 
 """
 DB in remote host

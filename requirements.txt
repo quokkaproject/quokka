@@ -12,7 +12,7 @@ Flask-Gravatar
 Flask-HTMLBuilder
 Flask-Login
 Flask-Principal
-Flask-Security
+https://github.com/AleshGood/flask-security/tarball/develop
 Flask-Mail
 Flask-Testing
 Flask-Cache
