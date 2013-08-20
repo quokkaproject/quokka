@@ -1,6 +1,5 @@
 [![Flattr](http://api.flattr.com/button/flattr-badge-large.png)](http://flattr.com/thing/1680610/rochacbrunoquokka-on-GitHub)
 [![Gittip](http://badgr.co/gittip/rochacbruno.png)](https://www.gittip.com/rochacbruno/)
-[![Stories in Ready](http://badge.waffle.io/rochacbruno/quokka.png)](http://waffle.io/rochacbruno/quokka)
 [![Travis CI](http://badgr.co/travis-ci/pythonhub%2Fquokka.png)](https://travis-ci.org/pythonhub/quokka)
 [![Twitter](http://badgr.co/twitter/@quokkaproject.png?bg=%2302779E)](http://twitter.com/quokkaproject)
 
