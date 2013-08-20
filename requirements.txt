@@ -12,7 +12,7 @@ Flask-Gravatar
 https://github.com/majorz/flask-htmlbuilder/tarball/master
 Flask-Login
 Flask-Principal
-https://github.com/AleshGood/flask-security/tarball/develop
+https://github.com/mattupstate/flask-security/tarball/master
 Flask-Mail
 Flask-Testing
 Flask-Cache
