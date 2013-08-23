@@ -47,6 +47,7 @@ Current features
 - Admin file browser
 - Tinymce WISIWYG Editor
 - Mobile detect middleware (if needed, defaut is responsible)
+- Multi themes based in [Flask themes](https://flask-themes2.readthedocs.org/en/latest/)
 
 
 Installing and running
