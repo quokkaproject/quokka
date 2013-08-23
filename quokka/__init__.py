@@ -13,16 +13,16 @@ __license__ = "MIT License"
 __copyright__ = "Copyright 2013, Quokka Project"
 
 import os
-from flask import Flask
 from .core.admin import create_admin
-# from quokka.core.middleware import HTTPMethodOverrideMiddleware
+from .core.app import QuokkaFlask  # Flask with custom template loader
+# from .core.middleware import HTTPMethodOverrideMiddleware
 
 
 admin = create_admin()
 
 
 def create_app(config=None, test=False, admin_instance=None, **settings):
-    app = Flask('quokka')
+    app = QuokkaFlask('quokka')
     app.config.from_envvar("APP_SETTINGS", silent=True)
     app.config.from_object(config or 'quokka.settings')
 

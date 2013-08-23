@@ -1,0 +1,48 @@
+{% extends theme("base.html") %}
+{% import theme("_forms.html") as forms %}
+
+{% block page_header %}
+<div class="large-12 columns">
+  <div class="page-header">
+    <h1>{{ content.title }}</h1>
+  </div>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="large-12 columns">
+  {% if content.body %}
+  {% if content.content_type == 'Quote' %}
+    <blockquote>{{ content.body|safe() }}</blockquote>
+    <p>{{ content.author }}</p>
+  {% else %}
+    <p>{{ content.body|safe() }}</p>
+  {% endif %}
+{% endif %}
+{% if content.embed_code %}
+  {{ content.embed_code|safe() }}
+{% endif %}
+{% if content.image_url %}
+  <p><img src="{{ content.image_url }}" /><p>
+{% endif %}
+  <p>{{ content.created_at.strftime('%H:%M %Y-%m-%d') }}</p>
+  <hr>
+  <h2>Comments</h2>
+  {% if content.comments %}
+    {% for comment in content.comments %}
+       <p>{{ comment.body }}</p>
+       <p><strong>{{ comment.author }}</strong> <small>on {{ comment.created_at.strftime('%H:%M %Y-%m-%d') }}</small></p>
+      {{ comment.text }}
+    {% endfor %}
+  {% endif %}
+
+    <hr>
+    <h2>Add a comment</h2>
+    <form action="{{content.get_absolute_url()}}" method="post">
+      {{ forms.render(form) }}
+      <div class="actions">
+        <input type="submit" class="button" value="comment">
+      </div>
+    </form>
+</div>
+{% endblock %}

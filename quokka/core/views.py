@@ -3,10 +3,11 @@
 import logging
 import collections
 from datetime import datetime
-from flask import request, redirect, render_template, url_for
+from flask import request, redirect, url_for  # render_template
 from flask.views import MethodView
 from flask.ext.mongoengine.wtf import model_form
 from quokka.core.models import Channel, Content, Comment
+from quokka.core.templates import render_template
 
 logger = logging.getLogger()
 

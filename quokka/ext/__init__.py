@@ -9,7 +9,7 @@ from quokka.core.admin import configure_admin
 from quokka.modules.accounts.models import Role, User
 
 from . import (generic, babel, blueprints, error_handlers, context_processors,
-               template_filters, before_request, views)
+               template_filters, before_request, views, themes, fixtures)
 
 
 def configure_extensions(app, admin):
@@ -20,6 +20,8 @@ def configure_extensions(app, admin):
     Dealer(app)
     error_handlers.configure(app)
     db.init_app(app)
+    fixtures.configure(app)
+    themes.configure(app, db)  # Themes should be configured after db
 
     context_processors.configure(app)
     template_filters.configure(app)

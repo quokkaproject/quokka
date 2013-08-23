@@ -1,0 +1,3 @@
+{% macro link_to(text, endpoint) -%}
+<a href="{{ url_for(endpoint, **kwargs) }}">{{ text }}</a>
+{%- endmacro %}
