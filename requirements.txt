@@ -26,3 +26,5 @@ passlib
 twill
 markupsafe
 Pillow
+pyyaml
+https://github.com/pythonhub/quokka-themes/tarball/master
