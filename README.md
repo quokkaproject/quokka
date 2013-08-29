@@ -3,10 +3,15 @@
 [![Travis CI](http://badgr.co/travis-ci/pythonhub%2Fquokka.png)](https://travis-ci.org/pythonhub/quokka)
 [![Twitter](http://badgr.co/twitter/@quokkaproject.png?bg=%2302779E)](http://twitter.com/quokkaproject)
 
-Quokka project - Flask and MongoDB powered CMS
+Quokka project 
 ===============================================
 
-![logo](docs/logo.png)
+### Flask and MongoDB powered CMS
+#### (alpha version, work in progress)
+
+<p align="center">
+<img src="docs/logo.png" alt="quokka cms" />
+</p>
 
 
 Quokka is a flexible content management platform powered by Python, Flask and MongoDB.
@@ -122,6 +127,10 @@ password: ***not1234***
 - Admin interface http://localhost:5000/admin
 
 > NOTE: There are **make** commands available for test: make test, run: make run, shell: make shell
+
+<p align="center">
+   <img src="docs/quokka_new_macot_only.png" alt="Quokka" height="200" style="height: 100px; max-height:100px;">
+</p>
 
 Extending
 ==========
@@ -303,6 +312,10 @@ Project tree
 ```
 
 ![python](docs/python_powered.png)
+&nbsp;
 ![flask](docs/flask_powered.png)
+&nbsp;
 ![mongo](docs/mongo_powered.jpg)
+&nbsp;
 [![pythonhub](http://secure.gravatar.com/avatar/fa9ccd40c6da8a0a934a383ffeb988e6?s=78)](http://github.com/pythonhub)
+
