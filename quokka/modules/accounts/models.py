@@ -11,7 +11,7 @@ class Role(db.Document, RoleMixin):
     description = db.StringField(max_length=255)
 
     def __unicode__(self):
-        return "{} ({})".format(self.name, self.description or 'Role')
+        return "{0} ({1})".format(self.name, self.description or 'Role')
 
 
 class User(db.Document, UserMixin):
@@ -31,4 +31,4 @@ class User(db.Document, UserMixin):
     login_count = db.IntField()
 
     def __unicode__(self):
-        return "{} <{}>".format(self.name or '', self.email)
+        return "{0} <{1}>".format(self.name or '', self.email)

@@ -19,7 +19,7 @@ class QuokkaAdmin(Admin):
             self.add_view(View(model, *args, **kwargs))
         except Exception as e:
             logger.warning(
-                "admin.register({}, {}, {}, {}) error: {}".format(
+                "admin.register({0}, {1}, {2}, {3}) error: {4}".format(
                     model, view, args, kwargs, e.message
                 )
             )

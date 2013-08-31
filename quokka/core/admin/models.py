@@ -73,7 +73,7 @@ class ModelAdmin(Roled, ModelView):
         new.published = False
         new.last_updated_by = User.objects.get(id=current_user.id)
         new.updated_at = datetime.datetime.now()
-        new.slug = "{}-{}".format(new.slug, random.getrandbits(32))
+        new.slug = "{0}-{1}".format(new.slug, random.getrandbits(32))
         new.save()
 
         return redirect(url_for('.edit_view', id=new.id))

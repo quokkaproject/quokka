@@ -85,7 +85,7 @@ class Slugged(object):
         exist = self.__class__.objects(**filters)
         if exist.count():
             if current_app.config.get('SMART_SLUG_ENABLED', False):
-                self.slug = "{}-{}".format(self.slug, random.getrandbits(32))
+                self.slug = "{0}-{1}".format(self.slug, random.getrandbits(32))
                 self._create_mpath_long_slug()
             else:
                 raise db.ValidationError(
@@ -108,7 +108,7 @@ class Comment(db.EmbeddedDocument):
     created_by = db.ReferenceField(User)
 
     def __unicode__(self):
-        return "{}-{}...".format(self.author, self.body[:10])
+        return "{0}-{1}...".format(self.author, self.body[:10])
 
     meta = {
         'indexes': ['-created_at', '-available_at'],
@@ -227,7 +227,7 @@ class Channel(HasCustomValue, Publishable, Slugged, db.DynamicDocument):
         return self.long_slug
 
     def get_absolute_url(self):
-        return "/{}/".format(self.long_slug)
+        return "/{0}/".format(self.long_slug)
 
     def clean(self):
         homepage = Channel.objects(is_homepage=True)
@@ -392,7 +392,7 @@ class ImageAdmin(ModelAdmin):
         return Markup(
             '<img src="%s">' % url_for(
                 'media',
-                filename="images/{}".format(form.thumbgen_filename(model.path))
+                filename="images/{0}".format(form.thumbgen_filename(model.path))
             )
         )
 

@@ -18,7 +18,7 @@ class ContentList(MethodView):
         now = datetime.now()
         path = long_slug.split('/')
         mpath = ",".join(path)
-        mpath = ",{},".format(mpath)
+        mpath = ",{0},".format(mpath)
 
         channel = Channel.objects.get_or_404(mpath=mpath)
 
