@@ -392,7 +392,8 @@ class ImageAdmin(ModelAdmin):
         return Markup(
             '<img src="%s">' % url_for(
                 'media',
-                filename="images/{0}".format(form.thumbgen_filename(model.path))
+                filename="images/{0}".format(form.thumbgen_filename(
+                    model.path))
             )
         )
 
