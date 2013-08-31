@@ -9,12 +9,9 @@ parser.add_argument('--host', help='App Host')
 parser.add_argument('-r', action='store_true', help='Turn reloader on')
 args = parser.parse_args()
 
-host = args.host or 'localhost'
-port = int(args.port) or 5000
+host = args.host or '127.0.0.1'
+port = int(args.port) if args.port else 5000
 reloader = args.r or False
-
-print "####### HOSTS"
-print host, port, reloader
 
 app = create_app()
 app.run(use_reloader=reloader, host=host, port=port)
