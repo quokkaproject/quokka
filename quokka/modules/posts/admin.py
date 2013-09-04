@@ -80,7 +80,7 @@ class PostAdmin(ModelAdmin):
 
     # page_size = 20
     form_ajax_refs = {
-        'main_image': ('title',)
+        'main_image': {"fields": ('title',)}
     }
 
 
