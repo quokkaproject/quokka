@@ -1,6 +1,5 @@
 #coding: utf-8
 import os
-import logging
 
 """
 the get_password function tries to find a file called
@@ -221,8 +220,9 @@ CSRF_SESSION_KEY = "somethingimpossibletoguess"
 """
 It configures the default logger for app instance
 """
-logging.basicConfig(
-    level=logging.DEBUG,
-    format='%(asctime)s %(name)-12s %(levelname)-8s %(message)s',
-    datefmt='%d.%m %H:%M:%S')
-logging.info("Core settings loaded.")
+# import logging
+# logging.basicConfig(
+#     level=logging.DEBUG,
+#     format='%(asctime)s %(name)-12s %(levelname)-8s %(message)s',
+#     datefmt='%d.%m %H:%M:%S')
+# logging.info("Core settings loaded.")
