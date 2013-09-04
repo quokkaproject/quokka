@@ -79,6 +79,9 @@ class PostAdmin(ModelAdmin):
     # action_disallowed_list
 
     # page_size = 20
+    form_ajax_refs = {
+        'main_image': ('title',)
+    }
 
 
 admin.register(Post, PostAdmin, category="Content")
