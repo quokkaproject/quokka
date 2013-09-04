@@ -271,6 +271,9 @@ class Archive(HasCustomValue, Publishable, ChannelingNotRequired,
         'ordering': ['-created_at']
     }
 
+    def __unicode__(self):
+        return self.title
+
 
 class File(Archive):
     pass
