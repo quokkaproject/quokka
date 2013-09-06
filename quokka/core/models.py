@@ -348,6 +348,8 @@ admin.register(Config, ConfigAdmin, category="Settings")
 
 
 class ChannelAdmin(ModelAdmin):
+    edit_template = 'admin/custom/edit.html'
+    create_template = 'admin/custom/create.html'
     roles_accepted = ('admin', 'editor')
     column_list = ('title', 'long_slug', 'is_homepage', 'published')
     column_filters = ['published', 'is_homepage', 'include_in_rss',
@@ -358,6 +360,17 @@ class ChannelAdmin(ModelAdmin):
                     'published', 'canonical_url', 'values']
 
     form_subdocuments = {}
+
+    form_widget_args = {
+        'description': {
+            'rows': 20,
+            'cols': 20,
+            'class': 'text_editor',
+            'style': "margin: 0px; width: 400px; height: 250px;"
+        },
+        'title': {'style': 'width: 400px'},
+        'slug': {'style': 'width: 400px'},
+    }
 
 
 admin.register(Channel, ChannelAdmin, category="Content")

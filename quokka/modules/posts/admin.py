@@ -58,7 +58,7 @@ class PostAdmin(ModelAdmin):
         'body': {
             'rows': 20,
             'cols': 20,
-            'class': 'html_editor',
+            'class': 'text_editor',
             'style': "margin: 0px; width: 725px; height: 360px;"
         },
         'summary': {
