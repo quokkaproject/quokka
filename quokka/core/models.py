@@ -105,7 +105,7 @@ class Comment(db.EmbeddedDocument):
     author = db.StringField(verbose_name="Name", max_length=255, required=True)
     published = db.BooleanField(default=True)
     created_at = db.DateTimeField(default=datetime.datetime.now)
-    created_by = db.ReferenceField(User)
+    created_by = db.ReferenceField(User)  # reverse_delete_rule not supported
 
     def __unicode__(self):
         return "{0}-{1}...".format(self.author, self.body[:10])
@@ -189,7 +189,7 @@ class HasCustomValue(object):
 
 
 class Imaged(object):
-    main_image = db.ReferenceField("Image")
+    main_image = db.ReferenceField("Image", reverse_delete_rule=db.NULLIFY)
     main_image_caption = db.StringField(max_length=255)
 
 
@@ -249,7 +249,7 @@ class Channeling(object):
     # Objects can be in only one main channel it gives an url
     # but the objects can also be relates to other channels
     related_channels = db.ListField(
-        db.ReferenceField('Channel', reverse_delete_rule=db.NULLIFY)
+        db.ReferenceField('Channel', reverse_delete_rule=db.PULL)
     )
     show_on_channel = db.BooleanField(default=True)
 
