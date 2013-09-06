@@ -40,6 +40,7 @@ Requirements
 Current features
 ================
 - Customizable admin interface
+- Export data to json or csv
 - Channel based content organization with multi-level unlimited nested channels (MPTT)
 - Beauty urls and SMART-SLUG
 - Default basic website theme based on zurb.foundation css framework
