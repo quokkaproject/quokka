@@ -3,7 +3,7 @@
 [![Travis CI](http://badgr.co/travis-ci/pythonhub%2Fquokka.png)](https://travis-ci.org/pythonhub/quokka)
 [![Twitter](http://badgr.co/twitter/@quokkaproject.png?bg=%2302779E)](http://twitter.com/quokkaproject)
 
-Quokka project 
+Quokka project
 ===============================================
 
 ### Flask and MongoDB powered CMS
@@ -88,7 +88,7 @@ Installing and running
 (quokka-env)~/quokka-env/quokka$ youreditor quokka/settings.py
 ######## YOUR EDITOR ################
 
-MONGODB_SETTINGS = {'DB': "quokka_1"}
+MONGODB_SETTINGS = {'DB': "the_name_of_your_mongo_database"}
 
 ######################################
 ```
@@ -131,6 +131,24 @@ password: ***not1234***
 <p align="center">
    <img src="docs/quokka_new_macot_only.png" alt="Quokka" height="200" style="height: 100px; max-height:100px;">
 </p>
+
+
+Populating with sample data
+===========================
+
+You can populate Quokka **Channels**, **Users** and **Posts** with sample data
+
+```bash
+(quokka-env)~/quokka-env/quokka$ python manage.py populate
+```
+
+The above command will add some content and 3 users
+
+- admin@example.com password: admin
+- editor@example.com password: editor
+- moderator@example.com password: moderator
+
+> The populate script is in ```utils/populate``` needs some work to populate using a json or yaml file, can you help?
 
 Extending
 ==========
