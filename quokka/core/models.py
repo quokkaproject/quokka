@@ -189,7 +189,8 @@ class HasCustomValue(object):
 
 
 class Imaged(object):
-    main_image = db.ReferenceField("Image", reverse_delete_rule=db.NULLIFY)
+    main_image = db.ReferenceField("Image", required=False,
+                                   reverse_delete_rule=db.NULLIFY)
     main_image_caption = db.StringField(max_length=255)
 
 
