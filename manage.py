@@ -36,6 +36,13 @@ def check():
 
 
 @manager.command
+def populate():
+    """Populate the database with sample data"""
+    from quokka.utils.populate import Populate
+    Populate(db)()
+
+
+@manager.command
 def show_config():
     "print all config variables"
     from pprint import pprint
