@@ -38,14 +38,27 @@ class User(db.Document, UserMixin):
     current_login_ip = db.StringField(max_length=255)
     login_count = db.IntField()
 
+    username = db.StringField(max_length=50, required=False)
+
     @classmethod
-    def createuser(cls, name, email, password, active=True, roles=None):
+    def generate_username(cls, email):
+        username = email.lower()
+        for item in ['@', '.', '-', '+']:
+            username = username.replace(item, '_')
+        return username
+
+    @classmethod
+    def createuser(cls, name, email, password,
+                   active=True, roles=None, username=None):
+
+        username = username or cls.generate_username(email)
         return cls.objects.create(
             name=name,
             email=email,
             password=encrypt_password(password),
             active=active,
-            roles=roles
+            roles=roles,
+            username=username
         )
 
     def __unicode__(self):

@@ -2,7 +2,6 @@
 
 from flask.ext.script import (Command, Option, prompt,
                               prompt_pass, prompt_choices)
-from flask.ext.security.utils import encrypt_password
 from .models import User, Role
 
 
@@ -58,13 +57,7 @@ class CreateSuperUser(Command):
 
         if all([name, email, password]):
             admin, created = Role.objects.get_or_create(name='admin')
-            user = User.objects.create(
-                name=name,
-                email=email,
-                password=encrypt_password(password),
-                active=True,
-                roles=[admin]
-            )
+            user = User.createuser(name, email, password, roles=[admin])
         else:
             user = "Cant create the supersuser"
 
@@ -105,13 +98,7 @@ class CreateUser(Command):
             role, created = Role.objects.get_or_create(name=role)
 
         if all([name, email, password]):
-            user = User.objects.create(
-                name=name,
-                email=email,
-                password=encrypt_password(password),
-                active=True,
-                roles=[role]
-            )
+            user = User.createuser(name, email, password, roles=[role])
         else:
             user = "Cant create the user"
 
