@@ -1,8 +1,6 @@
-.
-├── LICENSE
+quokka
 ├── Makefile
 ├── manage.py
-├── MANIFEST.in
 ├── quokka
 │   ├── babel
 │   │   ├── babel.bat
@@ -19,12 +17,13 @@
 │   │   │   ├── __init__.py
 │   │   │   ├── models.py
 │   │   │   └── views.py
-│   │   ├── basic_auth.py
+│   │   ├── app.py
 │   │   ├── db.py
 │   │   ├── __init__.py
-│   │   ├── mail.py
 │   │   ├── middleware.py
 │   │   ├── models.py
+│   │   ├── templates.py
+│   │   ├── views.py
 │   │   └── widgets.py
 │   ├── ext
 │   │   ├── babel.py
@@ -32,15 +31,23 @@
 │   │   ├── blueprints.py
 │   │   ├── context_processors.py
 │   │   ├── error_handlers.py
+│   │   ├── fixtures.py
 │   │   ├── generic.py
 │   │   ├── __init__.py
 │   │   ├── template_filters.py
+│   │   ├── themes.py
 │   │   └── views.py
-│   ├── __init__.py
-│   ├── local_settings.py
 │   ├── media
 │   │   ├── files
 │   │   └── images
+│   │       ├── 2PsPN.jpeg
+│   │       ├── 2PsPN_thumb.jpg
+│   │       ├── dopy.png
+│   │       ├── dopy_thumb.jpg
+│   │       ├── period.jpg
+│   │       ├── period_thumb.jpg
+│   │       ├── quokka_beach.jpg
+│   │       └── quokka_beach_thumb.jpg
 │   ├── modules
 │   │   ├── accounts
 │   │   │   ├── admin.py
@@ -60,28 +67,38 @@
 │   │       │       ├── detail.html
 │   │       │       └── list.html
 │   │       └── views.py
-│   ├── settings.py
 │   ├── static
 │   │   ├── admin
+│   │   │   └── custom.js
 │   │   ├── css
+│   │   │   └── main.css
+│   │   ├── favicon.ico
 │   │   ├── img
 │   │   │   └── logo.png
-│   │   └── js
+│   │   ├── js
+│   │   │   └── main.js
+│   │   ├── robots.txt
+│   │   └── tinymce
 │   ├── templates
 │   │   ├── admin
 │   │   │   ├── base.html
 │   │   │   ├── custom
 │   │   │   │   ├── create.html
-│   │   │   │   └── edit.html
+│   │   │   │   ├── edit.html
+│   │   │   │   └── _lib.html
 │   │   │   ├── denied.html
 │   │   │   └── index.html
 │   │   ├── base.html
+│   │   ├── content
+│   │   │   ├── detail.html
+│   │   │   └── list.html
 │   │   ├── errors
 │   │   │   ├── access_forbidden.html
 │   │   │   ├── method_not_allowed.html
 │   │   │   ├── page_not_found.html
 │   │   │   └── server_error.html
 │   │   ├── _forms.html
+│   │   ├── _menu.html
 │   │   └── security
 │   │       ├── change_password.html
 │   │       ├── email
@@ -108,16 +125,39 @@
 │   │       └── send_login.html
 │   ├── tests
 │   │   ├── __init__.py
-│   │   └── test_basic.py
+│   │   ├── test_basic.py
+│   │   └── test_text_utils.py
+│   ├── themes
+│   │   └── default
+│   │       ├── favicon.ico
+│   │       ├── img
+│   │       │   └── logo.png
+│   │       ├── info.json
+│   │       ├── license.txt
+│   │       ├── static
+│   │       │   ├── css
+│   │       │   │   └── main.css
+│   │       │   └── js
+│   │       │       └── main.js
+│   │       └── templates
+│   │           ├── base.html
+│   │           ├── content
+│   │           │   ├── detail.html
+│   │           │   └── list.html
+│   │           └── _helpers.html
+│   ├── __init__.py
+│   ├── local_settings.py
 │   ├── test_settings.py
+│   ├── settings.py
 │   └── utils
 │       ├── dateformat.py
 │       ├── __init__.py
+│       ├── populate.py
 │       ├── routing.py
 │       ├── settings.py
+│       ├── text.py
 │       └── translation.py
 ├── README.md
-├── README.rst
 ├── requirements.txt
 ├── roadmap.md
 ├── run.py
@@ -125,4 +165,4 @@
 ├── setup.py
 └── wsgi.py
 
-34 directories, 116 files
+97 directories, 242 files

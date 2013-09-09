@@ -18,24 +18,6 @@ Quokka is a flexible content management platform powered by Python, Flask and Mo
 
 Quokka provides a "full-stack" Flask application plus a bunch of selected extensions to provide all the needed CMS admin features and a flexible-easy way to extend the platform with **quokka-modules** built following the Flask **Blueprints** pattern.
 
-Requirements
-============
-- Python 2.7
-- Flask
-- mongoengine
-- Babel
-- Flask-Cache
-- Flask-DebugToolbar
-- Flask-Gravatar
-- Flask-HTMLBuilder
-- Flask-Mail
-- Flask-Script
-- Flask-Security
-- Flask-Admin
-- Flask-Testing
-- Flask-WTF
-- Flask-Mongoengine
-
 
 Current features
 ================
@@ -61,7 +43,7 @@ Installing and running
 
 > NOTE: Quokka was tested in Linux and MacOs running in virtual-env with Python 2.7.
 
-> Not sure if it installs in windows, python 2.6 or 3.x, your help is appreciated for tests.
+> Requires Python 2.7+ (Python3 support is planed).
 
 
 
@@ -164,6 +146,7 @@ quokka/modules
     ├── commands.py - create management commands here
     ├── __init__.py - define module and routes
     ├── models.py - define the Mongo Documents models
+    ├── populate.py - optional example fixtures
     ├── tasks.py - Tasks is for celery tasks
     ├── template_filters.py - Jinja filters
     ├── templates
@@ -197,14 +180,33 @@ Listing
 Posting
 ![admin_overview](docs/admin_overview.png)
 
+
+Requirements
+============
+- Python 2.7
+- Flask
+- mongoengine
+- Babel
+- Flask-Cache
+- Flask-DebugToolbar
+- Flask-Gravatar
+- Flask-HTMLBuilder
+- Flask-Mail
+- Flask-Script
+- Flask-Security
+- Flask-Admin
+- Flask-Testing
+- Flask-WTF
+- Flask-Mongoengine
+
+
 Project tree
 ============
 ```bash
 .
-├── LICENSE
+quokka
 ├── Makefile
 ├── manage.py
-├── MANIFEST.in
 ├── quokka
 │   ├── babel
 │   │   ├── babel.bat
@@ -221,12 +223,13 @@ Project tree
 │   │   │   ├── __init__.py
 │   │   │   ├── models.py
 │   │   │   └── views.py
-│   │   ├── basic_auth.py
+│   │   ├── app.py
 │   │   ├── db.py
 │   │   ├── __init__.py
-│   │   ├── mail.py
 │   │   ├── middleware.py
 │   │   ├── models.py
+│   │   ├── templates.py
+│   │   ├── views.py
 │   │   └── widgets.py
 │   ├── ext
 │   │   ├── babel.py
@@ -234,15 +237,23 @@ Project tree
 │   │   ├── blueprints.py
 │   │   ├── context_processors.py
 │   │   ├── error_handlers.py
+│   │   ├── fixtures.py
 │   │   ├── generic.py
 │   │   ├── __init__.py
 │   │   ├── template_filters.py
+│   │   ├── themes.py
 │   │   └── views.py
-│   ├── __init__.py
-│   ├── local_settings.py
 │   ├── media
 │   │   ├── files
 │   │   └── images
+│   │       ├── 2PsPN.jpeg
+│   │       ├── 2PsPN_thumb.jpg
+│   │       ├── dopy.png
+│   │       ├── dopy_thumb.jpg
+│   │       ├── period.jpg
+│   │       ├── period_thumb.jpg
+│   │       ├── quokka_beach.jpg
+│   │       └── quokka_beach_thumb.jpg
 │   ├── modules
 │   │   ├── accounts
 │   │   │   ├── admin.py
@@ -262,28 +273,38 @@ Project tree
 │   │       │       ├── detail.html
 │   │       │       └── list.html
 │   │       └── views.py
-│   ├── settings.py
 │   ├── static
 │   │   ├── admin
+│   │   │   └── custom.js
 │   │   ├── css
+│   │   │   └── main.css
+│   │   ├── favicon.ico
 │   │   ├── img
 │   │   │   └── logo.png
-│   │   └── js
+│   │   ├── js
+│   │   │   └── main.js
+│   │   ├── robots.txt
+│   │   └── tinymce
 │   ├── templates
 │   │   ├── admin
 │   │   │   ├── base.html
 │   │   │   ├── custom
 │   │   │   │   ├── create.html
-│   │   │   │   └── edit.html
+│   │   │   │   ├── edit.html
+│   │   │   │   └── _lib.html
 │   │   │   ├── denied.html
 │   │   │   └── index.html
 │   │   ├── base.html
+│   │   ├── content
+│   │   │   ├── detail.html
+│   │   │   └── list.html
 │   │   ├── errors
 │   │   │   ├── access_forbidden.html
 │   │   │   ├── method_not_allowed.html
 │   │   │   ├── page_not_found.html
 │   │   │   └── server_error.html
 │   │   ├── _forms.html
+│   │   ├── _menu.html
 │   │   └── security
 │   │       ├── change_password.html
 │   │       ├── email
@@ -310,16 +331,39 @@ Project tree
 │   │       └── send_login.html
 │   ├── tests
 │   │   ├── __init__.py
-│   │   └── test_basic.py
+│   │   ├── test_basic.py
+│   │   └── test_text_utils.py
+│   ├── themes
+│   │   └── default
+│   │       ├── favicon.ico
+│   │       ├── img
+│   │       │   └── logo.png
+│   │       ├── info.json
+│   │       ├── license.txt
+│   │       ├── static
+│   │       │   ├── css
+│   │       │   │   └── main.css
+│   │       │   └── js
+│   │       │       └── main.js
+│   │       └── templates
+│   │           ├── base.html
+│   │           ├── content
+│   │           │   ├── detail.html
+│   │           │   └── list.html
+│   │           └── _helpers.html
+│   ├── __init__.py
+│   ├── local_settings.py
 │   ├── test_settings.py
+│   ├── settings.py
 │   └── utils
 │       ├── dateformat.py
 │       ├── __init__.py
+│       ├── populate.py
 │       ├── routing.py
 │       ├── settings.py
+│       ├── text.py
 │       └── translation.py
 ├── README.md
-├── README.rst
 ├── requirements.txt
 ├── roadmap.md
 ├── run.py
@@ -327,7 +371,7 @@ Project tree
 ├── setup.py
 └── wsgi.py
 
-34 directories, 116 files
+97 directories, 242 files
 ```
 
 ![python](docs/python_powered.png)
