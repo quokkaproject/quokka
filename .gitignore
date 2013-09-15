@@ -40,3 +40,6 @@ media/*
 .mr.developer.cfg
 .project
 .pydevproject
+
+# Local configuration files
+quokka/settings.py

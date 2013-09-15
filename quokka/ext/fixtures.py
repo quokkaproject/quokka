@@ -23,7 +23,7 @@ def configure(app):
     if not Config.objects.count():
         Config.objects.create(
             group="global",
-            description="GLobal preferences for the website",
+            description="Global preferences for the website",
             values=[
                 CustomValue(name="example", rawvalue="example_value",
                             format="text")
