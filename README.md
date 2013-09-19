@@ -382,3 +382,7 @@ quokka
 &nbsp;
 [![pythonhub](http://secure.gravatar.com/avatar/fa9ccd40c6da8a0a934a383ffeb988e6?s=78)](http://github.com/pythonhub)
 
+
+
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/pythonhub/quokka/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+
