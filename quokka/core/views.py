@@ -21,7 +21,7 @@ class ContentList(MethodView):
         mpath = ",{0},".format(mpath)
 
         channel = Channel.objects.get_or_404(mpath=mpath)
-        
+
         filters = {
             'published': True,
             'available_at__lte': now,
@@ -30,9 +30,9 @@ class ContentList(MethodView):
 
         if not channel.is_homepage:
             filters['__raw__'] = {'mpath': {'$regex': mpath}}
-            
+
         contents = Content.objects(**filters)
-        
+
         return render_template('content/list.html', contents=contents)
 
 
@@ -55,7 +55,7 @@ class ContentDetail(MethodView):
             'published': True,
             'available_at__lte': now
         }
-        
+
         try:
             content = Content.objects.get(
                 long_slug=long_slug,
