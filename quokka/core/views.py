@@ -21,21 +21,18 @@ class ContentList(MethodView):
         mpath = ",{0},".format(mpath)
 
         channel = Channel.objects.get_or_404(mpath=mpath)
+        
+        filters = {
+            'published': True,
+            'available_at__lte': now,
+            'show_on_channel': True
+        }
 
         if not channel.is_homepage:
-            contents = Content.objects(
-                __raw__={'mpath': {'$regex': mpath}},
-                published=True,
-                available_at__lte=now,
-                show_on_channel=True
-            )
-        else:
-            contents = Content.objects(
-                published=True,
-                available_at__lte=now,
-                show_on_channel=True
-            )
-
+            filters['__raw__'] = {'mpath': {'$regex': mpath}}
+            
+        contents = Content.objects(**filters)
+        
         return render_template('content/list.html', contents=contents)
 
 
@@ -54,18 +51,21 @@ class ContentDetail(MethodView):
             slug = long_slug.split('/')[-1]
             return redirect(url_for('detail', long_slug=slug))
 
+        filters = {
+            'published': True,
+            'available_at__lte': now
+        }
+        
         try:
             content = Content.objects.get(
                 long_slug=long_slug,
-                published=True,
-                available_at__lte=now
+                **filters
             )
         except Content.DoesNotExist:
             content = Content.objects.get_or_404(
                 channel=homepage,
                 slug=long_slug,
-                available_at__lte=now,
-                published=True
+                **filters
             )
 
         form = self.form(request.form)
