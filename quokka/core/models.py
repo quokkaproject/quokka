@@ -301,8 +301,6 @@ class Config(HasCustomValue, Publishable, db.DynamicDocument):
         except:
             logger.warning("Cant update app settings")
 
-
-
     def __unicode__(self):
         return self.group
 
