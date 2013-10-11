@@ -290,7 +290,7 @@ class Config(HasCustomValue, Publishable, db.DynamicDocument):
 
     def save(self, *args, **kwargs):
         super(Config, self).save(*args, **kwargs)
-        
+
         # Try to update the config for the running app
         # AFAIK Flask apps are not thread safe
         # TODO: do it in a signal
@@ -300,9 +300,9 @@ class Config(HasCustomValue, Publishable, db.DynamicDocument):
                 current_app.config.update(settings)
         except:
             logger.warning("Cant update app settings")
-            
 
-        
+
+
     def __unicode__(self):
         return self.group
 
