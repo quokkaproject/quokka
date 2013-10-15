@@ -13,7 +13,7 @@ __copyright__ = "Copyright 2013, Quokka Project / PythonHub.com"
 
 import os
 from .core.admin import create_admin
-from .core.app import QuokkaFlask  # Flask with custom template loader
+from .core.app import QuokkaApp  # Flask with custom template loader
 # from .core.middleware import HTTPMethodOverrideMiddleware
 
 
@@ -21,7 +21,7 @@ admin = create_admin()
 
 
 def create_app(config=None, test=False, admin_instance=None, **settings):
-    app = QuokkaFlask('quokka')
+    app = QuokkaApp('quokka')
     app.config.from_envvar("APP_SETTINGS", silent=True)
     app.config.from_object(config or 'quokka.settings')
 

@@ -1,5 +1,9 @@
-from flask import Flask
+from flask import Flask, Blueprint
 
 
-class QuokkaFlask(Flask):
+class QuokkaApp(Flask):
     """Implemented for future overriding"""
+
+
+class QuokkaModule(Blueprint):
+    "for future overriding"

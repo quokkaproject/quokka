@@ -1,8 +1,9 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-from flask import Blueprint
-module = Blueprint('posts', __name__, template_folder='templates')
+from quokka.core.app import QuokkaModule
+
+module = QuokkaModule('posts', __name__, template_folder='templates')
 
 # Register the urls if needed
 # in this case there is no need to register any specific url
