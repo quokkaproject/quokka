@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+import logging
+
 from flask.ext.script import Manager, Server
 from flask.ext.collect import Collect
 from quokka import create_app
@@ -8,6 +10,16 @@ from quokka.core.db import db
 from quokka.ext.blueprints import load_blueprint_commands
 
 app = create_app()
+
+if app.config.get("LOGGER_ENABLED"):
+    logging.basicConfig(
+        level=getattr(logging, app.config.get("LOGGER_LEVEL", "DEBUG")),
+        format=app.config.get(
+            "LOGGER_FORMAT",
+            '%(asctime)s %(name)-12s %(levelname)-8s %(message)s'),
+        datefmt=app.config.get("LOGGER_DATE_FORMAT", '%d.%m %H:%M:%S')
+    )
+
 manager = Manager(app)
 manager.add_option("-c", "--config",
                    dest="config", required=False,

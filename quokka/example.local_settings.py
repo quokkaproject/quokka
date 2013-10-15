@@ -14,3 +14,9 @@ DELETE THIS FILE IN PRODUCTION!!!!
 MONGODB_SETTINGS = {'DB': 'local_test3'}
 DEBUG = True
 DEBUG_TOOLBAR_ENABLED = False
+
+# configure logger in your local_settings
+LOGGER_ENABLED = True
+LOGGER_LEVEL = 'DEBUG'
+LOGGER_FORMAT = '%(asctime)s %(name)-12s %(levelname)-8s %(message)s'
+LOGGER_DATE_FORMAT = '%d.%m %H:%M:%S'

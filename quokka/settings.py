@@ -217,12 +217,8 @@ $ python -c "import uuid;print uuid.uuid4()"
 CSRF_SESSION_KEY = "somethingimpossibletoguess"
 
 
-"""
-It configures the default logger for app instance
-"""
-import logging
-logging.basicConfig(
-    level=logging.DEBUG,
-    format='%(asctime)s %(name)-12s %(levelname)-8s %(message)s',
-    datefmt='%d.%m %H:%M:%S')
-logging.info("Core settings loaded.")
+# configure logger in your local_settings
+LOGGER_ENABLED = False
+LOGGER_LEVEL = 'DEBUG'
+LOGGER_FORMAT = '%(asctime)s %(name)-12s %(levelname)-8s %(message)s'
+LOGGER_DATE_FORMAT = '%d.%m %H:%M:%S'
