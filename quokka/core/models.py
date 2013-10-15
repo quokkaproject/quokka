@@ -209,7 +209,7 @@ class Channel(HasCustomValue, Publishable, Slugged, db.DynamicDocument):
                                reverse_delete_rule=db.DENY)
 
     def get_ancestors(self, menu=True):
-        return self.__class__.objects(parent=self, show_in_menu=True)
+        return self.__class__.objects(parent=self, show_in_menu=menu)
 
     @classmethod
     def get_homepage(cls, attr=None):
