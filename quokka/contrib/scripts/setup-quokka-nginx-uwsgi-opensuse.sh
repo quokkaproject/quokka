@@ -1,5 +1,8 @@
 #!/bin/bash
-# Autor: Nilton OS -- www.linuxpro.com.br
+# Author: Nilton OS -- www.linuxpro.com.br
+# Version: 0.2
+# Source: https://gist.github.com/jniltinho/6998822
+
 echo 'setup-quokka-nginx-uwsgi-opensuse.sh'
 echo 'Support OpenSUSE  11.X, 12.X, 13.X'
 echo 'Installs Nginx + uWSGI + Quokka'
@@ -8,8 +11,8 @@ SUSE_VERSION=$(cat /etc/issue | awk '{ print $4 }' | head -n1)
  
 echo -e "Set Server Name Ex: quokkaproject.domain.com : \c "
 read  SERVER_FQDN
- 
-echo -e "Set Server IP: \c "
+
+echo -e "Set Server IP (commonly 127.0.0.1 works): \c "
 read  SERVER_IP
  
  
@@ -19,7 +22,7 @@ echo "$SERVER_IP  $SERVER_FQDN" >>/etc/hosts
  
 zypper ar http://download.opensuse.org/repositories/devel:/languages:/python/openSUSE_${SUSE_VERSION}/ devel_python
 zypper --no-gpg-checks refresh
-zypper in -y gcc make python-devel python-pip mongodb git-core python-virtualenv sudo nginx
+zypper in -y gcc make mongodb git-core sudo nginx python-devel python-pip python-virtualenv
 
 ## Start MongoDB
 /etc/init.d/mongodb start
@@ -29,31 +32,27 @@ chkconfig --add mongodb
 groupadd quokka
 useradd -m -G quokka --system -s /bin/sh -c 'Quokka' -d /home/quokka quokka
 cd /home/quokka
-sudo -u quokka -H virtualenv quokka-env
+virtualenv quokka-env
 cd quokka-env
-source bin/activate
-sudo -u quokka -H git clone https://github.com/rochacbruno/quokka
+git clone https://github.com/rochacbruno/quokka
 cd quokka
-sudo -u quokka -H pip install -r requirements.txt
 
-
+/home/quokka/quokka-env/bin/pip install -r requirements.txt
 chown -R quokka:quokka /home/quokka
 
+
 ## Populating with sample data
-python manage.py populate
+/home/quokka/quokka-env/bin/python manage.py populate
 
 
-PIPPATH=`which pip`
-$PIPPATH install --upgrade uwsgi
+## Install uWSGI
+pip install --upgrade uwsgi
   
 # Prepare folders for uwsgi
-mkdir /etc/uwsgi
-mkdir /var/log/uwsgi
+mkdir /etc/uwsgi && mkdir /var/log/uwsgi
  
 usermod -a -G www nginx
- 
-mkdir -p /etc/nginx/vhosts.d/
-mkdir -p /etc/nginx/ssl/
+mkdir -p /etc/nginx/vhosts.d && mkdir -p /etc/nginx/ssl
 
  
  

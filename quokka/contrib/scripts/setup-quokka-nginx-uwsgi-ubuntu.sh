@@ -1,14 +1,13 @@
 #!/bin/bash
-# Autor: Nilton OS -- www.linuxpro.com.br
+# Author: Nilton OS -- www.linuxpro.com.br
+# Version: 0.2
+# Source: https://gist.github.com/jniltinho/6999857
+
 echo 'setup-quokka-nginx-uwsgi-ubuntu.sh'
 echo 'Support Ubuntu/Debian'
 echo 'Installs Nginx + uWSGI + Quokka'
 echo 'Requires ubuntu 12.04+ and installs nginx + uwsgi'
  
-if [[ $EUID -ne 0 ]]; then
-   echo "You must run the script as root or using sudo"
-   exit 1
-fi
  
 echo -e "Set Server Name Ex: quokkaproject.domain.com : \c "
 read  SERVER_FQDN
@@ -23,38 +22,33 @@ echo "$SERVER_IP  $SERVER_FQDN" >>/etc/hosts
  
 # Upgrade and install needed software
 apt-get update
-apt-get -y upgrade
-apt-get autoremove
-apt-get autoclean
-apt-get -y install nginx-full mongodb-server git-core python-virtualenv
-apt-get -y install build-essential python-dev libxml2-dev python-pip unzip
+apt-get -y install nginx-full mongodb-server git-core build-essential
+apt-get -y install python-dev python-virtualenv python-pip libxml2-dev
 
 
 
 ## Create VirtualEnv and User Quokka
 adduser --disabled-login --gecos 'Quokka' quokka
 cd /home/quokka
-sudo -u quokka -H virtualenv quokka-env
+virtualenv quokka-env
 cd quokka-env
-source bin/activate
-sudo -u quokka -H git clone https://github.com/pythonhub/quokka
-cd quokka
+git clone https://github.com/rochacbruno/quokka
 
-chown -R quokka:quokka /home/quokka
+cd quokka
 /home/quokka/quokka-env/bin/pip install -r requirements.txt
-chown -R quokka:quokka /home/quokka
+
 
 ## Populating with sample data
 /home/quokka/quokka-env/bin/python manage.py populate
 
-deactivate
+chown -R quokka:quokka /home/quokka
+
+
 ## Install uWSGI
-PIPPATH=`which pip`
-$PIPPATH install --upgrade uwsgi
+pip install --upgrade uwsgi
   
 # Prepare folders for uwsgi
-mkdir /etc/uwsgi
-mkdir /var/log/uwsgi
+mkdir /etc/uwsgi && mkdir /var/log/uwsgi
  
   
  
