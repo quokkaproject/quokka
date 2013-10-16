@@ -102,9 +102,7 @@ class ContentDetail(MethodView):
 
         # module general detail
         names.append(
-            "{object_name}/{module_name}/{suffix}.{ext}".format(
-                **common_data
-            )
+            "{object_name}/{module_name}/{suffix}.{ext}".format(**common_data)
         )
 
         # per channel/model templates
@@ -118,17 +116,11 @@ class ContentDetail(MethodView):
 
         # model_detail
         names.append(
-            "{object_name}/{model_name}_{suffix}.{ext}".format(
-                **common_data
-            )
+            "{object_name}/{model_name}_{suffix}.{ext}".format(**common_data)
         )
 
         # last one is the default detail template
-        names.append(
-            "{object_name}/{suffix}.{ext}".format(
-                **common_data
-            )
-        )
+        names.append("{object_name}/{suffix}.{ext}".format(**common_data))
 
         return names
 
