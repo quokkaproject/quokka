@@ -1,6 +1,6 @@
 #!/bin/bash
 # Author: Nilton OS -- www.linuxpro.com.br
-# Version: 0.2
+# Version: 0.3
 # Source: https://gist.github.com/jniltinho/6998822
 
 echo 'setup-quokka-nginx-uwsgi-opensuse.sh'
