@@ -6,6 +6,12 @@
 echo 'setup-quokka-nginx-uwsgi-opensuse.sh'
 echo 'Support OpenSUSE  11.X, 12.X, 13.X'
 echo 'Installs Nginx + uWSGI + Quokka'
+
+# Check if user has root privileges
+if [[ $EUID -ne 0 ]]; then
+echo "You must run the script as root or using sudo"
+   exit 1
+fi
  
 SUSE_VERSION=$(cat /etc/issue | awk '{ print $4 }' | head -n1)
  

@@ -1,13 +1,18 @@
 #!/bin/bash
 # Author: Nilton OS -- www.linuxpro.com.br
-# Version: 0.3
+# Version: 0.4
 # Source: https://gist.github.com/jniltinho/6999857
 
 echo 'setup-quokka-nginx-uwsgi-ubuntu.sh'
 echo 'Support Ubuntu/Debian'
 echo 'Installs Nginx + uWSGI + Quokka'
 echo 'Requires ubuntu 12.04+ and installs nginx + uwsgi'
- 
+
+# Check if user has root privileges
+if [[ $EUID -ne 0 ]]; then
+echo "You must run the script as root or using sudo"
+   exit 1
+fi
  
 echo -e "Set Server Name Ex: quokkaproject.domain.com : \c "
 read  SERVER_FQDN
