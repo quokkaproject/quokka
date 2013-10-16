@@ -3,12 +3,17 @@
 echo 'setup-quokka-nginx-uwsgi-ubuntu.sh'
 echo 'Support Ubuntu/Debian'
 echo 'Installs Nginx + uWSGI + Quokka'
+echo 'Requires ubuntu 12.04+ and installs nginx + uwsgi'
  
+if [[ $EUID -ne 0 ]]; then
+   echo "You must run the script as root or using sudo"
+   exit 1
+fi
  
 echo -e "Set Server Name Ex: quokkaproject.domain.com : \c "
 read  SERVER_FQDN
  
-echo -e "Set Server IP: \c "
+echo -e "Set Server IP (commonly 127.0.0.1 works): \c "
 read  SERVER_IP
  
  
@@ -32,15 +37,15 @@ cd /home/quokka
 sudo -u quokka -H virtualenv quokka-env
 cd quokka-env
 source bin/activate
-sudo -u quokka -H git clone https://github.com/rochacbruno/quokka
+sudo -u quokka -H git clone https://github.com/pythonhub/quokka
 cd quokka
 
 chown -R quokka:quokka /home/quokka
-pip install -r requirements.txt
+/home/quokka/quokka-env/bin/pip install -r requirements.txt
 chown -R quokka:quokka /home/quokka
 
 ## Populating with sample data
-python manage.py populate
+/home/quokka/quokka-env/bin/python manage.py populate
 
 deactivate
 ## Install uWSGI
