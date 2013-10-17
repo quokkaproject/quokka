@@ -24,7 +24,7 @@ class Role(db.Document, RoleMixin):
 
 class User(db.Document, UserMixin):
     name = db.StringField(max_length=255)
-    email = db.StringField(max_length=255)
+    email = db.StringField(max_length=255, unique=True)
     password = db.StringField(max_length=255)
     active = db.BooleanField(default=True)
     confirmed_at = db.DateTimeField()
