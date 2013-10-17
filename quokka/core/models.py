@@ -382,18 +382,28 @@ class ConfigAdmin(ModelAdmin):
 admin.register(Config, ConfigAdmin, category="Settings")
 
 
+class ChannelTypeAdmin(ModelAdmin):
+    roles_accepted = ('admin', 'editor')
+
+admin.register(ChannelType, ChannelTypeAdmin, category="Settings")
+
+
 class ChannelAdmin(ModelAdmin):
     edit_template = 'admin/custom/edit.html'
     create_template = 'admin/custom/create.html'
     roles_accepted = ('admin', 'editor')
-    column_list = ('title', 'long_slug', 'is_homepage', 'published')
+    column_list = ('title', 'long_slug', 'is_homepage',
+                   'channel_type', 'created_at', 'available_at', 'published')
     column_filters = ['published', 'is_homepage', 'include_in_rss',
                       'show_in_menu', 'indexable']
     column_searchable_list = ('title', 'description')
     form_columns = ['title', 'slug', 'description', 'parent', 'is_homepage',
                     'include_in_rss', 'indexable', 'show_in_menu', 'order',
-                    'published', 'canonical_url', 'values']
-
+                    'published', 'canonical_url', 'values', 'channel_type',
+                    'inherit_parent', 'content_filters', 'available_at',
+                    'available_until']
+    column_formatters = {'created_at': ModelAdmin.formatters.get('datetime'),
+                         'available_at': ModelAdmin.formatters.get('datetime')}
     form_subdocuments = {}
 
     form_widget_args = {
