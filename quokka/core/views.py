@@ -54,7 +54,7 @@ class ContentDetail(MethodView):
     def get_template_names(self):
         module = self.content.__module__
         module_name = module.replace('quokka.modules.', '').split('.')[0]
-        model_name = self.content.__class__.__name__.lower()
+        model_name = self.content.content_type.lower()
 
         common_data = dict(
             object_name=self.object_name,
