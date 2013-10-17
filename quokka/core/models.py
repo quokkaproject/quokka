@@ -195,7 +195,23 @@ class Imaged(object):
     main_image_caption = db.StringField(max_length=255)
 
 
-class Channel(HasCustomValue, Publishable, Slugged, db.DynamicDocument):
+class ChannelConfigs(object):
+    content_filters = db.DictField(required=False)
+    inherit_parent = db.BooleanField(default=False)
+
+
+class ChannelType(HasCustomValue, ChannelConfigs, db.DynamicDocument):
+    title = db.StringField(max_length=255, required=True)
+    identifier = db.StringField(max_length=255, required=True, unique=True)
+    template_suffix = db.StringField(max_length=255, required=True)
+    theme_name = db.StringField(max_length=255, required=False)
+
+    def __unicode__(self):
+        return self.title
+
+
+class Channel(HasCustomValue, Publishable, Slugged,
+              ChannelConfigs, db.DynamicDocument):
     title = db.StringField(max_length=255, required=True)
     description = db.StringField()
     show_in_menu = db.BooleanField(default=False)
@@ -208,6 +224,10 @@ class Channel(HasCustomValue, Publishable, Slugged, db.DynamicDocument):
     # MPTT
     parent = db.ReferenceField('self', required=False, default=None,
                                reverse_delete_rule=db.DENY)
+
+    aliases = db.ListField(db.StringField())
+    channel_type = db.ReferenceField(ChannelType, required=False,
+                                     reverse_delete_rule=db.DENY)
 
     def get_ancestors(self, menu=True):
         return self.__class__.objects(parent=self, show_in_menu=menu)
