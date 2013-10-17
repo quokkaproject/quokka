@@ -29,6 +29,7 @@ logger = logging.getLogger()
 class Publishable(object):
     published = db.BooleanField(default=False)
     available_at = db.DateTimeField(default=datetime.datetime.now)
+    available_until = db.DateTimeField(required=False)
     created_at = db.DateTimeField(default=datetime.datetime.now)
     updated_at = db.DateTimeField(default=datetime.datetime.now)
     created_by = db.ReferenceField(User, reverse_delete_rule=db.DENY)
