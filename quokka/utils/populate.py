@@ -34,7 +34,7 @@ class Populate(object):
         users = User.objects.all()
         for user in users:
             self.users[user.name] = user
-        
+
     def create_users(self):
         self.users_data = [
             {
@@ -69,7 +69,10 @@ class Populate(object):
             if not name in self.users:
                 user = User.createuser(**data)
                 self.users[name] = user
-                print("Created: User: mail:{o.email} pwd:{pwd}".format(o=user, pwd=pwd))
+                print(
+                    "Created: User: mail:{o.email} pwd:{pwd}".format(o=user,
+                                                                     pwd=pwd)
+                )
             else:
                 print("Exist: User: mail:{o[email]}".format(o=data))
 
@@ -119,9 +122,9 @@ class Populate(object):
 
         if not channel_type.identifier in self.channel_types:
             self.channel_types[channel_type.identifier] = channel_type
-            
+
         return channel_type
-        
+
     def create_channels(self):
         self.channel_data = [
             {
@@ -198,31 +201,31 @@ class Populate(object):
 
     def create_channel_types(self):
         self.channel_type_data = [
-           {
-               "title": "list",
-               "identifier": "list",
-               "template_suffix": "list",
-           },
-           {
-               "title": "blog",
-               "identifier": "blog",
-               "template_suffix": "blog",
-           },
-           {
-               "title": "grid",
-               "identifier": "grid",
-               "template_suffix": "grid",
-           },
-           {
-               "title": "portal",
-               "identifier": "portal",
-               "template_suffix": "portal",
-           },
+            {
+                "title": "list",
+                "identifier": "list",
+                "template_suffix": "list",
+            },
+            {
+                "title": "blog",
+                "identifier": "blog",
+                "template_suffix": "blog",
+            },
+            {
+                "title": "grid",
+                "identifier": "grid",
+                "template_suffix": "grid",
+            },
+            {
+                "title": "portal",
+                "identifier": "portal",
+                "template_suffix": "portal",
+            },
         ]
-        
+
         for data in self.channel_type_data:
             self.create_channel_type(data)
-            
+
     def create_post(self, data):
         data['created_by'] = data['last_updated_by'] = self.users.get('editor')
         data['published'] = True

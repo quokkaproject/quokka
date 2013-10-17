@@ -36,6 +36,7 @@ class Roled(object):
 def format_datetime(self, request, obj, fieldname, *args, **kwargs):
     return getattr(obj, fieldname).strftime(self.datetime_format)
 
+
 class ModelAdmin(Roled, ModelView):
 
     form_subdocuments = {}
