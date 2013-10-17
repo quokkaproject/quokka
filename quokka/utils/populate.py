@@ -1,6 +1,6 @@
 # coding: utf-8
 
-from quokka.core.models import Channel
+from quokka.core.models import Channel, ChannelType
 from quokka.modules.accounts.models import User, Role
 from quokka.modules.posts.models import Post
 
@@ -13,9 +13,12 @@ class Populate(object):
         self.roles = {}
         self.users = {}
         self.channels = {}
+        self.channel_types = {}
 
     def __call__(self, *args, **kwargs):
+        self.load_existing_users()
         self.create_users()
+        self.create_channel_types()
         self.create_channels()
         self.create_posts()
 
@@ -27,6 +30,11 @@ class Populate(object):
                 print("Created role: {0}".format(name))
         return self.roles.get(name)
 
+    def load_existing_users(self):
+        users = User.objects.all()
+        for user in users:
+            self.users[user.name] = user
+        
     def create_users(self):
         self.users_data = [
             {
@@ -61,7 +69,9 @@ class Populate(object):
             if not name in self.users:
                 user = User.createuser(**data)
                 self.users[name] = user
-                print("User: mail:{o.email} pwd:{pwd}".format(o=user, pwd=pwd))
+                print("Created: User: mail:{o.email} pwd:{pwd}".format(o=user, pwd=pwd))
+            else:
+                print("Exist: User: mail:{o[email]}".format(o=data))
 
     def create_channel(self, data):
 
@@ -92,6 +102,26 @@ class Populate(object):
 
         return channel
 
+    def create_channel_type(self, data):
+        try:
+            channel_type = ChannelType.objects.get(
+                identifier=data.get('identifier'))
+            created = False
+        except:
+            channel_type, created = ChannelType.objects.get_or_create(
+                **data
+            )
+
+        if created:
+            print("Created channel_type:{0}".format(channel_type.title))
+        else:
+            print("ChannelType get: {0}".format(channel_type.title))
+
+        if not channel_type.identifier in self.channel_types:
+            self.channel_types[channel_type.identifier] = channel_type
+            
+        return channel_type
+        
     def create_channels(self):
         self.channel_data = [
             {
@@ -101,6 +131,7 @@ class Populate(object):
                 "show_in_menu": True,
                 "is_homepage": True,
                 "published": True,
+                "channel_type": self.channel_types.get('portal'),
             },
             {
                 "title": "Articles",
@@ -109,6 +140,7 @@ class Populate(object):
                 "show_in_menu": True,
                 "is_homepage": False,
                 "published": True,
+                "channel_type": self.channel_types.get('list'),
                 "childs": [
                     {
                         "title": "Technology",
@@ -117,6 +149,7 @@ class Populate(object):
                         "show_in_menu": True,
                         "is_homepage": False,
                         "published": True,
+                        "channel_type": self.channel_types.get('grid'),
                         "childs": [
                             {
                                 "title": "Mobile",
@@ -124,6 +157,7 @@ class Populate(object):
                                 "description": "Technology Mobile Articles",
                                 "show_in_menu": True,
                                 "is_homepage": False,
+                                "channel_type": self.channel_types.get('list'),
                                 "published": True,
                             },
                             {
@@ -132,6 +166,7 @@ class Populate(object):
                                 "description": "Programming Articles",
                                 "show_in_menu": True,
                                 "is_homepage": False,
+                                "channel_type": self.channel_types.get('list'),
                                 "published": True,
                             },
                         ]
@@ -142,6 +177,7 @@ class Populate(object):
                         "description": "Science articles",
                         "show_in_menu": True,
                         "is_homepage": False,
+                        "channel_type": self.channel_types.get('list'),
                         "published": True,
                     },
                 ]
@@ -152,6 +188,7 @@ class Populate(object):
                 "description": "Blog posts",
                 "show_in_menu": True,
                 "is_homepage": False,
+                "channel_type": self.channel_types.get('blog'),
                 "published": True,
             },
         ]
@@ -159,6 +196,33 @@ class Populate(object):
         for data in self.channel_data:
             self.create_channel(data)
 
+    def create_channel_types(self):
+        self.channel_type_data = [
+           {
+               "title": "list",
+               "identifier": "list",
+               "template_suffix": "list",
+           },
+           {
+               "title": "blog",
+               "identifier": "blog",
+               "template_suffix": "blog",
+           },
+           {
+               "title": "grid",
+               "identifier": "grid",
+               "template_suffix": "grid",
+           },
+           {
+               "title": "portal",
+               "identifier": "portal",
+               "template_suffix": "portal",
+           },
+        ]
+        
+        for data in self.channel_type_data:
+            self.create_channel_type(data)
+            
     def create_post(self, data):
         data['created_by'] = data['last_updated_by'] = self.users.get('editor')
         data['published'] = True
