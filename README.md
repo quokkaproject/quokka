@@ -56,7 +56,7 @@ Installing and running
 ~/$ ... creating virtualenv in quokka-env........
 ~/$ cd quokka-env
 ~/quokka-env$ source bin/activate
-(quokka-env)~/quokka-env$ git clone https://github.com/rochacbruno/quokka
+(quokka-env)~/quokka-env$ git clone https://github.com/pythonhub/quokka
 (quokka-env)~/quokka-env$ ...cloning in to quokka
 (quokka-env)~/quokka-env$ cd quokka
 (quokka-env)~/quokka-env/quokka$ pip install -r requirements.txt
