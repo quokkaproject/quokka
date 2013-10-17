@@ -50,8 +50,8 @@ class Publishable(object):
 
 
 class Slugged(object):
-    slug = db.StringField(max_length=255)
-    long_slug = db.StringField()
+    slug = db.StringField(max_length=255, required=True)
+    long_slug = db.StringField(unique=True, required=True)
     mpath = db.StringField()
 
     def _create_mpath_long_slug(self):
