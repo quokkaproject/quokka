@@ -37,7 +37,7 @@ adduser --disabled-login --gecos 'Quokka' quokka
 cd /home/quokka
 virtualenv quokka-env
 cd quokka-env
-git clone https://github.com/rochacbruno/quokka
+git clone https://github.com/pythonhub/quokka
 
 cd quokka
 /home/quokka/quokka-env/bin/pip install -r requirements.txt

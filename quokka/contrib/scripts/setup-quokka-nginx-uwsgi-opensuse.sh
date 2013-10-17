@@ -1,6 +1,6 @@
 #!/bin/bash
 # Author: Nilton OS -- www.linuxpro.com.br
-# Version: 0.3
+# Version: 0.4
 # Source: https://gist.github.com/jniltinho/6998822
 
 echo 'setup-quokka-nginx-uwsgi-opensuse.sh'
@@ -40,7 +40,7 @@ useradd -m -G quokka --system -s /bin/sh -c 'Quokka' -d /home/quokka quokka
 cd /home/quokka
 virtualenv quokka-env
 cd quokka-env
-git clone https://github.com/rochacbruno/quokka
+git clone https://github.com/pythonhub/quokka
 cd quokka
 
 /home/quokka/quokka-env/bin/pip install -r requirements.txt
