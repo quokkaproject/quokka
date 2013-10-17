@@ -1,13 +1,10 @@
 # -*- coding: utf-8 -*-
 
 from werkzeug.serving import run_simple
-from werkzeug.wsgi import DispatcherMiddleware
 from werkzeug.contrib.fixers import ProxyFix
-from quokka import create_app, create_api
+from quokka import create_app
 
-application = DispatcherMiddleware(create_app(), {
-    '/api': create_api()
-})
+application = create_app()
 
 application.wsgi_app = ProxyFix(application.wsgi_app)
 
