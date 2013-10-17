@@ -33,9 +33,18 @@ class Roled(object):
             return self.render("admin/denied.html")
 
 
+def format_datetime(self, request, obj, fieldname, *args, **kwargs):
+    return getattr(obj, fieldname).strftime(self.datetime_format)
+
 class ModelAdmin(Roled, ModelView):
 
     form_subdocuments = {}
+
+    datetime_format = "%Y-%m-%d %H:%M"
+
+    formatters = {
+        'datetime': format_datetime
+    }
 
     def get_instance(self, i):
         try:
