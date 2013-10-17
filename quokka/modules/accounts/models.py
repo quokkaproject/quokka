@@ -38,7 +38,7 @@ class User(db.Document, UserMixin):
     current_login_ip = db.StringField(max_length=255)
     login_count = db.IntField()
 
-    username = db.StringField(max_length=50, required=False)
+    username = db.StringField(max_length=50, required=False, unique=True)
 
     @classmethod
     def generate_username(cls, email):
