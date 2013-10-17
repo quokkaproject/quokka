@@ -24,7 +24,8 @@ class PostAdmin(ModelAdmin):
     edit_template = 'admin/custom/edit.html'
     create_template = 'admin/custom/create.html'
 
-    column_list = ('title', 'slug', 'channel', 'published', 'view_on_site')
+    column_list = ('title', 'slug', 'channel', 'published', 'created_at',
+                   'available_at', 'view_on_site')
 
     def view_on_site(self, request, obj, fieldname, *args, **kwargs):
         return html.a(
@@ -35,7 +36,9 @@ class PostAdmin(ModelAdmin):
 
     # column_exclude_list = []
 
-    column_formatters = {'view_on_site': view_on_site}
+    column_formatters = {'view_on_site': view_on_site,
+                         'created_at': ModelAdmin.formatters.get('datetime'),
+                         'available_at': ModelAdmin.formatters.get('datetime')}
     # column_type_formatters = {}
     # column_labels = {}
     # column_descriptions = {}
@@ -48,8 +51,8 @@ class PostAdmin(ModelAdmin):
 
     form_columns = ['title', 'slug', 'channel', 'related_channels', 'summary',
                     'body', 'main_image', 'main_image_caption', 'published',
-                    'show_on_channel', 'available_at', 'tags', 'comments',
-                    'values']
+                    'show_on_channel', 'available_at', 'available_until',
+                    'tags', 'comments', 'values']
     # form_excluded_columns = []
     # form = None
     # form_overrides = None
