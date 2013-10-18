@@ -200,7 +200,7 @@ class ChannelConfigs(object):
     inherit_parent = db.BooleanField(default=False)
 
 
-class ChannelType(HasCustomValue, ChannelConfigs, db.DynamicDocument):
+class TemplateType(HasCustomValue):
     title = db.StringField(max_length=255, required=True)
     identifier = db.StringField(max_length=255, required=True, unique=True)
     template_suffix = db.StringField(max_length=255, required=True)
@@ -208,6 +208,10 @@ class ChannelType(HasCustomValue, ChannelConfigs, db.DynamicDocument):
 
     def __unicode__(self):
         return self.title
+
+
+class ChannelType(TemplateType, ChannelConfigs, db.DynamicDocument):
+    """Define the channel template type and its filters"""
 
 
 class Channel(HasCustomValue, Publishable, Slugged,
