@@ -13,10 +13,41 @@ logger = logging.getLogger()
 
 
 class ContentList(MethodView):
+    object_name = "content"
+    template_suffix = "list"
+    template_ext = "html"
 
     def get_template_names(self):
-        names = []
-        names.append('content/list.html')
+
+        if self.channel.channel_type:
+            type_suffix = self.channel.channel_type.template_suffix
+        else:
+            type_suffix = 'default'
+
+        self.template_suffix = "{0}_{1}".format(type_suffix,
+                                                self.template_suffix)
+
+        common_data = dict(
+            object_name=self.object_name,
+            suffix=self.template_suffix,
+            ext=self.template_ext
+        )
+
+        # define per ancestor templates
+        channel_list = []
+        channel_slugs = self.channel.long_slug.split('/')
+        while channel_slugs:
+            channel_list.append("/".join(channel_slugs))
+            channel_slugs.pop()
+
+        names = [
+            u"{object_name}/{channel}/{suffix}.{ext}".format(
+                channel=channel, **common_data
+            )
+            for channel in channel_list
+        ]
+
+        names.append(u"{object_name}/{suffix}.{ext}".format(**common_data))
         return names
 
     def get(self, long_slug):
@@ -27,6 +58,8 @@ class ContentList(MethodView):
 
         channel = Channel.objects.get_or_404(mpath=mpath)
 
+        self.channel = channel  # get_template_names will need this
+
         filters = {
             'published': True,
             'available_at__lte': now,
@@ -36,9 +69,13 @@ class ContentList(MethodView):
         if not channel.is_homepage:
             filters['__raw__'] = {'mpath': {'$regex': mpath}}
 
+        # TODO: filter content_filters
         contents = Content.objects(**filters)
 
-        return render_template(self.get_template_names(), contents=contents)
+        theme = channel.channel_type and channel.channel_type.theme_name
+
+        return render_template(self.get_template_names(),
+                               theme=theme, contents=contents)
 
 
 class ContentDetail(MethodView):
