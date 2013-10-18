@@ -231,7 +231,9 @@ class Channel(HasCustomValue, Publishable, Slugged,
 
     aliases = db.ListField(db.StringField())
     channel_type = db.ReferenceField(ChannelType, required=False,
-                                     reverse_delete_rule=db.DENY)
+                                     reverse_delete_rule=db.NULLIFY)
+
+    render_content = db.StringField(max_length=255, required=False)
 
     def get_ancestors(self, menu=True):
         return self.__class__.objects(parent=self, show_in_menu=menu)
