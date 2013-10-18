@@ -332,6 +332,10 @@ class Config(HasCustomValue, Publishable, db.DynamicDocument):
         return self.group
 
 
+class ContentTemplateType(TemplateType, db.DynamicDocument):
+    """Define the channel template type and its filters"""
+
+
 ###############################################################
 # Base Content for every new content to extend. inheritance=True
 ###############################################################
@@ -341,6 +345,9 @@ class Content(HasCustomValue, Imaged, Publishable, Slugged, Commentable,
               Channeling, Tagged, db.DynamicDocument):
     title = db.StringField(max_length=255, required=True)
     summary = db.StringField(required=False)
+    template_type = db.ReferenceField(ContentTemplateType,
+                                      required=False,
+                                      reverse_delete_rule=db.NULLIFY)
 
     meta = {
         'allow_inheritance': True,
