@@ -89,6 +89,15 @@ class ContentDetail(MethodView):
     )
 
     def get_template_names(self):
+
+        if self.content.template_type:
+            type_suffix = self.content.template_type.template_suffix
+        else:
+            type_suffix = 'default'
+
+        self.template_suffix = "{0}_{1}".format(type_suffix,
+                                                self.template_suffix)
+
         module = self.content.__module__
         module_name = module.replace('quokka.modules.', '').split('.')[0]
         model_name = self.content.content_type.lower()

@@ -52,7 +52,7 @@ class PostAdmin(ModelAdmin):
     form_columns = ['title', 'slug', 'channel', 'related_channels', 'summary',
                     'body', 'main_image', 'main_image_caption', 'published',
                     'show_on_channel', 'available_at', 'available_until',
-                    'tags', 'comments', 'values']
+                    'tags', 'comments', 'values', 'template_type']
     # form_excluded_columns = []
     # form = None
     # form_overrides = None
