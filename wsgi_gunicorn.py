@@ -10,7 +10,8 @@ application.wsgi_app = ProxyFix(application.wsgi_app)
 
 """
 see this post
-http://www.onurguzel.com/how-to-run-flask-applications-with-nginx-using-gunicorn/
+http://www.onurguzel.com/
+how-to-run-flask-applications-with-nginx-using-gunicorn/
 """
 
 if __name__ == "__main__":
