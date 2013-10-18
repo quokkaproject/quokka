@@ -401,6 +401,14 @@ class ChannelTypeAdmin(ModelAdmin):
 admin.register(ChannelType, ChannelTypeAdmin, category="Settings")
 
 
+class ContentTemplateTypeAdmin(ModelAdmin):
+    roles_accepted = ('admin', 'editor')
+
+admin.register(ContentTemplateType,
+               ContentTemplateTypeAdmin,
+               category="Settings")
+
+
 class ChannelAdmin(ModelAdmin):
     edit_template = 'admin/custom/edit.html'
     create_template = 'admin/custom/create.html'
@@ -414,7 +422,7 @@ class ChannelAdmin(ModelAdmin):
                     'include_in_rss', 'indexable', 'show_in_menu', 'order',
                     'published', 'canonical_url', 'values', 'channel_type',
                     'inherit_parent', 'content_filters', 'available_at',
-                    'available_until']
+                    'available_until', 'render_content']
     column_formatters = {'created_at': ModelAdmin.formatters.get('datetime'),
                          'available_at': ModelAdmin.formatters.get('datetime')}
     form_subdocuments = {}
