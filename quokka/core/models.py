@@ -372,7 +372,7 @@ class Config(HasCustomValue, Publishable, db.DynamicDocument):
 
 
 class ContentTemplateType(TemplateType, db.DynamicDocument):
-    """Define the channel template type and its filters"""
+    """Define the content template type and its theme"""
 
 
 ###############################################################
