@@ -33,13 +33,7 @@ class ContentList(MethodView):
             ext=self.template_ext
         )
 
-        # define per ancestor templates
-        channel_list = []
-        channel_slugs = self.channel.long_slug.split('/')
-        while channel_slugs:
-            channel_list.append("/".join(channel_slugs))
-            channel_slugs.pop()
-
+        channel_list = self.channel.get_ancestors_slugs()
         names = [
             u"{object_name}/{channel}/{suffix}.{ext}".format(
                 channel=channel, **common_data
@@ -57,7 +51,6 @@ class ContentList(MethodView):
         mpath = ",{0},".format(mpath)
 
         channel = Channel.objects.get_or_404(mpath=mpath)
-
         self.channel = channel  # get_template_names will need this
 
         filters = {
