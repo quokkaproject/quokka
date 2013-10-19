@@ -115,32 +115,26 @@ class ContentDetail(MethodView):
                 content_slug=self.content.slug, **common_data)
         ]
 
-        # define per module/channel templates
-        channel_list = []
-        channel_slugs = self.content.channel.long_slug.split('/')
-        while channel_slugs:
-            channel_list.append("/".join(channel_slugs))
-            channel_slugs.pop()
-
+        channel_list = self.content.channel.get_ancestors_slugs()
         for channel in channel_list:
-            path = ("{object_name}/{module_name}/{channel}/"
+            path = ("{object_name}/_{module_name}/{channel}/"
                     "{model_name}_{suffix}.{ext}")
             names.append(path.format(channel=channel, **common_data))
 
         for channel in channel_list:
-            path = "{object_name}/{module_name}/{channel}/{suffix}.{ext}"
+            path = "{object_name}/_{module_name}/{channel}/{suffix}.{ext}"
             names.append(path.format(channel=channel, **common_data))
 
         # per module/model
         names.append(
-            "{object_name}/{module_name}/{model_name}_{suffix}.{ext}".format(
+            "{object_name}/_{module_name}/{model_name}_{suffix}.{ext}".format(
                 **common_data
             )
         )
 
         # module general detail
         names.append(
-            "{object_name}/{module_name}/{suffix}.{ext}".format(**common_data)
+            "{object_name}/_{module_name}/{suffix}.{ext}".format(**common_data)
         )
 
         # per channel/model templates
