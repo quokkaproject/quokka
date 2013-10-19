@@ -22,25 +22,16 @@ admin = create_admin()
 
 def create_app(config=None, test=False, admin_instance=None, **settings):
     app = QuokkaApp('quokka')
-    app.config.from_envvar("APP_SETTINGS", silent=True)
     app.config.from_object(config or 'quokka.settings')
+    app.config.from_envvar("APP_SETTINGS", silent=True)
+    mode = os.environ.get('MODE', 'local')
+    if test:
+        mode = 'test'
 
-    # Settings from mode
-    mode = os.environ.get('MODE')
-    if mode:
-        app.config.from_object('quokka.%s_settings' % mode)
+    app.config.from_object('quokka.%s_settings' % mode)
 
-    # Local settings
-    if not test:
-        app.config.from_pyfile(
-            os.path.join(os.path.dirname(__file__), 'local_settings.py'),
-            silent=True
-        )
-
-    # Overide settings
     app.config.update(settings)
 
-    # with app.test_request_context():
     from .ext import configure_extensions
     configure_extensions(app, admin_instance or admin)
 
