@@ -196,7 +196,7 @@ class Imaged(object):
 
 
 class ChannelConfigs(object):
-    content_filters = db.DictField(required=False)
+    content_filters = db.DictField(required=False, default=lambda: {})
     inherit_parent = db.BooleanField(default=False)
 
 
