@@ -60,15 +60,14 @@ class ContentList(MethodView):
         }
 
         if not channel.is_homepage:
-            filters['__raw__'] = {'mpath': {'$regex': mpath}}
+            filters['__raw__'] = {'mpath': {'$regex': "^{0}".format(mpath)}}
 
-        # TODO: filter content_filters
+        filters.update(channel.get_content_filters())
         contents = Content.objects(**filters)
 
-        theme = channel.channel_type and channel.channel_type.theme_name
-
+        themes = channel.get_themes()
         return render_template(self.get_template_names(),
-                               theme=theme, contents=contents)
+                               theme=themes, contents=contents)
 
 
 class ContentDetail(MethodView):
