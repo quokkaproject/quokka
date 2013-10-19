@@ -235,8 +235,47 @@ class Channel(HasCustomValue, Publishable, Slugged,
 
     render_content = db.StringField(max_length=255, required=False)
 
-    def get_ancestors(self, menu=True):
-        return self.__class__.objects(parent=self, show_in_menu=menu)
+    def get_content_filters(self):
+        if self.channel_type and self.channel_type.content_filters:
+            return self.channel_type.content_filters
+        return {}
+
+    def get_ancestors_slugs(self):
+        """return ancestors slugs including self as 1st item"""
+        channel_list = []
+        channel_slugs = self.long_slug.split('/')
+        while channel_slugs:
+            channel_list.append("/".join(channel_slugs))
+            channel_slugs.pop()
+        return channel_list
+
+    def get_ancestors(self, **kwargs):
+        """return all ancestors includind self as 1st item"""
+        channel_list = self.get_ancestors_slugs()
+        ancestors = self.__class__.objects(
+            long_slug__in=channel_list,
+            **kwargs
+        ).order_by('-long_slug')
+        return ancestors
+
+    def get_children(self, **kwargs):
+        """return direct children 1 level depth"""
+        return self.__class__.objects(
+            parent=self, **kwargs
+        ).order_by('long_slug')
+
+    def get_descendants(self, **kwargs):
+        """return all descendants including self as 1st item"""
+        return self.__class__.objects(
+            __raw__={'mpath': {'$regex': '^{0}'.format(self.mpath)}}
+        ).order_by('long_slug')
+
+    def get_themes(self):
+        return list({
+            c.channel_type.theme_name
+            for c in self.get_ancestors(channel_type__ne=None)
+            if c.channel_type and c.channel_type.theme_name
+        })
 
     @classmethod
     def get_homepage(cls, attr=None):
