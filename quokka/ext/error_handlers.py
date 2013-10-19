@@ -1,6 +1,7 @@
 # coding: utf-8
 from quokka.core.templates import render_template
 
+
 def configure(app):
     @app.errorhandler(403)
     def forbidden_page(error):
