@@ -1,22 +1,22 @@
 {% macro build_node(node) %}
     <li class="{%if request.path.startswith(node.get_absolute_url()) %}active {% else %} root-li {% endif %}">
-        <a href="{{ node.get_absolute_url() }}"> {{ node.title }} </a>
-        {{ build_nodes(node) }}
+	<a href="{{ node.get_absolute_url() }}"> {{ node.title }} </a>
+	{{ build_nodes(node) }}
     </li>
 {% endmacro %}
 
 {% macro build_nodes(parent=None, nodes=None) %}
     {% if not parent and nodes %}
     <ul class="side-nav root-nav">
-        {% for node in nodes %}
-            {{ build_node(node) }}
-        {% endfor %}
+	{% for node in nodes %}
+	    {{ build_node(node) }}
+	{% endfor %}
     </ul>
     {% else %}
     <ul class="ancestor-nav {%if not request.path.startswith(parent.get_absolute_url()) %}hidden-nav{% endif %}">
-        {% for node in parent.get_ancestors() %}
-           {{ build_node(node) }}
-        {% endfor %}
+	{% for node in parent.get_children(show_in_menu=True) %}
+	   {{ build_node(node) }}
+	{% endfor %}
     </ul>
     {% endif %}
 {% endmacro %}
