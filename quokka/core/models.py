@@ -394,6 +394,13 @@ class Content(HasCustomValue, Imaged, Publishable, Slugged, Commentable,
         'ordering': ['-created_at']
     }
 
+    def get_themes(self):
+        themes = self.channel.get_themes()
+        theme = self.template_type and self.template_type.theme_name
+        if theme and theme not in themes:
+            themes.insert(0, theme)
+        return themes
+
     def get_absolute_url(self, endpoint='detail'):
         if self.channel.is_homepage:
             long_slug = self.slug
