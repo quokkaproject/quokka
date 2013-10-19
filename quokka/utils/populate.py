@@ -204,7 +204,7 @@ class Populate(object):
             {
                 "title": "list",
                 "identifier": "list",
-                "template_suffix": "list",
+                "template_suffix": "default",
             },
             {
                 "title": "blog",
