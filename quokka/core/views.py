@@ -197,7 +197,11 @@ class ContentDetail(MethodView):
         context = self.get_context(long_slug)
         if isinstance(context, collections.Callable):
             return context
-        return render_template(self.get_template_names(), **context)
+        return render_template(
+            self.get_template_names(),
+            theme=self.content.get_themes(),
+            **context
+        )
 
     def post(self, long_slug):
         context = self.get_context(long_slug)
@@ -213,7 +217,11 @@ class ContentDetail(MethodView):
 
             return redirect(url_for('.detail', long_slug=long_slug))
 
-        return render_template(self.get_template_names(), **context)
+        return render_template(
+            self.get_template_names(),
+            theme=self.content.get_themes(),
+            **context
+        )
 
 
 class ContentFeed(MethodView):
