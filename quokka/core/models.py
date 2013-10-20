@@ -14,6 +14,7 @@ from jinja2 import Markup
 from quokka.core.db import db
 from quokka import admin
 from quokka.core.admin.models import ModelAdmin
+from quokka.core.admin.ajax import AjaxModelLoader
 from quokka.modules.accounts.models import User
 from quokka.utils.text import slugify
 from quokka import settings
@@ -214,6 +215,12 @@ class ChannelType(TemplateType, ChannelConfigs, db.DynamicDocument):
     """Define the channel template type and its filters"""
 
 
+class ContentProxy(db.DynamicDocument):
+    content = db.GenericReferenceField(required=True, unique=True)
+    def __unicode__(self):
+        return self.content.title
+
+
 class Channel(HasCustomValue, Publishable, Slugged,
               ChannelConfigs, db.DynamicDocument):
     title = db.StringField(max_length=255, required=True)
@@ -233,7 +240,9 @@ class Channel(HasCustomValue, Publishable, Slugged,
     channel_type = db.ReferenceField(ChannelType, required=False,
                                      reverse_delete_rule=db.NULLIFY)
 
-    render_content = db.StringField(max_length=255, required=False)
+    render_content = db.ReferenceField(ContentProxy,
+                                       required=False,
+                                       reverse_delete_rule=db.NULLIFY)
 
     def get_content_filters(self):
         if self.channel_type and self.channel_type.content_filters:
@@ -302,8 +311,17 @@ class Channel(HasCustomValue, Publishable, Slugged,
             raise db.ValidationError(lazy_gettext("Home page already exists"))
         super(Channel, self).clean()
 
-    def save(self, *args, **kwargs):
+    def validate_render_content(self):
+        if self.render_content and \
+            not isinstance(self.render_content, ContentProxy):
+            self.render_content, created = ContentProxy.objects.get_or_create(
+                    content=self.render_content)
+        else:
+            self.render_content = None
 
+
+    def save(self, *args, **kwargs):
+        self.validate_render_content()
         self.validate_slug()
         self.validate_long_slug()
 
@@ -482,6 +500,12 @@ class ChannelAdmin(ModelAdmin):
         },
         'title': {'style': 'width: 400px'},
         'slug': {'style': 'width: 400px'},
+    }
+    form_ajax_refs = {
+        'render_content': AjaxModelLoader('render_content',
+                                          Content,
+                                          fields=['title', 'slug']),
+        #'parent': {'fields': ['title', 'slug', 'long_slug']},
     }
 
 

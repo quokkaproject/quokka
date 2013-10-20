@@ -51,7 +51,12 @@ class ContentList(MethodView):
         mpath = ",{0},".format(mpath)
 
         channel = Channel.objects.get_or_404(mpath=mpath)
-        self.channel = channel  # get_template_names will need this
+
+        if channel.render_content:
+            return ContentDetail().get(
+                channel.render_content.content.long_slug, True)
+
+        self.channel = channel
 
         filters = {
             'published': True,
@@ -102,8 +107,6 @@ class ContentDetail(MethodView):
             ext=self.template_ext
         )
 
-        # start with the most specific templates
-        # using content slug and long slug
         names = [
             u"{object_name}/{content_slug}.{ext}".format(
                 content_slug=self.content.long_slug, **common_data),
@@ -125,19 +128,16 @@ class ContentDetail(MethodView):
             path = "{object_name}/_{module_name}/{channel}/{suffix}.{ext}"
             names.append(path.format(channel=channel, **common_data))
 
-        # per module/model
         names.append(
             "{object_name}/_{module_name}/{model_name}_{suffix}.{ext}".format(
                 **common_data
             )
         )
 
-        # module general detail
         names.append(
             "{object_name}/_{module_name}/{suffix}.{ext}".format(**common_data)
         )
 
-        # per channel/model templates
         for channel in channel_list:
             path = "{object_name}/{channel}/{model_name}_{suffix}.{ext}"
             names.append(path.format(channel=channel, **common_data))
@@ -146,22 +146,21 @@ class ContentDetail(MethodView):
             path = "{object_name}/{channel}/{suffix}.{ext}"
             names.append(path.format(channel=channel, **common_data))
 
-        # model_detail
         names.append(
             "{object_name}/{model_name}_{suffix}.{ext}".format(**common_data)
         )
 
-        # last one is the default detail template
         names.append("{object_name}/{suffix}.{ext}".format(**common_data))
 
         return names
 
-    def get_context(self, long_slug):
+    def get_context(self, long_slug, render_content=False):
         now = datetime.now()
         homepage = Channel.objects.get(is_homepage=True)
 
         if long_slug.startswith(homepage.slug) and \
-                len(long_slug.split('/')) < 3:
+                len(long_slug.split('/')) < 3 and \
+                not render_content:
             slug = long_slug.split('/')[-1]
             return redirect(url_for('detail', long_slug=slug))
 
@@ -184,7 +183,7 @@ class ContentDetail(MethodView):
 
         form = self.form(request.form)
 
-        self.content = content  # template loader will use this
+        self.content = content
 
         context = {
             "content": content,
@@ -193,9 +192,9 @@ class ContentDetail(MethodView):
 
         return context
 
-    def get(self, long_slug):
-        context = self.get_context(long_slug)
-        if isinstance(context, collections.Callable):
+    def get(self, long_slug, render_content=False):
+        context = self.get_context(long_slug, render_content)
+        if not render_content and isinstance(context, collections.Callable):
             return context
         return render_template(
             self.get_template_names(),
