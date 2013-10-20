@@ -195,10 +195,37 @@ class HasCustomValue(object):
         super(HasCustomValue, self).clean()
 
 
+class Ordered(object):
+    order = db.IntField(required=True, default=0)
+
+
+class ArchiveReference(Publishable, Ordered):
+    caption = db.StringField()
+
+    def __unicode__(self):
+        return self.archive.title
+
+    meta = {
+        'indexes': ['order', '-created_at', '-available_at'],
+        'ordering': ['order']
+    }
+
+
+class Image(ArchiveReference, db.EmbeddedDocument):
+    archive = db.ReferenceField("ImageFile", required=True)
+    main_image = db.BooleanField(default=False)
+
+
+class Attachment(ArchiveReference, db.EmbeddedDocument):
+    archive = db.ReferenceField("File", required=True)
+
+
 class Imaged(object):
-    main_image = db.ReferenceField("Image", required=False,
-                                   reverse_delete_rule=db.NULLIFY)
-    main_image_caption = db.StringField(max_length=255)
+    images = db.ListField(db.EmbeddedDocumentField(Image))
+
+
+class HasAttachment(object):
+    files = db.ListField(db.EmbeddedDocumentField(Attachment))
 
 
 class ChannelConfigs(object):
@@ -228,6 +255,7 @@ class ContentProxy(db.DynamicDocument):
 
 
 class Channel(HasCustomValue, Publishable, Slugged,
+              HasAttachment, Imaged,
               ChannelConfigs, db.DynamicDocument):
     title = db.StringField(max_length=255, required=True)
     description = db.StringField()
@@ -356,28 +384,8 @@ class ChannelingNotRequired(Channeling):
                                 reverse_delete_rule=db.NULLIFY)
 
 
-class Archive(HasCustomValue, Publishable, ChannelingNotRequired,
-              Tagged, Slugged, db.DynamicDocument):
-    title = db.StringField(max_length=255, required=True)
-    summary = db.StringField(required=False)
+class Archive(object):
     path = db.StringField()
-
-    meta = {
-        'allow_inheritance': True,
-        'indexes': ['-created_at', 'slug'],
-        'ordering': ['-created_at']
-    }
-
-    def __unicode__(self):
-        return self.title
-
-
-class File(Archive):
-    pass
-
-
-class Image(Archive):
-    pass
 
 
 class Config(HasCustomValue, Publishable, db.DynamicDocument):
@@ -411,7 +419,7 @@ class ContentTemplateType(TemplateType, db.DynamicDocument):
 
 
 class Content(HasCustomValue, Imaged, Publishable, Slugged, Commentable,
-              Channeling, Tagged, db.DynamicDocument):
+              Channeling, Tagged, HasAttachment, db.DynamicDocument):
     title = db.StringField(max_length=255, required=True)
     summary = db.StringField(required=False)
     template_type = db.ReferenceField(ContentTemplateType,
@@ -457,6 +465,14 @@ class Content(HasCustomValue, Imaged, Publishable, Slugged, Commentable,
         super(Content, self).save(*args, **kwargs)
 
 
+class ImageFile(Archive, Content):
+    """A Content representing image files"""
+
+
+class File(Archive, Content):
+    """A Content representing general file attachments"""
+
+
 ###############################################################
 # Admin views
 ###############################################################
@@ -498,7 +514,7 @@ class ChannelAdmin(ModelAdmin):
                     'include_in_rss', 'indexable', 'show_in_menu', 'order',
                     'published', 'canonical_url', 'values', 'channel_type',
                     'inherit_parent', 'content_filters', 'available_at',
-                    'available_until', 'render_content']
+                    'available_until', 'render_content', 'images', 'files']
     column_formatters = {'created_at': ModelAdmin.formatters.get('datetime'),
                          'available_at': ModelAdmin.formatters.get('datetime')}
     form_subdocuments = {}
@@ -527,7 +543,7 @@ admin.register(Channel, ChannelAdmin, category="Content")
 class FileAdmin(ModelAdmin):
     roles_accepted = ('admin', 'editor')
     column_list = ('title', 'path', 'published')
-    form_columns = ['title', 'path', 'published']
+    form_columns = ['title', 'slug', 'path', 'channel', 'summary', 'published']
 
     form_overrides = {
         'path': form.FileUploadField
@@ -547,7 +563,7 @@ admin.register(File, FileAdmin, category='Content')
 class ImageAdmin(ModelAdmin):
     roles_accepted = ('admin', 'editor')
     column_list = ('title', 'path', 'thumb', 'published')
-    form_columns = ['title', 'path', 'published']
+    form_columns = ['title', 'slug', 'path', 'channel', 'summary', 'published']
 
     def _list_thumbnail(view, context, model, name):
         if not model.path:
@@ -575,4 +591,4 @@ class ImageAdmin(ModelAdmin):
     }
 
 
-admin.register(Image, ImageAdmin, category='Content')
+admin.register(ImageFile, ImageAdmin, category='Content')

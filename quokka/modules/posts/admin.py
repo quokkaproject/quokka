@@ -50,7 +50,7 @@ class PostAdmin(ModelAdmin):
     column_searchable_list = ('title', 'body', 'summary')
 
     form_columns = ['title', 'slug', 'channel', 'related_channels', 'summary',
-                    'body', 'main_image', 'main_image_caption', 'published',
+                    'body', 'images', 'files', 'published',
                     'show_on_channel', 'available_at', 'available_until',
                     'tags', 'comments', 'values', 'template_type']
     # form_excluded_columns = []
@@ -82,9 +82,9 @@ class PostAdmin(ModelAdmin):
     # action_disallowed_list
 
     # page_size = 20
-    form_ajax_refs = {
-        'main_image': {"fields": ('title',)}
-    }
+    # form_ajax_refs = {
+    #     'main_image': {"fields": ('title',)}
+    # }
 
 
 admin.register(Post, PostAdmin, category="Content")
