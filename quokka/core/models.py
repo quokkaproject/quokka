@@ -217,6 +217,7 @@ class ChannelType(TemplateType, ChannelConfigs, db.DynamicDocument):
 
 class ContentProxy(db.DynamicDocument):
     content = db.GenericReferenceField(required=True, unique=True)
+
     def __unicode__(self):
         return self.content.title
 
@@ -250,7 +251,14 @@ class Channel(HasCustomValue, Publishable, Slugged,
         return {}
 
     def get_ancestors_slugs(self):
-        """return ancestors slugs including self as 1st item"""
+        """return ancestors slugs including self as 1st item
+        >>> channel = Channel(long_slug='articles/technology/programming')
+        >>> channel.get_ancestors_slugs()
+        ['articles/technology/programming',
+         'articles/technology',
+         'articles']
+        """
+
         channel_list = []
         channel_slugs = self.long_slug.split('/')
         while channel_slugs:
@@ -313,12 +321,11 @@ class Channel(HasCustomValue, Publishable, Slugged,
 
     def validate_render_content(self):
         if self.render_content and \
-            not isinstance(self.render_content, ContentProxy):
+                not isinstance(self.render_content, ContentProxy):
             self.render_content, created = ContentProxy.objects.get_or_create(
-                    content=self.render_content)
+                content=self.render_content)
         else:
             self.render_content = None
-
 
     def save(self, *args, **kwargs):
         self.validate_render_content()
