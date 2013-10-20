@@ -1,7 +1,6 @@
 #!/bin/bash
 # Author: Nilton OS -- www.linuxpro.com.br
 # Version: 0.4
-# Source: https://gist.github.com/jniltinho/6999857
 
 echo 'setup-quokka-nginx-uwsgi-ubuntu.sh'
 echo 'Support Ubuntu/Debian'
@@ -65,10 +64,7 @@ echo 'server {
             include         /etc/nginx/uwsgi_params;
             uwsgi_param     UWSGI_SCHEME $scheme;
             uwsgi_param     SERVER_SOFTWARE    nginx/$nginx_version;
-
-            ### remove the comments if you use uploads (max 10 MB)
-            #client_max_body_size 10m;
-            ###
+            client_max_body_size 40m;
         }
 }' >/etc/nginx/sites-available/quokka.conf
  
