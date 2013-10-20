@@ -28,7 +28,10 @@ def create_app(config=None, test=False, admin_instance=None, **settings):
     if test:
         mode = 'test'
 
-    app.config.from_object('quokka.%s_settings' % mode)
+    try:
+        app.config.from_object('quokka.%s_settings' % mode)
+    except ImportError:
+        pass
 
     app.config.update(settings)
 
