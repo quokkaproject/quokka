@@ -26,15 +26,20 @@ logger = logging.getLogger()
 # Commom extendable base classes
 ###############################################################
 
-
-class Publishable(object):
-    published = db.BooleanField(default=False)
+class Dated(object):
     available_at = db.DateTimeField(default=datetime.datetime.now)
     available_until = db.DateTimeField(required=False)
     created_at = db.DateTimeField(default=datetime.datetime.now)
     updated_at = db.DateTimeField(default=datetime.datetime.now)
-    created_by = db.ReferenceField(User, reverse_delete_rule=db.DENY)
-    last_updated_by = db.ReferenceField(User, reverse_delete_rule=db.DENY)
+
+
+class Owned(object):
+    created_by = db.ReferenceField(User)
+    last_updated_by = db.ReferenceField(User)
+
+
+class Publishable(Dated, Owned):
+    published = db.BooleanField(default=False)
 
     def save(self, *args, **kwargs):
         self.updated_at = datetime.datetime.now()
@@ -107,7 +112,7 @@ class Comment(db.EmbeddedDocument):
     author = db.StringField(verbose_name="Name", max_length=255, required=True)
     published = db.BooleanField(default=True)
     created_at = db.DateTimeField(default=datetime.datetime.now)
-    created_by = db.ReferenceField(User)  # reverse_delete_rule not supported
+    created_by = db.ReferenceField(User)
 
     def __unicode__(self):
         return "{0}-{1}...".format(self.author, self.body[:10])
