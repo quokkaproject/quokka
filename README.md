@@ -17,39 +17,14 @@ Quokka project
 Quokka is a flexible content management platform powered by Python, Flask and MongoDB.
 
 
-About & Current features
-================
+Docs on Wiki
+===============================================
 
 * [Abou & Features](/pythonhub/quokka/wiki/about)
-
-
-Installing and running
-======================
-
-* [Installation guide for a production server](/pythonhub/quokka/wiki/installation)
-
-
-Extending & Instlling modules
-=============================
-
-* [Extending & Instlling modules](/pythonhub/quokka/wiki/plugins)
-
-
-Admin interface
-================
-
-* [Screencast](/pythonhub/quokka/wiki/screencast)
-
-
-Requirements
-============
-
+* [Installing and running](/pythonhub/quokka/wiki/installation)
+* [Extending & Installing modules](/pythonhub/quokka/wiki/plugins)
+* [Admin interface](/pythonhub/quokka/wiki/screencast)
 * [Requirements](/pythonhub/quokka/wiki/requirements)
-
-
-Project tree
-============
-
 * [Project tree](/pythonhub/quokka/wiki/project-tree)
 
 
