@@ -241,27 +241,6 @@ class Populate(object):
     def create_posts(self):
         self.post_data = [
             {
-                "title": "Welcome to Quokka CMS",
-                "slug": "welcome-to-quokka-cms",
-                "summary": """Quokka is a flexible content management
-                           platform powered by Python, Flask and MongoDB.""",
-                "channel": self.channels.get('home'),
-                "tags": ['quokka', 'python', 'flask'],
-                "body": """<p>Quokka provides a "full-stack"
-            Flask application plus a bunch of selected extensions
-            to provide all the needed CMS admin features and a
-            flexible-easy way to extend the platform with
-            <strong>quokka-modules</strong> built following
-            the Flask <strong>Blueprints</strong> pattern.</p>
-            <p align="center">
-            <a
-            href="https://raw.github.com/pythonhub/quokka/master/docs/logo.png"
-            target="_blank">
-            <img
-            src="https://raw.github.com/pythonhub/quokka/master/docs/logo.png"
-            alt="quokka cms" style="max-width:100%;"></a></p>"""
-            },
-            {
                 "title": "Python Reaches New Levels of Quality",
                 "slug": "python-reaches-new-level-of-quality",
                 "summary": """Python Surpasses Standards, Reaches New Levels
@@ -386,6 +365,27 @@ src="http://cdn-static.zdnet.com/i/r/story/70/00/020234/kitkat-twitter-
                 height="396" width="332">
                 </figure>
                 """
+            },
+            {
+                "title": "Welcome to Quokka CMS",
+                "slug": "welcome-to-quokka-cms",
+                "summary": """Quokka is a flexible content management
+                           platform powered by Python, Flask and MongoDB.""",
+                "channel": self.channels.get('home'),
+                "tags": ['quokka', 'python', 'flask'],
+                "body": """<p>Quokka provides a "full-stack"
+            Flask application plus a bunch of selected extensions
+            to provide all the needed CMS admin features and a
+            flexible-easy way to extend the platform with
+            <strong>quokka-modules</strong> built following
+            the Flask <strong>Blueprints</strong> pattern.</p>
+            <p align="center">
+            <a
+            href="https://raw.github.com/pythonhub/quokka/master/docs/logo.png"
+            target="_blank">
+            <img
+            src="https://raw.github.com/pythonhub/quokka/master/docs/logo.png"
+            alt="quokka cms" style="max-width:100%;"></a></p>"""
             },
 
         ]
