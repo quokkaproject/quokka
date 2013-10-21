@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-import os
 import json
 import logging
 import datetime
@@ -9,15 +8,12 @@ import random
 from flask import url_for, current_app
 from flask.ext.security import current_user
 from flask.ext.admin.babel import lazy_gettext
-from flask.ext.admin import form
-from jinja2 import Markup
 from quokka.core.db import db
 from quokka import admin
 from quokka.core.admin.models import ModelAdmin
 from quokka.core.admin.ajax import AjaxModelLoader
 from quokka.modules.accounts.models import User
 from quokka.utils.text import slugify
-from quokka import settings
 
 logger = logging.getLogger()
 
@@ -57,6 +53,15 @@ class Publishable(Dated, Owned):
 
 class Slugged(object):
     slug = db.StringField(max_length=255, required=True)
+
+    def validate_slug(self, title=None):
+        if self.slug:
+            self.slug = slugify(self.slug)
+        else:
+            self.slug = slugify(title or self.title)
+
+
+class LongSlugged(Slugged):
     long_slug = db.StringField(unique=True, required=True)
     mpath = db.StringField()
 
@@ -99,12 +104,6 @@ class Slugged(object):
                     lazy_gettext("%(slug)s slug already exists",
                                  slug=self.long_slug)
                 )
-
-    def validate_slug(self, title=None):
-        if self.slug:
-            self.slug = slugify(self.slug)
-        else:
-            self.slug = slugify(title or self.title)
 
 
 class Comment(db.EmbeddedDocument):
