@@ -49,7 +49,7 @@ Not needed by flask, but those root folders are used
 by FLask-Admin file manager
 """
 PROJECT_ROOT = os.path.abspath(os.path.dirname(__file__))
-MEDIA_ROOT = os.path.join(PROJECT_ROOT, 'media')
+MEDIA_ROOT = os.path.join(PROJECT_ROOT, 'mediafiles')
 STATIC_ROOT = os.path.join(PROJECT_ROOT, 'static')
 
 """
@@ -103,7 +103,7 @@ FILE_ADMIN = [
         "name": "Media files",
         "category": "files",
         "path": MEDIA_ROOT,
-        "url": "/media/",  # Create nginx rule
+        "url": "/mediafiles/",  # Create nginx rule
         "endpoint": "media_files"
     }
 ]

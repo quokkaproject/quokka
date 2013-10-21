@@ -13,7 +13,7 @@ __copyright__ = "Copyright 2013, Quokka Project / PythonHub.com"
 
 import os
 from .core.admin import create_admin
-from .core.app import QuokkaApp  # Flask with custom template loader
+from .core.app import QuokkaApp
 # from .core.middleware import HTTPMethodOverrideMiddleware
 
 

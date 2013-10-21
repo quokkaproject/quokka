@@ -23,7 +23,7 @@ def static_from_root():
 
 
 def configure(app):
-    app.add_url_rule('/media/<path:filename>', view_func=media)
+    app.add_url_rule('/mediafiles/<path:filename>', view_func=media)
     app.add_url_rule('/template_files/<path:filename>',
                      view_func=template_files)
 
