@@ -53,25 +53,28 @@ pip install --upgrade uwsgi
 
 # Prepare folders for uwsgi
 mkdir -p /etc/uwsgi && mkdir -p /var/log/uwsgi
-
-
-
+<<<<<<< HEAD
+ 
+  
+ 
 echo 'server {
-	listen          YOUR_SERVER_IP:80;
-	server_name     YOUR_SERVER_FQDN;
+        listen          YOUR_SERVER_IP:80;
+        server_name     YOUR_SERVER_FQDN;
 
-	location ~ ^/(mediafiles|static)/ {
-	    root    /home/quokka/quokka-env/quokka/quokka;
-	    expires 7d;
-	}
+        location ~ ^/(static|mediafiles)/ {
+            root    /home/quokka/quokka-env/quokka/quokka;
+            ## Security
+            ## location ~* ^.+.(py|pyc|sh|bat|ini|pot|git)$ {deny all; }
+            expires 7d;
+        }
 
-	location / {
-	    uwsgi_pass      unix:///tmp/quokka.socket;
-	    include         /etc/nginx/uwsgi_params;
-	    uwsgi_param     UWSGI_SCHEME $scheme;
-	    uwsgi_param     SERVER_SOFTWARE    nginx/$nginx_version;
-	    client_max_body_size 40m;
-	}
+        location / {
+            uwsgi_pass      unix:///tmp/quokka.socket;
+            include         /etc/nginx/uwsgi_params;
+            uwsgi_param     UWSGI_SCHEME $scheme;
+            uwsgi_param     SERVER_SOFTWARE    nginx/$nginx_version;
+            client_max_body_size 40m;
+        }
 }' >/etc/nginx/sites-available/quokka.conf
 
 
