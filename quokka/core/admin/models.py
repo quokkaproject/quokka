@@ -27,7 +27,7 @@ class ThemeMixin(object):
         kwargs['h'] = h
         # Contribute extra arguments
         kwargs.update(self._template_args)
-        return render_template(template,  **kwargs)
+        return render_template(template, **kwargs)
 
 
 class Roled(object):
