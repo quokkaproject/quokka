@@ -50,7 +50,7 @@ class PostAdmin(ModelAdmin):
     column_searchable_list = ('title', 'body', 'summary')
 
     form_columns = ['title', 'slug', 'channel', 'related_channels', 'summary',
-                    'body', 'images', 'files', 'published',
+                    'body', 'published', 'contents',
                     'show_on_channel', 'available_at', 'available_until',
                     'tags', 'comments', 'values', 'template_type']
     # form_excluded_columns = []
@@ -77,6 +77,20 @@ class PostAdmin(ModelAdmin):
     #     }
     # }
 
+    form_subdocuments = {
+        'contents': {
+            'form_subdocuments': {
+                None: {
+                    'form_columns': ('content', 'caption', 'purpose', 'order'),
+                    'form_ajax_refs': {
+                        'content': {
+                            'fields': ['title', 'long_slug', 'summary']
+                        }
+                    }
+                }
+            }
+        },
+    }
     # form_extra_fields = {}
 
     # action_disallowed_list

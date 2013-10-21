@@ -1,10 +1,21 @@
 # coding: utf-8
 
-from quokka.core.models import Channel, Config, CustomValue
+from quokka.utils.populate import Populate
+from quokka.core.models import Channel, Config, CustomValue, \
+    SubContentPurpose, ChannelType
 
 
-def configure(app):
+def configure(app, db):
     print("Loading fixtures")
+
+    populate = Populate(db)
+
+    if not SubContentPurpose.objects.count():
+        populate.create_purposes()
+
+    if not ChannelType.objects.count():
+        populate.create_channel_types()
+
     if not Channel.objects.count():
         # Create homepage if it does not exists
         Channel.objects.create(
@@ -23,9 +34,9 @@ def configure(app):
     if not Config.objects.count():
         Config.objects.create(
             group="global",
-            description="GLobal preferences for the website",
+            description="Global preferences for the website",
             values=[
-                CustomValue(name="example", rawvalue="example_value",
+                CustomValue(name="site_name", rawvalue="A Quokka website",
                             format="text")
             ]
         )

@@ -1,6 +1,6 @@
 # coding: utf-8
 
-from quokka.core.models import Channel, ChannelType
+from quokka.core.models import Channel, ChannelType, SubContentPurpose
 from quokka.modules.accounts.models import User, Role
 from quokka.modules.posts.models import Post
 
@@ -14,12 +14,14 @@ class Populate(object):
         self.users = {}
         self.channels = {}
         self.channel_types = {}
+        self.purposes = {}
 
     def __call__(self, *args, **kwargs):
         self.load_existing_users()
         self.create_users()
         self.create_channel_types()
         self.create_channels()
+        self.create_purposes()
         self.create_posts()
 
     def role(self, name):
@@ -225,6 +227,66 @@ class Populate(object):
 
         for data in self.channel_type_data:
             self.create_channel_type(data)
+
+    def create_purpose(self, data):
+        if data.get('identifier') in self.purposes:
+            return self.purposes[data.get('identifier')]
+
+        purpose, created = SubContentPurpose.objects.get_or_create(
+            title=data.get('title'),
+            identifier=data.get('identifier'),
+            module=data.get('module')
+        )
+
+        self.purposes[purpose.identifier] = purpose
+
+        return purpose
+
+    def create_purposes(self):
+        self.purpose_data = [
+            {
+                "title": "General",
+                "identifier": "general",
+                "module": "Content",
+            },
+            {
+                "title": "Related",
+                "identifier": "related",
+                "module": "Content",
+            },
+            {
+                "title": "Main Image",
+                "identifier": "main-image",
+                "module": "Media",
+            },
+            {
+                "title": "Image",
+                "identifier": "image",
+                "module": "Media",
+            },
+            {
+                "title": "Video",
+                "identifier": "video",
+                "module": "Media",
+            },
+            {
+                "title": "Audio",
+                "identifier": "audio",
+                "module": "Media",
+            },
+            {
+                "title": "Attachment",
+                "identifier": "attachment",
+                "module": "Media",
+            },
+            {
+                "title": "Link",
+                "identifier": "link",
+                "module": "Content",
+            },
+        ]
+        for purpose in self.purpose_data:
+            self.create_purpose(purpose)
 
     def create_post(self, data):
         data['created_by'] = data['last_updated_by'] = self.users.get('editor')

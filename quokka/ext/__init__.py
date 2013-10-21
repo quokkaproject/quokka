@@ -20,7 +20,7 @@ def configure_extensions(app, admin):
     Dealer(app)
     error_handlers.configure(app)
     db.init_app(app)
-    fixtures.configure(app)
+    fixtures.configure(app, db)
     themes.configure(app, db)  # Themes should be configured after db
 
     context_processors.configure(app)

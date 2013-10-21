@@ -167,7 +167,7 @@ class CustomValue(db.EmbeddedDocument):
                                    self.DEFAULT_FORMATTER)(self.rawvalue)
 
     @value.setter
-    def value(self, value):  # lint:ok
+    def value(self, value):
         self.rawvalue = self.REVERSE_FORMATTERS.get(self.formatter,
                                                     self.STR_FORMATTER)(value)
 
@@ -195,36 +195,7 @@ class HasCustomValue(object):
 
 
 class Ordered(object):
-    order = db.IntField(required=True, default=0)
-
-
-class ArchiveReference(Publishable, Ordered):
-    caption = db.StringField()
-
-    def __unicode__(self):
-        return self.archive.title
-
-    meta = {
-        'indexes': ['order', '-created_at', '-available_at'],
-        'ordering': ['order']
-    }
-
-
-class Image(ArchiveReference, db.EmbeddedDocument):
-    archive = db.ReferenceField("ImageFile", required=True)
-    main_image = db.BooleanField(default=False)
-
-
-class Attachment(ArchiveReference, db.EmbeddedDocument):
-    archive = db.ReferenceField("File", required=True)
-
-
-class Imaged(object):
-    images = db.ListField(db.EmbeddedDocumentField(Image))
-
-
-class HasAttachment(object):
-    files = db.ListField(db.EmbeddedDocumentField(Attachment))
+    order = db.IntField(required=True, default=1)
 
 
 class ChannelConfigs(object):
@@ -253,8 +224,7 @@ class ContentProxy(db.DynamicDocument):
         return self.content.title
 
 
-class Channel(HasCustomValue, Publishable, Slugged,
-              HasAttachment, Imaged,
+class Channel(HasCustomValue, Publishable, LongSlugged,
               ChannelConfigs, db.DynamicDocument):
     title = db.StringField(max_length=255, required=True)
     description = db.StringField()
@@ -265,7 +235,6 @@ class Channel(HasCustomValue, Publishable, Slugged,
     canonical_url = db.StringField()
     order = db.IntField(default=0)
 
-    # MPTT
     parent = db.ReferenceField('self', required=False, default=None,
                                reverse_delete_rule=db.DENY)
 
@@ -370,8 +339,7 @@ class Channel(HasCustomValue, Publishable, Slugged,
 class Channeling(object):
     channel = db.ReferenceField(Channel, required=True,
                                 reverse_delete_rule=db.DENY)
-    # Objects can be in only one main channel it gives an url
-    # but the objects can also be relates to other channels
+
     related_channels = db.ListField(
         db.ReferenceField('Channel', reverse_delete_rule=db.PULL)
     )
@@ -381,10 +349,6 @@ class Channeling(object):
 class ChannelingNotRequired(Channeling):
     channel = db.ReferenceField(Channel, required=False,
                                 reverse_delete_rule=db.NULLIFY)
-
-
-class Archive(object):
-    path = db.StringField()
 
 
 class Config(HasCustomValue, Publishable, db.DynamicDocument):
@@ -399,8 +363,8 @@ class Config(HasCustomValue, Publishable, db.DynamicDocument):
         # TODO: do it in a signal
         try:
             if self.group == 'settings':
-                settings = {i.name: i.value for i in self.values}
-                current_app.config.update(settings)
+                _settings = {i.name: i.value for i in self.values}
+                current_app.config.update(_settings)
         except:
             logger.warning("Cant update app settings")
 
@@ -408,8 +372,40 @@ class Config(HasCustomValue, Publishable, db.DynamicDocument):
         return self.group
 
 
-class ContentTemplateType(TemplateType, db.DynamicDocument):
+class ContentTemplateType(TemplateType, db.Document):
     """Define the content template type and its theme"""
+
+
+class SubContentPurpose(db.Document):
+    title = db.StringField(max_length=255, required=True)
+    identifier = db.StringField(max_length=255, required=True, unique=True)
+    module = db.StringField()
+
+    def save(self, *args, **kwargs):
+        self.identifier = slugify(self.identifier or self.title)
+        super(SubContentPurpose, self).save(*args, **kwargs)
+
+    def __unicode__(self):
+        return self.title
+
+
+class SubContent(Publishable, Ordered, db.EmbeddedDocument):
+    """Content can have inner contents
+    Its useful for any kind of relation with Content childs
+    Images, ImageGalleries, RelatedContent, Attachments, Media
+    """
+
+    content = db.ReferenceField('Content', required=True)
+    caption = db.StringField()
+    purpose = db.ReferenceField(SubContentPurpose, required=True)
+
+    meta = {
+        'ordering': ['order'],
+        'indexes': ['order']
+    }
+
+    def __unicode__(self):
+        return self.content.title
 
 
 ###############################################################
@@ -417,14 +413,14 @@ class ContentTemplateType(TemplateType, db.DynamicDocument):
 ###############################################################
 
 
-class Content(HasCustomValue, Imaged, Publishable, Slugged, Commentable,
-              Channeling, Tagged, HasAttachment, db.DynamicDocument):
+class Content(HasCustomValue, Publishable, LongSlugged, Commentable,
+              Channeling, Tagged, db.DynamicDocument):
     title = db.StringField(max_length=255, required=True)
     summary = db.StringField(required=False)
     template_type = db.ReferenceField(ContentTemplateType,
                                       required=False,
                                       reverse_delete_rule=db.NULLIFY)
-
+    contents = db.ListField(db.EmbeddedDocumentField(SubContent))
     meta = {
         'allow_inheritance': True,
         'indexes': ['-created_at', 'slug'],
@@ -464,12 +460,28 @@ class Content(HasCustomValue, Imaged, Publishable, Slugged, Commentable,
         super(Content, self).save(*args, **kwargs)
 
 
-class ImageFile(Archive, Content):
-    """A Content representing image files"""
+class Link(Content):
+    link = db.StringField(required=True)
 
 
-class File(Archive, Content):
-    """A Content representing general file attachments"""
+###############################################################
+# General Content admin
+###############################################################
+
+
+class ContentAdmin(ModelAdmin):
+    roles_accepted = ('admin', 'developer')
+
+admin.register(Content, ContentAdmin, category='Settings')
+
+
+class LinkAdmin(ModelAdmin):
+    roles_accepted = ('admin', 'editor', 'writer', 'moderator')
+    column_list = ('title', 'channel', 'slug', 'published')
+    form_columns = ('title', 'slug', 'channel', 'link', 'contents',
+                    'values', 'available_at', 'available_until', 'published')
+
+admin.register(Link, LinkAdmin, category="Content")
 
 
 ###############################################################
@@ -484,6 +496,14 @@ class ConfigAdmin(ModelAdmin):
     form_columns = ("group", "description", "published", "values")
 
 admin.register(Config, ConfigAdmin, category="Settings")
+
+
+class SubContentPurposeAdmin(ModelAdmin):
+    roles_accepted = ('admin', 'editor')
+
+admin.register(SubContentPurpose,
+               SubContentPurposeAdmin,
+               category="Settings")
 
 
 class ChannelTypeAdmin(ModelAdmin):
@@ -513,7 +533,7 @@ class ChannelAdmin(ModelAdmin):
                     'include_in_rss', 'indexable', 'show_in_menu', 'order',
                     'published', 'canonical_url', 'values', 'channel_type',
                     'inherit_parent', 'content_filters', 'available_at',
-                    'available_until', 'render_content', 'images', 'files']
+                    'available_until', 'render_content']
     column_formatters = {'created_at': ModelAdmin.formatters.get('datetime'),
                          'available_at': ModelAdmin.formatters.get('datetime')}
     form_subdocuments = {}
@@ -528,66 +548,13 @@ class ChannelAdmin(ModelAdmin):
         'title': {'style': 'width: 400px'},
         'slug': {'style': 'width: 400px'},
     }
+
     form_ajax_refs = {
         'render_content': AjaxModelLoader('render_content',
                                           Content,
                                           fields=['title', 'slug']),
-        #'parent': {'fields': ['title', 'slug', 'long_slug']},
+        'parent': {'fields': ['title', 'slug', 'long_slug']},
     }
 
 
 admin.register(Channel, ChannelAdmin, category="Content")
-
-
-class FileAdmin(ModelAdmin):
-    roles_accepted = ('admin', 'editor')
-    column_list = ('title', 'path', 'published')
-    form_columns = ['title', 'slug', 'path', 'channel', 'summary', 'published']
-
-    form_overrides = {
-        'path': form.FileUploadField
-    }
-
-    form_args = {
-        'path': {
-            'label': 'File',
-            'base_path': os.path.join(settings.MEDIA_ROOT, 'files')
-        }
-    }
-
-
-admin.register(File, FileAdmin, category='Content')
-
-
-class ImageAdmin(ModelAdmin):
-    roles_accepted = ('admin', 'editor')
-    column_list = ('title', 'path', 'thumb', 'published')
-    form_columns = ['title', 'slug', 'path', 'channel', 'summary', 'published']
-
-    def _list_thumbnail(view, context, model, name):
-        if not model.path:
-            return ''
-
-        return Markup(
-            '<img src="%s">' % url_for(
-                'media',
-                filename="images/{0}".format(form.thumbgen_filename(
-                    model.path))
-            )
-        )
-
-    column_formatters = {
-        'thumb': _list_thumbnail
-    }
-
-    form_extra_fields = {
-        'path': form.ImageUploadField(
-            'Image',
-            base_path=os.path.join(settings.MEDIA_ROOT, 'images'),
-            thumbnail_size=(100, 100, True),
-            endpoint="media"
-        )
-    }
-
-
-admin.register(ImageFile, ImageAdmin, category='Content')
