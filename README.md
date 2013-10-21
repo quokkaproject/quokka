@@ -22,9 +22,9 @@ Docs on [Wiki](https://github.com/pythonhub/quokka/wiki)
 
 * [Abou & Features](https://github.com/pythonhub/quokka/wiki/about)
 * [Installing and running](https://github.com/pythonhub/quokka/wiki/installation)
+* [Requirements](https://github.com/pythonhub/quokka/wiki/requirements)
 * [Extending & Installing modules](https://github.com/pythonhub/quokka/wiki/plugins)
 * [Admin interface](https://github.com/pythonhub/quokka/wiki/screencast)
-* [Requirements](https://github.com/pythonhub/quokka/wiki/requirements)
 * [Project tree](https://github.com/pythonhub/quokka/wiki/project-tree)
 * [Team & Commiters](https://github.com/pythonhub/quokka/graphs/contributors)
 

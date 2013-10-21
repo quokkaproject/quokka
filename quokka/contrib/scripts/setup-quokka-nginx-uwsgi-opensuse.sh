@@ -64,6 +64,12 @@ mkdir -p /etc/nginx/vhosts.d && mkdir -p /etc/nginx/ssl
 echo 'server {
         listen          YOUR_SERVER_IP:80;
         server_name     YOUR_SERVER_FQDN;
+
+        location ~ ^/(media|static)/ {
+            root    /home/quokka/quokka-env/quokka/quokka;
+            expires 7d;
+        }
+
         location / {
             uwsgi_pass      unix:///tmp/quokka.socket;
             include         /etc/nginx/uwsgi_params;
