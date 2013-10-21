@@ -52,7 +52,7 @@ chown -R quokka:quokka /home/quokka
 pip install --upgrade uwsgi
   
 # Prepare folders for uwsgi
-mkdir /etc/uwsgi && mkdir /var/log/uwsgi
+mkdir -p /etc/uwsgi && mkdir -p /var/log/uwsgi
  
   
  
