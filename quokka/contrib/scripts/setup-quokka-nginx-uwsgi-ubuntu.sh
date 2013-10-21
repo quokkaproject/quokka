@@ -12,18 +12,18 @@ if [[ $EUID -ne 0 ]]; then
 echo "You must run the script as root or using sudo"
    exit 1
 fi
- 
+
 echo -e "Set Server Name Ex: quokkaproject.domain.com : \c "
 read  SERVER_FQDN
- 
+
 echo -e "Set Server IP (commonly 127.0.0.1 works): \c "
 read  SERVER_IP
- 
- 
+
+
 echo "" >>/etc/hosts
 echo "$SERVER_IP  $SERVER_FQDN" >>/etc/hosts
- 
- 
+
+
 # Upgrade and install needed software
 apt-get update
 apt-get -y install nginx-full mongodb-server git-core build-essential
@@ -50,30 +50,30 @@ chown -R quokka:quokka /home/quokka
 
 ## Install uWSGI
 pip install --upgrade uwsgi
-  
+
 # Prepare folders for uwsgi
 mkdir -p /etc/uwsgi && mkdir -p /var/log/uwsgi
- 
-  
- 
+
+
+
 echo 'server {
-        listen          YOUR_SERVER_IP:80;
-        server_name     YOUR_SERVER_FQDN;
+	listen          YOUR_SERVER_IP:80;
+	server_name     YOUR_SERVER_FQDN;
 
-        location ~ ^/(media|static)/ {
-            root    /home/quokka/quokka-env/quokka/quokka;
-            expires 7d;
-        }
+	location ~ ^/(mediafiles|static)/ {
+	    root    /home/quokka/quokka-env/quokka/quokka;
+	    expires 7d;
+	}
 
-        location / {
-            uwsgi_pass      unix:///tmp/quokka.socket;
-            include         /etc/nginx/uwsgi_params;
-            uwsgi_param     UWSGI_SCHEME $scheme;
-            uwsgi_param     SERVER_SOFTWARE    nginx/$nginx_version;
-            client_max_body_size 40m;
-        }
+	location / {
+	    uwsgi_pass      unix:///tmp/quokka.socket;
+	    include         /etc/nginx/uwsgi_params;
+	    uwsgi_param     UWSGI_SCHEME $scheme;
+	    uwsgi_param     SERVER_SOFTWARE    nginx/$nginx_version;
+	    client_max_body_size 40m;
+	}
 }' >/etc/nginx/sites-available/quokka.conf
- 
+
 
 ln -s /etc/nginx/sites-available/quokka.conf /etc/nginx/sites-enabled/quokka.conf
 rm /etc/nginx/sites-enabled/default
@@ -95,8 +95,8 @@ logto = /var/log/uwsgi/%n.log
 workers = 3
 uid = quokka
 gid = quokka' >/etc/uwsgi/quokka.ini
- 
- 
+
+
  #Create a configuration file for uwsgi in emperor-mode
 #for Upstart in /etc/init/uwsgi-emperor.conf
 echo '# Emperor uWSGI script
