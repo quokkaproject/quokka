@@ -7,11 +7,27 @@ from flask.ext.admin.contrib.mongoengine import ModelView
 from flask.ext.admin.babel import gettext, ngettext, lazy_gettext
 from flask.ext.admin import AdminIndexView
 from flask.ext.admin.actions import action
+from flask.ext.admin import helpers as h
 from flask.ext.security import current_user
 from flask.ext.security.utils import url_for_security
 from flask import redirect, flash, url_for, Response
 
 from quokka.modules.accounts.models import User
+from quokka.core.templates import render_template
+
+
+class ThemeMixin(object):
+    def render(self, template, **kwargs):
+        # Store self as admin_view
+        kwargs['admin_view'] = self
+        kwargs['admin_base_template'] = self.admin.base_template
+        # Provide i18n support even if flask-babel is not installed or enabled.
+        kwargs['_gettext'] = gettext
+        kwargs['_ngettext'] = ngettext
+        kwargs['h'] = h
+        # Contribute extra arguments
+        kwargs.update(self._template_args)
+        return render_template(template,  **kwargs)
 
 
 class Roled(object):
@@ -37,7 +53,7 @@ def format_datetime(self, request, obj, fieldname, *args, **kwargs):
     return getattr(obj, fieldname).strftime(self.datetime_format)
 
 
-class ModelAdmin(Roled, ModelView):
+class ModelAdmin(ThemeMixin, Roled, ModelView):
 
     form_subdocuments = {}
 
@@ -120,5 +136,5 @@ class ModelAdmin(Roled, ModelView):
         )
 
 
-class BaseIndexView(Roled, AdminIndexView):
+class BaseIndexView(Roled, ThemeMixin, AdminIndexView):
     pass
