@@ -1,0 +1,21 @@
+
+{% import theme('_menu.html') as menu with context -%}
+{% extends theme("base.html") %}
+
+{% block content %}
+<div class="large-8 columns">
+    {% for content in medias %}
+      <h2><a href="{{ content.get_absolute_url() }}">{{ content.title }}</a></h2>
+        {% if content.summary %}
+           <p>{{ content.summary|truncate(255)|safe() }}</p>
+        {% endif %}
+    {% endfor %}
+</div>
+
+<div class="large-4 columns">
+    <div class="channel-menu">
+    <h3>Channels</h3>
+        {{ menu.build_nodes(nodes=channels) }}
+    </div>
+</div>
+{% endblock %}
