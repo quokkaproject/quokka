@@ -1,8 +1,11 @@
 # coding: utf-8
+import logging
 
 from quokka.core.models import Channel, ChannelType, SubContentPurpose
 from quokka.modules.accounts.models import User, Role
 from quokka.modules.posts.models import Post
+
+logger = logging.getLogger()
 
 
 class Populate(object):
@@ -20,6 +23,7 @@ class Populate(object):
         self.load_existing_users()
         self.create_users()
         self.create_channel_types()
+        self.create_base_channels()
         self.create_channels()
         self.create_purposes()
         self.create_posts()
@@ -29,7 +33,7 @@ class Populate(object):
             role, created = Role.objects.get_or_create(name=name)
             self.roles[name] = role
             if created:
-                print("Created role: {0}".format(name))
+                logger.info("Created role: {0}".format(name))
         return self.roles.get(name)
 
     def load_existing_users(self):
@@ -71,12 +75,12 @@ class Populate(object):
             if not name in self.users:
                 user = User.createuser(**data)
                 self.users[name] = user
-                print(
+                logger.info(
                     "Created: User: mail:{o.email} pwd:{pwd}".format(o=user,
                                                                      pwd=pwd)
                 )
             else:
-                print("Exist: User: mail:{o[email]}".format(o=data))
+                logger.info("Exist: User: mail:{o[email]}".format(o=data))
 
     def create_channel(self, data):
 
@@ -94,9 +98,9 @@ class Populate(object):
             channel, created = Channel.objects.get_or_create(**data)
 
         if created:
-            print("Created channel:{0}".format(channel.title))
+            logger.info("Created channel:{0}".format(channel.title))
         else:
-            print("Channel get: {0}".format(channel.title))
+            logger.info("Channel get: {0}".format(channel.title))
 
         for child in childs:
             child['parent'] = channel
@@ -118,16 +122,16 @@ class Populate(object):
             )
 
         if created:
-            print("Created channel_type:{0}".format(channel_type.title))
+            logger.info("Created channel_type:{0}".format(channel_type.title))
         else:
-            print("ChannelType get: {0}".format(channel_type.title))
+            logger.info("ChannelType get: {0}".format(channel_type.title))
 
         if not channel_type.identifier in self.channel_types:
             self.channel_types[channel_type.identifier] = channel_type
 
         return channel_type
 
-    def create_channels(self):
+    def create_base_channels(self):
         self.channel_data = [
             {
                 "title": "Home",
@@ -135,9 +139,47 @@ class Populate(object):
                 "description": "Home page",
                 "show_in_menu": True,
                 "is_homepage": True,
+                "include_in_rss": True,
                 "published": True,
+                "indexable": True,
+                "order": 0,
                 "channel_type": self.channel_types.get('portal'),
+                "canonical_url": "/"
             },
+            {
+                "title": "media",
+                "slug": "media",
+                "description": "Multi Media",
+                "show_in_menu": False,
+                "is_homepage": False,
+                "include_in_rss": False,
+                "published": True,
+                "channel_type": self.channel_types.get('grid'),
+                "canonical_url": "/media",
+                "childs": [
+                    {
+                        "title": media,
+                        "slug": media.lower(),
+                        "description": "{} channel".format(media),
+                        "include_in_rss": False,
+                        "show_in_menu": False,
+                        "published": True,
+                        "channel_type": self.channel_types.get('grid'),
+                        "is_homepage": False,
+                        "canonical_url": "/media/{}".format(media.lower()),
+                        "indexable": True
+                    }
+                    for media in ['Images', 'Videos', 'Audios',
+                                  'Files', 'Galleries']
+                ]
+            },
+        ]
+
+        for data in self.channel_data:
+            self.create_channel(data)
+
+    def create_channels(self):
+        self.channel_data = [
             {
                 "title": "Articles",
                 "slug": "articles",
@@ -293,10 +335,10 @@ class Populate(object):
         data['published'] = True
         try:
             post = Post.objects.get(slug=data.get('slug'))
-            print("Post get: {0}".format(post.title))
+            logger.info("Post get: {0}".format(post.title))
         except Exception:
             post = Post.objects.create(**data)
-            print("Post created: {0}".format(post.title))
+            logger.info("Post created: {0}".format(post.title))
 
         return post
 
