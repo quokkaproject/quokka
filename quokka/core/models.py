@@ -436,6 +436,8 @@ class Content(HasCustomValue, Publishable, LongSlugged, Commentable,
                                       required=False,
                                       reverse_delete_rule=db.NULLIFY)
     contents = db.ListField(db.EmbeddedDocumentField(SubContent))
+    model = db.StringField()
+
     meta = {
         'allow_inheritance': True,
         'indexes': ['-created_at', 'slug'],
