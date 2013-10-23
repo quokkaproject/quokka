@@ -331,11 +331,23 @@ class Channel(HasCustomValue, Publishable, LongSlugged,
         else:
             self.render_content = None
 
+    def heritage(self):
+        """populate inheritance from parent channels"""
+        parent = self.parent
+        if not parent or not self.inherit_parent:
+            return
+
+        self.content_filters = self.content_filters or parent.content_filters
+        self.include_in_rss = self.include_in_rss or parent.include_in_rss
+        self.show_in_menu = self.show_in_menu or parent.show_in_menu
+        self.indexable = self.indexable or parent.indexable
+        self.channel_type = self.channel_type or parent.channel_type
+
     def save(self, *args, **kwargs):
         self.validate_render_content()
         self.validate_slug()
         self.validate_long_slug()
-
+        self.heritage()
         super(Channel, self).save(*args, **kwargs)
 
 
