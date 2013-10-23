@@ -247,9 +247,12 @@ class Channel(HasCustomValue, Publishable, LongSlugged,
                                        reverse_delete_rule=db.NULLIFY)
 
     def get_content_filters(self):
+        filters = {}
         if self.channel_type and self.channel_type.content_filters:
-            return self.channel_type.content_filters
-        return {}
+            filters.update(self.channel_type.content_filters)
+        if self.content_filters:
+            filters.update(self.content_filters)
+        return filters
 
     def get_ancestors_slugs(self):
         """return ancestors slugs including self as 1st item
