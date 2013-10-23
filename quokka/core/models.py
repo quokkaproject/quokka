@@ -200,7 +200,7 @@ class Ordered(object):
 
 class ChannelConfigs(object):
     content_filters = db.DictField(required=False, default=lambda: {})
-    inherit_parent = db.BooleanField(default=False)
+    inherit_parent = db.BooleanField(default=True)
 
 
 class TemplateType(HasCustomValue):
