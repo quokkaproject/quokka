@@ -20,7 +20,7 @@ Quokka is a flexible content management platform powered by Python, Flask and Mo
 Docs on [Wiki](https://github.com/pythonhub/quokka/wiki)
 ===============================================
 
-* [Abou & Features](https://github.com/pythonhub/quokka/wiki/about)
+* [About & Features](https://github.com/pythonhub/quokka/wiki/about)
 * [Installing and running](https://github.com/pythonhub/quokka/wiki/installation)
 * [Requirements](https://github.com/pythonhub/quokka/wiki/requirements)
 * [Extending & Installing modules](https://github.com/pythonhub/quokka/wiki/plugins)
