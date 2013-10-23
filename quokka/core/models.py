@@ -466,14 +466,22 @@ class Content(HasCustomValue, Publishable, LongSlugged, Commentable,
         return self.title
 
     @property
-    def content_type(self):
-        return self.__class__.__name__
+    def model_name(self):
+        return self.__class__.__name__.lower()
+
+    @property
+    def module_name(self):
+        module = self.__module__
+        module_name = module.replace('quokka.modules.', '').split('.')[0]
+        return module_name
+
+    def heritage(self):
+        self.model = "{0}.{1}".format(self.module_name, self.model_name)
 
     def save(self, *args, **kwargs):
-
         self.validate_slug()
         self.validate_long_slug()
-
+        self.heritage()
         super(Content, self).save(*args, **kwargs)
 
 
