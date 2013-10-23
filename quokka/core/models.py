@@ -230,7 +230,7 @@ class Channel(HasCustomValue, Publishable, LongSlugged,
     description = db.StringField()
     show_in_menu = db.BooleanField(default=False)
     is_homepage = db.BooleanField(default=False)
-    include_in_rss = db.BooleanField(default=False)
+    include_in_rss = db.BooleanField(default=True)
     indexable = db.BooleanField(default=True)
     canonical_url = db.StringField()
     order = db.IntField(default=0)
