@@ -23,17 +23,20 @@ admin = create_admin()
 def create_app(config=None, test=False, admin_instance=None, **settings):
     app = QuokkaApp('quokka')
     app.config.from_object(config or 'quokka.settings')
-    app.config.from_envvar("APP_SETTINGS", silent=True)
     mode = os.environ.get('MODE', 'local')
     if test:
         mode = 'test'
-
     try:
         app.config.from_object('quokka.%s_settings' % mode)
     except ImportError:
         pass
 
     app.config.update(settings)
+
+    if not test:
+        app.config.from_envvar("QUOKKA_SETTINGS", silent=True)
+    else:
+        app.config.from_envvar("QUOKKATEST_SETTINGS", silent=True)
 
     from .ext import configure_extensions
     configure_extensions(app, admin_instance or admin)
