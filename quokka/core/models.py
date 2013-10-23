@@ -447,9 +447,9 @@ class Content(HasCustomValue, Publishable, LongSlugged, Commentable,
     def get_themes(self):
         themes = self.channel.get_themes()
         theme = self.template_type and self.template_type.theme_name
-        if theme and theme not in themes:
+        if theme:
             themes.insert(0, theme)
-        return themes
+        return list(set(themes))
 
     def get_absolute_url(self, endpoint='detail'):
         if self.channel.is_homepage:
