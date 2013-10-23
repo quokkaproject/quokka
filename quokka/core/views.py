@@ -58,6 +58,8 @@ class ContentList(MethodView):
 
         self.channel = channel
 
+        base_filters = {}
+
         filters = {
             'published': True,
             'available_at__lte': now,
@@ -65,10 +67,11 @@ class ContentList(MethodView):
         }
 
         if not channel.is_homepage:
-            filters['__raw__'] = {'mpath': {'$regex': "^{0}".format(mpath)}}
+            base_filters['__raw__'] = {
+                'mpath': {'$regex': "^{0}".format(mpath)}}
 
         filters.update(channel.get_content_filters())
-        contents = Content.objects(**filters)
+        contents = Content.objects(**base_filters).filter(**filters)
 
         themes = channel.get_themes()
         return render_template(self.get_template_names(),
@@ -95,9 +98,8 @@ class ContentDetail(MethodView):
         self.template_suffix = "{0}_{1}".format(type_suffix,
                                                 self.template_suffix)
 
-        module = self.content.__module__
-        module_name = module.replace('quokka.modules.', '').split('.')[0]
-        model_name = self.content.content_type.lower()
+        module_name = self.content.module_name
+        model_name = self.content.model_name
 
         common_data = dict(
             object_name=self.object_name,
