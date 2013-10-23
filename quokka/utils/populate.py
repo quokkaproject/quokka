@@ -1,7 +1,8 @@
 # coding: utf-8
 import logging
 
-from quokka.core.models import Channel, ChannelType, SubContentPurpose
+from quokka.core.models import Channel, ChannelType, SubContentPurpose, \
+    Config, CustomValue
 from quokka.modules.accounts.models import User, Role
 from quokka.modules.posts.models import Post
 
@@ -18,10 +19,12 @@ class Populate(object):
         self.channels = {}
         self.channel_types = {}
         self.purposes = {}
+        self.custom_values = {}
 
     def __call__(self, *args, **kwargs):
         self.load_existing_users()
         self.create_users()
+        self.create_configs()
         self.create_channel_types()
         self.create_base_channels()
         self.create_channels()
@@ -81,6 +84,61 @@ class Populate(object):
                 )
             else:
                 logger.info("Exist: User: mail:{o[email]}".format(o=data))
+
+    def create_config(self, data):
+        try:
+            return Config.objects.get(group=data.get('group'))
+        except:
+            return Config.objects.create(**data)
+
+    def custom_value(self, **data):
+        if data.get('name') in self.custom_values:
+            return self.custom_values[data.get('name')]
+
+        value = CustomValue(**data)
+        self.custom_values[value.name] = value
+        return value
+
+    def create_configs(self):
+        self.configs_data = [
+            {
+                "group": "site",
+                "description": "Preferences for website",
+                "values": [
+                    self.custom_value(name="site_name",
+                                      rawvalue="A Quokka website",
+                                      format="text"),
+                    self.custom_value(name="site_keywords",
+                                      rawvalue="cms,quokka,flask,mongo,python",
+                                      format="text")
+                ]
+            },
+            {
+                "group": "channels",
+                "description": "Global preferences for channels",
+                "values": [
+                    self.custom_value(name="default_channel_type",
+                                      rawvalue="list",
+                                      format="text"),
+                    self.custom_value(
+                        name="global_content_filters",
+                        rawvalue='{"model__not__startswith": "media."}',
+                        format="json"
+                    )
+                ]
+            },
+            {
+                "group": "settings",
+                "description": "App settings override CAUTION!!!",
+                "values": [
+                    self.custom_value(name="DEFAULT_THEME",
+                                      rawvalue="default",
+                                      format="text")
+                ]
+            }
+        ]
+        for config in self.configs_data:
+            self.create_config(config)
 
     def create_channel(self, data):
 
@@ -144,6 +202,7 @@ class Populate(object):
                 "indexable": True,
                 "order": 0,
                 "channel_type": self.channel_types.get('portal'),
+                "content_filters": {"model__not__startswith": "media."},
                 "canonical_url": "/"
             },
             {
