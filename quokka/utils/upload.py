@@ -4,7 +4,7 @@ import os.path as op
 from werkzeug import secure_filename
 from flask import current_app
 from datetime import date
-from .text import LazyString
+from speaklater import make_lazy_string
 
 
 def dated_path(obj, file_data):
@@ -34,4 +34,4 @@ def media_path(suffix=None):
 
 
 def lazy_media_path(suffix=None):
-    return LazyString(lambda: media_path(suffix))
+    return make_lazy_string(lambda: media_path(suffix))
