@@ -341,18 +341,28 @@ class Channel(HasCustomValue, Publishable, LongSlugged,
         self.indexable = self.indexable or parent.indexable
         self.channel_type = self.channel_type or parent.channel_type
 
+    def update_descendants_and_contents(self):
+        """TODO:
+        Detect if self.long_slug and self.mpath has changed.
+        if so, update every descendant using get_descendatns method
+        to query.
+        Also update long_slug and mpath for every Content in this channel
+        This needs to be done by default in araw immediate way, but if
+        current_app.config.get('ASYNC_SAVE_MODE') is True it will delegate
+        all those tasks to celery."""
+
     def save(self, *args, **kwargs):
         self.validate_render_content()
         self.validate_slug()
         self.validate_long_slug()
         self.heritage()
+        self.update_descendants_and_contents()
         super(Channel, self).save(*args, **kwargs)
 
 
 class Channeling(object):
     channel = db.ReferenceField(Channel, required=True,
                                 reverse_delete_rule=db.DENY)
-
     related_channels = db.ListField(
         db.ReferenceField('Channel', reverse_delete_rule=db.PULL)
     )
