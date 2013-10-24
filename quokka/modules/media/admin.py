@@ -1,14 +1,13 @@
 # coding : utf -8
-import os
+
 from flask import url_for
 from flask.ext.admin import form
 from jinja2 import Markup
 
-from quokka import settings
 from quokka import admin
 from quokka.core.admin import _, _l
 from quokka.core.admin.models import ModelAdmin
-
+from quokka.utils.upload import dated_path, lazy_media_path
 from .models import Image, File, Video, Audio, MediaGallery
 
 
@@ -26,7 +25,9 @@ class FileAdmin(MediaAdmin):
     form_args = {
         'path': {
             'label': 'File',
-            'base_path': os.path.join(settings.MEDIA_ROOT, 'files')
+            'base_path': lazy_media_path(),
+            'namegen': dated_path,
+            'permission': 0o777
         }
     }
 
@@ -65,9 +66,11 @@ class ImageAdmin(MediaAdmin):
     form_extra_fields = {
         'path': form.ImageUploadField(
             'Image',
-            base_path=os.path.join(settings.MEDIA_ROOT, 'images'),
+            base_path=lazy_media_path(),
             thumbnail_size=(100, 100, True),
-            endpoint="media"
+            endpoint="media",
+            namegen=dated_path,
+            permission=0o777
         )
     }
 
