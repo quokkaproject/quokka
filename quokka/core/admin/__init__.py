@@ -6,6 +6,8 @@ import logging
 from flask import request, session
 from flask.ext.admin import Admin
 from flask.ext.admin.contrib import fileadmin
+from flask.ext.admin.babel import gettext, ngettext, lazy_gettext
+
 from .models import ModelAdmin
 from .views import IndexView
 
@@ -76,3 +78,15 @@ def configure_admin(app, admin):
         admin.init_app(app)
 
     return admin
+
+
+def _(*args, **kwargs):
+    return gettext(*args, **kwargs)
+
+
+def _l(*args, **kwargs):
+    return lazy_gettext(*args, **kwargs)
+
+
+def _s(*args, **kwargs):
+    return ngettext(*args, **kwargs)

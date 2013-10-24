@@ -6,9 +6,10 @@ from jinja2 import Markup
 
 from quokka import settings
 from quokka import admin
+from quokka.core.admin import _, _l
 from quokka.core.admin.models import ModelAdmin
 
-from .models import Image, File, Video, Audio
+from .models import Image, File, Video, Audio, MediaGallery
 
 
 class MediaAdmin(ModelAdmin):
@@ -71,7 +72,13 @@ class ImageAdmin(MediaAdmin):
     }
 
 
-admin.register(File, FileAdmin, category='Content')
-admin.register(Video, VideoAdmin, category='Content')
-admin.register(Audio, AudioAdmin, category='Content')
-admin.register(Image, ImageAdmin, category='Content')
+class MediaGalleryAdmin(ModelAdmin):
+    roles_accepted = ('admin', 'editor')
+
+
+admin.register(File, FileAdmin, category=_('Media'), name=_l("File"))
+admin.register(Video, VideoAdmin, category=_('Media'), name=_l("Video"))
+admin.register(Audio, AudioAdmin, category=_('Media'), name=_l("Audio"))
+admin.register(Image, ImageAdmin, category=_('Media'), name=_l("Image"))
+admin.register(MediaGallery, MediaGalleryAdmin,
+               category=_('Content'), name=_l("Media Gallery"))

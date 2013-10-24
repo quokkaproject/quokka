@@ -10,6 +10,7 @@ from flask.ext.security import current_user
 from flask.ext.admin.babel import lazy_gettext
 from quokka.core.db import db
 from quokka import admin
+from quokka.core.admin import _, _l
 from quokka.core.admin.models import ModelAdmin
 from quokka.core.admin.ajax import AjaxModelLoader
 from quokka.modules.accounts.models import User
@@ -505,7 +506,8 @@ class Link(Content):
 class ContentAdmin(ModelAdmin):
     roles_accepted = ('admin', 'developer')
 
-admin.register(Content, ContentAdmin, category='Settings')
+admin.register(Content, ContentAdmin,
+               category=_('Settings'), name=_l("Content"))
 
 
 class LinkAdmin(ModelAdmin):
@@ -514,7 +516,7 @@ class LinkAdmin(ModelAdmin):
     form_columns = ('title', 'slug', 'channel', 'link', 'contents',
                     'values', 'available_at', 'available_until', 'published')
 
-admin.register(Link, LinkAdmin, category="Content")
+admin.register(Link, LinkAdmin, category=_("Content"), name=_l("Link"))
 
 
 ###############################################################
@@ -528,7 +530,7 @@ class ConfigAdmin(ModelAdmin):
     column_filters = ("group", "description")
     form_columns = ("group", "description", "published", "values")
 
-admin.register(Config, ConfigAdmin, category="Settings")
+admin.register(Config, ConfigAdmin, category=_("Settings"), name=_l("Config"))
 
 
 class SubContentPurposeAdmin(ModelAdmin):
@@ -536,13 +538,15 @@ class SubContentPurposeAdmin(ModelAdmin):
 
 admin.register(SubContentPurpose,
                SubContentPurposeAdmin,
-               category="Settings")
+               category=_("Settings"),
+               name=_l("Sub content purposes"))
 
 
 class ChannelTypeAdmin(ModelAdmin):
     roles_accepted = ('admin', 'editor')
 
-admin.register(ChannelType, ChannelTypeAdmin, category="Settings")
+admin.register(ChannelType, ChannelTypeAdmin,
+               category=_("Settings"), name=_l("Channel type"))
 
 
 class ContentTemplateTypeAdmin(ModelAdmin):
@@ -550,7 +554,8 @@ class ContentTemplateTypeAdmin(ModelAdmin):
 
 admin.register(ContentTemplateType,
                ContentTemplateTypeAdmin,
-               category="Settings")
+               category=_("Settings"),
+               name=_l("Template type"))
 
 
 class ChannelAdmin(ModelAdmin):
@@ -590,4 +595,5 @@ class ChannelAdmin(ModelAdmin):
     }
 
 
-admin.register(Channel, ChannelAdmin, category="Content")
+admin.register(Channel, ChannelAdmin,
+               category=_("Content"), name=_l("Channel"))

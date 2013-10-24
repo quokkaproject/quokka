@@ -1,5 +1,6 @@
 # coding : utf -8
 from quokka import admin
+from quokka.core.admin import _, _l
 from quokka.core.admin.models import ModelAdmin
 from .models import Role, User
 
@@ -18,5 +19,5 @@ class RoleAdmin(ModelAdmin):
     column_list = ('name', 'description')
 
 
-admin.register(User, UserAdmin, category="Accounts")
-admin.register(Role, RoleAdmin, category="Accounts")
+admin.register(User, UserAdmin, category=_("Accounts"), name=_l("User"))
+admin.register(Role, RoleAdmin, category=_("Accounts", name=_l("Roles")))
