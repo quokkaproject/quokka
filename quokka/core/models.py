@@ -171,6 +171,8 @@ class CustomValue(db.EmbeddedDocument):
         try:
             self.value
         except Exception as e:
+            # raise base exception because Flask-Admin can't handle the output
+            # for some specific Exceptions of Mongoengine
             raise Exception(e.message)
         super(CustomValue, self).clean()
 
