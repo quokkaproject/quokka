@@ -2,9 +2,10 @@
 
 from quokka.core.db import db
 from quokka.core.models import Content
+from .controller import MediaController
 
 
-class Media(Content):
+class Media(MediaController, Content):
     path = db.StringField()
     embed = db.StringField()
     link = db.StringField()
@@ -28,3 +29,7 @@ class Video(Media):
 
 class Audio(Media):
     pass
+
+
+class MediaGallery(Content):
+    body = db.StringField(required=False)

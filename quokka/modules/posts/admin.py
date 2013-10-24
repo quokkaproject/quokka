@@ -3,7 +3,7 @@ from flask.ext.htmlbuilder import html
 from flask.ext.admin.babel import lazy_gettext
 from quokka import admin
 from quokka.core.admin.models import ModelAdmin
-
+from quokka.core.admin import _, _l
 from .models import Post
 
 
@@ -101,4 +101,4 @@ class PostAdmin(ModelAdmin):
     # }
 
 
-admin.register(Post, PostAdmin, category="Content")
+admin.register(Post, PostAdmin, category=_("Content"), name=_l("Post"))
