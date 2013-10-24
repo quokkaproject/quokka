@@ -66,28 +66,24 @@ class LongSlugged(Slugged):
     mpath = db.StringField()
 
     def _create_mpath_long_slug(self):
-        try:
+        if isinstance(self, Channel):
             if self.parent and self.parent != self:
                 self.long_slug = "/".join(
                     [self.parent.long_slug, self.slug]
                 )
-
                 self.mpath = "".join(
                     [self.parent.mpath, self.slug, ',']
                 )
             else:
                 self.long_slug = self.slug
                 self.mpath = ",%s," % self.slug
-        except:
-            logger.info("excepting to content validate_long_slug")
+        elif isinstance(self, Content):
             self.long_slug = "/".join(
                 [self.channel.long_slug, self.slug]
             )
-
             self.mpath = "".join([self.channel.mpath, self.slug, ','])
 
     def validate_long_slug(self):
-
         self._create_mpath_long_slug()
 
         filters = dict(long_slug=self.long_slug)
