@@ -226,5 +226,5 @@ LOGGER_DATE_FORMAT = '%d.%m %H:%M:%S'
 # media module
 MEDIA_IMAGE_ALLOWED_EXTENSIONS = ('jpg', 'jpeg', 'png', 'tiff', 'gif', 'bmp')
 MEDIA_AUDIO_ALLOWED_EXTENSIONS = ('mp3', 'wmv', 'ogg')
-MEDIA_VIDEO_ALLOWED_EXTENSIONS =('avi', 'mp4', 'mpeg')
+MEDIA_VIDEO_ALLOWED_EXTENSIONS = ('avi', 'mp4', 'mpeg')
 MEDIA_FILE_ALLOWED_EXTENSIONS = ('pdf', 'txt', 'doc', 'docx', 'xls', 'xmlsx')
