@@ -1,6 +1,6 @@
 #!/bin/bash
 # Author: Nilton OS -- www.linuxpro.com.br
-# Version: 0.4
+# Version: 0.5
 
 echo 'setup-quokka-nginx-uwsgi-ubuntu.sh'
 echo 'Support Ubuntu/Debian'
@@ -12,6 +12,8 @@ if [[ $EUID -ne 0 ]]; then
 echo "You must run the script as root or using sudo"
    exit 1
 fi
+
+GET_OS=$(cat /etc/issue | awk '{ print tolower($1) }' | head -n1)
 
 echo -e "Set Server Name Ex: quokkaproject.domain.com : \c "
 read  SERVER_FQDN
@@ -26,10 +28,16 @@ echo "$SERVER_IP  $SERVER_FQDN" >>/etc/hosts
 
 # Upgrade and install needed software
 apt-get update
-apt-get -y install nginx-full mongodb-server git-core build-essential
-apt-get -y install python-dev python-virtualenv python-pip libxml2-dev
+apt-get -y install nginx-full mongodb-server git-core build-essential python-imaging
+apt-get -y install python-dev python-virtualenv python-pip libxml2-dev libjpeg-dev
 
 
+## Fix Error Ubuntu Compile PIL support jpeg
+if [[ $GET_OS == 'ubuntu' ]]; then
+ ln -s /usr/lib/`uname -i`-linux-gnu/libfreetype.so /usr/lib/
+ ln -s /usr/lib/`uname -i`-linux-gnu/libjpeg.so /usr/lib/
+ ln -s /usr/lib/`uname -i`-linux-gnu/libz.so /usr/lib/
+fi
 
 ## Create VirtualEnv and User Quokka
 adduser --disabled-login --gecos 'Quokka' quokka
@@ -53,13 +61,18 @@ pip install --upgrade uwsgi
 
 # Prepare folders for uwsgi
 mkdir -p /etc/uwsgi && mkdir -p /var/log/uwsgi
-<<<<<<< HEAD
- 
-  
+
  
 echo 'server {
         listen          YOUR_SERVER_IP:80;
         server_name     YOUR_SERVER_FQDN;
+
+         ## Send File Upload via HTTP
+		 client_body_in_file_only clean;
+		 client_body_buffer_size 32K;
+		 client_max_body_size 20M;
+		 sendfile on;
+         send_timeout 300s; 
 
         location ~ ^/(static|mediafiles)/ {
             root    /home/quokka/quokka-env/quokka/quokka;
@@ -69,11 +82,10 @@ echo 'server {
         }
 
         location / {
-            uwsgi_pass      unix:///tmp/quokka.socket;
+            uwsgi_pass      unix:/home/quokka/quokka-env/quokka/logs/quokka.socket;
             include         /etc/nginx/uwsgi_params;
             uwsgi_param     UWSGI_SCHEME $scheme;
             uwsgi_param     SERVER_SOFTWARE    nginx/$nginx_version;
-            client_max_body_size 40m;
         }
 }' >/etc/nginx/sites-available/quokka.conf
 
@@ -89,15 +101,20 @@ sed -i "s/YOUR_SERVER_FQDN/$SERVER_FQDN/" /etc/nginx/sites-available/quokka.conf
 # Create configuration file /etc/uwsgi/quokka.ini
 echo '[uwsgi]
 chmod-socket = 666
-chdir = /home/quokka/quokka-env/quokka
 virtualenv = /home/quokka/quokka-env
-module = wsgi
-socket = /tmp/%n.socket
-socket = /tmp/%n.sock
-logto = /var/log/uwsgi/%n.log
-workers = 3
+mount  = /=wsgi:application
+chdir  = /home/quokka/quokka-env/quokka
+socket = /home/quokka/quokka-env/quokka/logs/%n.socket
+stats  = /home/quokka/quokka-env/quokka/logs/%n.stats.socket
+logto  = /home/quokka/quokka-env/quokka/logs/%n.log
+workers = 4
 uid = quokka
-gid = quokka' >/etc/uwsgi/quokka.ini
+gid = quokka
+max-requests = 2000
+limit-as = 512
+reload-on-as = 256
+reload-on-rss = 192
+' >/etc/uwsgi/quokka.ini
 
 
  #Create a configuration file for uwsgi in emperor-mode

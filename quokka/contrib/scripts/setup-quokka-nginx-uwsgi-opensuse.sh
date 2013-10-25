@@ -1,9 +1,9 @@
 #!/bin/bash
 # Author: Nilton OS -- www.linuxpro.com.br
-# Version: 0.4
+# Version: 0.5
 
 echo 'setup-quokka-nginx-uwsgi-opensuse.sh'
-echo 'Support OpenSUSE  11.X, 12.X, 13.X'
+echo 'Support OpenSUSE  12.X, 13.X'
 echo 'Installs Nginx + uWSGI + Quokka'
 
 # Check if user has root privileges
@@ -27,15 +27,21 @@ echo "$SERVER_IP  $SERVER_FQDN" >>/etc/hosts
 
 zypper ar http://download.opensuse.org/repositories/devel:/languages:/python/openSUSE_${SUSE_VERSION}/ devel_python
 zypper --no-gpg-checks refresh
-zypper in -y gcc make mongodb git-core sudo nginx python-devel python-pip python-virtualenv
+zypper in -y gcc make mongodb git-core sudo nginx python-devel libjpeg8-devel 
+zypper in -y python-pip python-virtualenv pcre-devel python-imaging
 
 ## Start MongoDB
 /etc/init.d/mongodb start
 chkconfig --add mongodb
 
 ## Create VirtualEnv and User Quokka
-groupadd quokka
-useradd -m -G quokka --system -s /bin/sh -c 'Quokka' -d /home/quokka quokka
+if [[ $SUSE_VERSION == '12.2' ]]; then
+    groupadd quokka
+    useradd -m -g quokka --system -s /bin/sh -c 'Quokka' quokka
+else
+    useradd -m -U --system -s /bin/sh -c 'Quokka' quokka
+fi
+
 cd /home/quokka
 virtualenv quokka-env
 cd quokka-env
@@ -54,7 +60,7 @@ chown -R quokka:quokka /home/quokka
 pip install --upgrade uwsgi
 
 # Prepare folders for uwsgi
-mkdir /etc/uwsgi && mkdir /var/log/uwsgi
+mkdir -p /etc/uwsgi && mkdir -p /var/log/uwsgi
 
 usermod -a -G www nginx
 mkdir -p /etc/nginx/vhosts.d && mkdir -p /etc/nginx/ssl
@@ -65,6 +71,13 @@ echo 'server {
         listen          YOUR_SERVER_IP:80;
         server_name     YOUR_SERVER_FQDN;
 
+         ## Send File Upload via HTTP
+		 client_body_in_file_only clean;
+		 client_body_buffer_size 32K;
+		 client_max_body_size 20M;
+		 sendfile on;
+         send_timeout 300s; 
+
         location ~ ^/(static|mediafiles)/ {
             root    /home/quokka/quokka-env/quokka/quokka;
             ## Security
@@ -73,11 +86,10 @@ echo 'server {
         }
 
         location / {
-            uwsgi_pass      unix:///tmp/quokka.socket;
+            uwsgi_pass      unix:/home/quokka/quokka-env/quokka/logs/quokka.socket;
             include         /etc/nginx/uwsgi_params;
             uwsgi_param     UWSGI_SCHEME $scheme;
             uwsgi_param     SERVER_SOFTWARE    nginx/$nginx_version;
-            client_max_body_size 40m;
         }
 }' >/etc/nginx/vhosts.d/quokka.conf
 
@@ -89,15 +101,20 @@ sed -i "s/YOUR_SERVER_FQDN/$SERVER_FQDN/" /etc/nginx/vhosts.d/quokka.conf
 # Create configuration file /etc/uwsgi/quokka.ini
 echo '[uwsgi]
 chmod-socket = 666
-chdir = /home/quokka/quokka-env/quokka
 virtualenv = /home/quokka/quokka-env
-module = wsgi
-socket = /tmp/%n.socket
-socket = /tmp/%n.sock
-logto = /var/log/uwsgi/%n.log
-workers = 3
+mount  = /=wsgi:application
+chdir  = /home/quokka/quokka-env/quokka
+socket = /home/quokka/quokka-env/quokka/logs/%n.socket
+stats  = /home/quokka/quokka-env/quokka/logs/%n.stats.socket
+logto  = /home/quokka/quokka-env/quokka/logs/%n.log
+workers = 4
 uid = quokka
-gid = quokka' >/etc/uwsgi/quokka.ini
+gid = quokka
+max-requests = 2000
+limit-as = 512
+reload-on-as = 256
+reload-on-rss = 192
+' >/etc/uwsgi/quokka.ini
 
 
 
@@ -105,7 +122,7 @@ gid = quokka' >/etc/uwsgi/quokka.ini
 ## Daemons /start/stop
 
 echo '#!/bin/sh
-# Autor: Nilton OS -- www.linuxpro.com.br
+# Author: Nilton OS -- www.linuxpro.com.br
 #
 #
 ### BEGIN INIT INFO
