@@ -7,6 +7,7 @@ from jinja2 import Markup
 from quokka import admin
 from quokka.core.admin import _, _l
 from quokka.core.admin.models import ModelAdmin
+from quokka.core.admin.fields import ImageUploadField
 from quokka.utils.upload import dated_path, lazy_media_path
 from .models import Image, File, Video, Audio, MediaGallery
 
@@ -64,13 +65,14 @@ class ImageAdmin(MediaAdmin):
     }
 
     form_extra_fields = {
-        'path': form.ImageUploadField(
+        'path': ImageUploadField(
             'Image',
             base_path=lazy_media_path(),
             thumbnail_size=(100, 100, True),
             endpoint="media",
             namegen=dated_path,
-            permission=0o777
+            permission=0o777,
+            allowed_extensions="MEDIA_IMAGE_ALLOWED_EXTENSIONS",
         )
     }
 
