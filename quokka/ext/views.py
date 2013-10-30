@@ -41,5 +41,5 @@ def configure(app):
     app.add_url_rule(
         '/',
         view_func=ContentList.as_view('home'),
-        defaults={"long_slug": Channel.get_homepage('slug') or "home"}
+        defaults={"long_slug": Channel.get_homepage('long_slug') or "home"}
     )
