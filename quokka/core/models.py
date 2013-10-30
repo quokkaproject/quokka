@@ -396,6 +396,10 @@ class Config(HasCustomValue, Publishable, db.DynamicDocument):
         return self.group
 
 
+class Quokka(Dated, Slugged, db.DynamicDocument):
+    """ Hidden collection """
+
+
 class ContentTemplateType(TemplateType, db.Document):
     """Define the content template type and its theme"""
 
