@@ -33,7 +33,6 @@ class ThemeMixin(object):
 class Roled(object):
 
     def is_accessible(self):
-
         roles_accepted = getattr(self, 'roles_accepted', None)
         if roles_accepted:
             accessible = any(

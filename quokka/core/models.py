@@ -6,7 +6,6 @@ import logging
 import datetime
 import random
 from flask import url_for, current_app
-from flask.ext.security import current_user
 from flask.ext.admin.babel import lazy_gettext
 from quokka.core.db import db
 from quokka import admin
@@ -15,6 +14,7 @@ from quokka.core.admin.models import ModelAdmin
 from quokka.core.admin.ajax import AjaxModelLoader
 from quokka.modules.accounts.models import User
 from quokka.utils.text import slugify
+from quokka.utils import get_current_user
 
 logger = logging.getLogger()
 
@@ -41,13 +41,10 @@ class Publishable(Dated, Owned):
     def save(self, *args, **kwargs):
         self.updated_at = datetime.datetime.now()
 
-        try:
-            user = User.objects.get(id=current_user.id)
-            if not self.id:
-                self.created_by = user
-            self.last_updated_by = user
-        except Exception as e:
-            logger.warning("No user to save the model: %s" % e.message)
+        user = get_current_user()
+        if not self.id:
+            self.created_by = user
+        self.last_updated_by = user
 
         super(Publishable, self).save(*args, **kwargs)
 
