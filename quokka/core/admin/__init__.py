@@ -5,10 +5,9 @@ import logging
 
 from flask import request, session
 from flask.ext.admin import Admin
-from flask.ext.admin.contrib import fileadmin
 from flask.ext.admin.babel import gettext, ngettext, lazy_gettext
 
-from .models import ModelAdmin
+from .models import ModelAdmin, FileAdmin
 from .views import IndexView
 
 logger = logging.getLogger()
@@ -63,7 +62,7 @@ def configure_admin(app, admin):
     for entry in app.config.get('FILE_ADMIN', []):
         try:
             admin.add_view(
-                fileadmin.FileAdmin(
+                FileAdmin(
                     entry['path'],
                     entry['url'],
                     name=entry['name'],

@@ -133,6 +133,9 @@ class Populate(object):
                 "values": [
                     self.custom_value(name="DEFAULT_THEME",
                                       rawvalue="default",
+                                      format="text"),
+                    self.custom_value(name="ADMIN_THEME",
+                                      rawvalue="cosmo",
                                       format="text")
                 ]
             }
