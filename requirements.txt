@@ -3,6 +3,7 @@ flask-script
 WTForms
 mongoengine
 flask_mongoengine
+funcy
 blinker
 Flask-Assets
 Flask-Babel
