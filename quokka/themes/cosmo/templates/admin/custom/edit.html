@@ -1,0 +1,7 @@
+{% extends theme('admin/model/edit.html') %}
+{% import theme("admin/custom/_lib.html") as _lib %}
+{% block tail %}
+    {{ super() }}
+    {{ _lib.editor(".text_editor") }}
+    {{ _lib.prepopulated("#title", "#slug") }}
+{% endblock %}

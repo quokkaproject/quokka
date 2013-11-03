@@ -1,0 +1,9 @@
+{% extends 'admin/layout.html' %}
+
+{% block user_control %}{% endblock %}
+{% block menu %}{% endblock %}
+{% block body %}
+<div class="alert alert-danger"><h1>Access denied</h1></div>
+
+Please <a href="{{ url_for_security('login', next='/admin')}}">login</a> to your admin account.
+{% endblock %}
