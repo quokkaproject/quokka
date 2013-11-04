@@ -68,6 +68,24 @@ def _create(self):
     return inner
 
 
+def update_item(item, new_values):
+    if not isinstance(new_values, dict):
+        return
+    for k, v in new_values.items():
+        setattr(item, k, v)
+
+
+def _update(self):
+    def inner(new_values, **kwargs):
+        values = only_matches(self, kwargs)
+        for item in values:
+            update_item(item, new_values)
+        self._instance.save()
+        self.instance.reload()
+        return FilteredList(values, getinstance(self._instance), self._name)
+    return inner
+
+
 def _count(self):
     def inner(*args, **kwargs):
         return len(self)
@@ -81,6 +99,7 @@ def inject(obj):
     setattr(obj, 'create', _create(obj))
     setattr(obj, 'exclude', _exclude(obj))
     setattr(obj, 'count', _count(obj))
+    setattr(obj, 'update', _update(obj))
 
 
 class FilteredList(BaseList):
