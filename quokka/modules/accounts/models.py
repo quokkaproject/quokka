@@ -22,9 +22,9 @@ class Role(db.Document, RoleMixin):
         return "{0} ({1})".format(self.name, self.description or 'Role')
 
 
-class User(db.Document, UserMixin):
+class User(db.DynamicDocument, UserMixin):
     name = db.StringField(max_length=255)
-    email = db.StringField(max_length=255, unique=True)
+    email = db.EmailField(max_length=255, unique=True)
     password = db.StringField(max_length=255)
     active = db.BooleanField(default=True)
     confirmed_at = db.DateTimeField()
