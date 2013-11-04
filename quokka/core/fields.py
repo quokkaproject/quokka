@@ -7,16 +7,20 @@ from mongoengine.base.datastructures import BaseList
 class MultipleObjectsReturned(Exception):
     pass
 
+
 def match_all(i, kwargs):
     return all([getattr(i, k) == v for k, v in kwargs.items()])
 
+
 def getinstance(_instance):
     return _instance.__class__.objects.get(pk=_instance.pk)
+
 
 def only_matches(obj, kwargs, silent=True):
     if not kwargs and silent:
         return obj
     return filter(lambda i: match_all(i, kwargs), obj)
+
 
 def _exclude(self):
     def inner(*args, **kwargs):
@@ -25,11 +29,13 @@ def _exclude(self):
         return FilteredList(values, getinstance(self._instance), self._name)
     return inner
 
+
 def _filter(self):
     def inner(*args, **kwargs):
         values = only_matches(self, kwargs)
         return FilteredList(values, getinstance(self._instance), self._name)
     return inner
+
 
 def _get(self):
     def inner(*args, **kwargs):
@@ -38,6 +44,7 @@ def _get(self):
             raise MultipleObjectsReturned("More than one object returned")
         return values and values[0]
     return inner
+
 
 def _delete(self):
     def inner(*args, **kwargs):
@@ -49,6 +56,7 @@ def _delete(self):
         return FilteredList(values, getinstance(self._instance), self._name)
     return inner
 
+
 def _create(self):
     def inner(*args, **kwargs):
         instance = self._instance
@@ -59,10 +67,12 @@ def _create(self):
         return item
     return inner
 
+
 def _count(self):
     def inner(*args, **kwargs):
         return len(self)
     return inner
+
 
 def inject(obj):
     setattr(obj, 'filter', _filter(obj))
