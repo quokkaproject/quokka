@@ -50,10 +50,15 @@ def _delete(self):
     def inner(*args, **kwargs):
         values = only_matches(self, kwargs)
         for item in values:
-            getattr(self._instance, self._name).remove(item)
+            self.remove(item)
         self._instance.save()
         self._instance.reload()
-        return FilteredList(values, getinstance(self._instance), self._name)
+        if len(values) > 1:
+            return FilteredList(values,
+                                getinstance(self._instance),
+                                self._name)
+        else:
+            return values and values[0]
     return inner
 
 
@@ -81,8 +86,13 @@ def _update(self):
         for item in values:
             update_item(item, new_values)
         self._instance.save()
-        self.instance.reload()
-        return FilteredList(values, getinstance(self._instance), self._name)
+        self._instance.reload()
+        if len(values) > 1:
+            return FilteredList(values,
+                                getinstance(self._instance),
+                                self._name)
+        else:
+            return values and values[0]
     return inner
 
 
