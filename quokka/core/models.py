@@ -8,6 +8,7 @@ import random
 from flask import url_for, current_app
 from flask.ext.admin.babel import lazy_gettext
 from quokka.core.db import db
+from quokka.core.fields import MultipleObjectsReturned
 from quokka import admin
 from quokka.core.admin import _, _l
 from quokka.core.admin.models import ModelAdmin
@@ -175,7 +176,7 @@ class CustomValue(db.EmbeddedDocument):
         super(CustomValue, self).clean()
 
     def __unicode__(self):
-        return self.name
+        return u"{s.name} -> {s.value}".format(s=self)
 
 
 class HasCustomValue(object):
@@ -376,6 +377,19 @@ class Config(HasCustomValue, Publishable, db.DynamicDocument):
     group = db.StringField(max_length=255)
     description = db.StringField()
 
+    @classmethod
+    def get(cls, group, name=None, default=None):
+        instance = cls.objects.get(group=group)
+        if not name:
+            ret = instance.values
+        else:
+            try:
+                ret = instance.values.get(name=name).value
+            except MultipleObjectsReturned:
+                ret = None
+
+        return ret or default
+
     def save(self, *args, **kwargs):
         super(Config, self).save(*args, **kwargs)
 
@@ -430,7 +444,7 @@ class SubContent(Publishable, Ordered, db.EmbeddedDocument):
     }
 
     def __unicode__(self):
-        return self.content.title
+        return self.content and self.content.title or self.caption
 
 
 ###############################################################
@@ -453,6 +467,9 @@ class Content(HasCustomValue, Publishable, LongSlugged, Commentable,
         'indexes': ['-created_at', 'slug'],
         'ordering': ['-created_at']
     }
+
+    def get_uid(self):
+        return str(self.id)
 
     def get_themes(self):
         themes = self.channel.get_themes()
