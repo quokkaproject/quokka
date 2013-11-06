@@ -2,6 +2,7 @@
 
 from quokka.core.db import db
 from quokka.core.models import Content
+from flask.ext.admin import form
 from .controller import MediaController
 
 
@@ -16,7 +17,9 @@ class Media(MediaController, Content):
 
 
 class Image(Media):
-    pass
+    @property
+    def thumb(self):
+        return form.thumbgen_filename(self.path)
 
 
 class File(Media):

@@ -55,8 +55,7 @@ class ImageAdmin(MediaAdmin):
         return Markup(
             '<img src="%s">' % url_for(
                 'media',
-                filename="{0}".format(form.thumbgen_filename(
-                    model.path))
+                filename=form.thumbgen_filename(model.path)
             )
         )
 

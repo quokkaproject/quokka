@@ -437,11 +437,15 @@ class SubContent(Publishable, Ordered, db.EmbeddedDocument):
     content = db.ReferenceField('Content', required=True)
     caption = db.StringField()
     purpose = db.ReferenceField(SubContentPurpose, required=True)
+    identifier = db.StringField()
 
     meta = {
         'ordering': ['order'],
         'indexes': ['order']
     }
+
+    def clean(self):
+        self.identifier = self.purpose.identifier
 
     def __unicode__(self):
         return self.content and self.content.title or self.caption
@@ -467,6 +471,18 @@ class Content(HasCustomValue, Publishable, LongSlugged, Commentable,
         'indexes': ['-created_at', 'slug'],
         'ordering': ['-created_at']
     }
+
+    def get_main_image_url(self, thumb=False, default=None):
+        try:
+            main_image = SubContentPurpose.objects.get(identifier='mainimage')
+            if not thumb:
+                path = self.contents.get(purpose=main_image).content.path
+            else:
+                path = self.contents.get(purpose=main_image).content.thumb
+            return url_for('media', filename=path)
+        except Exception as e:
+            logger.warning(str(e))
+            return default
 
     def get_uid(self):
         return str(self.id)
