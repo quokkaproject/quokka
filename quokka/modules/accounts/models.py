@@ -49,7 +49,6 @@ class User(db.DynamicDocument, UserMixin):
         except:
             pass
 
-
     @classmethod
     def generate_username(cls, email):
         username = email.lower()
