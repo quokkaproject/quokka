@@ -187,6 +187,8 @@ SECURITY_CHANGEABLE = True
 SECURITY_RECOVERABLE = True
 SECURITY_TRACKABLE = True
 
+SECURITY_SEND_REGISTER_EMAIL = False
+SECURITY_LOGIN_WITHOUT_CONFIRMATION = True
 
 """
 Dealer can versionate static files if you are under a repo
