@@ -75,7 +75,9 @@ class ContentList(MethodView):
 
         themes = channel.get_themes()
         return render_template(self.get_template_names(),
-                               theme=themes, contents=contents)
+                               theme=themes,
+                               contents=contents,
+                               channel=channel)
 
 
 class ContentDetail(MethodView):
@@ -189,7 +191,8 @@ class ContentDetail(MethodView):
 
         context = {
             "content": content,
-            "form": form
+            "form": form,
+            "channel": content.channel
         }
 
         return context

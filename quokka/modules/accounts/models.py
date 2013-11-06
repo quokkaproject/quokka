@@ -40,6 +40,16 @@ class User(db.DynamicDocument, UserMixin):
 
     username = db.StringField(max_length=50, required=False, unique=True)
 
+    def clean(self, *args, **kwargs):
+        if not self.username:
+            self.username = User.generate_username(self.email)
+
+        try:
+            super(User, self).clean(*args, **kwargs)
+        except:
+            pass
+
+
     @classmethod
     def generate_username(cls, email):
         username = email.lower()
