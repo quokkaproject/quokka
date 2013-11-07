@@ -15,8 +15,11 @@ def lazy_str_setting(key, default=None):
 
 def get_current_user():
     from flask.ext.security import current_user
-    if not current_user.is_authenticated():
-        return None
+    try:
+        if not current_user.is_authenticated():
+            return None
+    except RuntimeError:  # Flask-Testing will fail  
+        pass
 
     try:
         return User.objects.get(id=current_user.id)
