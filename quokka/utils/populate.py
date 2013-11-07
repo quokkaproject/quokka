@@ -360,7 +360,7 @@ class Populate(object):
             },
             {
                 "title": "Main Image",
-                "identifier": "main-image",
+                "identifier": "mainimage",
                 "module": "Media",
             },
             {

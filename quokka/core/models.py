@@ -474,11 +474,11 @@ class Content(HasCustomValue, Publishable, LongSlugged, Commentable,
 
     def get_main_image_url(self, thumb=False, default=None):
         try:
-            main_image = SubContentPurpose.objects.get(identifier='mainimage')
+            #main_image = SubContentPurpose.objects.get(identifier='mainimage')
             if not thumb:
-                path = self.contents.get(purpose=main_image).content.path
+                path = self.contents.get(identifier='mainimage').content.path
             else:
-                path = self.contents.get(purpose=main_image).content.thumb
+                path = self.contents.get(identifier='mainimage').content.thumb
             return url_for('media', filename=path)
         except Exception as e:
             logger.warning(str(e))
