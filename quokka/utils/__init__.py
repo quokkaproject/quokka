@@ -18,7 +18,7 @@ def get_current_user():
     try:
         if not current_user.is_authenticated():
             return None
-    except RuntimeError:  # Flask-Testing will fail  
+    except RuntimeError:  # Flask-Testing will fail 
         pass
 
     try:
