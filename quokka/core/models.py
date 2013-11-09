@@ -537,11 +537,11 @@ class Link(Content):
 ###############################################################
 
 
-class ContentAdmin(ModelAdmin):
-    roles_accepted = ('admin', 'developer')
+# class ContentAdmin(ModelAdmin):
+#     roles_accepted = ('admin', 'developer')
 
-admin.register(Content, ContentAdmin,
-               category=_('Settings'), name=_l("Content"))
+# admin.register(Content, ContentAdmin,
+#                category=_('Settings'), name=_l("Content"))
 
 
 class LinkAdmin(ModelAdmin):
