@@ -7,6 +7,7 @@ from flask.ext.admin.contrib.mongoengine import ModelView
 from flask.ext.admin.contrib.fileadmin import FileAdmin as _FileAdmin
 from flask.ext.admin.babel import gettext, ngettext, lazy_gettext
 from flask.ext.admin import AdminIndexView
+from flask.ext.admin import BaseView as AdminBaseView
 from flask.ext.admin.actions import action
 from flask.ext.admin import helpers as h
 from flask.ext.security import current_user
@@ -152,4 +153,8 @@ class ModelAdmin(ThemeMixin, Roled, ModelView):
 
 
 class BaseIndexView(Roled, ThemeMixin, AdminIndexView):
+    pass
+
+
+class BaseView(Roled, ThemeMixin, AdminBaseView):
     pass

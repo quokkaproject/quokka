@@ -1,0 +1,14 @@
+{% extends theme('admin/master.html') %}
+{% from theme('admin/lib.html') import format_value, render_table with context %}
+
+{% block body %}
+
+
+<h1>Settings inspector</h1>
+<div class="well">
+<h3> App settings </h3>
+
+{{ render_table(headers=('Key', 'Value'), values=app.config.items()|sort()) }}
+
+</div>
+{% endblock %}

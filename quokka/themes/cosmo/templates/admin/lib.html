@@ -161,3 +161,39 @@
 	{{ render_form_buttons(cancel_url, extra) }}
     {% endcall %}
 {% endmacro %}
+
+{% macro format_value(value) %}
+
+    {% if value|isinstance('dict') %}
+
+       {{ render_table(headers=('Key', 'Value'), values=value.items()) }}
+
+    {% else %}
+
+       {{value}}
+
+    {% endif %}
+
+{% endmacro %}
+
+{% macro render_table(headers, values) %}
+<table class="table table-striped table-hover table-condensed">
+    <thead>
+       <tr>
+	   {% for item in headers %}
+	       <th>{{item}}</th>
+	   {% endfor %}
+       </tr>
+    </thead>
+    <tbody>
+
+    {% for k, v in values %}
+       <tr>
+	   <td><strong>{{k}}</strong></td>
+	   <td>{{format_value(v)}}</td>
+       </tr>
+    {% endfor %}
+
+    </tbody>
+</table>
+{% endmacro %}

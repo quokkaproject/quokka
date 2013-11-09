@@ -5,10 +5,16 @@ import logging
 
 from flask import request, session
 from flask.ext.admin import Admin
-from flask.ext.admin.babel import gettext, ngettext, lazy_gettext
+
+from ..models import (Link, Config, SubContentPurpose, ChannelType,
+                      ContentTemplateType, Channel)
 
 from .models import ModelAdmin, FileAdmin
-from .views import IndexView
+from .views import (IndexView, InspectorView, LinkAdmin, ConfigAdmin,
+                    SubContentPurposeAdmin, ChannelTypeAdmin,
+                    ContentTemplateTypeAdmin, ChannelAdmin)
+
+from .utils import _, _l
 
 logger = logging.getLogger()
 
@@ -73,19 +79,36 @@ def configure_admin(app, admin):
         except:
             pass  # TODO: check blueprint endpoisnt colision
 
+    # adding views
+    admin.add_view(InspectorView(category=_("Settings"),
+                                 name=_l("Inspector")))
+
+    # adding model views
+    admin.register(
+        Link,
+        LinkAdmin,
+        category=_("Content"),
+        name=_l("Link")
+    )
+    admin.register(Config,
+                   ConfigAdmin,
+                   category=_("Settings"),
+                   name=_l("Config"))
+    admin.register(SubContentPurpose,
+                   SubContentPurposeAdmin,
+                   category=_("Settings"),
+                   name=_l("Sub content purposes"))
+    admin.register(ChannelType, ChannelTypeAdmin,
+                   category=_("Settings"), name=_l("Channel type"))
+    admin.register(ContentTemplateType,
+                   ContentTemplateTypeAdmin,
+                   category=_("Settings"),
+                   name=_l("Template type"))
+    admin.register(Channel, ChannelAdmin,
+                   category=_("Content"), name=_l("Channel"))
+
+    # avoind registering twice
     if admin.app is None:
         admin.init_app(app)
 
     return admin
-
-
-def _(*args, **kwargs):
-    return gettext(*args, **kwargs)
-
-
-def _l(*args, **kwargs):
-    return lazy_gettext(*args, **kwargs)
-
-
-def _s(*args, **kwargs):
-    return ngettext(*args, **kwargs)
