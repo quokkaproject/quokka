@@ -178,6 +178,10 @@ class CustomValue(db.EmbeddedDocument):
 class HasCustomValue(object):
     values = db.ListField(db.EmbeddedDocumentField(CustomValue))
 
+    def get_values_tuple(self):
+        return [(value.name, value.value, value.formatter)
+                for value in self.values]
+
     def clean(self):
         current_names = [value.name for value in self.values]
         for name in current_names:

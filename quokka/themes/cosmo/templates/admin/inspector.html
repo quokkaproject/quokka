@@ -4,11 +4,54 @@
 {% block body %}
 
 
-<h1>Settings inspector</h1>
+<h3>Inspector</h3>
 <div class="well">
-<h3> App settings </h3>
 
-{{ render_table(headers=('Key', 'Value'), values=app.config.items()|sort()) }}
+<ul class="nav nav-tabs" >
+  <li class="active"><a href="#appsettings" data-toggle="tab">App settings</a></li>
+  <li><a href="#quokkaconfig" data-toggle="tab">Quokka config</a></li>
+  <li><a href="#blueprints" data-toggle="tab">Modules</a></li>
+  <li><a href="#themes" data-toggle="tab">Themes</a></li>
+  <li><a href="#extensions" data-toggle="tab">Extensions</a></li>
+  <li><a href="#urls" data-toggle="tab">URLs</a></li>
+</ul>
+
+<div class="tab-content">
+  <div class="tab-pane active" id="appsettings">
+    {{ render_table(headers=('Key', 'Value'), values=config.items()|sort()) }}
+  </div>
+
+  <div class="tab-pane" id="quokkaconfig">
+      {% for group in Config.objects()|groupby('group') %}
+	  <h4>{{group.grouper}}</h4>
+	  {% for item in group.list %}
+	     <p> {{item.description}}</p>
+	     {{render_table(headers=("name", 'value', 'format'), values=item.get_values_tuple())}}
+	  {% endfor %}
+      {% endfor %}
+  </div>
+
+  <div class="tab-pane" id="blueprints">
+      {{render_table(headers=('name', 'attributes'), values=app.blueprints.items())}}
+  </div>
+  <div class="tab-pane" id="themes">
+      {{render_table(headers=('name', 'attributes'), values=app.theme_manager.themes.items())}}
+ </div>
+
+  <div class="tab-pane" id="extensions">
+    {{render_table(headers=('name', 'extension'), values=app.extensions.items())}}
+  </div>
+
+  <div class="tab-pane" id="urls">
+    <ul>
+    {% for i in app.url_map.iter_rules()|reverse%}
+       <li>{{i.rule}} ->  {{app.view_functions[i.endpoint].__module__}}.{{app.view_functions[i.endpoint].view_class }}.{{app.view_functions[i.endpoint].func_name}}
+	  {{format_value(i)}}</li>
+    {% endfor %}
+    </ul>
+  </div>
+
+</div>
 
 </div>
 {% endblock %}

@@ -168,6 +168,26 @@
 
        {{ render_table(headers=('Key', 'Value'), values=value.items()) }}
 
+    {% elif value|isinstance('list') or value|isinstance('tuple') %}
+
+	<ul>
+	    {%for item in value %}<li>{{format_value(item)}}</li> {% endfor %}
+	</ul>
+
+    {% elif value|isinstance('Blueprint') or value|isinstance('QuokkaModule') %}
+
+	  {{render_table(headers=('Attribute', 'Value'), values=(("name", value.name), ("module", value.import_name), ("static", value.static_folder), ("templates", value.template_folder)))}}
+
+
+    {% elif value|isinstance('Theme') %}
+
+	{{render_table(headers=('Attribute', 'Value'), values=(("name", value.name), ("author", value.author),("description", value.description),("version", value.version),("site", value.website)))}}
+
+    {% elif value|isinstance('Rule') %}
+
+	{{render_table(headers=('Attribute', 'Value'), values=(("arguments", value.arguments),("defaults", value.defaults),("methods", value.methods), ("endpoint", value.endpoint)))}}
+
+
     {% else %}
 
        {{value}}
@@ -187,13 +207,32 @@
     </thead>
     <tbody>
 
-    {% for k, v in values %}
+    {% for item in values %}
        <tr>
-	   <td><strong>{{k}}</strong></td>
-	   <td>{{format_value(v)}}</td>
+	   {%for subitem in item %}
+	   <td>{{format_value(subitem)}}</td>
+	   {% endfor %}
        </tr>
     {% endfor %}
 
     </tbody>
 </table>
 {% endmacro %}
+
+{#
+	{{render_table(headers=('Attribute', 'Value'), values=(("rule", value.rule), ("arguments", value.arguments),("defaults", value.defaults),("methods", value.methods)))}}
+
+
+
+    {% elif value|isinstance('Blueprint') or value|isinstance('QuokkaModule') %}
+
+{{render_table(headers=('Attribute', 'Value'), values=(("name", value.name), ("module", value.import_name), ("static", value.static_folder), ("templates", value.template_folder)))}}
+
+    {% elif value|isinstance('Theme') %}
+
+	{{render_table(headers=('Attribute', 'Value'), values=(("name", value.name), ("author", value.author),("description", value.description),("version", value.version),("site", value.website)))}}
+
+    {% elif value|isinstance('Ruledsdsd') %}
+
+
+#}

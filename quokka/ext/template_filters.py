@@ -2,7 +2,14 @@
 
 # TODO load from blueprints
 
-basetypes = (int, str, float, unicode, basestring, dict, list, tuple)
+from flask import Blueprint
+from werkzeug.routing import Rule
+from quokka.core.app import QuokkaModule
+from quokka_themes import Theme
+
+
+basetypes = (int, str, float, unicode, basestring, dict, list, tuple,
+             Blueprint, QuokkaModule, Theme, Rule)
 
 
 def is_instance(v, cls):

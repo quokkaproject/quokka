@@ -1,7 +1,7 @@
 # Create customized index view class
 
 from flask import current_app
-from quokka.core.models import Config, Content
+from quokka.core.models import Content
 from quokka.utils.routing import expose
 
 from .ajax import AjaxModelLoader
@@ -22,8 +22,7 @@ class InspectorView(BaseView):
     @expose('/')
     def index(self):
         context = {
-            "app": current_app,
-            "config": Config.objects()
+            "app": current_app
         }
         return self.render('admin/inspector.html', **context)
 
