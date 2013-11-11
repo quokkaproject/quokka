@@ -7,7 +7,6 @@ Core
 * ContentBox
 * i18n
 * Blueprints manager admin view (manage folder, package etc..)
-* Theming support (take a look at flask-themes)
 
 Docs
 ===
@@ -16,10 +15,7 @@ Docs
 
 Blueprints (built_in)
 =====================
-* Accounts
-* Post
 * Comment
-* Album
 * Page
 * Search
 * API with flask-restful http://flask-restful.readthedocs.org/en/latest/
