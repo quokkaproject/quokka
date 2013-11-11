@@ -23,7 +23,7 @@ class TextEditor(TextArea):
         kwargs['cols'] = self.cols
         s = kwargs.pop('style', '') or kwargs.pop('style_', '')
         kwargs['style'] = u"%s %s" % (self.style_, s)
-        html =  super(TextEditor, self).__call__(field, **kwargs)
+        html = super(TextEditor, self).__call__(field, **kwargs)
         html += render_template(
             'admin/texteditor/%s.html' % self.editor,
             theme=current_app.config.get('ADMIN_THEME', 'cosmo'),
