@@ -1,0 +1,29 @@
+<script type="text/javascript">
+
+function prepopulate_{{master}}_{{slave}}() {
+
+document.getElementById('{{ master }}').addEventListener(
+    'keyup', function(e){
+	document.getElementById('{{ slave }}').value = slugify(this.value)
+    }
+)
+
+document.getElementById('{{ master }}').addEventListener(
+    'blur', function(e){
+	document.getElementById('{{ slave }}').value = slugify(this.value)
+    }
+)
+
+}
+
+if (document.addEventListener) {
+   document.addEventListener('DOMContentLoaded', prepopulate_{{master}}_{{slave}}, false);
+ } else if (window.addEventListener) {
+   window.addEventListener('load', prepopulate_{{master}}_{{slave}}, false);
+ } else if (document.attachEvent) {
+   document.attachEvent('onreadystatechange', prepopulate_{{master}}_{{slave}});
+ } else if (window.attachEvent) {
+   document.attachEvent('onload', prepopulate_{{master}}_{{slave}});
+}
+
+</script>

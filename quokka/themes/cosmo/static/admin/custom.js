@@ -49,3 +49,18 @@ var slugify = function (string) {
     // Trim dashes
     .replace(/^-|-$/g, '');
 };
+
+
+var onready = function(func){
+
+if (document.addEventListener) {
+  document.addEventListener('DOMContentLoaded', func, false);
+} else if (window.addEventListener) {
+  window.addEventListener('load', func, false);
+} else if (document.attachEvent) {
+  document.attachEvent('onreadystatechange', func);
+} else if (window.attachEvent) {
+  document.attachEvent('onload', func);
+}
+
+}
