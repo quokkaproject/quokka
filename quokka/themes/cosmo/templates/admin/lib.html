@@ -136,6 +136,7 @@
 {% macro form_tag(form=None) %}
     <form action="" method="POST" class=" well form-horizontal" enctype="multipart/form-data">
       <fieldset>
+	  <legend>{{admin_view.name}} </legend>
 	{{ caller() }}
       </fieldset>
     </form>
@@ -144,12 +145,12 @@
 {% macro render_form_buttons(cancel_url, extra=None) %}
     <div class="control-group">
       <div class="controls">
-	<input type="submit" class="btn btn-primary btn-large" value="{{ _gettext('Submit') }}" />
+	<input type="submit" class="btn btn-primary" value="{{ _gettext('Save') }}" />
 	{% if extra %}
 	{{ extra }}
 	{% endif %}
 	{% if cancel_url %}
-	<a href="{{ cancel_url }}" class="btn btn-large">{{ _gettext('Cancel') }}</a>
+	<a href="{{ cancel_url }}" class="btn">{{ _gettext('Cancel') }}</a>
 	{% endif %}
       </div>
     </div>
