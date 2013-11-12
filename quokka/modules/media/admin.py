@@ -29,7 +29,6 @@ class MediaAdmin(ModelAdmin):
     }
 
 
-
 class FileAdmin(MediaAdmin):
     form_args = {
         'path': {

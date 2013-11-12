@@ -83,12 +83,10 @@ class ChannelAdmin(ModelAdmin):
         'slug': {'style': 'width: 400px'},
     }
 
-
     form_args = {
         'description': {'widget': TextEditor()},
         'slug': {'widget': PrepopulatedText(master='title')}
     }
-
 
     form_ajax_refs = {
         'render_content': AjaxModelLoader('render_content',
