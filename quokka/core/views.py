@@ -52,6 +52,9 @@ class ContentList(MethodView):
 
         channel = Channel.objects.get_or_404(mpath=mpath)
 
+        if channel.redirect_url:
+            return redirect(channel.redirect_url)
+
         if channel.render_content:
             return ContentDetail().get(
                 channel.render_content.content.long_slug, True)
