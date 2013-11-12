@@ -12,7 +12,7 @@
 	    {{ build_node(node) }}
 	{% endfor %}
     </ul>
-    {% else %}
+    {% elif parent %}
     <ul class="ancestor-nav {%if not request.path.startswith(parent.get_absolute_url()) %}hidden-nav{% endif %}">
 	{% for node in parent.get_children(show_in_menu=True) %}
 	   {{ build_node(node) }}

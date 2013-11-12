@@ -3,7 +3,7 @@
 import logging
 import collections
 from datetime import datetime
-from flask import request, redirect, url_for
+from flask import request, redirect, url_for, abort
 from flask.views import MethodView
 from flask.ext.mongoengine.wtf import model_form
 from quokka.core.models import Channel, Content, Comment
@@ -50,7 +50,7 @@ class ContentList(MethodView):
         mpath = ",".join(path)
         mpath = ",{0},".format(mpath)
 
-        channel = Channel.objects.get_or_404(mpath=mpath)
+        channel = Channel.objects.get_or_404(mpath=mpath, published=True)
 
         if channel.redirect_url:
             return redirect(channel.redirect_url)
@@ -75,6 +75,12 @@ class ContentList(MethodView):
 
         filters.update(channel.get_content_filters())
         contents = Content.objects(**base_filters).filter(**filters)
+
+        # TODO: Well it lacks pagination!
+
+        # this can be overkill! try another solution
+        contents = [content for content in contents
+                    if content.channel.published]
 
         themes = channel.get_themes()
         return render_template(self.get_template_names(),
@@ -187,6 +193,9 @@ class ContentDetail(MethodView):
                 slug=long_slug,
                 **filters
             )
+
+        if not content.channel.published:
+            return abort(404)
 
         form = self.form(request.form)
 
