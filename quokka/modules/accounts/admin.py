@@ -24,6 +24,7 @@ class UserAdmin(ModelAdmin):
         if model.newpassword:
             model.set_password(model.newpassword, save=True)
 
+
 class RoleAdmin(ModelAdmin):
     roles_accepted = ('admin',)
     column_list = ('name', 'description')
