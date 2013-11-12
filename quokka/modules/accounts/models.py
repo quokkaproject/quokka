@@ -56,6 +56,11 @@ class User(db.DynamicDocument, UserMixin):
             username = username.replace(item, '_')
         return username
 
+    def set_password(self, password, save=False):
+        self.password = encrypt_password(password)
+        if save:
+            self.save()
+
     @classmethod
     def createuser(cls, name, email, password,
                    active=True, roles=None, username=None):
