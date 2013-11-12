@@ -9,7 +9,7 @@ from flask.ext.admin import Admin
 from ..models import (Link, Config, SubContentPurpose, ChannelType,
                       ContentTemplateType, Channel)
 
-from .models import ModelAdmin, FileAdmin
+from .models import ModelAdmin, FileAdmin, BaseIndexView
 from .views import (IndexView, InspectorView, LinkAdmin, ConfigAdmin,
                     SubContentPurposeAdmin, ChannelTypeAdmin,
                     ContentTemplateTypeAdmin, ChannelAdmin)
@@ -43,6 +43,9 @@ def configure_admin(app, admin):
     custom_index = app.config.get('ADMIN_INDEX_VIEW')
     if custom_index:
         admin.index_view = import_string(custom_index)()
+        if isinstance(admin._views[0], BaseIndexView):
+            del admin._views[0]
+        admin._views.insert(0, admin.index_view)
 
     ADMIN = app.config.get(
         'ADMIN',
