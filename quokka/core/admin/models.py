@@ -69,9 +69,7 @@ def view_on_site(self, request, obj, fieldname, *args, **kwargs):
 
 class FileAdmin(ThemeMixin, Roled, _FileAdmin):
     def __init__(self, *args, **kwargs):
-        self.roles_accepted = kwargs.get('roles_accepted')
-        if 'roles_accepted' in kwargs:
-            del kwargs['roles_accepted']
+        self.roles_accepted = kwargs.pop('roles_accepted')
         super(FileAdmin, self).__init__(*args, **kwargs)
 
 

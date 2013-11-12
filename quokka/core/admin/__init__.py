@@ -73,7 +73,8 @@ def configure_admin(app, admin):
                     entry['url'],
                     name=entry['name'],
                     category=entry['category'],
-                    endpoint=entry['endpoint']
+                    endpoint=entry['endpoint'],
+                    roles_accepted=entry.get('roles_accepted')
                 )
             )
         except:

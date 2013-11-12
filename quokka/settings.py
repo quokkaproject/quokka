@@ -90,21 +90,24 @@ FILE_ADMIN = [
         "category": "files",
         "path": os.path.join(PROJECT_ROOT, 'templates'),
         "url": "/template_files/",  # create nginx rule
-        "endpoint": "template_files"
+        "endpoint": "template_files",
+        "roles_accepted": ("admin", "editor")
     },
     {
         "name": "Static files",
         "category": "files",
         "path": STATIC_ROOT,
         "url": "/static/",  # create nginx rule
-        "endpoint": "static_files"
+        "endpoint": "static_files",
+        "roles_accepted": ("admin", "editor")
     },
     {
         "name": "Media files",
         "category": "files",
         "path": MEDIA_ROOT,
         "url": "/mediafiles/",  # Create nginx rule
-        "endpoint": "media_files"
+        "endpoint": "media_files",
+        "roles_accepted": ("admin", "editor")
     }
 ]
 
