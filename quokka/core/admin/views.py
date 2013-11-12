@@ -3,9 +3,9 @@
 from flask import current_app
 from quokka.core.models import Content
 from quokka.utils.routing import expose
-
+from quokka.core.widgets import TextEditor, PrepopulatedText
 from .ajax import AjaxModelLoader
-from .models import BaseIndexView, BaseView, ModelAdmin
+from .models import BaseIndexView, BaseView, ModelAdmin, BaseContentAdmin
 
 
 class IndexView(BaseIndexView):
@@ -31,10 +31,10 @@ class InspectorView(BaseView):
 # Admin model views
 ###############################################################
 
-class LinkAdmin(ModelAdmin):
+class LinkAdmin(BaseContentAdmin):
     roles_accepted = ('admin', 'editor', 'writer', 'moderator')
     column_list = ('title', 'channel', 'slug', 'published')
-    form_columns = ('title', 'slug', 'channel', 'link', 'contents',
+    form_columns = ('title', 'slug', 'channel', 'link', 'summary', 'contents',
                     'values', 'available_at', 'available_until', 'published')
 
 
@@ -59,11 +59,10 @@ class ContentTemplateTypeAdmin(ModelAdmin):
 
 
 class ChannelAdmin(ModelAdmin):
-    edit_template = 'admin/custom/edit.html'
-    create_template = 'admin/custom/create.html'
     roles_accepted = ('admin', 'editor')
     column_list = ('title', 'long_slug', 'is_homepage',
-                   'channel_type', 'created_at', 'available_at', 'published')
+                   'channel_type', 'created_at', 'available_at', 'published',
+                   'view_on_site')
     column_filters = ['published', 'is_homepage', 'include_in_rss',
                       'show_in_menu', 'indexable']
     column_searchable_list = ('title', 'description')
@@ -71,21 +70,25 @@ class ChannelAdmin(ModelAdmin):
                     'include_in_rss', 'indexable', 'show_in_menu', 'order',
                     'published', 'canonical_url', 'values', 'channel_type',
                     'inherit_parent', 'content_filters', 'available_at',
-                    'available_until', 'render_content']
-    column_formatters = {'created_at': ModelAdmin.formatters.get('datetime'),
-                         'available_at': ModelAdmin.formatters.get('datetime')}
+                    'available_until', 'render_content', 'redirect_url']
+    column_formatters = {
+        'view_on_site': ModelAdmin.formatters.get('view_on_site'),
+        'created_at': ModelAdmin.formatters.get('datetime'),
+        'available_at': ModelAdmin.formatters.get('datetime')
+    }
     form_subdocuments = {}
 
     form_widget_args = {
-        'description': {
-            'rows': 20,
-            'cols': 20,
-            'class': 'text_editor',
-            'style': "margin: 0px; width: 400px; height: 250px;"
-        },
         'title': {'style': 'width: 400px'},
         'slug': {'style': 'width: 400px'},
     }
+
+
+    form_args = {
+        'description': {'widget': TextEditor()},
+        'slug': {'widget': PrepopulatedText(master='title')}
+    }
+
 
     form_ajax_refs = {
         'render_content': AjaxModelLoader('render_content',

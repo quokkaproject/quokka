@@ -9,6 +9,8 @@ from quokka.core.admin import _, _l
 from quokka.core.admin.models import ModelAdmin
 from quokka.core.admin.fields import ImageUploadField
 from quokka.utils.upload import dated_path, lazy_media_path
+from quokka.core.admin.models import BaseContentAdmin
+from quokka.core.widgets import TextEditor, PrepopulatedText
 from .models import Image, File, Video, Audio, MediaGallery
 
 
@@ -21,6 +23,12 @@ class MediaAdmin(ModelAdmin):
         'path': form.FileUploadField
     }
 
+    form_args = {
+        'summary': {'widget': TextEditor()},
+        'slug': {'widget': PrepopulatedText(master='title')}
+    }
+
+
 
 class FileAdmin(MediaAdmin):
     form_args = {
@@ -29,7 +37,9 @@ class FileAdmin(MediaAdmin):
             'base_path': lazy_media_path(),
             'namegen': dated_path,
             'permission': 0o777
-        }
+        },
+        'summary': {'widget': TextEditor()},
+        'slug': {'widget': PrepopulatedText(master='title')}
     }
 
 
@@ -76,8 +86,19 @@ class ImageAdmin(MediaAdmin):
     }
 
 
-class MediaGalleryAdmin(ModelAdmin):
+class MediaGalleryAdmin(BaseContentAdmin):
     roles_accepted = ('admin', 'editor')
+    column_searchable_list = ('title', 'body', 'summary')
+
+    form_columns = ['title', 'slug', 'channel', 'related_channels', 'summary',
+                    'body', 'published', 'contents',
+                    'show_on_channel', 'available_at', 'available_until',
+                    'tags', 'comments', 'values', 'template_type']
+
+    form_args = {
+        'body': {'widget': TextEditor()},
+        'slug': {'widget': PrepopulatedText(master='title')}
+    }
 
 
 admin.register(File, FileAdmin, category=_('Media'), name=_l("File"))

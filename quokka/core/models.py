@@ -239,6 +239,7 @@ class Channel(HasCustomValue, Publishable, LongSlugged,
     channel_type = db.ReferenceField(ChannelType, required=False,
                                      reverse_delete_rule=db.NULLIFY)
 
+    redirect_url = db.StringField(max_length=255)
     render_content = db.ReferenceField(ContentProxy,
                                        required=False,
                                        reverse_delete_rule=db.NULLIFY)
@@ -311,7 +312,7 @@ class Channel(HasCustomValue, Publishable, LongSlugged,
     def __unicode__(self):
         return self.long_slug
 
-    def get_absolute_url(self):
+    def get_absolute_url(self, *args, **kwargs):
         return "/{0}/".format(self.long_slug)
 
     def clean(self):
