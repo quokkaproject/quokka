@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*
 
 import logging
-
+from werkzeug.utils import import_string
 from flask import request, session
 from flask.ext.admin import Admin
 
@@ -34,10 +34,15 @@ class QuokkaAdmin(Admin):
 
 
 def create_admin(app=None):
-    return QuokkaAdmin(app, index_view=IndexView())
+    index_view = IndexView()
+    return QuokkaAdmin(app, index_view=index_view)
 
 
 def configure_admin(app, admin):
+
+    custom_index = app.config.get('ADMIN_INDEX_VIEW')
+    if custom_index:
+        admin.index_view = import_string(custom_index)()
 
     ADMIN = app.config.get(
         'ADMIN',
@@ -84,6 +89,16 @@ def configure_admin(app, admin):
     admin.add_view(InspectorView(category=_("Settings"),
                                  name=_l("Inspector")))
 
+    # adding extra views
+    extra_views = app.config.get('ADMIN_EXTRA_VIEWS', [])
+    for view in extra_views:
+        admin.add_view(
+            import_string(view['module'])(
+                category=_(view.get('category')),
+                name=_l(view.get('name'))
+            )
+        )
+
     # adding model views
     admin.register(
         Link,
@@ -108,7 +123,7 @@ def configure_admin(app, admin):
     admin.register(Channel, ChannelAdmin,
                    category=_("Content"), name=_l("Channel"))
 
-    # avoind registering twice
+    # avoid registering twice
     if admin.app is None:
         admin.init_app(app)
 
