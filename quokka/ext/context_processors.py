@@ -15,5 +15,6 @@ def configure(app):
                                      parent=None),
             Config=Config,
             Content=Content,
-            Channel=Channel
+            Channel=Channel,
+            homepage=Channel.get_homepage()
         )
