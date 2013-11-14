@@ -107,16 +107,36 @@ class Populate(object):
                 "values": [
                     self.custom_value(name="site_name",
                                       rawvalue="Quokka website",
-                                      format="text"),
+                                      formatter="text"),
                     self.custom_value(name="site_keywords",
                                       rawvalue="cms,quokka,flask,mongo,python",
-                                      format="text"),
+                                      formatter="text"),
                     self.custom_value(name="site_description",
                                       rawvalue="A Quokka CMS website",
-                                      format="text"),
+                                      formatter="text"),
                     self.custom_value(name="site_author",
                                       rawvalue="Bruno Rocha",
-                                      format="text")
+                                      formatter="text"),
+                    self.custom_value(name="site_logo",
+                                      rawvalue="/static/img/logo_white.png",
+                                      formatter="text")
+                ]
+            },
+            {
+                "group": "comments",
+                "description": ("Comment system can be: "
+                                "internal, disqus, facebook, google\n"
+                                "requires_login: 0 or 1"),
+                "values": [
+                    self.custom_value(name="system",
+                                      rawvalue="internal",
+                                      formatter="text"),
+                    self.custom_value(name="disqus_script",
+                                      rawvalue="",
+                                      formatter="text"),
+                    self.custom_value(name="requires_login",
+                                      rawvalue="0",
+                                      formatter="int"),
                 ]
             },
             {
@@ -125,11 +145,11 @@ class Populate(object):
                 "values": [
                     self.custom_value(name="default_channel_type",
                                       rawvalue="list",
-                                      format="text"),
+                                      formatter="text"),
                     self.custom_value(
                         name="global_content_filters",
                         rawvalue='{"model__not__startswith": "media."}',
-                        format="json"
+                        formatter="json"
                     )
                 ]
             },
@@ -139,10 +159,10 @@ class Populate(object):
                 "values": [
                     self.custom_value(name="DEFAULT_THEME",
                                       rawvalue="default",
-                                      format="text"),
+                                      formatter="text"),
                     self.custom_value(name="ADMIN_THEME",
                                       rawvalue="cosmo",
-                                      format="text")
+                                      formatter="text")
                 ]
             }
         ]
