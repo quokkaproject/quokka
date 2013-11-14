@@ -245,6 +245,10 @@ class Channel(HasCustomValue, Publishable, LongSlugged,
                                        required=False,
                                        reverse_delete_rule=db.NULLIFY)
 
+    meta = {
+        'ordering': ['order', 'title']
+    }
+
     def get_content_filters(self):
         filters = {}
         if self.channel_type and self.channel_type.content_filters:
