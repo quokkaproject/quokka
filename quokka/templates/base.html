@@ -1,98 +1,91 @@
+{% import theme('_menu.html') as menu with context -%}
 <!DOCTYPE html>
-<!--[if IE 8]>         <html class="no-js lt-ie9" lang="en"> <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
-
+<html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width" />
-    <title>Quokka CMS basic template</title>
-    <link href="//cdn.jsdelivr.net/foundation/4.3.1/css/normalize.css" rel="stylesheet">
-    <link href="//cdn.jsdelivr.net/foundation/4.3.1/css/foundation.min.css" rel="stylesheet">
-    <link href="{{ url_for('static', filename='css/main.css') }}" rel="stylesheet">
-    <script src="//cdn.jsdelivr.net/modernizr/2.6.2/modernizr.min.js"></script>
-    {% block head %}{% endblock %}
-  </head>
-
-  <body>
-
-    {%- block topbar -%}
-    <div class="contain-to-grid">
-    <nav class="top-bar" style="">
-        <ul class="title-area">
-          <!-- Title Area -->
-          <li class="name">
-            <h1><a href="/">Quokka <small>Starring Flask, MongoDB and MongoEngine</small></a></h1>
-          </li>
-          <!-- Remove the class "menu-icon" to get rid of menu icon. Take out "Menu" to just have icon alone -->
-          <li class="toggle-topbar menu-icon"><a href="#"><span>Menu</span></a></li>
-        </ul>
-
-
-      <section class="top-bar-section">
-
-          <!-- Right Nav Section -->
-          <ul class="right">
-            <li class="divider hide-for-small"></li>
-
-            {% if current_user.is_authenticated() %}
-            <li class="has-dropdown not-click"><a href="#"><img src="{{current_user.email | gravatar(size=20) }}" /> {{current_user.name}}</a>
-
-              <ul class="dropdown"><li class="title back js-generated"><h5><a href="#">« Back</a></h5></li>
-                <li class=""><label>Access control</label></li>
-
-                    <li><a href="/admin">Admin</a></li>
-                <li class="divider"></li>
-                <li><a href="{{url_for_security('change_password')}}">Change password</a></li>
-                <li><a href="{{url_for_security('logout')}}">Logout</a></li>
-              </ul>
-            </li>
-            {% else %}
-            <li class="has-dropdown not-click"><a href="#">Access</a>
-
-              <ul class="dropdown"><li class="title back js-generated"><h5><a href="#">« Back</a></h5></li>
-                <li class=""><label>Acess control</label></li>
-                 <li><a href="{{url_for_security('register')}}">Register</a></li>
-                 <li><a href="{{url_for_security('login')}}">Login</a></li>
-                 <li><a href="{{url_for_security('forgot_password')}}">Forgot password</a></li>
-              </ul>
-            </li>
-            {% endif %}
-
-
-          </ul>
-        </section></nav>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="{{Config.get('site', 'site_description')}}">
+    <meta name="keywords" content="{{Config.get('site', 'site_keywords')}}">
+    <meta name="author" content="{{Config.get('site', 'site_author')}}">
+    {% block meta %}{% endblock %}
+    {%if content %}
+    <link rel="canonical" href="{{content.get_canonical_url()}}"/>
+    {% elif channel %}
+    <link rel="canonical" href="{{channel.get_canonical_url()}}"/>
+    {% endif %}
+    <link rel="shortcut icon" href="{{url_for('static', filename='favicon.ico')}}">
+    <title>{%block title%}{{Config.get('site', 'site_name', 'Quokka site')}}{% endblock %}</title>
+    <link href="{{url_for('static', filename='css/main.css')}}" rel="stylesheet">
+    {% block head%}{% endblock %}
+</head>
+<body>
+    {% block navbar %}
+    <div class="navbar">
+        <div class="logo">
+            <a href="/"><img src="{{ Config.get('site', 'site_logo', theme_static('img/logo.png')) }}" alt="{{Config.get('site', 'site_name')}}" /></a>
         </div>
-    {%- endblock -%}
-
-    <div class="row">
-        {% block page_header %}{% endblock %}
+        <ul>
+            {% block access_control %}
+                <li>
+                    {% if current_user.is_authenticated() %}
+                        <a href="#">
+                        <img src="{{current_user.email | gravatar(size=20) }}" />{{current_user.name}}</a>
+                        <ul>
+                            <li><a href="{{url_for('admin.index')}}">Admin</a></li>
+                            <li><a href="{{url_for_security('change_password')}}">Change password</a></li>
+                            <li><a href="{{url_for_security('logout')}}">Logout</a></li>
+                        </ul>
+                    {% else %}
+                        <a href="#">Access</a>
+                        <ul>
+                            <li><a href="{{url_for_security('register')}}">Register</a></li>
+                            <li><a href="{{url_for_security('login')}}">Login</a></li>
+                            <li><a href="{{url_for_security('forgot_password')}}">Forgot password</a></li>
+                        </ul>
+                    {% endif %}
+                </li>
+            {% endblock %}
+        </ul>
     </div>
-    <div class="row">
-        {% block content %}{% endblock %}
+    {% endblock %}
+
+    <div class="container">
+        <div>
+            <div>
+                {% block breadcrumb %}
+                    {% if channel %}
+                    <ol>
+                        {% if channel != homepage %}
+                            <li><a href="/"> {{homepage.title}}</a></li>
+                        {% endif %}
+
+                        {%for crumb in channel.get_ancestors()|reverse %}
+                            {% if loop.last and not content %}
+                                <li>{{crumb.title}}</li>
+                            {% else %}
+                                <li><a href="{{crumb.get_absolute_url()}}">{{crumb.title}}</a></li>
+                            {% endif %}
+                        {% endfor %}
+                    </ol>
+                    {% endif %}
+                {% endblock %}
+                {% block front %}{% endblock %}
+                <div>
+                    {% block content %}{% endblock %}
+                </div>
+            </div>
+            <div>
+            {% block sidebar %}
+                {{ menu.build_nodes(nodes=channels) }}
+            {% endblock %}
+            </div>
+        </div>
+        <hr>
+        <footer>
+            <p>&copy; {{Config.get('site', 'site_name')}}</p>
+        </footer>
     </div>
-
-      <script src="//cdn.jsdelivr.net/jquery/2.0.3/jquery-2.0.3.min.js"></script>
-      <script src="//cdn.jsdelivr.net/foundation/4.3.1/js/foundation/foundation.js"></script>
-      <script src="//cdn.jsdelivr.net/foundation/4.3.1/js/foundation/foundation.abide.js"></script>
-      <script src="//cdn.jsdelivr.net/foundation/4.3.1/js/foundation/foundation.alerts.js"></script>
-      <script src="//cdn.jsdelivr.net/foundation/4.3.1/js/foundation//foundation.clearing.js"></script>
-      <script src="//cdn.jsdelivr.net/foundation/4.3.1/js/foundation/foundation.cookie.js"></script>
-      <script src="//cdn.jsdelivr.net/foundation/4.3.1/js/foundation/foundation.dropdown.js"></script>
-      <script src="//cdn.jsdelivr.net/foundation/4.3.1/js/foundation/foundation.forms.js"></script>
-      <script src="//cdn.jsdelivr.net/foundation/4.3.1/js/foundation/foundation.joyride.js"></script>
-      <script src="//cdn.jsdelivr.net/foundation/4.3.1/js/foundation/foundation.magellan.js"></script>
-      <script src="//cdn.jsdelivr.net/foundation/4.3.1/js/foundation//foundation.orbit.js"></script>
-      <script src="//cdn.jsdelivr.net/foundation/4.3.1/js/foundation/foundation.placeholder.js"></script>
-      <script src="//cdn.jsdelivr.net/foundation/4.3.1/js/foundation/foundation.reveal.js"></script>
-      <script src="//cdn.jsdelivr.net/foundation/4.3.1/js/foundation/foundation.section.js"></script>
-      <script src="//cdn.jsdelivr.net/foundation/4.3.1/js/foundation/foundation.tooltips.js"></script>
-      <script src="//cdn.jsdelivr.net/foundation/4.3.1/js/foundation/foundation.topbar.js"></script>
-      <script src="//cdn.jsdelivr.net/foundation/4.3.1/js/foundation/foundation.interchange.js"></script>
-
-      <script src="{{ url_for('static', filename='js/main.js')}}"></script>
-    <script>
-      $(document).foundation();
-    </script>
-    {% block js_footer %}{% endblock %}
-  </body>
+{% block js_footer %}{% endblock %}
+</body>
 </html>

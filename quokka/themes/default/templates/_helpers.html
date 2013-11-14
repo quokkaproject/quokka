@@ -122,9 +122,12 @@
 {% endmacro %}
 
 {% macro load_comment_area(content) %}
-<hr />
-Loading comment system... <br>
-<small> You have to set yout disqus preferences </small>
+    <hr />
+    {% if Config.get('comments', 'system') == 'internal' %}
+        <div id="comment-area" data-system="internal" data-path="{{url_for('comments.comment', path=content.long_slug)}}"></div>
+    {% elif Config.get('comments', 'system') == 'disqus'%}
+       {{Config.get('comments', 'disqus_script', '')|safe()}}
+    {% endif %}
 {% endmacro %}
 
 {% macro load_page_header(content) %}
