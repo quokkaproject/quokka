@@ -68,7 +68,7 @@ class ChannelAdmin(ModelAdmin):
     column_searchable_list = ('title', 'description')
     form_columns = ['title', 'slug', 'description', 'parent', 'is_homepage',
                     'include_in_rss', 'indexable', 'show_in_menu', 'order',
-                    'per_page',
+                    'per_page', 'tags',
                     'published', 'canonical_url', 'values', 'channel_type',
                     'inherit_parent', 'content_filters', 'available_at',
                     'available_until', 'render_content', 'redirect_url']

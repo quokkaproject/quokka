@@ -1,6 +1,13 @@
 {% from theme('_helpers.html') import render_list, render_pagination with context %}
 {% extends theme("base.html") %}
 
+{%block title%} Tag search | {{Config.get('site', 'site_name', 'Quokka site')}} {% endblock %}
+
+{% block seo_meta %}
+<meta name="description" content="Tag Search">
+<meta name="keywords" content="{{request.view_args.tag}}">
+{% endblock %}
+
 {% block content %}
     <div class="page-header">
      <h2>Contents with the tag "{{request.view_args.tag}}"</h2>

@@ -201,7 +201,7 @@ class ContentProxy(db.DynamicDocument):
         return self.content.title
 
 
-class Channel(HasCustomValue, Publishable, LongSlugged,
+class Channel(Tagged, HasCustomValue, Publishable, LongSlugged,
               ChannelConfigs, db.DynamicDocument):
     title = db.StringField(max_length=255, required=True)
     description = db.StringField()

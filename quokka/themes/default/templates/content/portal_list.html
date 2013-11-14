@@ -1,6 +1,12 @@
 {% from theme('_helpers.html') import render_grid, render_pagination with context %}
 {% extends theme("base.html") %}
 
+{%block title%} {{channel.long_slug.split('/')|join(' | ')}} | {{Config.get('site', 'site_name', 'Quokka site')}} {% endblock %}
+
+{% block seo_meta %}
+<meta name="description" content="{{channel.description}}">
+<meta name="keywords" content="{{channel.tags|join(',')}}">
+{% endblock %}
 
 {% block front %}
 <div class="jumbotron">

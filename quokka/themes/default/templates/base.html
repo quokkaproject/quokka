@@ -1,12 +1,14 @@
 {% import theme('_menu.html') as menu with context -%}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:fb="http://ogp.me/ns/fb#">
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% block seo_meta %}
     <meta name="description" content="{{Config.get('site', 'site_description')}}">
     <meta name="keywords" content="{{Config.get('site', 'site_keywords')}}">
+    {% endblock %}
     <meta name="author" content="{{Config.get('site', 'site_author')}}">
     {% block meta %}{% endblock %}
     {%if content %}
