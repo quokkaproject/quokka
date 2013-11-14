@@ -106,10 +106,16 @@ class Populate(object):
                 "description": "Preferences for website",
                 "values": [
                     self.custom_value(name="site_name",
-                                      rawvalue="A Quokka website",
+                                      rawvalue="Quokka website",
                                       format="text"),
                     self.custom_value(name="site_keywords",
                                       rawvalue="cms,quokka,flask,mongo,python",
+                                      format="text"),
+                    self.custom_value(name="site_description",
+                                      rawvalue="A Quokka CMS website",
+                                      format="text"),
+                    self.custom_value(name="site_author",
+                                      rawvalue="Bruno Rocha",
                                       format="text")
                 ]
             },
@@ -218,6 +224,7 @@ class Populate(object):
                 "published": True,
                 "channel_type": self.channel_types.get('grid'),
                 "canonical_url": "/media",
+                "order": 4,
                 "childs": [
                     {
                         "title": media,
@@ -229,7 +236,8 @@ class Populate(object):
                         "channel_type": self.channel_types.get('grid'),
                         "is_homepage": False,
                         "canonical_url": "/media/{}".format(media.lower()),
-                        "indexable": True
+                        "indexable": True,
+                        "order": 4
                     }
                     for media in ['Images', 'Videos', 'Audios',
                                   'Files', 'Galleries']
@@ -249,6 +257,7 @@ class Populate(object):
                 "show_in_menu": True,
                 "is_homepage": False,
                 "published": True,
+                "order": 1,
                 "channel_type": self.channel_types.get('list'),
                 "childs": [
                     {
@@ -288,6 +297,7 @@ class Populate(object):
                         "is_homepage": False,
                         "channel_type": self.channel_types.get('list'),
                         "published": True,
+                        "order": 2
                     },
                 ]
             },
@@ -299,6 +309,7 @@ class Populate(object):
                 "is_homepage": False,
                 "channel_type": self.channel_types.get('blog'),
                 "published": True,
+                "order": 3
             },
         ]
 
