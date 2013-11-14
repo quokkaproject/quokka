@@ -92,7 +92,7 @@ class MediaGalleryAdmin(BaseContentAdmin):
     form_columns = ['title', 'slug', 'channel', 'related_channels', 'summary',
                     'body', 'published', 'contents',
                     'show_on_channel', 'available_at', 'available_until',
-                    'tags', 'comments', 'values', 'template_type']
+                    'tags', 'values', 'template_type']
 
     form_args = {
         'body': {'widget': TextEditor()},

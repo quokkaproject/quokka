@@ -1,8 +1,9 @@
-ul.ancestor-nav {
-  margin-top: 0px;
-  margin-left: 20px;
+.logo {
+    background: #000000;
+    width: 100%;
+    padding: 10px;
 }
 
-ul.hidden-nav {
-  display: none;
+.menu a {
+    margin:10px;
 }

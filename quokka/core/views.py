@@ -221,26 +221,6 @@ class ContentDetail(MethodView):
             **context
         )
 
-    def post(self, long_slug):
-        context = self.get_context(long_slug)
-        form = context.get('form')
-
-        if form.validate():
-            comment = Comment()
-            form.populate_obj(comment)
-
-            content = context.get('content')
-            content.comments.append(comment)
-            content.save()
-
-            return redirect(url_for('.detail', long_slug=long_slug))
-
-        return render_template(
-            self.get_template_names(),
-            theme=self.content.get_themes(),
-            **context
-        )
-
 
 class TagList(MethodView):
     object_name = "content"
