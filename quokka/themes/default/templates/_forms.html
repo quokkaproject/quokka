@@ -1,0 +1,29 @@
+{% macro render(form) -%}
+<fieldset>
+{% for field in form %}
+{% if field.type in ['CSRFTokenField', 'HiddenField'] %}
+  {{ field() }}
+{% else %}
+  <div class="clearfix {% if field.errors %}error{% endif %}">
+    {{ field.label }}
+    <div class="input">
+      {% if field.name == "body" %}
+        {{ field(rows=10, cols=40) }}
+      {% else %}
+        {{ field() }}
+      {% endif %}
+      {% if field.errors or field.help_text %}
+        <span class="help-inline">
+        {% if field.errors %}
+          {{ field.errors|join(' ') }}
+        {% else %}
+          {{ field.help_text }}
+        {% endif %}
+        </span>
+      {% endif %}
+    </div>
+  </div>
+{% endif %}
+{% endfor %}
+</fieldset>
+{% endmacro %}

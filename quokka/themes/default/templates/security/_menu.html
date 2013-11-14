@@ -1,0 +1,34 @@
+{% if security.registerable or security.recoverable or security.confirmabled %}
+
+<nav class="navbar navbar-default" role="navigation">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-3">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="#">Menu</a>
+    </div>
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-3">
+        {% if not request.path.endswith('login') %}
+            <a class="btn btn-primary navbar-btn" href="{{ url_for_security('login', **request.args) }}">Login</a>
+        {% endif %}
+
+        {% if not request.path.endswith('register') %}
+            {% if security.registerable %}
+            <a class="btn btn-primary navbar-btn" href="{{ url_for_security('register', **request.args) }}">Register</a>
+            {% endif %}
+        {% endif %}
+
+        {% if security.recoverable %}
+            <a class="btn btn-default navbar-btn" href="{{ url_for_security('forgot_password', **request.args) }}">Forgot password</a>
+        {% endif %}
+
+        {% if security.confirmable %}
+            <a class="btn btn-primary navbar-btn" xhref="{{ url_for_security('send_confirmation', **request.args) }}">Confirm account</a>
+        {% endif %}
+    </div>
+</nav>
+
+{% endif %}

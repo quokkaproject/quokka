@@ -1,48 +1,29 @@
+{% from theme('_helpers.html') import load_comment_area, load_tags_area, load_share_area, load_recommendation_area, load_page_header, load_page_time, load_page_content  with context %}
 {% extends theme("base.html") %}
-{% import theme("_forms.html") as forms %}
 
-{% block page_header %}
-<div class="large-12 columns">
-  <div class="page-header">
-    <h1>{{ content.title }}</h1>
-  </div>
-</div>
+{% block front %}
+
+    {{load_page_header(content)}}
+    <div class="col-6 col-sm-6 col-lg-6">
+        <small>{{load_page_time(content)}}</small>
+    </div>
+    <div class="col-6 col-sm-6 col-lg-6">
+        {{load_share_area(content)}}
+    </div>
+
 {% endblock %}
 
 {% block content %}
-<div class="large-12 columns">
-  {% if content.body %}
-  {% if content.content_type == 'Quote' %}
-    <blockquote>{{ content.body|safe() }}</blockquote>
-    <p>{{ content.author }}</p>
-  {% else %}
-    <p>{{ content.body|safe() }}</p>
-  {% endif %}
-{% endif %}
-{% if content.embed_code %}
-  {{ content.embed_code|safe() }}
-{% endif %}
-{% if content.image_url %}
-  <p><img src="{{ content.image_url }}" /><p>
-{% endif %}
-  <p>{{ content.created_at.strftime('%H:%M %Y-%m-%d') }}</p>
-  <hr>
-  <h2>Comments</h2>
-  {% if content.comments %}
-    {% for comment in content.comments %}
-       <p>{{ comment.body }}</p>
-       <p><strong>{{ comment.author }}</strong> <small>on {{ comment.created_at.strftime('%H:%M %Y-%m-%d') }}</small></p>
-      {{ comment.text }}
-    {% endfor %}
-  {% endif %}
 
-    <hr>
-    <h2>Add a comment</h2>
-    <form action="{{content.get_absolute_url()}}" method="post">
-      {{ forms.render(form) }}
-      <div class="actions">
-        <input type="submit" class="button" value="comment">
-      </div>
-    </form>
-</div>
+    <div class="col-12 col-sm-12 col-lg-12">
+
+        {{load_page_content(content)}}
+
+        {{load_tags_area(content)}}
+
+        {{load_recommendation_area(content)}}
+
+        {{load_comment_area(content)}}
+
+    </div>
 {% endblock %}

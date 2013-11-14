@@ -1,3 +1,214 @@
 {% macro link_to(text, endpoint) -%}
 <a href="{{ url_for(endpoint, **kwargs) }}">{{ text }}</a>
 {%- endmacro %}
+
+{% macro render_grid_item(content) %}
+<div class="col-6 col-sm-6 col-lg-4">
+    <h2>
+        <a href="{{ content.get_absolute_url() }}">
+            {{ content.title }}
+        </a>
+    </h2>
+    {% with main_image=content.get_main_image_url(thumb=True, default=None) %}
+        {% if main_image %}
+            <img src="{{main_image}}" style="float:left; margin-right: 10px;margin-bottom:10px;"/>
+        {% endif %}
+    {% endwith %}
+    <p>
+      {{content.summary|truncate(255)|safe()}}
+    </p>
+    <p>
+        Published at {{ content.created_at.strftime('%H:%M of %m/%d/%Y') }}
+    </p>
+    <p>
+        <a class="btn btn-default" href="{{ content.get_absolute_url() }}" role="button">Read more &raquo;</a>
+    </p>
+</div><!--/span-->
+{% endmacro %}
+
+{% macro render_grid(contents) %}
+   {% for content in contents %}
+       {{render_grid_item(content)}}
+   {% endfor %}
+{% endmacro %}
+
+
+{% macro render_list_item(content) %}
+<div class="col-12 col-sm-12 col-lg-12">
+    <h2>
+        <a href="{{ content.get_absolute_url() }}">
+            {{ content.title }}
+        </a>
+    </h2>
+    {% with main_image=content.get_main_image_url(thumb=True, default=None) %}
+        {% if main_image %}
+            <img src="{{main_image}}" style="float:left; margin-right: 10px;margin-bottom:10px;"/>
+        {% endif %}
+    {% endwith %}
+    <p>
+      {{content.summary|truncate(255)|safe()}}
+    </p>
+    <p>
+        Published at {{ content.created_at.strftime('%H:%M of %m/%d/%Y') }}
+    </p>
+    <p>
+        <a class="btn btn-default" href="{{ content.get_absolute_url() }}" role="button">Read more &raquo;</a>
+    </p>
+</div><!--/span-->
+{% endmacro %}
+
+{% macro render_list(contents) %}
+   {% for content in contents %}
+       {{render_list_item(content)}}
+   {% endfor %}
+{% endmacro %}
+
+
+{# --- Content areas ----- #}
+{% macro load_share_area(content) %}
+ Social share loaded here
+{% endmacro %}
+
+
+{% macro render_recommend_item(content) %}
+<div class="col-6 col-sm-6 col-lg-4">
+    <h4>
+        <a href="{{ content.get_absolute_url() }}">
+            {{ content.title }}
+        </a>
+    </h4>
+    {% with main_image=content.get_main_image_url(thumb=True, default=None) %}
+        {% if main_image %}
+            <img src="{{main_image}}" style="float:left; margin-right: 10px;margin-bottom:10px;"/>
+        {% endif %}
+    {% endwith %}
+    <p>
+      {{content.summary|truncate(140)|safe()}}
+    </p>
+    <p>
+        <small>Published at {{ content.created_at.strftime('%H:%M of %m/%d/%Y') }}</small>
+    </p>
+    <p>
+        <a class="btn btn-default btn-xs" href="{{ content.get_absolute_url() }}" role="button">Read more &raquo;</a>
+    </p>
+</div><!--/span-->
+{% endmacro %}
+
+
+{% macro load_recommendation_area(content) %}
+
+ {% with %}
+   {% set recommendations=content.get_recommendations()%}
+      {% if recommendations %}
+        <div class="col-12 col-sm-12 col-lg-12 clearfix">
+          <div class="page-header">
+             <h3>You may also like</h3>
+          </div>
+         {% for item in recommendations %}
+            {{render_recommend_item(item)}}
+         {% endfor %}
+       </div>
+     {% endif %}
+ {% endwith %}
+
+{% endmacro %}
+
+{% macro load_tags_area(content) %}
+ <div>
+  {% for tag in content.tags %}
+      <a href="{{url_for('tag', tag=tag)}}">{{tag}}</a>
+  {% endfor %}
+ </div>
+{% endmacro %}
+
+{% macro load_comment_area(content) %}
+<hr />
+Loading comment system... <br>
+<small> You have to set yout disqus preferences </small>
+{% endmacro %}
+
+{% macro load_page_header(content) %}
+    <div class="page-header">
+      <h1><a href="{{ content.get_absolute_url() }}">
+            {{ content.title }}
+        </a></h1>
+    </div>
+{% endmacro %}
+
+{% macro load_page_time(content) %}
+    {{ content.created_by.name }} at {{ content.created_at.strftime('%H:%M of %m/%d/%Y') }}
+{% endmacro %}
+
+
+{% macro load_page_content(content, truncate=None) %}
+<p>
+    {% with main_image=content.get_main_image_url(thumb=False, default=None) %}
+        {% if main_image %}
+            <img src="{{main_image}}" style="float:left; margin-right: 10px;margin-bottom:10px;"/>
+        {% endif %}
+    {% endwith %}
+
+    {% if not truncate %}
+        {% if content.body %}
+            {{ content.body|safe() }}
+        {% elif content.description %}
+            {{ content.description|safe() }}
+        {% else %}
+            {{ content.summary|safe() }}
+        {% endif %}
+    {% else %}
+        {% if content.body %}
+            {{ content.body|truncate(truncate)|safe() }}
+        {% elif content.description %}
+            {{ content.description|truncate(truncate)|safe() }}
+        {% else %}
+            {{ content.summary|truncate(truncate)|safe() }}
+        {% endif %}
+    {% endif %}
+
+
+</p>
+{% endmacro %}
+
+{# blog list#}
+
+
+{%macro render_blog_item(content) %}
+    {{load_page_header(content)}}
+    <div class="col-12 col-sm-12 col-lg-12">
+        <small>{{load_page_time(content)}}</small>
+    </div>
+    <div class="col-12 col-sm-12 col-lg-12">
+        {{load_page_content(content, truncate=2000)}}
+        <a href="{{content.get_absolute_url()}}" class=" btn btn-info btn-xs pull-right">read more</a>
+        {{load_tags_area(content)}}
+    </div>
+{% endmacro %}
+
+{% macro render_blog(contents) %}
+   {% for content in contents %}
+       {{render_blog_item(content)}}
+       <hr />
+   {% endfor %}
+{% endmacro %}
+
+
+{# --------- pagination ----------- #}
+
+{% macro render_pagination(pagination, endpoint) %}
+  {% if pagination.pages > 1 %}
+  <ul class="pagination">
+  {%- for page in pagination.iter_pages() %}
+    {% if page %}
+      {% if page != pagination.page %}
+        <li><a href="{{ '{}?page={}'.format(endpoint, page) }}">{{ page }}</a></li>
+      {% else %}
+        <li class="active"><a href="#"><strong>{{ page }}</strong></a></li>
+      {% endif %}
+    {% else %}
+      <li class="disabled">…</li>
+    {% endif %}
+  {%- endfor %}
+  </ul>
+  {% endif %}
+{% endmacro %}

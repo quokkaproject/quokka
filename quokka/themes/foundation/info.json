@@ -1,8 +1,8 @@
 {
-    "identifier":   "default",
+    "identifier":   "foundation",
     "application":  "quokka",
-    "name":         "Quokka bootstrap3 theme",
-    "description":  "Bootstrap3 theme for quokka CMS.",
+    "name":         "Quokka foundation theme",
+    "description":  "Foundation theme for quokka CMS.",
     "author":       "Bruno Cezar Rocha",
     "website":      "http://www.quokkaproject.org",
     "license":      "WTF",

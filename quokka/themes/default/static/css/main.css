@@ -1,8 +1,12 @@
-ul.ancestor-nav {
-  margin-top: 0px;
-  margin-left: 20px;
+.hidden-menu {
+  display: none;
 }
 
-ul.hidden-nav {
-  display: none;
+.account_menu {
+    margin-top: 20px;
+    list-style: none;
+}
+.account_menu li {
+   float: left;
+   margin-right: 10px;
 }

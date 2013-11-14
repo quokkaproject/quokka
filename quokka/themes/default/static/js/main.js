@@ -1,8 +1,10 @@
-$('.root-li').hover(
+$('.root-menu-item').hover(
     function(){
-        $(this).children('ul').show();
+        var menu_id = $(this).attr('id')
+        $("." + menu_id).toggleClass('hidden-menu');
     },
     function(){
-        $(this).children('ul').hide();
+        var menu_id = $(this).attr('id')
+        $("." + menu_id).toggleClass('hidden-menu');
     }
 )
