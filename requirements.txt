@@ -7,7 +7,7 @@ blinker
 Flask-Assets
 Flask-Babel
 Flask-Bcrypt
-Flask-Creole
+Flask-Misaka
 Flask-Gravatar
 https://github.com/majorz/flask-htmlbuilder/tarball/master
 Flask-Login

@@ -11,6 +11,12 @@ class BaseComment(object):
     spam = db.BooleanField()
     deleted = db.BooleanField()
 
+    @property
+    def gravatar_email(self):
+        if self.created_by:
+            return self.created_by.email
+        return self.author_email
+
 
 class Reply(Publishable, BaseComment, db.EmbeddedDocument):
     uid = db.StringField()
