@@ -1,0 +1,114 @@
+{% if not request.is_xhr %}
+    <link href="{{theme_static('css/bootstrap.min.css')}}" rel="stylesheet">
+{% endif %}
+
+<div class="comment-form col-12">
+    <div class="page-header">
+    <h2>Add a comment</h2>
+    </div>
+    {% if not Config.get('comments', 'requires_login') or current_user.is_authenticated() %}
+    <form role="form" class="form-horizontal" action="{{url_for('comments.comment', path=path)}}" method="post" id="comment-form">
+
+    {% for field in form %}
+    {% if field.type in ['CSRFTokenField', 'HiddenField'] %}
+      {{ field() }}
+    {% endif %}
+    {% endfor %}
+
+      <div class="form-group {%if form.author_name.errors%}has-error{%endif%}">
+        <label for="author_name" class="col-sm-1 control-label">Name</label>
+        <div class="col-sm-11">
+        {% if current_user.is_authenticated() %}
+              {{form.author_name(value=current_user.name, type="hidden")}}
+              <p class="form-control-static">{{current_user.name}}</p>
+        {% else %}
+          {{form.author_name(class="form-control", placeholder="your name", required="required")}}
+        {% endif %}
+        </div>
+      </div>
+
+      <div class="form-group {%if form.author_email.errors%}has-error{%endif%}">
+        <label for="author_email" class="col-sm-1 control-label">Email</label>
+        <div class="col-sm-11">
+        {% if current_user.is_authenticated() %}
+              {{form.author_email(value=current_user.email, type="hidden")}}
+              <p class="form-control-static">{{current_user.email}}</p>
+        {% else %}
+             {{form.author_email(class="form-control", placeholder="you@domain.com", required="required", type="email")}}
+        {% endif %}
+        </div>
+      </div>
+
+      <div class="form-group {%if form.body.errors%}has-error{%endif%}">
+        <label for="body" class="col-sm-1 control-label">Comment</label>
+        <div class="col-sm-11">
+          {{form.body(class="form-control", rows="3")}}
+        </div>
+      </div>
+
+      <div class="actions form-group">
+        <label class="col-sm-1"></label>
+        <div class="col-sm-11">
+             <input type="submit" class="btn btn-primary" value="comment">
+        </div>
+      </div>
+
+    </form>
+    {% else %}
+    <a href="{{url_for_security('login', next='/{0}.html'.format(path))}}" style="margin-bottom:10px;" class="btn btn-info btn-xs">Login to add a comment</a>
+    {% endif %}
+</div>
+
+<div class="comment-list">
+{% with %}
+
+{%set dummy_thumb = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAACpklEQVR4Xu2Y20uqQRTFl1fKa5QJ4gXREHxIU9L/XxBRRFDzQbwnRWYYCubdPGcPRynpwfFyCN0DHzgwrm/2mr33T0fx/v6+wAkPBRvAGcAlwD3ghHsguAkyBZgCTAGmAFPghB1gDDIGGYOMQcbgCUOA/wwxBhmDjEHGIGOQMXjCDmyNwbe3N9TrdfT7fSiVSuj1egSDQWi12pWdtCaXy4m5y+WCz+fb2OpD6y83spUBr6+veHh4gEqlgtVqhVqtRq/XQyAQwNnZmdCeTCZIJpOYTqdYLBZSBhxa/+spbGVAPB7HaDRCOBzG5eXlj6eazWbx8fGBi4sLvLy8rAxotVooFAowGAyIRqNCJ5VKQaFQiLlOp8Mu+hun2L+F0gYMBgMkEgmxYQqeTl6j0cDpdIogaTw/P6NYLOL+/l4E//T09C0D8vk82u02PB4P/v4QQ7fbhd/vh91uxz70ZUyQNoACTqfT4h1U92QCBTmbzXB7ewuj0ShOlMzwer3CiHUDqCyoPMbjsdCxWCy4u7sTn/ehf1ADlidEL6ETphQvlUpoNpuw2WzCAJqTMdQcqUlSmp+fn+P6+nrVCGu1Guih8bWU9qW/qQnSGfD5+YlYLIb5fI5IJAKz2YxyuYzHx0c4HA4RKM1/GiaTSdT5cDgUWUJa9JBppEWG7UN/0+BpnbQB9KXl6dHGr66uRIpTCSwz4usG1kuAiJDJZFZ13+l0RD9wu924ubkRX91FXyb4rQ2gIKrV6qr2qRdQQ6NaXh/rBjQaDVQqFWFcKBT6hksykDJqF/3/YoDsS37z+q1K4DcHJLs3NoBvhPhGiG+E+EZItnMe03qmAFOAKcAUYAocU1eXjYUpwBRgCjAFmAKynfOY1jMFmAJMAaYAU+CYurpsLEyBU6fAH+91k5++9KgyAAAAAElFTkSuQmCC" %}
+
+<ul class="media-list">
+    {% if request.method == "POST" and not current_user.is_authenticated() %}
+    <li class="alert alert-info">Thanks, your comment will be moderated!</li>
+    {% endif %}
+    {% for comment in comments %}
+        <li class="media">
+          <a class="pull-left" href="#">
+            <img class="media-object" data-src="holder.js/64x64" alt="64x64" style="width: 64px; height: 64px;" src="{{dummy_thumb}}">
+          </a>
+          <div class="media-body">
+            <h5 class="media-heading">@{{comment.author_name}} <small>at {{comment.created_at.strftime("%m/%d/%Y %H:%M")}}</small></h5>
+            <p>{{comment.body}}</p>
+
+            {%for reply in comment.replies.filter(parent="") %}
+            <!-- Nested media object -->
+            <div class="media">
+              <a class="pull-left" href="#">
+                <img class="media-object" data-src="holder.js/64x64" alt="64x64" style="width: 32px; height: 32px;" src="{{dummy_thumb}}">
+              </a>
+              <div class="media-body">
+                <h6 class="media-heading">@{{reply.author_name}} <small>at {{reply.created_at.strftime("%m/%d/%Y %H:%M")}}</small></h6>
+                {{reply.body}}
+
+
+                {%for treply in comment.replies.filter(parent=reply.uid) %}
+                <!-- Nested media object -->
+                <div class="media">
+                  <a class="pull-left" href="#">
+                    <img class="media-object" data-src="holder.js/64x64" alt="64x64" style="width: 32px; height: 32px;" src="{{dummy_thumb}}">
+                  </a>
+                  <div class="media-body">
+                    <h6 class="media-heading">@{{treply.author_name}} <small>at {{treply.created_at.strftime("%m/%d/%Y %H:%M")}}</small></h6>
+                     {{treply.body}}
+                  </div>
+                </div>
+                {% endfor %}
+
+              </div>
+            </div>
+            {% endfor %}
+
+
+          </div>
+        </li>
+    {% endfor %}
+</ul>
+{% endwith %}
+</div>

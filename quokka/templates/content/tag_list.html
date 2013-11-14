@@ -1,0 +1,12 @@
+{% from theme('_helpers.html') import render_list, render_pagination with context %}
+{% extends theme("base.html") %}
+
+{% block content %}
+    <div class="page-header">
+     <h2>Contents with the tag "{{request.view_args.tag}}"</h2>
+    </div>
+    {{render_list(contents.items)}}
+    <div>
+     {{render_pagination(contents, request.path)}}
+    </div>
+{% endblock %}
