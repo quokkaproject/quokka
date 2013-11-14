@@ -251,6 +251,44 @@ class ContentDetail(MethodView):
         )
 
 
+class TagList(MethodView):
+    object_name = "content"
+    template_suffix = "list"
+    template_ext = "html"
+
+    def get_template_names(self):
+        self.template_suffix = "{0}_{1}".format('tag',
+                                                self.template_suffix)
+
+        names = [
+            u"{0}/{1}.{2}".format(
+                self.object_name, self.template_suffix, self.template_ext
+            )
+        ]
+
+        return names
+
+    def get(self, tag):
+
+        now = datetime.now()
+        filters = {
+            'published': True,
+            'available_at__lte': now
+        }
+        contents = Content.objects(**filters).filter(tags=tag)
+
+        if current_app.config.get("PAGINATION_ENABLED", True):
+            pagination_arg = current_app.config.get("PAGINATION_ARG", "page")
+            page = request.args.get(pagination_arg, 1)
+            per_page = current_app.config.get(
+                "PAGINATION_PER_PAGE", 10
+            )
+            contents = contents.paginate(page=int(page), per_page=per_page)
+
+        return render_template(self.get_template_names(),
+                               contents=contents)
+
+
 class ContentFeed(MethodView):
     pass
 
