@@ -235,6 +235,7 @@ class Channel(HasCustomValue, Publishable, LongSlugged,
     parent = db.ReferenceField('self', required=False, default=None,
                                reverse_delete_rule=db.DENY)
 
+    per_page = db.IntField(default=0)
     aliases = db.ListField(db.StringField())
     channel_type = db.ReferenceField(ChannelType, required=False,
                                      reverse_delete_rule=db.NULLIFY)
