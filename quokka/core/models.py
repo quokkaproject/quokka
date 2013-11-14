@@ -320,6 +320,11 @@ class Channel(HasCustomValue, Publishable, LongSlugged,
     def get_absolute_url(self, *args, **kwargs):
         return "/{0}/".format(self.long_slug)
 
+    def get_canonical_url(self, *args, **kwargs):
+        if self.is_homepage:
+            return "/"
+        return self.get_absolute_url()
+
     def clean(self):
         homepage = Channel.objects(is_homepage=True)
         if self.is_homepage and homepage and not self in homepage:
@@ -517,6 +522,20 @@ class Content(HasCustomValue, Publishable, LongSlugged, Commentable,
             return url_for(self.URL_NAMESPACE, long_slug=long_slug)
         except:
             return url_for(endpoint, long_slug=long_slug)
+
+    def get_canonical_url(self, *args, **kwargs):
+        return self.get_absolute_url()
+
+    def get_recommendations(self, limit=3, ordering='-created_at', *a, **k):
+        now = datetime.datetime.now()
+        filters = {
+            'published': True,
+            'available_at__lte': now,
+            "id__ne": self.id
+        }
+        contents = Content.objects(**filters).filter(tags__in=self.tags or [])
+
+        return contents.order_by(ordering)[:limit]
 
     def __unicode__(self):
         return self.title
