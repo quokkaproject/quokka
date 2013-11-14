@@ -5,8 +5,7 @@ import collections
 from datetime import datetime
 from flask import request, redirect, url_for, abort, current_app
 from flask.views import MethodView
-from flask.ext.mongoengine.wtf import model_form
-from quokka.core.models import Channel, Content, Comment
+from quokka.core.models import Channel, Content
 from quokka.core.templates import render_template
 
 logger = logging.getLogger()
@@ -104,11 +103,6 @@ class ContentDetail(MethodView):
     object_name = "content"
     template_suffix = "detail"
     template_ext = "html"
-
-    form = model_form(
-        Comment,
-        exclude=['created_at', 'created_by', 'published']
-    )
 
     def get_template_names(self):
 
@@ -208,13 +202,10 @@ class ContentDetail(MethodView):
         if not content.channel.published:
             return abort(404)
 
-        form = self.form(request.form)
-
         self.content = content
 
         context = {
             "content": content,
-            "form": form,
             "channel": content.channel
         }
 

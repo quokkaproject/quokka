@@ -212,7 +212,7 @@ class BaseContentAdmin(ModelAdmin):
     form_columns = ['title', 'slug', 'channel', 'related_channels', 'summary',
                     'published', 'contents',
                     'show_on_channel', 'available_at', 'available_until',
-                    'tags', 'comments', 'values', 'template_type']
+                    'tags', 'values', 'template_type']
     # form_excluded_columns = []
     # form = None
     # form_overrides = None

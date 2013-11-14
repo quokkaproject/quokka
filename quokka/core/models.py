@@ -97,26 +97,6 @@ class LongSlugged(Slugged):
                 )
 
 
-class Comment(db.EmbeddedDocument):
-    body = db.StringField(verbose_name="Comment", required=True)
-    author = db.StringField(verbose_name="Name", max_length=255, required=True)
-    published = db.BooleanField(default=True)
-    created_at = db.DateTimeField(default=datetime.datetime.now)
-    created_by = db.ReferenceField(User)
-
-    def __unicode__(self):
-        return "{0}-{1}...".format(self.author, self.body[:10])
-
-    meta = {
-        'indexes': ['-created_at', '-available_at'],
-        'ordering': ['-created_at']
-    }
-
-
-class Commentable(object):
-    comments = db.ListField(db.EmbeddedDocumentField(Comment))
-
-
 class Tagged(object):
     tags = db.ListField(db.StringField(max_length=50))
 
@@ -390,7 +370,12 @@ class Config(HasCustomValue, Publishable, db.DynamicDocument):
 
     @classmethod
     def get(cls, group, name=None, default=None):
-        instance = cls.objects.get(group=group)
+
+        try:
+            instance = cls.objects.get(group=group)
+        except:
+            return None
+
         if not name:
             ret = instance.values
             if group == 'settings':
@@ -474,7 +459,7 @@ class SubContent(Publishable, Ordered, db.EmbeddedDocument):
 ###############################################################
 
 
-class Content(HasCustomValue, Publishable, LongSlugged, Commentable,
+class Content(HasCustomValue, Publishable, LongSlugged,
               Channeling, Tagged, db.DynamicDocument):
     title = db.StringField(max_length=255, required=True)
     summary = db.StringField(required=False)
