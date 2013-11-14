@@ -3,7 +3,7 @@
 import os
 from flask import send_from_directory, current_app, request
 from flask.ext.security import roles_accepted
-from quokka.core.views import ContentDetail, ContentList
+from quokka.core.views import ContentDetail, ContentList, TagList
 from quokka.core.models import Channel
 
 
@@ -34,6 +34,8 @@ def configure(app):
     # better way? how?
     app.add_url_rule('/<path:long_slug>.html',
                      view_func=ContentDetail.as_view('detail'))
+    # Tag list
+    app.add_url_rule('/tag/<tag>/', view_func=TagList.as_view('tag'))
     # Match channels by its long_slug mpath
     app.add_url_rule('/<path:long_slug>/',
                      view_func=ContentList.as_view('list'))
