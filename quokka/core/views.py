@@ -3,7 +3,7 @@
 import logging
 import collections
 from datetime import datetime
-from flask import request, redirect, url_for, abort
+from flask import request, redirect, url_for, abort, current_app
 from flask.views import MethodView
 from flask.ext.mongoengine.wtf import model_form
 from quokka.core.models import Channel, Content, Comment
@@ -52,6 +52,9 @@ class ContentList(MethodView):
 
         channel = Channel.objects.get_or_404(mpath=mpath, published=True)
 
+        # if channel.is_homepage and request.path != "/":
+        #     return redirect("/")
+
         if channel.redirect_url:
             return redirect(channel.redirect_url)
 
@@ -76,11 +79,19 @@ class ContentList(MethodView):
         filters.update(channel.get_content_filters())
         contents = Content.objects(**base_filters).filter(**filters)
 
-        # TODO: Well it lacks pagination!
+        if current_app.config.get("PAGINATION_ENABLED", True):
+            pagination_arg = current_app.config.get("PAGINATION_ARG", "page")
+            page = request.args.get(pagination_arg, 1)
+            per_page = channel.per_page or current_app.config.get(
+                "PAGINATION_PER_PAGE", 10
+            )
+            contents = contents.paginate(page=int(page), per_page=per_page)
 
         # this can be overkill! try another solution
-        contents = [content for content in contents
-                    if content.channel.published]
+        # to filter out content in unpublished channels
+        # when homepage and also in blocks
+        # contents = [content for content in contents
+        #             if content.channel.published]
 
         themes = channel.get_themes()
         return render_template(self.get_template_names(),
