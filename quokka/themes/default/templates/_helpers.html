@@ -150,7 +150,11 @@
 {% endmacro %}
 
 {% macro load_page_time(content) %}
-    {{ content.created_by.name }} at {{ content.created_at.strftime('%H:%M of %m/%d/%Y') }}
+    {%if content.created_by %}
+        {{ content.created_by.name }}
+    {%else%}
+        {{Config.get('site', 'site_author', '')}}
+    {%endif%} at {{ content.created_at.strftime('%H:%M of %m/%d/%Y') }}
 {% endmacro %}
 
 
