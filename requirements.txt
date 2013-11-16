@@ -1,4 +1,5 @@
 flask
+https://github.com/pythonhub/flask-security/tarball/develop
 flask-script
 WTForms
 mongoengine
@@ -12,7 +13,6 @@ Flask-Gravatar
 https://github.com/majorz/flask-htmlbuilder/tarball/master
 Flask-Login
 Flask-Principal
-https://github.com/pythonhub/flask-security/tarball/develop
 Flask-Mail
 Flask-Testing
 Flask-Cache
