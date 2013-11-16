@@ -5,9 +5,11 @@ from setuptools import setup, find_packages
 
 import quokka
 
-REQUIREMENTS = [i.strip() for i in open("requirements.txt").readlines()]
+REQUIREMENTS = [i.strip() for i in open("requirements.txt").readlines()
+                if not i.startswith("http")]
 
-dependency_links = []
+dependency_links = [i.strip() for i in open("requirements.txt").readlines()
+                    if i.startswith("http")]
 
 classifiers = ["Development Status :: 4 - Beta",
                "Intended Audience :: Developers",
@@ -22,7 +24,7 @@ classifiers = ["Development Status :: 4 - Beta",
                'Topic :: Software Development :: Libraries :: Python Modules']
 
 try:
-    long_description = open('README.rst').read()
+    long_description = open('README.md').read()
 except:
     long_description = quokka.__description__
 
@@ -35,7 +37,7 @@ setup(name='quokka',
       author=quokka.__author__,
       author_email=quokka.__email__,
       url='http://quokkaproject.org',
-      download_url="https://github.com/rochacbruno/quokka/tarball/master",
+      download_url="https://github.com/pythonhub/quokka/tarball/master",
       license=quokka.__license__,
       packages=find_packages(exclude=('doc', 'docs',)),
       namespace_packages=['quokka'],
