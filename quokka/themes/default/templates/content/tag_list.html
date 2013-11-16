@@ -6,6 +6,7 @@
 {% block seo_meta %}
 <meta name="description" content="Tag Search">
 <meta name="keywords" content="{{request.view_args.tag}}">
+<link rel="alternate" type="application/atom+xml" title="Tagged posts (Atom 0.3)" href="{{url_for('atom_tag', tag=request.view_args.tag)}}">
 {% endblock %}
 
 {% block content %}

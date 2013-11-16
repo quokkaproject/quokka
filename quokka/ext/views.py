@@ -3,7 +3,8 @@
 import os
 from flask import send_from_directory, current_app, request
 from flask.ext.security import roles_accepted
-from quokka.core.views import ContentDetail, ContentList, TagList, FeedAtom
+from quokka.core.views import ContentDetail, ContentList, TagList
+from quokka.core.views import TagAtom, FeedAtom
 from quokka.core.models import Channel
 
 
@@ -51,9 +52,11 @@ def configure(app):
     # Atom Feed
     app.add_url_rule('/<path:long_slug>.atom',
                      view_func=FeedAtom.as_view('atom_list'))
+    app.add_url_rule('/tag/<tag>.atom', view_func=TagAtom.as_view('atom_tag'))
 
     # Tag list
     app.add_url_rule('/tag/<tag>/', view_func=TagList.as_view('tag'))
+
     # Match channels by its long_slug mpath
     app.add_url_rule('/<path:long_slug>/',
                      view_func=ContentList.as_view('list'))

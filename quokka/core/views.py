@@ -224,7 +224,27 @@ class ContentDetail(MethodView):
         )
 
 
-class TagList(MethodView):
+class BaseTagView(MethodView):
+    def get_contents(self, tag):
+        now = datetime.now()
+        filters = {
+            'published': True,
+            'available_at__lte': now
+        }
+        contents = Content.objects(**filters).filter(tags=tag)
+
+        if current_app.config.get("PAGINATION_ENABLED", True):
+            pagination_arg = current_app.config.get("PAGINATION_ARG", "page")
+            page = request.args.get(pagination_arg, 1)
+            per_page = current_app.config.get(
+                "PAGINATION_PER_PAGE", 10
+            )
+            contents = contents.paginate(page=int(page), per_page=per_page)
+
+        return contents
+
+
+class TagList(BaseTagView):
     object_name = "content"
     template_suffix = "list"
     template_ext = "html"
@@ -242,27 +262,43 @@ class TagList(MethodView):
         return names
 
     def get(self, tag):
-
-        now = datetime.now()
-        filters = {
-            'published': True,
-            'available_at__lte': now
-        }
-        contents = Content.objects(**filters).filter(tags=tag)
-
-        if current_app.config.get("PAGINATION_ENABLED", True):
-            pagination_arg = current_app.config.get("PAGINATION_ARG", "page")
-            page = request.args.get(pagination_arg, 1)
-            per_page = current_app.config.get(
-                "PAGINATION_PER_PAGE", 10
-            )
-            contents = contents.paginate(page=int(page), per_page=per_page)
-
+        contents = self.get_contents(tag)
         return render_template(self.get_template_names(),
                                contents=contents)
 
 
-class ContentFeed(MethodView):
+class BaseFeed(MethodView):
+
+    def make_external_url(self, url):
+        return urljoin(request.url_root, url)
+
+    def make_atom(self, feed_name, contents):
+        feed = AtomFeed(
+            feed_name,
+            feed_url=request.url,
+            url=request.url_root
+        )
+        for content in contents:
+            if not content.channel.include_in_rss:
+                continue
+
+            feed.add(
+                content.title,
+                content.get_text(),
+                content_type="html",
+                author=content.created_by.name if content.created_by else '',
+                url=self.make_external_url(content.get_absolute_url()),
+                updated=content.updated_at,
+                published=content.created_at
+            )
+        return feed
+
+    def make_rss(self):
+        """TODO: Issue # 70 """
+
+
+class ContentFeed(BaseFeed):
+
     def get_contents(self, long_slug):
         now = datetime.now()
         path = long_slug.split('/')
@@ -299,11 +335,9 @@ class ContentFeed(MethodView):
 
         return contents
 
-    def make_external_url(self, url):
-        return urljoin(request.url_root, url)
-
 
 class FeedAtom(ContentFeed):
+
     def get(self, long_slug):
         contents = self.get_contents(long_slug)
         if current_app.config.get("PAGINATION_ENABLED", True):
@@ -313,19 +347,21 @@ class FeedAtom(ContentFeed):
             Config.get('site', 'site_name', ''),
             self.channel.title
         )
-        feed = AtomFeed(
-            feed_name,
-            feed_url=request.url,
-            url=request.url_root
+        feed = self.make_atom(feed_name, contents)
+
+        return feed.get_response()
+
+
+class TagAtom(BaseFeed, BaseTagView):
+    def get(self, tag):
+        contents = self.get_contents(tag)
+        if current_app.config.get("PAGINATION_ENABLED", True):
+            contents = contents.items
+
+        feed_name = u"{0} | {1} | feed".format(
+            Config.get('site', 'site_name', ''),
+            "Tag {0}".format(tag)
         )
-        for content in contents:
-            feed.add(
-                content.title,
-                content.get_text(),
-                content_type="html",
-                author=content.created_by.name if content.created_by else '',
-                url=self.make_external_url(content.get_absolute_url()),
-                updated=content.updated_at,
-                published=content.created_at
-            )
+        feed = self.make_atom(feed_name, contents)
+
         return feed.get_response()
