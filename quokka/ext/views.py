@@ -44,7 +44,8 @@ def configure(app):
 
     # Match content detail, .html added to distinguish from channels
     # better way? how?
-    app.add_url_rule('/<path:long_slug>.html',
+    CONTENT_EXTENSION = app.config.get("CONTENT_EXTENSION", "html")
+    app.add_url_rule('/<path:long_slug>.{0}'.format(CONTENT_EXTENSION),
                      view_func=ContentDetail.as_view('detail'))
     # Tag list
     app.add_url_rule('/tag/<tag>/', view_func=TagList.as_view('tag'))

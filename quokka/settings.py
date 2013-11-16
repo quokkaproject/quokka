@@ -236,3 +236,6 @@ MEDIA_FILE_ALLOWED_EXTENSIONS = ('pdf', 'txt', 'doc', 'docx', 'xls', 'xmlsx')
 
 # default admin THEME
 ADMIN_THEME = 'cosmo'
+
+# default content extension for url buildind
+CONTENT_EXTENSION = "html"
