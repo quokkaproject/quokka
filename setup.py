@@ -11,17 +11,21 @@ REQUIREMENTS = [i.strip() for i in open("requirements.txt").readlines()
 dependency_links = [i.strip() for i in open("requirements.txt").readlines()
                     if i.startswith("http")]
 
-classifiers = ["Development Status :: 4 - Beta",
-               "Intended Audience :: Developers",
-               "License :: OSI Approved :: MIT License",
-               "Operating System :: OS Independent",
-               "Framework :: Flask",
-               'Programming Language :: Python',
-               "Programming Language :: Python :: 2.7",
-               "Programming Language :: Python :: 2.6",
-               "Operating System :: OS Independent",
-               "Topic :: Internet :: WWW/HTTP :: Dynamic Content",
-               'Topic :: Software Development :: Libraries :: Python Modules']
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Environment :: Web Environment",
+    "Framework :: Flask",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Natural Language :: English",
+    "Operating System :: MacOS :: MacOS X",
+    "Operating System :: POSIX :: Linux",
+    "Programming Language :: JavaScript",
+    "Programming Language :: Python :: 2.7",
+    'Programming Language :: Python',
+    "Topic :: Internet :: WWW/HTTP :: Dynamic Content",
+    'Topic :: Software Development :: Libraries :: Python Modules'
+]
 
 try:
     long_description = open('README.md').read()
