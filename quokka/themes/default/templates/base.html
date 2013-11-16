@@ -2,6 +2,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:fb="http://ogp.me/ns/fb#">
   <head>
+    <base href="{{request.url_root}}">
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -15,6 +16,7 @@
       <link rel="canonical" href="{{content.get_canonical_url()}}"/>
     {% elif channel %}
       <link rel="canonical" href="{{channel.get_canonical_url()}}"/>
+      <link rel="alternate" type="application/atom+xml" title="Posts (Atom 0.3)" href="{{url_for('atom_list', long_slug=channel.long_slug)}}">
     {% endif %}
     <link rel="shortcut icon" href="{{theme_static('favicon.ico')}}">
 

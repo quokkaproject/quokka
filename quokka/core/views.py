@@ -2,10 +2,12 @@
 
 import logging
 import collections
+from urlparse import urljoin
 from datetime import datetime
 from flask import request, redirect, url_for, abort, current_app
 from flask.views import MethodView
-from quokka.core.models import Channel, Content
+from werkzeug.contrib.atom import AtomFeed
+from quokka.core.models import Channel, Content, Config
 from quokka.core.templates import render_template
 
 logger = logging.getLogger()
@@ -261,8 +263,69 @@ class TagList(MethodView):
 
 
 class ContentFeed(MethodView):
-    pass
+    def get_contents(self, long_slug):
+        now = datetime.now()
+        path = long_slug.split('/')
+        mpath = ",".join(path)
+        mpath = ",{0},".format(mpath)
+
+        channel = Channel.objects.get_or_404(mpath=mpath, published=True)
+        if not channel.include_in_rss:
+            abort(404)
+
+        self.channel = channel
+
+        base_filters = {}
+
+        filters = {
+            'published': True,
+            'available_at__lte': now,
+        }
+
+        if not channel.is_homepage:
+            base_filters['__raw__'] = {
+                'mpath': {'$regex': "^{0}".format(mpath)}}
+
+        filters.update(channel.get_content_filters())
+        contents = Content.objects(**base_filters).filter(**filters)
+
+        if current_app.config.get("PAGINATION_ENABLED", True):
+            pagination_arg = current_app.config.get("PAGINATION_ARG", "page")
+            page = request.args.get(pagination_arg, 1)
+            per_page = channel.per_page or current_app.config.get(
+                "PAGINATION_PER_PAGE", 10
+            )
+            contents = contents.paginate(page=int(page), per_page=per_page)
+
+        return contents
+
+    def make_external_url(self, url):
+        return urljoin(request.url_root, url)
 
 
-class ChannelFeed(ContentFeed):
-    pass
+class FeedAtom(ContentFeed):
+    def get(self, long_slug):
+        contents = self.get_contents(long_slug)
+        if current_app.config.get("PAGINATION_ENABLED", True):
+            contents = contents.items
+
+        feed_name = u"{0} | {1} | feed".format(
+            Config.get('site', 'site_name', ''),
+            self.channel.title
+        )
+        feed = AtomFeed(
+            feed_name,
+            feed_url=request.url,
+            url=request.url_root
+        )
+        for content in contents:
+            feed.add(
+                content.title,
+                content.get_text(),
+                content_type="html",
+                author=content.created_by.name if content.created_by else '',
+                url=self.make_external_url(content.get_absolute_url()),
+                updated=content.updated_at,
+                published=content.created_at
+            )
+        return feed.get_response()

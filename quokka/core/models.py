@@ -522,6 +522,14 @@ class Content(HasCustomValue, Publishable, LongSlugged,
 
         return contents.order_by(ordering)[:limit]
 
+    def get_text(self):
+        if hasattr(self, 'body'):
+            return self.body
+        elif hasattr(self, 'description'):
+            return self.description
+        else:
+            return self.summary
+
     def __unicode__(self):
         return self.title
 
