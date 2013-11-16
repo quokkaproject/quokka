@@ -282,11 +282,16 @@ class BaseFeed(MethodView):
             if not content.channel.include_in_rss:
                 continue
 
+            if content.created_by:
+                author = content.created_by.name
+            else:
+                author = Config.get('site', 'site_author', '')
+
             feed.add(
                 content.title,
                 content.get_text(),
                 content_type="html",
-                author=content.created_by.name if content.created_by else '',
+                author=author,
                 url=self.make_external_url(content.get_absolute_url()),
                 updated=content.updated_at,
                 published=content.created_at
