@@ -88,6 +88,42 @@ def configure_admin(app, admin):
         except:
             pass  # TODO: check blueprint endpoisnt colision
 
+    # register all themes in file manager
+    for k, theme in app.theme_manager.themes.iteritems():
+        try:
+
+            if k == app.config.get('DEFAULT_THEME'):
+                suffix = "(Site theme)"
+            elif k == app.config.get('ADMIN_THEME'):
+                suffix = "(Admin theme)"
+            else:
+                suffix = "Theme"
+
+            admin.add_view(
+                FileAdmin(
+                    theme.static_path,
+                    "/_themes/{0}/".format(theme.identifier),
+                    name="{0}: {1} static files".format(suffix,
+                                                        theme.identifier),
+                    category="files",
+                    endpoint="{0}_static_files".format(theme.identifier),
+                    roles_accepted=('admin', "editor")
+                )
+            )
+            admin.add_view(
+                FileAdmin(
+                    theme.templates_path,
+                    "/theme_template_files/{0}/".format(theme.identifier),
+                    name="{0}: {1} template files".format(suffix,
+                                                          theme.identifier),
+                    category="files",
+                    endpoint="{0}_template_files".format(theme.identifier),
+                    roles_accepted=('admin', "editor")
+                )
+            )
+        except:
+            pass
+
     # adding views
     admin.add_view(InspectorView(category=_("Settings"),
                                  name=_l("Inspector")))

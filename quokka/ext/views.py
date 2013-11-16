@@ -14,6 +14,17 @@ def template_files(filename):
     return send_from_directory(template_path, filename)
 
 
+@roles_accepted('admin', 'developer')
+def theme_template_files(identifier, filename):
+    template_path = os.path.join(
+        current_app.root_path,
+        "themes",
+        identifier,
+        "templates"
+    )
+    return send_from_directory(template_path, filename)
+
+
 def media(filename):
     return send_from_directory(current_app.config.get('MEDIA_ROOT'), filename)
 
@@ -26,7 +37,8 @@ def configure(app):
     app.add_url_rule('/mediafiles/<path:filename>', view_func=media)
     app.add_url_rule('/template_files/<path:filename>',
                      view_func=template_files)
-
+    app.add_url_rule('/theme_template_files/<identifier>/<path:filename>',
+                     view_func=theme_template_files)
     for filepath in app.config.get('MAP_STATIC_ROOT', []):
         app.add_url_rule(filepath, view_func=static_from_root)
 
