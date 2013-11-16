@@ -8,7 +8,7 @@
 {% macro build_nodes(parent=None, nodes=None) %}
      {% if not parent and nodes %}
       <div class="list-group">
-        {% for node in nodes %}
+        {% for node in nodes|selectattr("show_in_menu") %}
             {{ build_node(node, id="menu-%s" % node.id) }}
         {% endfor %}
       </div>
