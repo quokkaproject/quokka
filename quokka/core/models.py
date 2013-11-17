@@ -531,6 +531,11 @@ class Content(HasCustomValue, Publishable, LongSlugged,
 
         return contents.order_by(ordering)[:limit]
 
+    def get_summary(self):
+        if self.summary:
+            return self.summary
+        return self.get_text()
+
     def get_text(self):
         if hasattr(self, 'body'):
             text = self.body

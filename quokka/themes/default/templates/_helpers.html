@@ -15,7 +15,7 @@
         {% endif %}
     {% endwith %}
     <p>
-      {{content.summary|truncate(255)|safe()}}
+      {{content.get_summary()|truncate(255)|safe()}}
     </p>
     <p>
         Published at {{ content.created_at.strftime('%H:%M of %m/%d/%Y') }}
@@ -46,7 +46,7 @@
         {% endif %}
     {% endwith %}
     <p>
-      {{content.summary|truncate(255)|safe()}}
+      {{content.get_summary()|truncate(255)|safe()}}
     </p>
     <p>
         Published at {{ content.created_at.strftime('%H:%M of %m/%d/%Y') }}
@@ -94,7 +94,7 @@
         {% endif %}
     {% endwith %}
     <p>
-      {{content.summary|truncate(140)|safe()}}
+      {{content.get_summary()|truncate(140)|safe()}}
     </p>
     <p>
         <small>Published at {{ content.created_at.strftime('%H:%M of %m/%d/%Y') }}</small>
