@@ -218,7 +218,7 @@
 
           var _gaq = _gaq || [];
           _gaq.push(['_setAccount', '{{g_a}}']);
-          _gaq.push(['_setDomainName', '{{Config.get("site_domain", request.url_root)}}']);
+          _gaq.push(['_setDomainName', '{{Config.get("site", "site_domain", request.url_root)}}']);
           _gaq.push(['_setAllowLinker', true]);
           _gaq.push(['_trackPageview']);
 
