@@ -64,32 +64,33 @@
     {% if request.endpoint.endswith(('edit_view', 'create_view')) %}
     <script>
     // CODE to load text editors
-    var default_editor = '{{Config.get("settings", "DEFAULT_TEXT_FORMAT", "html")}}';
-    var selected_format = document.getElementById('content_format');
-    if (selected_format == null) {
-        if (default_editor == 'markdown') {
-            load_markdown_editor();
-        } else {
-            load_tinymce();
-        }
-    } else {
-        if (selected_format.value == 'markdown') {
-            load_markdown_editor();
-        } else {
-            load_tinymce();
-        }
-
-        selected_format.addEventListener('change', function(e){
-            if (selected_format.value == 'markdown') {
-                destroy_tinymce();
+    if (document.getElementsByClassName('text_editor')[0] != undefined) {
+        var default_editor = '{{Config.get("settings", "DEFAULT_TEXT_FORMAT", "html")}}';
+        var selected_format = document.getElementById('content_format');
+        if (selected_format == null) {
+            if (default_editor == 'markdown') {
                 load_markdown_editor();
             } else {
-                destroy_markdown_editor();
                 load_tinymce();
             }
-        }, false);
-    }
+        } else {
+            if (selected_format.value == 'markdown') {
+                load_markdown_editor();
+            } else {
+                load_tinymce();
+            }
 
+            selected_format.addEventListener('change', function(e){
+                if (selected_format.value == 'markdown') {
+                    destroy_tinymce();
+                    load_markdown_editor();
+                } else {
+                    destroy_markdown_editor();
+                    load_tinymce();
+                }
+            }, false);
+        }
+    }
     </script>
     {% endif %}
 
