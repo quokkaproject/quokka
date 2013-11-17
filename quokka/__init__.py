@@ -38,8 +38,10 @@ def create_app(config=None, test=False, admin_instance=None, **settings):
     else:
         app.config.from_envvar("QUOKKATEST_SETTINGS", silent=True)
 
-    from .ext import configure_extensions
-    configure_extensions(app, admin_instance or admin)
+    # testing trick
+    with app.test_request_context():
+        from .ext import configure_extensions
+        configure_extensions(app, admin_instance or admin)
 
     # app.wsgi_app = HTTPMethodOverrideMiddleware(app.wsgi_app)
     return app
