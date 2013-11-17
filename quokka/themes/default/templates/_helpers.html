@@ -4,11 +4,11 @@
 
 {% macro render_grid_item(content) %}
 <div class="col-6 col-sm-6 col-lg-4">
-    <h2>
+    <h4>
         <a href="{{ content.get_absolute_url() }}">
             {{ content.title }}
         </a>
-    </h2>
+    </h4>
     {% with main_image=content.get_main_image_url(thumb=True, default=None) %}
         {% if main_image %}
             <img src="{{main_image}}" style="float:left; margin-right: 10px;margin-bottom:10px;"/>
@@ -35,11 +35,11 @@
 
 {% macro render_list_item(content) %}
 <div class="col-12 col-sm-12 col-lg-12">
-    <h2>
+    <h3>
         <a href="{{ content.get_absolute_url() }}">
             {{ content.title }}
         </a>
-    </h2>
+    </h3>
     {% with main_image=content.get_main_image_url(thumb=True, default=None) %}
         {% if main_image %}
             <img src="{{main_image}}" style="float:left; margin-right: 10px;margin-bottom:10px;"/>
@@ -166,11 +166,9 @@
         {% endif %}
     {% endwith %}
 
-    {% if not truncate %}
-        {{ content.get_text()|safe() }}
-    {% else %}
-        {{ content.get_text()|truncate(truncate)|safe() }}
-    {% endif %}
+
+    {{ content.get_text()|safe() }}
+
 </p>
 {% endmacro %}
 
