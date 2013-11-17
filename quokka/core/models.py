@@ -25,7 +25,7 @@ logger = logging.getLogger()
 class ContentFormat(object):
     content_format = db.StringField(
         choices=TEXT_FORMATS,
-        default=lambda: current_app.config.get("DEFAULT_TEXT_FORMAT", "html")
+        default="html"  # TODO: Find a way to set default form settings
     )
 
 
