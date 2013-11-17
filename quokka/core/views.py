@@ -270,7 +270,7 @@ class TagList(BaseTagView):
 def cdata(data):
     if not data:
         return u""
-    return u"<!CDATA[ {0} ]]>".format(data)
+    return u"<![CDATA[ {0} ]]>".format(data)
 
 
 class BaseFeed(MethodView):
