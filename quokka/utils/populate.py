@@ -119,6 +119,15 @@ class Populate(object):
                                       formatter="text"),
                     self.custom_value(name="site_logo",
                                       rawvalue="/static/img/logo_white.png",
+                                      formatter="text"),
+                    self.custom_value(name="site_domain",
+                                      rawvalue="",
+                                      formatter="text"),
+                    self.custom_value(name="google-analytics",
+                                      rawvalue="",
+                                      formatter="text"),
+                    self.custom_value(name="google-site-verification",
+                                      rawvalue="",
                                       formatter="text")
                 ]
             },
