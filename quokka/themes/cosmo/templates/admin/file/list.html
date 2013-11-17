@@ -31,7 +31,7 @@
 		    <input type="checkbox" name="rowtoggle" class="action-rowtoggle" />
 		</th>
 		{% endif %}
-		<th class="span1">&nbsp;</th>
+		<th class="span2">&nbsp;</th>
 		<th>Name</th>
 		<th>Size</th>
 		{% endblock %}
@@ -50,10 +50,15 @@
 	    <td>
 		{% block list_row_actions scoped %}
 		{% if admin_view.can_rename and path and name != '..' %}
-		<a class="icon" href="{{ url_for('.rename', path=path) }}">
+		<a class="icon" href="{{ url_for('.rename', path=path) }}" title="Rename this file">
 			<i class="icon-pencil"></i>
 		</a>
+        {% if not is_dir %}
+        <a class="icon" href="{{ url_for('.edit', path=path) }}" title="Edit this file">
+            <i class="icon-edit"></i>
+        </a>
 		{% endif %}
+        {% endif %}
 		{%- if admin_view.can_delete and path -%}
 		    {% if is_dir %}
 			{% if name != '..' and admin_view.can_delete_dirs %}
