@@ -10,6 +10,14 @@
     <meta name="description" content="{{Config.get('site', 'site_description')}}">
     <meta name="keywords" content="{{Config.get('site', 'site_keywords')}}">
     {% endblock %}
+
+    {% with %}
+        {% set g_s_v = Config.get('site', 'google-site-verification')%}
+        {% if g_s_v %}
+        <meta name="google-site-verification" content="{{g_s_v}}" />
+        {% endif %}
+    {% endwith %}
+
     <meta name="author" content="{{Config.get('site', 'site_author')}}">
     {% block meta %}{% endblock %}
     {%if content %}
@@ -187,7 +195,7 @@
       <hr>
 
       <footer>
-	      <p>&copy; {{Config.get('site', 'site_name')}}</p>
+	      <p>&copy; {{Config.get('site', 'site_name')}}</p> <span class="pull-right">Powered by <a href="http://www.quokkaproject.org">Quokka CMS</a></span>
       </footer>
 
     </div><!--/.container-->
@@ -202,5 +210,26 @@
     <script src="{{theme_static('js/offcanvas.js')}}"></script>
     <script src="{{theme_static('js/main.js')}}"></script>
     {% block js_footer %}{% endblock %}
+
+    {% with %}
+        {% set g_a = Config.get('site', 'google-analytics')%}
+        {% if g_a %}
+        <script type="text/javascript">
+
+          var _gaq = _gaq || [];
+          _gaq.push(['_setAccount', '{{g_a}}']);
+          _gaq.push(['_setDomainName', '{{Config.get("site_domain", request.url_root)}}']);
+          _gaq.push(['_setAllowLinker', true]);
+          _gaq.push(['_trackPageview']);
+
+          (function() {
+            var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+          })();
+
+        </script>
+        {% endif %}
+    {% endwith %}
   </body>
 </html>
