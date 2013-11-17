@@ -6,6 +6,11 @@ from quokka.core.admin import create_admin
 
 class BasicTestCase(TestCase):
 
+    def setUp(self):
+        self.db = self.app.extensions.get('mongoengine')
+        from quokka.utils.populate import Populate
+        Populate(self.db)()
+
     def login(self, username, password):
         return self.app.post('/accounts/login', data=dict(
             username=username,
@@ -29,19 +34,13 @@ class BasicTestCase(TestCase):
         self.assertTrue(self.app.extensions.get('mongoengine'))
 
     def test_db_is_connected_in_the_test_database(self):
-        db = self.app.extensions.get('mongoengine')
         dbconf = self.get_config('MONGODB_SETTINGS')
         self.assertTrue(
-            db.connection.port == dbconf.get('PORT', 27017)
+            self.db.connection.port == dbconf.get('PORT', 27017)
         )
         self.assertTrue(
-            db.connection.host == dbconf.get('HOST', 'localhost')
+            self.db.connection.host == dbconf.get('HOST', 'localhost')
         )
-
-    def test_populate(self):
-        from quokka.utils.populate import Populate
-        db = self.app.extensions.get('mongoengine')
-        Populate(db)()
 
     def test_has_posts(self):
         from quokka.modules.posts.models import Post
