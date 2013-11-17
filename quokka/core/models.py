@@ -12,7 +12,7 @@ from quokka.core.db import db
 from quokka.core.fields import MultipleObjectsReturned
 from quokka.modules.accounts.models import User
 from quokka.utils.text import slugify
-from quokka.utils import get_current_user, lazy_str_setting
+from quokka.utils import get_current_user
 
 logger = logging.getLogger()
 
@@ -24,7 +24,7 @@ logger = logging.getLogger()
 class ContentFormat(object):
     content_format = db.StringField(
         choices=TEXT_FORMATS,
-        default=lazy_str_setting("DEFAULT_TEXT_FORMAT", "html")
+        default=lambda: current_app.config.get("DEFAULT_TEXT_FORMAT", "html")
     )
 
 
