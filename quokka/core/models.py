@@ -7,6 +7,7 @@ import datetime
 import random
 from flask import url_for, current_app
 from flask.ext.admin.babel import lazy_gettext
+from flask.ext.misaka import markdown
 from quokka.core import TEXT_FORMATS
 from quokka.core.db import db
 from quokka.core.fields import MultipleObjectsReturned
@@ -532,11 +533,16 @@ class Content(HasCustomValue, Publishable, LongSlugged,
 
     def get_text(self):
         if hasattr(self, 'body'):
-            return self.body
+            text = self.body
         elif hasattr(self, 'description'):
-            return self.description
+            text = self.description
         else:
-            return self.summary
+            text = self.summary
+
+        if self.content_format == "markdown":
+            return markdown(text)
+        else:
+            return text
 
     def __unicode__(self):
         return self.title

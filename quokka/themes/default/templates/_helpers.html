@@ -167,24 +167,10 @@
     {% endwith %}
 
     {% if not truncate %}
-        {% if content.body %}
-            {{ content.body|safe() }}
-        {% elif content.description %}
-            {{ content.description|safe() }}
-        {% else %}
-            {{ content.summary|safe() }}
-        {% endif %}
+        {{ content.get_text()|safe() }}
     {% else %}
-        {% if content.body %}
-            {{ content.body|truncate(truncate)|safe() }}
-        {% elif content.description %}
-            {{ content.description|truncate(truncate)|safe() }}
-        {% else %}
-            {{ content.summary|truncate(truncate)|safe() }}
-        {% endif %}
+        {{ content.get_text()|truncate(truncate)|safe() }}
     {% endif %}
-
-
 </p>
 {% endmacro %}
 
