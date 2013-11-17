@@ -10,6 +10,10 @@ class BaseComment(object):
     body = db.StringField(required=True)
     spam = db.BooleanField()
     deleted = db.BooleanField()
+    content_format = db.StringField(
+        choices=('markdown',),
+        default="markdown"
+    )
 
     @property
     def gravatar_email(self):

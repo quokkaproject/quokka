@@ -12,7 +12,7 @@ class PostAdmin(BaseContentAdmin):
     column_searchable_list = ('title', 'body', 'summary')
 
     form_columns = ['title', 'slug', 'channel', 'related_channels', 'summary',
-                    'body', 'published', 'contents',
+                    'content_format', 'body', 'published', 'contents',
                     'show_on_channel', 'available_at', 'available_until',
                     'tags', 'values', 'template_type']
 

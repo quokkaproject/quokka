@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<!-- saved from url=(0030)http://lab.lepture.com/editor/ -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta charset="UTF-8">
+    <script type="text/javascript" src="./editor/marked.js"></script>
+    <script type="text/javascript" src="./editor/editor.js"></script>
+    <!-- link rel="stylesheet" href="http://lab.lepture.com/editor/editor.css" -->
+    <link rel="stylesheet" href="./editor/editor.css">
+
+    <title>Editor</title>
+    <style type="text/css">
+      body {
+        padding: 0;
+        margin: 0;
+        background-color: #f9f9f7;
+      }
+      .editor-wrapper {
+        max-width: 680px;
+        padding: 10px;
+        margin: 60px auto;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="editor-wrapper">
+      <input class="title" type="text" placeholder="Title">
+      <textarea id="editor" placeholder="Content here ...." style="display: none;"></textarea>
+    </div>
+    <script type="text/javascript">
+      var editor = new Editor();
+      editor.render();
+    </script>
+
+
+</body></html>

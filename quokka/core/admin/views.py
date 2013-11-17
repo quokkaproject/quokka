@@ -34,8 +34,13 @@ class InspectorView(BaseView):
 class LinkAdmin(BaseContentAdmin):
     roles_accepted = ('admin', 'editor', 'writer', 'moderator')
     column_list = ('title', 'channel', 'slug', 'published')
-    form_columns = ('title', 'slug', 'channel', 'link', 'summary', 'contents',
+    form_columns = ('title', 'slug', 'channel', 'link',
+                    'content_format', 'summary', 'contents',
                     'values', 'available_at', 'available_until', 'published')
+
+    form_args = {
+        'summary': {'widget': TextEditor()}
+    }
 
 
 class ConfigAdmin(ModelAdmin):
@@ -66,7 +71,8 @@ class ChannelAdmin(ModelAdmin):
     column_filters = ['published', 'is_homepage', 'include_in_rss',
                       'show_in_menu', 'indexable']
     column_searchable_list = ('title', 'description')
-    form_columns = ['title', 'slug', 'description', 'parent', 'is_homepage',
+    form_columns = ['title', 'slug', 'content_format', 'description',
+                    'parent', 'is_homepage',
                     'include_in_rss', 'indexable', 'show_in_menu', 'order',
                     'per_page', 'tags',
                     'published', 'canonical_url', 'values', 'channel_type',

@@ -17,7 +17,8 @@ from .models import Image, File, Video, Audio, MediaGallery
 class MediaAdmin(ModelAdmin):
     roles_accepted = ('admin', 'editor')
     column_list = ('title', 'path', 'published')
-    form_columns = ['title', 'slug', 'path', 'channel', 'summary', 'published']
+    form_columns = ['title', 'slug', 'path', 'channel', 'content_format',
+                    'summary', 'published']
 
     form_overrides = {
         'path': form.FileUploadField
@@ -44,18 +45,19 @@ class FileAdmin(MediaAdmin):
 
 class VideoAdmin(FileAdmin):
     form_columns = ['title', 'slug', 'path', 'embed',
-                    'channel', 'summary', 'published']
+                    'channel', 'content_format', 'summary', 'published']
 
 
 class AudioAdmin(FileAdmin):
     form_columns = ['title', 'slug', 'path', 'embed',
-                    'channel', 'summary', 'published']
+                    'channel', 'content_format', 'summary', 'published']
 
 
 class ImageAdmin(MediaAdmin):
     roles_accepted = ('admin', 'editor')
     column_list = ('title', 'path', 'thumb', 'published')
-    form_columns = ['title', 'slug', 'path', 'channel', 'summary', 'published']
+    form_columns = ['title', 'slug', 'path', 'channel', 'content_format',
+                    'summary', 'published']
 
     def _list_thumbnail(view, context, model, name):
         if not model.path:
@@ -90,7 +92,7 @@ class MediaGalleryAdmin(BaseContentAdmin):
     column_searchable_list = ('title', 'body', 'summary')
 
     form_columns = ['title', 'slug', 'channel', 'related_channels', 'summary',
-                    'body', 'published', 'contents',
+                    'content_format', 'body', 'published', 'contents',
                     'show_on_channel', 'available_at', 'available_until',
                     'tags', 'values', 'template_type']
 

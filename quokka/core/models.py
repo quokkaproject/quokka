@@ -7,6 +7,7 @@ import datetime
 import random
 from flask import url_for, current_app
 from flask.ext.admin.babel import lazy_gettext
+from quokka.core import TEXT_FORMATS
 from quokka.core.db import db
 from quokka.core.fields import MultipleObjectsReturned
 from quokka.modules.accounts.models import User
@@ -19,6 +20,13 @@ logger = logging.getLogger()
 ###############################################################
 # Commom extendable base classes
 ###############################################################
+
+class ContentFormat(object):
+    content_format = db.StringField(
+        choices=TEXT_FORMATS,
+        default=lambda: current_app.config.get('DEFAULT_TEXT_FORMAT', "html")
+    )
+
 
 class Dated(object):
     available_at = db.DateTimeField(default=datetime.datetime.now)
@@ -202,7 +210,7 @@ class ContentProxy(db.DynamicDocument):
 
 
 class Channel(Tagged, HasCustomValue, Publishable, LongSlugged,
-              ChannelConfigs, db.DynamicDocument):
+              ChannelConfigs, ContentFormat, db.DynamicDocument):
     title = db.StringField(max_length=255, required=True)
     description = db.StringField()
     show_in_menu = db.BooleanField(default=False)
@@ -364,7 +372,7 @@ class ChannelingNotRequired(Channeling):
                                 reverse_delete_rule=db.NULLIFY)
 
 
-class Config(HasCustomValue, Publishable, db.DynamicDocument):
+class Config(HasCustomValue, ContentFormat, Publishable, db.DynamicDocument):
     group = db.StringField(max_length=255)
     description = db.StringField()
 
@@ -460,7 +468,7 @@ class SubContent(Publishable, Ordered, db.EmbeddedDocument):
 
 
 class Content(HasCustomValue, Publishable, LongSlugged,
-              Channeling, Tagged, db.DynamicDocument):
+              Channeling, Tagged, ContentFormat, db.DynamicDocument):
     title = db.StringField(max_length=255, required=True)
     summary = db.StringField(required=False)
     template_type = db.ReferenceField(ContentTemplateType,
