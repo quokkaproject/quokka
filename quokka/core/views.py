@@ -267,6 +267,12 @@ class TagList(BaseTagView):
                                contents=contents)
 
 
+def cdata(data):
+    if not data:
+        return u""
+    return u"<!CDATA[ {0} ]]>".format(data)
+
+
 class BaseFeed(MethodView):
 
     def make_external_url(self, url):
@@ -289,7 +295,7 @@ class BaseFeed(MethodView):
 
             feed.add(
                 content.title,
-                content.get_text(),
+                cdata(content.get_text()),
                 content_type="html",
                 author=author,
                 url=self.make_external_url(content.get_absolute_url()),
