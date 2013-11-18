@@ -1,10 +1,5 @@
 # -*- coding: utf-8 -*-
-"""
-    overholt.tasks
-    ~~~~~~~~~~~~~~
 
-    overholt tasks module
-"""
 
 from quokka import create_celery_app
 

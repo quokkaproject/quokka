@@ -477,6 +477,7 @@ class Content(HasCustomValue, Publishable, LongSlugged,
                                       reverse_delete_rule=db.NULLIFY)
     contents = db.ListField(db.EmbeddedDocumentField(SubContent))
     model = db.StringField()
+    comments_enabled = db.BooleanField(default=True)
 
     meta = {
         'allow_inheritance': True,

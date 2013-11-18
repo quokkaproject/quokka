@@ -133,11 +133,14 @@
 {% endmacro %}
 
 {% macro load_comment_area(content) %}
-    <hr />
-    {% if Config.get('comments', 'system') == 'internal' %}
-        <div id="comment-area" data-system="internal" data-path="{{url_for('comments.comment', path=content.long_slug)}}"></div>
-    {% elif Config.get('comments', 'system') == 'disqus'%}
-       {{Config.get('comments', 'disqus_script', '')|safe()}}
+    {% if content.comments_enabled %}
+        {% if Config.get('comments', 'system') == 'internal' %}
+            <hr />
+            <div id="comment-area" data-system="internal" data-path="{{url_for('comments.comment', path=content.long_slug)}}"></div>
+        {% elif Config.get('comments', 'system') == 'disqus'%}
+            <hr />
+           {{Config.get('comments', 'disqus_script', '')|safe()}}
+        {% endif %}
     {% endif %}
 {% endmacro %}
 
