@@ -6,7 +6,7 @@ from urlparse import urljoin
 from datetime import datetime
 from flask import request, redirect, url_for, abort, current_app
 from flask.views import MethodView
-from werkzeug.contrib.atom import AtomFeed
+from quokka.utils.atom import AtomFeed
 from quokka.core.models import Channel, Content, Config
 from quokka.core.templates import render_template
 
@@ -270,7 +270,7 @@ class TagList(BaseTagView):
 def cdata(data):
     if not data:
         return u""
-    return u"<![CDATA[ {0} ]]>".format(data)
+    return u"<![CDATA[\n{0}\n]]>".format(data)
 
 
 class BaseFeed(MethodView):
