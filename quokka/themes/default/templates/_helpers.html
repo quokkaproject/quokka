@@ -68,11 +68,11 @@
 {% macro load_share_area(content) %}
 
 <!-- AddThis Button BEGIN -->
-<div class="addthis_toolbox addthis_default_style">
-<a class="addthis_button_tweet"></a>
-<a class="addthis_button_google_plusone" g:plusone:size="medium"></a>
-<a class="addthis_button_pinterest_pinit" pi:pinit:layout="horizontal"></a>
-<a class="addthis_button_facebook_like" fb:like:layout="button_count"></a>
+<div class="addthis_toolbox addthis_default_style col-12 col-sm-12 col-lg-12">
+<a class="addthis_button_tweet pull-right"></a>
+<a class="addthis_button_google_plusone pull-right" g:plusone:size="medium"></a>
+<a class="addthis_button_pinterest_pinit pull-right" pi:pinit:layout="horizontal"></a>
+<a class="addthis_button_facebook_like pull-right" fb:like:layout="button_count"></a>
 <!-- a class="addthis_counter addthis_pill_style"></a -->
 </div>
 <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=xa-528545795c9cdf00"></script>
@@ -141,11 +141,15 @@
     {% endif %}
 {% endmacro %}
 
-{% macro load_page_header(content) %}
+{% macro load_page_header(content, link=False) %}
     <div class="page-header">
+      {% if link %}
       <h1><a href="{{ content.get_absolute_url() }}">
             {{ content.title }}
         </a></h1>
+      {% else %}
+      <h1>{{ content.title }}</h1>
+      {% endif %}
     </div>
 {% endmacro %}
 
@@ -176,7 +180,7 @@
 
 
 {%macro render_blog_item(content) %}
-    {{load_page_header(content)}}
+    {{load_page_header(content, link=True)}}
     <div class="col-12 col-sm-12 col-lg-12">
         <small>{{load_page_time(content)}}</small>
     </div>
