@@ -173,8 +173,8 @@ class AtomFeed(object):
             yield u'  <link href="%s" rel="self" />\n' % \
                 escape(self.feed_url)
         for link in self.links:
-            yield u'  <link %s/>\n' % ''.join('%s="%s" ' % \
-                (k, escape(link[k])) for k in link)
+            yield u'  <link %s/>\n' % ''.join(
+                '%s="%s" ' % (k, escape(link[k])) for k in link)
         for author in self.author:
             yield u'  <author>\n'
             yield u'    <name>%s</name>\n' % escape(author['name'])
@@ -327,11 +327,11 @@ class FeedEntry(object):
                 yield u'    <email>%s</email>\n' % escape(author['email'])
             yield u'  </author>\n'
         for link in self.links:
-            yield u'  <link %s/>\n' % ''.join('%s="%s" ' % \
-                (k, escape(link[k])) for k in link)
+            yield u'  <link %s/>\n' % ''.join(
+                '%s="%s" ' % (k, escape(link[k])) for k in link)
         for category in self.categories:
-            yield u'  <category %s/>\n' % ''.join('%s="%s" ' % \
-                (k, escape(category[k])) for k in category)
+            yield u'  <category %s/>\n' % ''.join(
+                '%s="%s" ' % (k, escape(category[k])) for k in category)
         if self.summary:
             yield u'  ' + _make_text_block('summary', self.summary,
                                            self.summary_type)
