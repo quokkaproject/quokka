@@ -485,6 +485,16 @@ class Content(HasCustomValue, Publishable, LongSlugged,
         'ordering': ['-created_at']
     }
 
+    @classmethod
+    def available_objects(cls, **filters):
+        now = datetime.datetime.now()
+        default_filters = {
+            "published": True,
+            'available_at__lte': now,
+        }
+        default_filters.update(filters)
+        return cls.objects(**default_filters)
+
     def get_main_image_url(self, thumb=False, default=None):
         try:
             #main_image = SubContentPurpose.objects.get(identifier='mainimage')
