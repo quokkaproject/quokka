@@ -1,5 +1,5 @@
 .PHONY: run
-run: test
+run:
 	python manage.py runserver
 
 .PHONY: shell
