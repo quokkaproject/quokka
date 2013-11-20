@@ -37,7 +37,7 @@
             <li class="divider hide-for-small"></li>
 
             {% if current_user.is_authenticated() %}
-            <li class="has-dropdown not-click"><a href="#"><img src="{{current_user.email | gravatar(size=20) }}" /> {{current_user.name}}</a>
+            <li class="has-dropdown not-click"><a href="#"><img src="{{current_user.email | gravatar(size=20) }}" /> {{current_user.display_name}}</a>
 
               <ul class="dropdown"><li class="title back js-generated"><h5><a href="#">« Back</a></h5></li>
                 <li class=""><label>Access control</label></li>

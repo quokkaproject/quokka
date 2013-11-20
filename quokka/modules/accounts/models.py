@@ -75,5 +75,9 @@ class User(db.DynamicDocument, UserMixin):
             username=username
         )
 
+    @property
+    def display_name(self):
+        return self.name or self.email
+
     def __unicode__(self):
         return "{0} <{1}>".format(self.name or '', self.email)

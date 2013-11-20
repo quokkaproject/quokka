@@ -89,7 +89,7 @@
         {% if current_user.is_authenticated() %}
         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
             <img src="{{current_user.email | gravatar(size=20) }}" />
-            {{current_user.name}}
+            {{current_user.display_name}}
             <b class="caret"></b>
         </a>
 
