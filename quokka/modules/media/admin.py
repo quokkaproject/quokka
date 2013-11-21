@@ -5,6 +5,7 @@ from flask.ext.admin import form
 from jinja2 import Markup
 
 from quokka import admin
+from quokka.utils import lazy_str_setting
 from quokka.core.admin import _, _l
 from quokka.core.admin.models import ModelAdmin
 from quokka.core.admin.fields import ImageUploadField
@@ -66,7 +67,7 @@ class ImageAdmin(MediaAdmin):
             return ''
 
         return Markup(
-            '<img src="%s">' % url_for(
+            '<img src="%s" width="100">' % url_for(
                 'media',
                 filename=form.thumbgen_filename(model.path)
             )
@@ -80,7 +81,8 @@ class ImageAdmin(MediaAdmin):
         'path': ImageUploadField(
             'Image',
             base_path=lazy_media_path(),
-            thumbnail_size=(100, 100, True),
+            thumbnail_size=lazy_str_setting('MEDIA_IMAGE_THUMB_SIZE',
+                                            default=(100, 100, True)),
             endpoint="media",
             namegen=dated_path,
             permission=0o777,
