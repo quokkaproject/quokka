@@ -1,13 +1,11 @@
 # coding: utf-8
-from flask.ext.testing import TestCase
 from flask.ext.security.utils import encrypt_password
 
-from quokka import create_app
-from quokka.core.admin import create_admin
+from quokka.core.tests import BaseTestCase
 from ..models import User, Role
 
 
-class TestAccountsModels(TestCase):
+class TestAccountsModels(BaseTestCase):
     def setUp(self):
         self.user_dict = {
             'name': u'Guybrush Treepwood',
@@ -23,12 +21,6 @@ class TestAccountsModels(TestCase):
     def tearDown(self):
         User.objects.all().delete()
         Role.objects.all().delete()
-
-    def create_app(self):
-        self.admin = create_admin()
-        return create_app(config='quokka.test_settings',
-                          admin_instance=self.admin,
-                          test=True)
 
     def test_user_fields(self):
         self.assertIsInstance(self.user, User)
