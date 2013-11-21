@@ -1,7 +1,7 @@
 # coding: utf-8
 from . import BaseTestCase
 
-from ..models import Channel
+from ..models import Channel, Config
 
 
 class TestChannel(BaseTestCase):
@@ -20,6 +20,7 @@ class TestChannel(BaseTestCase):
 
     def tearDown(self):
         self.channel.delete()
+        self.parent.delete()
 
     def test_channel_fields(self):
         self.assertEqual(self.channel.title, u'Monkey Island')
@@ -58,3 +59,20 @@ class TestChannel(BaseTestCase):
                          '/father/monkey-island/')
         self.assertEqual(self.parent.get_canonical_url(),
                          '/father/')
+
+
+class TestConfig(BaseTestCase):
+    def setUp(self):
+        # Create method was not returning the created object with
+        # the create() method
+        self.config, new = Config.objects.get_or_create(
+            group=u'test group',
+        )
+
+    def tearDown(self):
+        self.config.delete()
+
+    def test_config_fields(self):
+        self.assertEqual(self.config.group, u'test group')
+        self.assertEqual(self.config.content_format, 'html')
+        self.assertEqual(unicode(self.config), u'test group')
