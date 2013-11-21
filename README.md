@@ -3,8 +3,6 @@
 [![Travis CI](http://badgr.co/travis-ci/pythonhub%2Fquokka.png)](https://travis-ci.org/pythonhub/quokka)
 [![Coverage
 Status](https://coveralls.io/repos/pythonhub/quokka/badge.png)](https://coveralls.io/r/pythonhub/quokka)
-[![PyPi version](https://pypip.in/v/quokka/badge.png)](https://crate.io/packages/quokka/)
-[![PyPi downloads](https://pypip.in/d/quokka/badge.png)](https://crate.io/packages/quokka/)
 [![Twitter](http://badgr.co/twitter/@quokkaproject.png?bg=%2302779E)](http://twitter.com/quokkaproject)
 
 Quokka project
