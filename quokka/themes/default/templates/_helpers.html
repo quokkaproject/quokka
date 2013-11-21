@@ -210,9 +210,13 @@
   {%- for page in pagination.iter_pages() %}
     {% if page %}
       {% if page != pagination.page %}
-        <li><a href="{{ '{}?page={}'.format(endpoint, page) }}">{{ page }}</a></li>
+        {% if not request.args.get('per_page') %}
+         <li><a href="{{ '{}?page={}'.format(endpoint, page) }}">{{ page }}</a></li>
+         {% else %}
+          <li><a href="{{ '{}?page={}&per_page={}'.format(endpoint, page, request.args.get('per_page')) }}">{{ page }}</a></li>
+         {% endif %}
       {% else %}
-        <li class="active"><a href="#"><strong>{{ page }}</strong></a></li>
+        <li class="active"><a href="{{request.full_path}}"><strong>{{ page }}</strong></a></li>
       {% endif %}
     {% else %}
       <li class="disabled">…</li>

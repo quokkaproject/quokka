@@ -83,10 +83,13 @@ class ContentList(MethodView):
         if current_app.config.get("PAGINATION_ENABLED", True):
             pagination_arg = current_app.config.get("PAGINATION_ARG", "page")
             page = request.args.get(pagination_arg, 1)
-            per_page = channel.per_page or current_app.config.get(
-                "PAGINATION_PER_PAGE", 10
+            per_page = (
+                request.args.get('per_page') or
+                channel.per_page or
+                current_app.config.get("PAGINATION_PER_PAGE", 10)
             )
-            contents = contents.paginate(page=int(page), per_page=per_page)
+            contents = contents.paginate(page=int(page),
+                                         per_page=int(per_page))
 
         # this can be overkill! try another solution
         # to filter out content in unpublished channels
