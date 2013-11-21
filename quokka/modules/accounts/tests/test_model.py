@@ -8,7 +8,6 @@ from ..models import User
 
 class TestAuthModels(TestCase):
     def setUp(self):
-        self.db = self.app.extensions.get('mongoengine')
         self.user_dict = {
             'name': u'Guybrush Treepwood',
             'email': u'guybrush@monkeyisland.com',
