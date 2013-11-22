@@ -1,7 +1,7 @@
 # coding: utf-8
 from . import BaseTestCase
 
-from ..models import Channel, Config
+from ..models import Channel, Config, CustomValue
 
 
 class TestChannel(BaseTestCase):
@@ -66,13 +66,19 @@ class TestConfig(BaseTestCase):
         # Create method was not returning the created object with
         # the create() method
         self.config, new = Config.objects.get_or_create(
-            group=u'test group',
+            group='test',
         )
+        self.config.values.append(CustomValue(name='test_config',
+                                              rawvalue=u'a nice config',
+                                              formatter='text'))
 
     def tearDown(self):
         self.config.delete()
 
     def test_config_fields(self):
-        self.assertEqual(self.config.group, u'test group')
+        self.assertEqual(self.config.group, u'test')
         self.assertEqual(self.config.content_format, 'html')
-        self.assertEqual(unicode(self.config), u'test group')
+        self.assertFalse(self.config.published)
+        self.assertTrue(self.config.values.count(), 1)
+        self.assertEqual(unicode(self.config), u'test')
+        self.assertEqual(self.config.values[0].value, u'a nice config')
