@@ -19,6 +19,54 @@ Quokka project
 Quokka is a flexible content management platform powered by Python, Flask and MongoDB.
 
 
+Quick start
+============
+
+> You need a MongoDB instance running locally or remotely to connect. 
+
+1. Get Quokka
+
+```bash
+$ git clone https://github.com/pythonhub/quokka
+$ cd quokka
+$ pip install -r requirements.txt
+```
+
+2. Define your MongoDB settings
+
+```bash
+$ $EDITOR quokka/local_settings.py
+===============quokka/quokka/local_settings.py===============
+MONGODB_SETTINGS = {'DB': 'your_mongo_db'}
+DEBUG = True
+=============================================================
+```
+
+3. Populate with sample data (optional)
+
+```bash
+$ python manage.py populate 
+
+```
+
+4. Create a superuser
+
+```bash
+$ python manage.py createsuperuser
+you@email.com
+P4$$W0Rd
+```
+
+5. Run
+
+```bash
+$ python manage.py runserver
+```
+
+
+6. Access on http://localhost:8000
+7. Admin on http://localhost:8000/admin
+
 Docs on [Wiki](https://github.com/pythonhub/quokka/wiki)
 ===============================================
 
