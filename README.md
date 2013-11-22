@@ -23,6 +23,7 @@ Quick start
 ============
 
 > You need a MongoDB instance running locally or remotely to connect. 
+> Quokka runs on Python 2.7
 
 1. Get Quokka
 
