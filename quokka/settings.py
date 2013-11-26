@@ -87,7 +87,7 @@ mapped in your server or in flask, see quooka.ext.views
 FILE_ADMIN = [
     {
         "name": "Template files",
-        "category": "files",
+        "category": "Files",
         "path": os.path.join(PROJECT_ROOT, 'templates'),
         "url": "/template_files/",  # create nginx rule
         "endpoint": "template_files",
@@ -95,7 +95,7 @@ FILE_ADMIN = [
     },
     {
         "name": "Static files",
-        "category": "files",
+        "category": "Files",
         "path": STATIC_ROOT,
         "url": "/static/",  # create nginx rule
         "endpoint": "static_files",
@@ -103,7 +103,7 @@ FILE_ADMIN = [
     },
     {
         "name": "Media files",
-        "category": "files",
+        "category": "Files",
         "path": MEDIA_ROOT,
         "url": "/mediafiles/",  # Create nginx rule
         "endpoint": "media_files",
