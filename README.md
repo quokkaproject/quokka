@@ -63,10 +63,17 @@ P4$$W0Rd
 ```bash
 $ python manage.py runserver
 ```
-
-
-6. Access on http://localhost:8000
+6. Access on http://localhost:8000 
 7. Admin on http://localhost:8000/admin
+
+or by making your server reachable on other networks
+
+```bash
+$ python manage.py run0
+```
+6. Access on http://0.0.0.0:8000  
+7. Admin on http://0.0.0.0:8000/admin
+
 
 Docs on [Wiki](https://github.com/pythonhub/quokka/wiki)
 ===============================================
