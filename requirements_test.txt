@@ -2,7 +2,6 @@ nose
 coverage
 coveralls
 flask
-https://github.com/pythonhub/flask-security/tarball/develop
 flask-script
 WTForms
 mongoengine
