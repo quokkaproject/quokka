@@ -105,7 +105,7 @@ def configure_admin(app, admin):
                     "/_themes/{0}/".format(theme.identifier),
                     name="{0}: {1} static files".format(suffix,
                                                         theme.identifier),
-                    category="files",
+                    category="Files",
                     endpoint="{0}_static_files".format(theme.identifier),
                     roles_accepted=('admin', "editor")
                 )
@@ -116,7 +116,7 @@ def configure_admin(app, admin):
                     "/theme_template_files/{0}/".format(theme.identifier),
                     name="{0}: {1} template files".format(suffix,
                                                           theme.identifier),
-                    category="files",
+                    category="Files",
                     endpoint="{0}_template_files".format(theme.identifier),
                     roles_accepted=('admin', "editor")
                 )
