@@ -5,7 +5,7 @@ import datetime
 
 from flask.ext.admin.contrib.mongoengine import ModelView
 from flask.ext.admin.contrib.fileadmin import FileAdmin as _FileAdmin
-from flask.ext.admin.babel import gettext, ngettext, lazy_gettext
+from flask.ext.admin.babel import gettext, ngettext
 from flask.ext.admin import AdminIndexView
 from flask.ext.admin import BaseView as AdminBaseView
 from flask.ext.admin.actions import action
@@ -19,6 +19,8 @@ from flask.ext.htmlbuilder import html
 from quokka.modules.accounts.models import User
 from quokka.core.templates import render_template
 from quokka.core.widgets import PrepopulatedText
+
+from .utils import _, _l, _n
 
 
 class ThemeMixin(object):
@@ -64,7 +66,7 @@ def view_on_site(self, request, obj, fieldname, *args, **kwargs):
         href=obj.get_absolute_url(endpoint),
         target='_blank',
     )(html.i(class_="icon icon-eye-open", style="margin-right: 5px;")(),
-      lazy_gettext('View on site'))
+      _l('View on site'))
 
 
 class FileAdmin(ThemeMixin, Roled, _FileAdmin):
@@ -86,12 +88,12 @@ class ModelAdmin(ThemeMixin, Roled, ModelView):
         try:
             return self.model.objects.get(id=i)
         except self.model.DoesNotExist:
-            flash(gettext("Item not found %(i)s", i=i), "error")
+            flash(_("Item not found %(i)s", i=i), "error")
 
     @action(
         'toggle_publish',
-        lazy_gettext('Publish/Unpublish'),
-        lazy_gettext('Publish/Unpublish?')
+        _l('Publish/Unpublish'),
+        _l('Publish/Unpublish?')
     )
     def action_toggle_publish(self, ids):
         for i in ids:
@@ -99,24 +101,20 @@ class ModelAdmin(ThemeMixin, Roled, ModelView):
             instance.published = not instance.published
             instance.save()
         count = len(ids)
-        flash(
-            ngettext(
-                'Item successfully published/Unpublished.',
-                '%(count)s items were successfully published/Unpublished.',
-                count,
-                count=count
-            )
-        )
+        flash(_n('Item successfully published/Unpublished.',
+                 '%(count)s items were successfully published/Unpublished.',
+                 count,
+                 count=count))
 
     @action(
         'clone_item',
-        lazy_gettext('Create a copy'),
-        lazy_gettext('Are you sure you want a copy?')
+        _l('Create a copy'),
+        _l('Are you sure you want a copy?')
     )
     def action_clone_item(self, ids):
         if len(ids) > 1:
             flash(
-                gettext("You can select only one item for this action"),
+                _("You can select only one item for this action"),
                 'error'
             )
             return
@@ -131,7 +129,7 @@ class ModelAdmin(ThemeMixin, Roled, ModelView):
         new.save()
         return redirect(url_for('.edit_view', id=new.id))
 
-    @action('export_to_json', lazy_gettext('Export as json'))
+    @action('export_to_json', _l('Export as json'))
     def export_to_json(self, ids):
         qs = self.model.objects(id__in=ids)
 
@@ -144,7 +142,7 @@ class ModelAdmin(ThemeMixin, Roled, ModelView):
             }
         )
 
-    @action('export_to_csv', lazy_gettext('Export as csv'))
+    @action('export_to_csv', _l('Export as csv'))
     def export_to_csv(self, ids):
         qs = json.loads(self.model.objects(id__in=ids).to_json())
 

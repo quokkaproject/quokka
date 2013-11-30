@@ -6,14 +6,16 @@ import logging
 import datetime
 import random
 from flask import url_for, current_app
-from flask.ext.admin.babel import lazy_gettext
 from flask.ext.misaka import markdown
+
 from quokka.core import TEXT_FORMATS
 from quokka.core.db import db
 from quokka.core.fields import MultipleObjectsReturned
 from quokka.modules.accounts.models import User
 from quokka.utils.text import slugify
 from quokka.utils import get_current_user
+
+from .admin.utils import _l
 
 logger = logging.getLogger()
 
@@ -101,8 +103,8 @@ class LongSlugged(Slugged):
                 self._create_mpath_long_slug()
             else:
                 raise db.ValidationError(
-                    lazy_gettext("%(slug)s slug already exists",
-                                 slug=self.long_slug)
+                    _l("%(slug)s slug already exists",
+                       slug=self.long_slug)
                 )
 
 
@@ -137,7 +139,7 @@ class CustomValue(db.EmbeddedDocument):
     }
 
     name = db.StringField(max_length=50, required=True)
-    rawvalue = db.StringField(verbose_name=lazy_gettext("Value"),
+    rawvalue = db.StringField(verbose_name=_l("Value"),
                               required=True)
     formatter = db.StringField(choices=FORMATS, default="text", required=True)
 
@@ -175,8 +177,8 @@ class HasCustomValue(object):
         current_names = [value.name for value in self.values]
         for name in current_names:
             if current_names.count(name) > 1:
-                raise Exception(lazy_gettext("%(name)s already exists",
-                                             name=name))
+                raise Exception(_l("%(name)s already exists",
+                                   name=name))
         super(HasCustomValue, self).clean()
 
 
@@ -317,7 +319,7 @@ class Channel(Tagged, HasCustomValue, Publishable, LongSlugged,
     def clean(self):
         homepage = Channel.objects(is_homepage=True)
         if self.is_homepage and homepage and not self in homepage:
-            raise db.ValidationError(lazy_gettext("Home page already exists"))
+            raise db.ValidationError(_l("Home page already exists"))
         super(Channel, self).clean()
 
     def validate_render_content(self):

@@ -14,7 +14,7 @@ from .views import (IndexView, InspectorView, LinkAdmin, ConfigAdmin,
                     SubContentPurposeAdmin, ChannelTypeAdmin,
                     ContentTemplateTypeAdmin, ChannelAdmin)
 
-from .utils import _, _l
+from .utils import _, _l, _n
 
 logger = logging.getLogger()
 
