@@ -11,7 +11,8 @@ from quokka.core.templates import render_template
 from quokka.modules.accounts.models import Role, User
 
 from . import (generic, babel, blueprints, error_handlers, context_processors,
-               template_filters, before_request, views, themes, fixtures)
+               template_filters, before_request, views, themes, fixtures,
+               oauthlib)
 
 
 class Security(_Security):
@@ -33,8 +34,7 @@ def configure_extensions(app, admin):
     context_processors.configure(app)
     template_filters.configure(app)
 
-    user_datastore = MongoEngineUserDatastore(db, User, Role)
-    Security(app, user_datastore)
+    app.security = Security(app, MongoEngineUserDatastore(db, User, Role))
 
     blueprints.load_from_packages(app)
     blueprints.load_from_folder(app)
@@ -50,5 +50,7 @@ def configure_extensions(app, admin):
 
     before_request.configure(app)
     views.configure(app)
+
+    oauthlib.configure(app)
 
     return app

@@ -40,6 +40,9 @@ class User(db.DynamicDocument, UserMixin):
 
     username = db.StringField(max_length=50, required=False, unique=True)
 
+    remember_token = db.StringField(max_length=255)
+    authentication_token = db.StringField(max_length=255)
+
     def clean(self, *args, **kwargs):
         if not self.username:
             self.username = User.generate_username(self.email)
@@ -81,3 +84,24 @@ class User(db.DynamicDocument, UserMixin):
 
     def __unicode__(self):
         return "{0} <{1}>".format(self.name or '', self.email)
+
+    @property
+    def connections(self):
+        return Connection.objects(user_id=str(self.id))
+
+
+class Connection(db.Document):
+    user_id = db.ObjectIdField()
+    provider_id = db.StringField(max_length=255)
+    provider_user_id = db.StringField(max_length=255)
+    access_token = db.StringField(max_length=255)
+    secret = db.StringField(max_length=255)
+    display_name = db.StringField(max_length=255)
+    full_name = db.StringField(max_length=255)
+    profile_url = db.StringField(max_length=512)
+    image_url = db.StringField(max_length=512)
+    rank = db.IntField(default=1)
+
+    @property
+    def user(self):
+        return User.objects(id=self.user_id).first()
