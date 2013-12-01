@@ -11,6 +11,7 @@ Flask-Assets
 Flask-Babel
 Flask-Bcrypt
 Flask-Misaka
+Flask-OAuthlib
 Flask-Gravatar
 https://github.com/majorz/flask-htmlbuilder/tarball/master
 Flask-Login
