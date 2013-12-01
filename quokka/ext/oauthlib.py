@@ -72,3 +72,17 @@ def configure(app):
             '{0}_authorized'.format(provider),
             oauth_app.authorized_handler(make_oauth_handler(provider))
         )
+
+        if provider == 'linkedin':
+            def change_linkedin_query(uri, headers, body):
+                auth = headers.pop('Authorization')
+                headers['x-li-format'] = 'json'
+                if auth:
+                    auth = auth.replace('Bearer', '').strip()
+                    if '?' in uri:
+                        uri += '&oauth2_access_token=' + auth
+                    else:
+                        uri += '?oauth2_access_token=' + auth
+                return uri, headers, body
+
+            oauth_app.pre_request = change_linkedin_query
