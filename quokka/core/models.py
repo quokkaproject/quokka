@@ -451,6 +451,15 @@ class SubContent(Publishable, Ordered, db.EmbeddedDocument):
     purpose = db.ReferenceField(SubContentPurpose, required=True)
     identifier = db.StringField()
 
+    @property
+    def thumb(self):
+        try:
+            return url_for('media', filename=self.content.thumb)
+            # return self.content.thumb
+        except Exception as e:
+            logger.warning(str(e))
+            return self.content.get_main_image_url(thumb=True)
+
     meta = {
         'ordering': ['order'],
         'indexes': ['order']

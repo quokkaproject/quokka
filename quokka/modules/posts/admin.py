@@ -13,7 +13,7 @@ class PostAdmin(BaseContentAdmin):
 
     form_columns = ['title', 'slug', 'channel', 'related_channels', 'summary',
                     'content_format', 'body',
-                    'comments_enabled', 'published', 'contents',
+                    'comments_enabled', 'published', 'add_image', 'contents',
                     'show_on_channel', 'available_at', 'available_until',
                     'tags', 'values', 'template_type']
 

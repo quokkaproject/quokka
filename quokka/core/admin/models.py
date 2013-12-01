@@ -19,6 +19,11 @@ from flask.ext.htmlbuilder import html
 from quokka.modules.accounts.models import User
 from quokka.core.templates import render_template
 from quokka.core.widgets import PrepopulatedText
+from quokka.core.admin.fields import ContentImageField
+from quokka.utils.upload import dated_path, lazy_media_path
+from quokka.utils import lazy_str_setting
+
+from .fields import ThumbField
 
 
 class ThemeMixin(object):
@@ -210,7 +215,7 @@ class BaseContentAdmin(ModelAdmin):
     column_searchable_list = ('title', 'summary')
 
     form_columns = ['title', 'slug', 'channel', 'related_channels', 'summary',
-                    'published', 'contents',
+                    'published', 'add_image', 'contents',
                     'show_on_channel', 'available_at', 'available_until',
                     'tags', 'values', 'template_type']
     # form_excluded_columns = []
@@ -234,17 +239,33 @@ class BaseContentAdmin(ModelAdmin):
         'contents': {
             'form_subdocuments': {
                 None: {
-                    'form_columns': ('content', 'caption', 'purpose', 'order'),
+                    'form_columns': ('content', 'caption', 'purpose',
+                                     'order', 'thumb'),
                     'form_ajax_refs': {
                         'content': {
                             'fields': ['title', 'long_slug', 'summary']
                         }
+                    },
+                    'form_extra_fields': {
+                        'thumb': ThumbField('thumb', endpoint="media")
                     }
                 }
             }
         },
     }
     # form_extra_fields = {}
+    form_extra_fields = {
+        'add_image': ContentImageField(
+            'Add new image',
+            base_path=lazy_media_path(),
+            thumbnail_size=lazy_str_setting('MEDIA_IMAGE_THUMB_SIZE',
+                                            default=(100, 100, True)),
+            endpoint="media",
+            namegen=dated_path,
+            permission=0o777,
+            allowed_extensions="MEDIA_IMAGE_ALLOWED_EXTENSIONS",
+        )
+    }
 
     # action_disallowed_list
 
@@ -252,3 +273,9 @@ class BaseContentAdmin(ModelAdmin):
     # form_ajax_refs = {
     #     'main_image': {"fields": ('title',)}
     # }
+
+    def after_model_change(self, form, model, is_created):
+        if not hasattr(form, 'add_image'):
+            return
+
+        form.add_image.save_contents(model)

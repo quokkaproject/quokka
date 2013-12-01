@@ -35,7 +35,7 @@ class LinkAdmin(BaseContentAdmin):
     roles_accepted = ('admin', 'editor', 'writer', 'moderator')
     column_list = ('title', 'channel', 'slug', 'published')
     form_columns = ('title', 'slug', 'channel', 'link',
-                    'content_format', 'summary', 'contents',
+                    'content_format', 'summary', 'add_image', 'contents',
                     'values', 'available_at', 'available_until', 'published')
 
     form_args = {
