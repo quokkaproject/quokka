@@ -6,6 +6,12 @@ from flask.ext.security.utils import login_user
 from .models import User, Connection
 
 
+def clean_sessions():
+    for provider in current_app.config.get("OAUTH", {}):
+        session.pop('%s_oauthredir' % provider, None)
+        session.pop('oauth_%s_token' % provider, None)
+
+
 def get_oauth_app(provider):
     provider_name = "oauth_" + provider
     return getattr(current_app, provider_name, None)
@@ -13,6 +19,7 @@ def get_oauth_app(provider):
 
 def oauth_login(provider):
     oauth_app = get_oauth_app(provider)
+    clean_sessions()
     return oauth_app.authorize(
         callback=url_for(
             '{0}_authorized'.format(provider),
