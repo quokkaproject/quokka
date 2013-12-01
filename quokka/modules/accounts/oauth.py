@@ -24,7 +24,7 @@ def oauth_login(provider):
     if provider == 'google':
         next = None
     else:
-        next=request.args.get('next', request.referrer) or None
+        next = request.args.get('next', request.referrer) or None
 
     return oauth_app.authorize(
         callback=url_for(
