@@ -20,11 +20,17 @@ def get_oauth_app(provider):
 def oauth_login(provider):
     oauth_app = get_oauth_app(provider)
     clean_sessions()
+
+    if provider == 'google':
+        next = None
+    else:
+        next=request.args.get('next', request.referrer) or None
+
     return oauth_app.authorize(
         callback=url_for(
             '{0}_authorized'.format(provider),
             _external=True,
-            next=request.args.get('next', request.referrer) or None
+            next=next
         )
     )
 
