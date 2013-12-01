@@ -7,12 +7,14 @@ from jinja2 import Markup
 from quokka import admin
 from quokka.utils import lazy_str_setting
 from quokka.core.admin import _, _l
+from quokka.core.models import Channel
 from quokka.core.admin.models import ModelAdmin
 from quokka.core.admin.fields import ImageUploadField
 from quokka.utils.upload import dated_path, lazy_media_path
 from quokka.core.admin.models import BaseContentAdmin
 from quokka.core.widgets import TextEditor, PrepopulatedText
 from .models import Image, File, Video, Audio, MediaGallery
+from quokka.core.admin.ajax import AjaxModelLoader
 
 
 class MediaAdmin(ModelAdmin):
@@ -27,7 +29,11 @@ class MediaAdmin(ModelAdmin):
 
     form_args = {
         'summary': {'widget': TextEditor()},
-        'slug': {'widget': PrepopulatedText(master='title')}
+        'slug': {'widget': PrepopulatedText(master='title')},
+    }
+
+    form_widget_args = {
+        'channel': {'data-placeholder': _l('media/')}
     }
 
 
@@ -40,7 +46,16 @@ class FileAdmin(MediaAdmin):
             'permission': 0o777
         },
         'summary': {'widget': TextEditor()},
-        'slug': {'widget': PrepopulatedText(master='title')}
+        'slug': {'widget': PrepopulatedText(master='title')},
+    }
+
+    form_ajax_refs = {
+        'channel': AjaxModelLoader(
+            'channel',
+            Channel,
+            fields=['title', 'slug', 'long_slug'],
+            filters={"long_slug__startswith": "media/files"}
+        )
     }
 
 
@@ -49,11 +64,29 @@ class VideoAdmin(FileAdmin):
                     'channel', 'content_format',
                     'comments_enabled', 'summary', 'published']
 
+    form_ajax_refs = {
+        'channel': AjaxModelLoader(
+            'channel',
+            Channel,
+            fields=['title', 'slug', 'long_slug'],
+            filters={"long_slug__startswith": "media/video"}
+        )
+    }
+
 
 class AudioAdmin(FileAdmin):
     form_columns = ['title', 'slug', 'path', 'embed',
                     'channel', 'content_format',
                     'comments_enabled', 'summary', 'published']
+
+    form_ajax_refs = {
+        'channel': AjaxModelLoader(
+            'channel',
+            Channel,
+            fields=['title', 'slug', 'long_slug'],
+            filters={"long_slug__startswith": "media/audio"}
+        )
+    }
 
 
 class ImageAdmin(MediaAdmin):
@@ -87,6 +120,15 @@ class ImageAdmin(MediaAdmin):
             namegen=dated_path,
             permission=0o777,
             allowed_extensions="MEDIA_IMAGE_ALLOWED_EXTENSIONS",
+        )
+    }
+
+    form_ajax_refs = {
+        'channel': AjaxModelLoader(
+            'channel',
+            Channel,
+            fields=['title', 'slug', 'long_slug'],
+            filters={"long_slug__startswith": "media/image"}
         )
     }
 
