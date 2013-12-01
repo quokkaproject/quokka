@@ -8,7 +8,7 @@ from .models import User, Connection
 
 def get_oauth_app(provider):
     provider_name = "oauth_" + provider
-    return getattr(current_app, provider_name)
+    return getattr(current_app, provider_name, None)
 
 
 def oauth_login(provider):
@@ -27,6 +27,8 @@ def make_oauth_handler(provider):
     def oauth_handler(resp):
         app = current_app
         oauth_app = get_oauth_app(provider)
+        if not oauth_app:
+            return "Access denied: oauth app not found"
 
         oauth_app.tokengetter(
             lambda: session.get("oauth_" + provider + "_token")
