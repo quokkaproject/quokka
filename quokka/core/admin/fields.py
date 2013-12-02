@@ -38,7 +38,10 @@ class ImageUploadField(form.ImageUploadField):
         extensions = self.allowed_extensions
         if isinstance(extensions, (str, unicode)) and extensions.isupper():
             items = current_app.config.get(extensions, extensions)
-            self.allowed_extensions = items
+            merged_items = [
+                item.lower() for item in items
+            ] + [item.upper() for item in items]
+            self.allowed_extensions = merged_items
         return super(ImageUploadField, self).is_file_allowed(filename)
 
 
