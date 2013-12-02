@@ -238,6 +238,12 @@ class Channel(Tagged, HasCustomValue, Publishable, LongSlugged,
         'ordering': ['order', 'title']
     }
 
+    def get_text(self):
+        if self.content_format == "markdown":
+            return markdown(self.description)
+        else:
+            return self.description
+
     def get_content_filters(self):
         filters = {}
         if self.channel_type and self.channel_type.content_filters:
