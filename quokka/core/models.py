@@ -504,17 +504,24 @@ class Content(HasCustomValue, Publishable, LongSlugged,
         default_filters.update(filters)
         return cls.objects(**default_filters)
 
-    def get_main_image_url(self, thumb=False, default=None):
-        try:
-            #main_image = SubContentPurpose.objects.get(identifier='mainimage')
-            if not thumb:
-                path = self.contents.get(identifier='mainimage').content.path
-            else:
-                path = self.contents.get(identifier='mainimage').content.thumb
-            return url_for('media', filename=path)
-        except Exception as e:
-            logger.warning(str(e))
-            return default
+    def get_main_image_url(self, thumb=False,
+                           default=None, identifier='mainimage'):
+        """
+        """
+        if not isinstance(identifier, (list, tuple)):
+            identifier = [identifier]
+
+        for item in identifier:
+            try:
+                if not thumb:
+                    path = self.contents.get(identifier=item).content.path
+                else:
+                    path = self.contents.get(identifier=item).content.thumb
+                return url_for('media', filename=path)
+            except Exception as e:
+                logger.warning(str(e))
+
+        return default
 
     def get_uid(self):
         return str(self.id)
