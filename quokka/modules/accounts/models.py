@@ -19,7 +19,7 @@ class Role(db.Document, RoleMixin):
         )
 
     def __unicode__(self):
-        return "{0} ({1})".format(self.name, self.description or 'Role')
+        return u"{0} ({1})".format(self.name, self.description or 'Role')
 
 
 class User(db.DynamicDocument, UserMixin):
@@ -83,7 +83,7 @@ class User(db.DynamicDocument, UserMixin):
         return self.name or self.email
 
     def __unicode__(self):
-        return "{0} <{1}>".format(self.name or '', self.email)
+        return u"{0} <{1}>".format(self.name or '', self.email)
 
     @property
     def connections(self):

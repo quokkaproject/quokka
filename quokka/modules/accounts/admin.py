@@ -4,7 +4,7 @@ from wtforms.widgets import PasswordInput
 from quokka import admin
 from quokka.core.admin import _, _l
 from quokka.core.admin.models import ModelAdmin
-from .models import Role, User
+from .models import Role, User, Connection
 
 
 class UserAdmin(ModelAdmin):
@@ -31,4 +31,5 @@ class RoleAdmin(ModelAdmin):
 
 
 admin.register(User, UserAdmin, category=_("Accounts"), name=_l("User"))
-admin.register(Role, RoleAdmin, category=_("Accounts", name=_l("Roles")))
+admin.register(Role, RoleAdmin, category=_("Accounts"), name=_l("Roles"))
+admin.register(Connection, category=_("Accounts"), name=_l("Connection"))
