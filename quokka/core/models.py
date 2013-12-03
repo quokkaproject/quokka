@@ -225,7 +225,7 @@ class Channel(Tagged, HasCustomValue, Publishable, LongSlugged,
                                reverse_delete_rule=db.DENY)
 
     per_page = db.IntField(default=0)
-    aliases = db.ListField(db.StringField())
+    aliases = db.ListField(db.StringField(), default=[])
     channel_type = db.ReferenceField(ChannelType, required=False,
                                      reverse_delete_rule=db.NULLIFY)
 
@@ -233,6 +233,7 @@ class Channel(Tagged, HasCustomValue, Publishable, LongSlugged,
     render_content = db.ReferenceField(ContentProxy,
                                        required=False,
                                        reverse_delete_rule=db.NULLIFY)
+    sort_by = db.ListField(db.StringField(), default=[])
 
     meta = {
         'ordering': ['order', 'title']

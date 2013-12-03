@@ -74,7 +74,7 @@ class ChannelAdmin(ModelAdmin):
     form_columns = ['title', 'slug', 'content_format', 'description',
                     'parent', 'is_homepage',
                     'include_in_rss', 'indexable', 'show_in_menu', 'order',
-                    'per_page', 'tags',
+                    'per_page', 'tags', 'sort_by',
                     'published', 'canonical_url', 'values', 'channel_type',
                     'inherit_parent', 'content_filters', 'available_at',
                     'available_until', 'render_content', 'redirect_url']

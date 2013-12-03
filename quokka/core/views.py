@@ -80,6 +80,12 @@ class ContentList(MethodView):
         filters.update(channel.get_content_filters())
         contents = Content.objects(**base_filters).filter(**filters)
 
+        sort = request.args.get('sort')
+        if sort:
+            contents = contents.order_by(sort)
+        elif channel.sort_by:
+            contents = contents.order_by(*channel.sort_by)
+
         if current_app.config.get("PAGINATION_ENABLED", True):
             pagination_arg = current_app.config.get("PAGINATION_ARG", "page")
             page = request.args.get(pagination_arg, 1)
