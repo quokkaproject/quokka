@@ -5,6 +5,31 @@ from setuptools import setup, find_packages
 
 import quokka
 
+kwargs = {}
+try:
+    from babel.messages import frontend as babel
+    kwargs['cmdclass'] = {
+        'extract_messages': babel.extract_messages,
+        'update_catalog': babel.update_catalog,
+        'compile_catalog': babel.compile_catalog,
+        'init_catalog': babel.init_catalog,
+    }
+    kwargs['message_extractors'] = {
+        'quokka': [
+            ('**.py', 'python', None),
+            ('**/templates/**.html', 'jinja2', {
+                'extensions': (
+                    'jinja2.ext.autoescape,'
+                    'jinja2.ext.with_,'
+                    'jinja2.ext.do,'
+                )
+            })
+        ]
+    }
+except ImportError:
+    pass
+
+
 REQUIREMENTS = [i.strip() for i in open("requirements.txt").readlines()
                 if not i.startswith("http")]
 
@@ -50,4 +75,5 @@ setup(name='quokka',
       dependency_links=dependency_links,
       scripts=['quokka/bin/quokka-admin.py'],
       include_package_data=True,
-      test_suite='runtests')
+      test_suite='runtests',
+      **kwargs)
