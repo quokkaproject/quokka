@@ -239,3 +239,6 @@ ADMIN_THEME = 'cosmo'
 
 # default content extension for url buildind
 CONTENT_EXTENSION = "html"
+
+SENTRY_ENABLED = False
+SENTRY_DSN = ""

@@ -53,4 +53,8 @@ def configure_extensions(app, admin):
 
     oauthlib.configure(app)
 
+    if app.config.get('SENTRY_ENABLED', False):
+        from .sentry import configure
+        configure(app)
+
     return app
