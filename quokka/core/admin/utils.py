@@ -11,5 +11,5 @@ def _l(*args, **kwargs):
     return lazy_gettext(*args, **kwargs)
 
 
-def _s(*args, **kwargs):
+def _n(*args, **kwargs):
     return ngettext(*args, **kwargs)
