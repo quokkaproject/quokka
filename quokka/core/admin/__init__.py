@@ -16,6 +16,12 @@ from .views import (IndexView, InspectorView, LinkAdmin, ConfigAdmin,
 
 from .utils import _, _l, _n
 
+'''
+_n is here only for backwards compatibility, to be imported by 3rd party
+modules. The below _n below is to avoid pep8 error
+'''
+_n
+
 logger = logging.getLogger()
 
 
