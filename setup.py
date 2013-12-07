@@ -73,7 +73,7 @@ setup(name='quokka',
       package_dir={'quokka': 'quokka'},
       install_requires=REQUIREMENTS,
       dependency_links=dependency_links,
-      scripts=['quokka/bin/quokka-admin.py'],
+      #scripts=['quokka/bin/quokka-admin.py'],
       include_package_data=True,
       test_suite='runtests',
       **kwargs)
