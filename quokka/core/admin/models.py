@@ -62,7 +62,9 @@ class Roled(object):
 
 
 def format_datetime(self, request, obj, fieldname, *args, **kwargs):
-    return getattr(obj, fieldname).strftime(self.datetime_format)
+    return html.div(style='min-width:130px;')(
+        getattr(obj, fieldname).strftime(self.get_datetime_format())
+    )
 
 
 def view_on_site(self, request, obj, fieldname, *args, **kwargs):
@@ -72,6 +74,27 @@ def view_on_site(self, request, obj, fieldname, *args, **kwargs):
         target='_blank',
     )(html.i(class_="icon icon-eye-open", style="margin-right: 5px;")(),
       _l('View on site'))
+
+
+def format_ul(self, request, obj, fieldname, *args, **kwars):
+    field = getattr(obj, fieldname)
+    column_formatters_args = getattr(self, 'column_formatters_args', {})
+    _args = column_formatters_args.get('ul', {}).get(fieldname, {})
+    ul = html.ul(style=_args.get('style', "min-width:200px;max-width:300px;"))
+    placeholder = _args.get('placeholder', "{i}")
+    lis = [html.li(placeholder.format(item=item)) for item in field]
+    return ul(*lis)
+
+
+def format_status(self, request, obj, fieldname, *args, **kwargs):
+    status = getattr(obj, fieldname)
+    column_formatters_args = getattr(self, 'column_formatters_args', {})
+    _args = column_formatters_args.get('status', {}).get(fieldname, {})
+    labels = _args.get('labels', {})
+    return html.span(
+        class_="label label-{0}".format(labels.get(status, 'default')),
+        style=_args.get('style', 'min-height:18px;')
+    )(status)
 
 
 class FileAdmin(ThemeMixin, Roled, _FileAdmin):
@@ -86,8 +109,14 @@ class ModelAdmin(ThemeMixin, Roled, ModelView):
     datetime_format = "%Y-%m-%d %H:%M"
     formatters = {
         'datetime': format_datetime,
-        'view_on_site': view_on_site
+        'view_on_site': view_on_site,
+        'ul': format_ul,
+        'status': format_status
     }
+    column_formatters_args = {}
+
+    def get_datetime_format(self):
+        return current_app.config.get('DATETIME_FORMAT', self.datetime_format)
 
     def get_instance(self, i):
         try:
