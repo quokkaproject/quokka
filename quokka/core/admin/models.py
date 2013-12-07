@@ -81,7 +81,7 @@ def format_ul(self, request, obj, fieldname, *args, **kwars):
     column_formatters_args = getattr(self, 'column_formatters_args', {})
     _args = column_formatters_args.get('ul', {}).get(fieldname, {})
     ul = html.ul(style=_args.get('style', "min-width:200px;max-width:300px;"))
-    placeholder = _args.get('placeholder', "{i}")
+    placeholder = _args.get('placeholder', u"{i}")
     lis = [html.li(placeholder.format(item=item)) for item in field]
     return ul(*lis)
 
