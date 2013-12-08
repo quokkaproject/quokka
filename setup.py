@@ -75,5 +75,5 @@ setup(name='quokka',
       dependency_links=dependency_links,
       #scripts=['quokka/bin/quokka-admin.py'],
       include_package_data=True,
-      test_suite='runtests',
+      test_suite='nose.collector',
       **kwargs)
