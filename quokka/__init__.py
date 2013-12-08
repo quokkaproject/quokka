@@ -17,7 +17,6 @@ try:
     from .core.app import QuokkaApp
     # from .core.middleware import HTTPMethodOverrideMiddleware
 
-
     admin = create_admin()
 except:
     # Fix setup install:
