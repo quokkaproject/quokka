@@ -12,12 +12,16 @@ __license__ = "MIT License"
 __copyright__ = "Copyright 2013, Quokka Project / PythonHub.com"
 
 import os
-from .core.admin import create_admin
-from .core.app import QuokkaApp
-# from .core.middleware import HTTPMethodOverrideMiddleware
+try:
+    from .core.admin import create_admin
+    from .core.app import QuokkaApp
+    # from .core.middleware import HTTPMethodOverrideMiddleware
 
-
-admin = create_admin()
+    admin = create_admin()
+except:
+    # Fix setup install:
+    # If new environment not return error
+    pass
 
 
 def create_app(config=None, test=False, admin_instance=None, **settings):
