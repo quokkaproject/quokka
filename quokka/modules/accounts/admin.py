@@ -9,6 +9,7 @@ from .models import Role, User, Connection
 
 class UserAdmin(ModelAdmin):
     roles_accepted = ('admin',)
+    column_searchable_list = ('name', 'email')
     column_list = ('name', 'email', 'active',
                    'last_login_at', 'login_count')
     form_columns = ('name', 'email', 'roles', 'active', 'newpassword',
