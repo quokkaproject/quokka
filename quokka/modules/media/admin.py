@@ -115,7 +115,7 @@ class ImageAdmin(MediaAdmin):
             'Image',
             base_path=lazy_media_path(),
             thumbnail_size=lazy_str_setting('MEDIA_IMAGE_THUMB_SIZE',
-                                            default=(100, 100, True)),
+                                            default=(200, 200, True)),
             endpoint="media",
             namegen=dated_path,
             permission=0o777,
