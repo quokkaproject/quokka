@@ -167,7 +167,7 @@
 
 {% macro load_page_content(content, truncate=None) %}
 <p>
-    {% with main_image=content.get_main_image_url(thumb=False, default=None) %}
+    {% with main_image=content.get_main_image_url(thumb=True, default=None) %}
         {% if main_image %}
             <img src="{{main_image}}" style="float:left; margin-right: 10px;margin-bottom:10px;"/>
         {% endif %}
