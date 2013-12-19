@@ -63,8 +63,8 @@ P4$$W0Rd
 ```bash
 $ python manage.py runserver
 ```
-6. Access on http://localhost:8000 
-7. Admin on http://localhost:8000/admin
+6. Access on http://localhost:5000 
+7. Admin on http://localhost:5000/admin
 
 or by making your server reachable on other networks
 
