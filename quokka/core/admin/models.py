@@ -97,6 +97,22 @@ def format_status(self, request, obj, fieldname, *args, **kwargs):
     )(status)
 
 
+def get_url(self, request, obj, fieldname, *args, **kwargs):
+    column_formatters_args = getattr(self, 'column_formatters_args', {})
+    _args = column_formatters_args.get('get_url', {}).get(fieldname, {})
+    attribute = _args.get('attribute', None)
+    method = _args.get('method', 'get_absolute_url')
+    text = getattr(obj, fieldname, '')
+    if attribute:
+        target = getattr(obj, attribute, None)
+    else:
+        target = obj
+
+    url = getattr(target, method, lambda: '#')()
+
+    return html.a(href=url)(text if text not in [None, 'None'] else '')
+
+
 class FileAdmin(ThemeMixin, Roled, _FileAdmin):
     def __init__(self, *args, **kwargs):
         self.roles_accepted = kwargs.pop('roles_accepted')
@@ -111,7 +127,8 @@ class ModelAdmin(ThemeMixin, Roled, ModelView):
         'datetime': format_datetime,
         'view_on_site': view_on_site,
         'ul': format_ul,
-        'status': format_status
+        'status': format_status,
+        'get_url': get_url
     }
     column_formatters_args = {}
 
