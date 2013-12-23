@@ -29,4 +29,4 @@ Pillow
 pyyaml
 speaklater
 https://github.com/pythonhub/quokka-themes/tarball/master
-https://github.com/pythonhub/flask-security/tarball/develop
+https://github.com/pythonhub/flask-security/tarball/quokka
