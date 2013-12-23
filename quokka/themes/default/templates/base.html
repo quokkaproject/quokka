@@ -47,7 +47,7 @@
 
   <body>
     {% block top_body %}
-    <a target="_blank" href="https://github.com/pythonhub/quokka"><img style="position: absolute; top: 52px; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png" alt="Fork me on GitHub"></a>
+    <a target="_blank" href="https://github.com/pythonhub/quokka"><img style="position: absolute; top: 52px; right: 0; border: 0; z-index: 1;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png" alt="Fork me on GitHub"></a>
     {% endblock %}
 
     {% block navbar %}
@@ -195,7 +195,8 @@
       <hr>
 
       <footer>
-	      <p>&copy; {{Config.get('site', 'site_name')}}</p> <span class="pull-right">Powered by <a href="http://www.quokkaproject.org">Quokka CMS</a></span>
+          <span class="pull-right">Powered by <a href="http://www.quokkaproject.org">Quokka CMS</a></span>
+          <p>&copy; {{Config.get('site', 'site_name')}}</p>
       </footer>
 
     </div><!--/.container-->
