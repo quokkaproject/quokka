@@ -14,7 +14,7 @@ Flask-Misaka
 Flask-OAuthlib
 Flask-Gravatar
 https://github.com/majorz/flask-htmlbuilder/tarball/master
-Flask-Login
+Flask-Login<0.2.7
 Flask-Principal
 Flask-Mail
 Flask-Testing
@@ -32,4 +32,4 @@ Pillow
 pyyaml
 speaklater
 https://github.com/pythonhub/quokka-themes/tarball/master
-https://github.com/pythonhub/flask-security/tarball/develop
+https://github.com/pythonhub/flask-security/tarball/quokka
