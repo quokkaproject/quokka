@@ -2,6 +2,7 @@
 
 #from flaskext.markdown import Markdown
 from flask.ext.misaka import Misaka
+from flask_wtf.csrf import CsrfProtect
 
 
 def configure(app):
@@ -14,7 +15,8 @@ def configure(app):
            superscript=True,
            tables=True,
            hard_wrap=True,
-           safelink=True,)
+           safelink=True)
+    CsrfProtect(app)
     if app.config.get('GRAVATAR'):
         from flask.ext.gravatar import Gravatar
         Gravatar(app, **app.config.get('GRAVATAR'))
