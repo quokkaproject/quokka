@@ -100,3 +100,6 @@ Docs on [Wiki](https://github.com/pythonhub/quokka/wiki)
 
 [![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/pythonhub/quokka/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
 
+
+## License
+This project is licensed under the [MIT license](http://opensource.org/licenses/MIT).
