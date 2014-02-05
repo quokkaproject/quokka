@@ -87,6 +87,11 @@ Docs on [Wiki](https://github.com/pythonhub/quokka/wiki)
 * [Team & Commiters](https://github.com/pythonhub/quokka/graphs/contributors)
 
 
+Is it any good?
+==============
+
+[Yes!](https://news.ycombinator.com/item?id=3067434)
+
 
 ![python](docs/python_powered.png)
 &nbsp;
