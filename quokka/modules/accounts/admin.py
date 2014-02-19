@@ -23,7 +23,9 @@ class UserAdmin(ModelAdmin):
 
     def on_model_change(self, form, model, is_created):
         if model.newpassword:
-            model.set_password(model.newpassword, save=True)
+            setpwd = model.newpassword
+            del model.newpassword
+            model.set_password(setpwd, save=True)
 
 
 class RoleAdmin(ModelAdmin):
