@@ -29,8 +29,3 @@ def abbreviate(name, pretty=False):
             tiny_name = False
     result.append(names[-1])
     return ' '.join(result)
-
-
-if __name__ == '__main__':
-    print((slugify("Selling England by the pound")))
-    print((slugify("1234 benção amanhã compro melões é @ $".decode('utf8'))))
