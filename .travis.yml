@@ -3,7 +3,7 @@ python:
   - "2.7"
 services: mongodb
 install:
-  - "pip install -r requirements_test.txt --use-mirrors"
+  - "pip install -r requirements_test.txt"
 script: make test
 after_success:
   - coveralls
