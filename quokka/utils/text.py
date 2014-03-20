@@ -4,19 +4,11 @@
 """
 This functions created by Alvaro Justen (Turicas)
 """
-from unicodedata import normalize
+from slugify import slugify as awesome_slugify
 
 
-def slugify(text, encoding=None,
-            permitted_chars='abcdefghijklmnopqrstuvwxyz0123456789-'):
-    if isinstance(text, str):
-        text = text.decode(encoding or 'ascii')
-    clean_text = text.strip().replace(' ', '-').lower()
-    while '--' in clean_text:
-        clean_text = clean_text.replace('--', '-')
-    ascii_text = normalize('NFKD', clean_text).encode('ascii', 'ignore')
-    strict_text = [x if x in permitted_chars else '' for x in ascii_text]
-    return ''.join(strict_text)
+def slugify(text):
+    return awesome_slugify(text).lower()
 
 
 def abbreviate(name, pretty=False):
