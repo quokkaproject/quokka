@@ -7,7 +7,6 @@ blinker
 Flask-Assets
 Flask-Babel
 Flask-Bcrypt
-Flask-Misaka
 Flask-Gravatar
 Flask-OAuthlib
 https://github.com/majorz/flask-htmlbuilder/tarball/master
@@ -31,3 +30,4 @@ speaklater
 https://github.com/pythonhub/quokka-themes/tarball/master
 https://github.com/pythonhub/flask-security/tarball/quokka
 awesome-slugify
+Flask-Mistune

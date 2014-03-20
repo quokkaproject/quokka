@@ -6,7 +6,7 @@ import logging
 import datetime
 import random
 from flask import url_for, current_app
-from flask.ext.misaka import markdown
+from flask.ext.mistune import markdown
 
 from quokka.core import TEXT_FORMATS
 from quokka.core.db import db
