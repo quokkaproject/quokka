@@ -10,7 +10,7 @@ blinker
 Flask-Assets
 Flask-Babel
 Flask-Bcrypt
-Flask-Misaka
+Flask-Mistune
 Flask-OAuthlib
 Flask-Gravatar
 https://github.com/majorz/flask-htmlbuilder/tarball/master
@@ -26,7 +26,6 @@ dealer
 flask-collect
 flake8
 passlib
-twill
 markupsafe
 Pillow
 pyyaml
