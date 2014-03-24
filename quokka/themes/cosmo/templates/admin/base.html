@@ -31,24 +31,26 @@
             {{ layout.menu() }}
           </ul>
           {% endblock %}
-          {% block menu_links %}
           <ul class="nav pull-right">
-            {{ layout.menu_links() }}
+              {% block menu_links %}
+                {{ layout.menu_links() }}
+              {% endblock %}
+
+              {% block access_control %}
+        	    <li class="divider-vertical"></li>
+        	    <li class="dropdown">
+              		<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                      <img src="{{current_user.email | gravatar(size=20) }}" /> {{current_user.display_name}}
+                      <b class="caret"></b>
+                  </a>
+              		<ul class="dropdown-menu">
+              		    <li><a href="/">Return to site</a></li>
+              		    <li><a href="{{url_for_security('change_password')}}">Change password</a></li>
+              		    <li><a href="{{url_for_security('logout')}}">Logout</a></li>
+              		</ul>
+        	    </li>
+    	        {% endblock %}
           </ul>
-          {% endblock %}
-          {% block access_control %}
-
-	    <li class="divider-vertical"></li>
-	    <li class="dropdown">
-		<a href="#" class="dropdown-toggle" data-toggle="dropdown"> <img src="{{current_user.email | gravatar(size=20) }}" /> {{current_user.display_name}} <b class="caret"></b></a>
-		<ul class="dropdown-menu">
-		    <li><a href="/">Return to site</a></li>
-		    <li><a href="{{url_for_security('change_password')}}">Change password</a></li>
-		    <li><a href="{{url_for_security('logout')}}">Logout</a></li>
-		</ul>
-	    </li>
-
-	    {% endblock %}
         </div>
       </div>
 
