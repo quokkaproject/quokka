@@ -8,7 +8,7 @@ shell:
 
 .PHONY: test
 test: pep8
-	nosetests --with-coverage --cover-package=quokka	
+	python runtests.py	
 
 .PHONY: install
 install:

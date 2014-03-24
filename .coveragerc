@@ -1,0 +1,7 @@
+[run]
+source = quokka
+
+[report]
+omit =
+    */python?.?/*
+    */site-packages/nose/*
