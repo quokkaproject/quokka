@@ -2,11 +2,11 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>{% block title %}{% if admin_view.category %}{{ admin_view.category }} - {% endif %}{{ admin_view.name }} - {{Config.get('site', 'site_name') }} | ADMIN{% endblock %}</title>
+    <title>{% block title %}{% if admin_view.category %}{{ admin_view.category }} - {% endif %}{{ admin_view.name }} - {{ admin_view.admin.name }}{% endblock %}</title>
     {% block head_meta %}
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<meta name="description" content="">
-	<meta name="author" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="">
+        <meta name="author" content="">
     {% endblock %}
     {% block head_css %}
        <link href="{{ theme_static('bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
@@ -22,17 +22,21 @@
     {% block page_body %}
     <div class="container">
       <div class="navbar">
-	<div class="navbar-inner">
-	  {% block brand %}
-	  <span class="brand"><img src="{{Config.get('site', 'admin_logo', theme_static('img/logo.png'))}}" alt="{{ admin_view.admin.name }}" height="20" style="height: 20px;"/></span>
-	  {% endblock %}
-	  <ul class="nav">
-	    {{ layout.menu() }}
-	  </ul>
-	  <ul class="nav pull-right">
-	    {{ layout.menu_links() }}
-
-	    {% block access_control %}
+        <div class="navbar-inner">
+          {% block brand %}
+          <span class="brand"><img src="{{Config.get('site', 'admin_logo', theme_static('img/logo.png'))}}" alt="{{ admin_view.admin.name }}" height="20" style="height: 20px;"/></span>
+          {% endblock %}
+          {% block main_menu %}
+          <ul class="nav">
+            {{ layout.menu() }}
+          </ul>
+          {% endblock %}
+          {% block menu_links %}
+          <ul class="nav pull-right">
+            {{ layout.menu_links() }}
+          </ul>
+          {% endblock %}
+          {% block access_control %}
 
 	    <li class="divider-vertical"></li>
 	    <li class="dropdown">
@@ -45,11 +49,14 @@
 	    </li>
 
 	    {% endblock %}
-	  </ul>
-	</div>
+        </div>
       </div>
 
+      {% block messages %}
       {{ layout.messages() }}
+      {% endblock %}
+
+      {% set render_ctx = h.resolve_ctx() %}
 
       {% block body %}{% endblock %}
     </div>
