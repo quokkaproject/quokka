@@ -1,11 +1,11 @@
 # coding: utf-8
 from flask.ext.mail import Mail
-from flask.ext.cache import Cache
 from flask.ext.security import Security as _Security
 from flask.ext.security import MongoEngineUserDatastore
 
 from dealer.contrib.flask import Dealer
 from quokka.core.db import db
+from quokka.core.cache import cache
 from quokka.core.admin import configure_admin
 from quokka.core.templates import render_template
 from quokka.modules.accounts.models import Role, User
@@ -21,9 +21,9 @@ class Security(_Security):
 
 
 def configure_extensions(app, admin):
+    cache.init_app(app)
     babel.configure(app)
     generic.configure(app)
-    Cache(app)
     Mail(app)
     Dealer(app)
     error_handlers.configure(app)
