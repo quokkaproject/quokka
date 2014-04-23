@@ -32,7 +32,7 @@ class Populate(object):
         self.create_posts()
 
     def role(self, name):
-        if not name in self.roles:
+        if name not in self.roles:
             role, created = Role.objects.get_or_create(name=name)
             self.roles[name] = role
             if created:
@@ -75,7 +75,7 @@ class Populate(object):
         for data in self.users_data:
             name = data.get('name')
             pwd = data.get("password")
-            if not name in self.users:
+            if name not in self.users:
                 user = User.createuser(**data)
                 self.users[name] = user
                 logger.info(
@@ -205,7 +205,7 @@ class Populate(object):
             child['parent'] = channel
             self.create_channel(child)
 
-        if not channel.slug in self.channels:
+        if channel.slug not in self.channels:
             self.channels[channel.slug] = channel
 
         return channel
@@ -225,7 +225,7 @@ class Populate(object):
         else:
             logger.info("ChannelType get: {0}".format(channel_type.title))
 
-        if not channel_type.identifier in self.channel_types:
+        if channel_type.identifier not in self.channel_types:
             self.channel_types[channel_type.identifier] = channel_type
 
         return channel_type

@@ -53,14 +53,14 @@ class BasicTestCase(TestCase):
     def test_app_has_admin(self):
         self.assertTrue(self.app.extensions.get("admin"))
 
-    #def test_admin_requires_password(self):
-    #    t = Twill(self.app)
-    #    with t:
-    #        url = t.url('/admin')
-    #        t.browser.go(url)
-    #        import ipdb
-    #        ipdb.set_trace()
-    #        self.assertTrue('login' in t.browser.result.page)
+    # def test_admin_requires_password(self):
+    #     t = Twill(self.app)
+    #     with t:
+    #         url = t.url('/admin')
+    #         t.browser.go(url)
+    #         import ipdb
+    #         ipdb.set_trace()
+    #         self.assertTrue('login' in t.browser.result.page)
 
 
 if __name__ == '__main__':

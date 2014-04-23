@@ -325,7 +325,7 @@ class Channel(Tagged, HasCustomValue, Publishable, LongSlugged,
 
     def clean(self):
         homepage = Channel.objects(is_homepage=True)
-        if self.is_homepage and homepage and not self in homepage:
+        if self.is_homepage and homepage and self not in homepage:
             raise db.ValidationError(_l("Home page already exists"))
         super(Channel, self).clean()
 

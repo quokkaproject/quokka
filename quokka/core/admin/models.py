@@ -275,7 +275,7 @@ class BaseContentAdmin(ModelAdmin):
     }
 
     form_args = {
-        #'body': {'widget': TextEditor()},
+        # 'body': {'widget': TextEditor()},
         'slug': {'widget': PrepopulatedText(master='title')}
     }
 

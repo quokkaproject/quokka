@@ -1,4 +1,4 @@
-#coding: utf-8
+# coding: utf-8
 import mongoengine
 
 from flask.ext.admin.contrib.mongoengine.ajax import QueryAjaxModelLoader

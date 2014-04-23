@@ -1,4 +1,4 @@
-#coding: utf-8
+# coding: utf-8
 # from flask import request, session
 from flask.ext.babelex import Babel
 

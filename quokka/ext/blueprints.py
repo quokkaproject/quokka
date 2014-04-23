@@ -43,7 +43,7 @@ def load_from_folder(app):
             mods[fname] = importlib.import_module(module_name)
             blueprint = getattr(mods[fname], object_name)
 
-            if not blueprint.name in app.blueprints:
+            if blueprint.name not in app.blueprints:
                 app.register_blueprint(blueprint)
             else:
                 blueprint.name += str(random.getrandbits(8))
