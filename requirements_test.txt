@@ -3,7 +3,7 @@ coverage
 coveralls
 flask
 flask-script
-WTForms
+wtforms<2.0
 mongoengine
 flask_mongoengine
 blinker
