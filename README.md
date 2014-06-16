@@ -88,6 +88,15 @@ Docs on [Wiki](https://github.com/pythonhub/quokka/wiki)
 * [Team & Commiters](https://github.com/pythonhub/quokka/graphs/contributors)
 
 
+Hosting
+=======
+
+You can host a Quokka website in any VPS or cloud which supports Python and Flask + MongoDB access, a good option is to host the database in MongoLab if your hosting server does not provide Mongo.
+
+- PythonAnywhere can run Quokka with Mongo hosted at MongoLab
+- DigitalOcean is a good option for a VPS
+- Jelastic Cloud has the easiest Quokka deployment - http://docs.jelastic.com/ru/quokka-cms
+
 Is it any good?
 ==============
 
