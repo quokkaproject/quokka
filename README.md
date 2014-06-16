@@ -4,6 +4,7 @@
 [![Coverage
 Status](https://coveralls.io/repos/pythonhub/quokka/badge.png)](https://coveralls.io/r/pythonhub/quokka)
 [![Twitter](http://badgr.co/twitter/@quokkaproject.png?bg=%2302779E)](http://twitter.com/quokkaproject)
+[![Gitter chat](https://badges.gitter.im/pythonhub/quokka.png)](https://gitter.im/pythonhub/quokka)
 
 Quokka project
 ===============================================
