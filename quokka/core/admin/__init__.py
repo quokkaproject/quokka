@@ -69,12 +69,16 @@ def configure_admin(app, admin):
         try:
             @babel.localeselector
             def get_locale():
-                override = request.args.get('lang')
-
-                if override:
-                    session['lang'] = override
+                # use default language if set
+                if app.config.get('BABEL_DEFAULT_LOCALE'):
+                    session['lang'] = app.config.get('BABEL_DEFAULT_LOCALE')
+                else:
+                    # get best matching language
+                    if app.config.get('BABEL_LANGUAGES'):
+                        session['lang'] = request.accept_languages.best_match(app.config.get('BABEL_LANGUAGES'))
 
                 return session.get('lang', 'en')
+
             admin.locale_selector(get_locale)
         except:
             pass  # Exception: Can not add locale_selector second time.
