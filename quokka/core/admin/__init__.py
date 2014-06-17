@@ -76,7 +76,8 @@ def configure_admin(app, admin):
                     # get best matching language
                     if app.config.get('BABEL_LANGUAGES'):
                         session['lang'] = request.accept_languages.best_match(
-                                              app.config.get('BABEL_LANGUAGES'))
+                            app.config.get('BABEL_LANGUAGES')
+                        )
 
                 return session.get('lang', 'en')
 
