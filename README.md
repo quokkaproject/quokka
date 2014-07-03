@@ -115,3 +115,45 @@ Is it any good?
 
 ## License
 This project is licensed under the [MIT license](http://opensource.org/licenses/MIT).
+
+
+## FAQ
+
+### Why another CMS?
+
+There is a large number of great CMS's in Python ecosystem (Plone, Opps, Mezannine, DjangoCMS etc), each one has its own patterns for extension development and theme management. A CMS can take a its role as "Product" or as "Platform" and for Quokka the idea is to play in both scenarios, The CMS should be easy to deploy, extensions and themes should be "drop-in", it should be easy to develop extensions and also it should use a "schema-free" database. Until Quokka there was no CMS filling all these needs.
+
+### Why Flask?
+
+Because Flask is Pythonic! In my research + experience it is the best framework to develop applications which rely on "pluggable features" thanks to its Blueprints and Extension patterns, also Flask plays well with any DB/ORM of choice. (see next question) 
+
+### Why MongoDB?
+
+Because database acheme migrations are no-happy for CMS and a Quokka CMS must be always happy to work with, so no-schema-migrations is needed with MongoDB! and Mongo is the easiest, flexible and most suitable NoSQL for CMS, also there is excelent extensions for Flask (MongoEngine and Flask-Admin) which supports MongoDB!
+
+### Why the project is named "Quokka?"
+
+Because it is the happiest animal in the world!
+
+#### 20 FACTS ABOUT QUOKKAS
+
+- 1. Happiest animal in the world because they are known for how much they smile.
+- 2. They are marsupials
+- 3. They live on rottnest island named after quokkas because a Dutch guy thought they were large rats. Rottnest means "rats nest"
+- 4. They can climb trees
+- 5. Herbivores-they eat leaves,stems,grass,etc;
+- 6. They are nocturnal
+- 7. They can live for long periods of time, living off of the fat stored in their tails lol
+- 8. Females usually give birth once a year
+- 9. Quokkas are old enough to have babies at 1.5 years old!!
+- 10. Live 5-10 years
+- 11. Declining population—logging, pollution, killed by foxes,pet dogs, pet cats, humans,etc;😭😭
+- 12. They live in tall grass near water
+- 13. Btw if you meet a quokka don't feed it anything due to declining population because it could affect them
+- 14. Quokkas highest speed is 20mph
+- 15. They don't chew food.they just swallow it
+- 16. Closely related to the Rock Wallaby (in the picture^^^)
+- 17. Scientific name is Setonix Brachyurus
+- 18. Joey stays with mom for 35 weeks
+- 19. Quokkas recycle a small amount of their bodies waste products
+- 20. They create their own trails and paths to get food and runaway from predators.
