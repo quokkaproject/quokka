@@ -36,7 +36,7 @@ in your shell
 $ python -c "import uuid;print uuid.uuid4()"
 then use the generated key
 """
-SECRET_KEY = "KeepThisS3cr3t"
+SECRET_KEY = os.urandom(24)
 
 """
 Take a look at Flask-Cache documentation
