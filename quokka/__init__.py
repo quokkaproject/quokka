@@ -9,7 +9,7 @@ __description__ = "Flexible & modular CMS powered by Flask and MongoDB"
 __author__ = "Bruno Rocha <rochacbruno@gmail.com>"
 __email__ = "quokka-developers@googlegroups.com"
 __license__ = "MIT License"
-__copyright__ = "Copyright 2013, Quokka Project / PythonHub.com"
+__copyright__ = "Copyright 2014, Quokka Project / PythonHub.com"
 
 import os
 try:
