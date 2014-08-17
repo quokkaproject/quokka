@@ -110,12 +110,6 @@ Is it any good?
 &nbsp;
 [![pythonhub](http://secure.gravatar.com/avatar/fa9ccd40c6da8a0a934a383ffeb988e6?s=78)](http://github.com/pythonhub)
 
-
-
-## License
-This project is licensed under the [MIT license](http://opensource.org/licenses/MIT).
-
-
 ## FAQ
 
 ### Why another CMS?
@@ -156,3 +150,8 @@ Because it is the happiest animal in the world!
 - 18. Joey stays with mom for 35 weeks
 - 19. Quokkas recycle a small amount of their bodies waste products
 - 20. They create their own trails and paths to get food and runaway from predators.
+
+## License
+This project is licensed under the [MIT license](http://opensource.org/licenses/MIT), see `LICENSE` for more details.
+
+
