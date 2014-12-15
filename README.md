@@ -84,7 +84,7 @@ Docs on [Wiki](https://github.com/pythonhub/quokka/wiki)
 * [Extending & Installing modules](https://github.com/pythonhub/quokka/wiki/plugins)
 * [Admin interface](https://github.com/pythonhub/quokka/wiki/screencast)
 * [Project tree](https://github.com/pythonhub/quokka/wiki/project-tree)
-* [Team & Commiters](https://github.com/pythonhub/quokka/graphs/contributors)
+* [Team & Committers](https://github.com/pythonhub/quokka/graphs/contributors)
 
 
 Hosting
@@ -122,7 +122,7 @@ Because Flask is Pythonic! In my research + experience it is the best framework 
 
 ### Why MongoDB?
 
-Because database acheme migrations are no-happy for CMS and a Quokka CMS must be always happy to work with, so no-schema-migrations is needed with MongoDB! and Mongo is the easiest, flexible and most suitable NoSQL for CMS, also there is excelent extensions for Flask (MongoEngine and Flask-Admin) which supports MongoDB!
+Because database scheme migrations are no-happy for CMS and a Quokka CMS must be always happy to work with, so no-schema-migrations is needed with MongoDB! and Mongo is the easiest, flexible and most suitable NoSQL for CMS, also there is excellent extensions for Flask (MongoEngine and Flask-Admin) which supports MongoDB!
 
 ### Why the project is named "Quokka?"
 
