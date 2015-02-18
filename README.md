@@ -1,9 +1,9 @@
 [![Flattr](http://api.flattr.com/button/flattr-badge-large.png)](http://flattr.com/thing/1680610/rochacbrunoquokka-on-GitHub)
 [![Gittip](http://img.shields.io/gittip/rochacbruno.svg)](https://www.gittip.com/rochacbruno/)
-[![Travis CI](http://img.shields.io/travis/pythonhub/quokka.svg)](https://travis-ci.org/pythonhub/quokka)
-[![Coverage Status](http://img.shields.io/coveralls/pythonhub/quokka.svg)](https://coveralls.io/r/pythonhub/quokka)
+[![Travis CI](http://img.shields.io/travis/quokkaproject/quokka.svg)](https://travis-ci.org/quokkaproject/quokka)
+[![Coverage Status](http://img.shields.io/coveralls/quokkaproject/quokka.svg)](https://coveralls.io/r/quokkaproject/quokka)
 [![Twitter](http://img.shields.io/badge/twitter-@quokkaproject-green.svg)](http://twitter.com/quokkaproject)
-[![Gitter chat](https://badges.gitter.im/pythonhub/quokka.png)](https://gitter.im/pythonhub/quokka)
+[![Gitter chat](https://badges.gitter.im/quokkaproject/quokka.png)](https://gitter.im/quokkaproject/quokka)
 
 Quokka project
 ===============================================
