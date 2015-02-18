@@ -28,7 +28,7 @@ Quick start
 1. Get Quokka
 
 ```bash
-$ git clone https://github.com/pythonhub/quokka
+$ git clone https://github.com/quokkaproject/quokka
 $ cd quokka
 $ pip install -r requirements.txt
 ```
@@ -75,16 +75,16 @@ $ python manage.py run0
 7. Admin on http://0.0.0.0:8000/admin
 
 
-Docs on [Wiki](https://github.com/pythonhub/quokka/wiki)
+Docs on [Wiki](https://github.com/quokkaproject/quokka/wiki)
 ===============================================
 
-* [About & Features](https://github.com/pythonhub/quokka/wiki/about)
-* [Installing and running](https://github.com/pythonhub/quokka/wiki/installation)
-* [Requirements](https://github.com/pythonhub/quokka/wiki/requirements)
-* [Extending & Installing modules](https://github.com/pythonhub/quokka/wiki/plugins)
-* [Admin interface](https://github.com/pythonhub/quokka/wiki/screencast)
-* [Project tree](https://github.com/pythonhub/quokka/wiki/project-tree)
-* [Team & Committers](https://github.com/pythonhub/quokka/graphs/contributors)
+* [About & Features](https://github.com/quokkaproject/quokka/wiki/about)
+* [Installing and running](https://github.com/quokkaproject/quokka/wiki/installation)
+* [Requirements](https://github.com/quokkaproject/quokka/wiki/requirements)
+* [Extending & Installing modules](https://github.com/quokkaproject/quokka/wiki/plugins)
+* [Admin interface](https://github.com/quokkaproject/quokka/wiki/screencast)
+* [Project tree](https://github.com/quokkaproject/quokka/wiki/project-tree)
+* [Team & Committers](https://github.com/quokkaproject/quokka/graphs/contributors)
 
 
 Hosting
