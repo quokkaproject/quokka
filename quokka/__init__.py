@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
+import os
 
 VERSION = (0, 2, 0)
 
@@ -11,7 +12,7 @@ __email__ = "quokka-developers@googlegroups.com"
 __license__ = "MIT License"
 __copyright__ = "Copyright 2014, Quokka Project / PythonHub.com"
 
-import os
+
 try:
     from .core.admin import create_admin
     from .core.app import QuokkaApp
