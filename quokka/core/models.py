@@ -114,7 +114,7 @@ class Tagged(object):
 
 def default_formatter(value):
     return value
-    
+
 
 class CustomValue(db.EmbeddedDocument):
 
