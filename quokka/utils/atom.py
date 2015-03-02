@@ -27,8 +27,10 @@ from datetime import datetime
 from werkzeug.wrappers import BaseResponse
 from werkzeug._compat import implements_to_string, string_types
 
+
 def escape(x):
     return x
+
 
 XHTML_NAMESPACE = 'http://www.w3.org/1999/xhtml'
 
