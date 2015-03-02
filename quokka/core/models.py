@@ -112,6 +112,10 @@ class Tagged(object):
     tags = db.ListField(db.StringField(max_length=50))
 
 
+def default_formatter(value):
+    return value
+    
+
 class CustomValue(db.EmbeddedDocument):
 
     FORMATS = (
@@ -121,7 +125,7 @@ class CustomValue(db.EmbeddedDocument):
         ('float', "float"),
     )
 
-    DEFAULT_FORMATTER = lambda value: value
+    DEFAULT_FORMATTER = default_formatter
 
     FORMATTERS = {
         'json': lambda value: json.loads(value),
