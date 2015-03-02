@@ -9,7 +9,7 @@ Flask-Babel
 Flask-Bcrypt
 Flask-Gravatar
 Flask-OAuthlib
-Flask-HTMLBuilder
+https://github.com/quokkaproject/flask-htmlbuilder/tarball/master
 Flask-Login<0.2.7
 Flask-Principal
 Flask-Mail
