@@ -218,6 +218,7 @@ class Channel(Tagged, HasCustomValue, Publishable, LongSlugged,
     description = db.StringField()
     show_in_menu = db.BooleanField(default=False)
     is_homepage = db.BooleanField(default=False)
+    roles = db.ListField(db.ReferenceField('Role', reverse_delete_rule=db.PULL))
     include_in_rss = db.BooleanField(default=True)
     indexable = db.BooleanField(default=True)
     canonical_url = db.StringField()
