@@ -72,7 +72,7 @@ class ChannelAdmin(ModelAdmin):
                       'show_in_menu', 'indexable']
     column_searchable_list = ('title', 'description')
     form_columns = ['title', 'slug', 'content_format', 'description',
-                    'parent', 'is_homepage',
+                    'parent', 'is_homepage', 'roles',
                     'include_in_rss', 'indexable', 'show_in_menu', 'order',
                     'per_page', 'tags', 'sort_by',
                     'published', 'canonical_url', 'values', 'channel_type',
