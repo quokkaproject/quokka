@@ -9,6 +9,8 @@ from flask.views import MethodView
 from quokka.utils.atom import AtomFeed
 from quokka.core.models import Channel, Content, Config
 from quokka.core.templates import render_template
+from quokka.utils import get_current_user
+
 
 logger = logging.getLogger()
 
@@ -52,6 +54,28 @@ class ContentList(MethodView):
         mpath = ",{0},".format(mpath)
 
         channel = Channel.objects.get_or_404(mpath=mpath, published=True)
+
+        user = get_current_user()
+        
+        
+        if channel.roles:
+            forbidden = True
+            for role in user.roles:
+                if role in channel.roles:
+                    forbidden = False
+                    break  # break in first occurence
+        else:
+            forbidden = False
+
+            
+        if forbidden:
+            return abort('Access Denied') # or redirect
+
+        
+        
+        
+        
+
 
         # if channel.is_homepage and request.path != "/":
         #     return redirect("/")
