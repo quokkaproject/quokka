@@ -56,8 +56,7 @@ class ContentList(MethodView):
         channel = Channel.objects.get_or_404(mpath=mpath, published=True)
 
         user = get_current_user()
-        
-        
+
         if channel.roles:
             forbidden = True
             for role in user.roles:
@@ -67,15 +66,8 @@ class ContentList(MethodView):
         else:
             forbidden = False
 
-            
         if forbidden:
-            return abort('Access Denied') # or redirect
-
-        
-        
-        
-        
-
+            return abort('Access Denied')  # or redirect
 
         # if channel.is_homepage and request.path != "/":
         #     return redirect("/")
