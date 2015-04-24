@@ -32,3 +32,4 @@ flask-security
 awesome-slugify
 Flask-Mistune
 pymongo==2.7.1
+nose
