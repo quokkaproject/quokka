@@ -1,10 +1,9 @@
 language: python
 python:
   - "2.7"
-  - "3.4.3"
+  - "3.4"
 services: mongodb
 install:
-  - "pip install twill --allow-external twill --allow-unverified twill"
   - "pip install -r requirements_test.txt"
 script: make test
 after_success:
