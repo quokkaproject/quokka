@@ -19,7 +19,7 @@ Flask-Principal
 Flask-Mail
 Flask-Testing
 Flask-Cache
-https://github.com/mrjoes/flask-admin/tarball/master
+https://github.com/flask-admin/flask-admin/tarball/master
 https://github.com/mrjoes/flask-babelex/tarball/master
 flask-debugtoolbar
 dealer
@@ -33,3 +33,4 @@ speaklater
 https://github.com/pythonhub/quokka-themes/tarball/master
 https://github.com/pythonhub/flask-security/tarball/quokka
 awesome_slugify
+pymongo==2.7.1
