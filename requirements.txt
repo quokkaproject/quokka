@@ -22,7 +22,6 @@ dealer
 flask-collect
 flake8
 passlib
-# twill
 https://github.com/alexandre/twill/tarball/master
 markupsafe
 Pillow
