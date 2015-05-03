@@ -31,6 +31,6 @@ Pillow
 pyyaml
 speaklater
 https://github.com/alexandre/quokka-themes/tarball/master
-https://github.com/pythonhub/flask-security/tarball/quokka
+https://github.com/alexandre/flask-security/tarball/quokka
 awesome_slugify
 pymongo==2.7.1

@@ -10,12 +10,22 @@ if sys.version_info.major == 3:
     unicode = lambda x: u'{}'.format(x)
 
 
+def eval_b(x):
+    """Evaluate if to encode the value is necessary.
+    """
+    if sys.version_info.major == 2:
+        return x
+    else:
+        import codecs
+        return codecs.utf_8_encode(x)[0]
+
+
 class TestAccountsModels(BaseTestCase):
     def setUp(self):
         self.user_dict = {
             'name': u'Guybrush Treepwood',
             'email': u'guybrush@monkeyisland.com',
-            'password': encrypt_password(u'lechucksucks'),
+            'password': encrypt_password(eval_b('lechucksucks')),
         }
         self.role = Role.objects.create(
             name='kill pirates',
@@ -54,8 +64,8 @@ class TestAccountsModels(BaseTestCase):
         self.assertEqual(generated, u'elaine_treepwood_ca_monkeyisland_com')
 
     def test_role_field(self):
-        self.assertEqual(self.role.name, u'kill pirates')
-        self.assertEqual(self.role.description, u'hell yeah!')
+        self.assertEqual(unicode(self.role.name), u'kill pirates')
+        self.assertEqual(unicode(self.role.description), u'hell yeah!')
         self.assertEqual(unicode(self.role), u'kill pirates (hell yeah!)')
 
     def test_createrole_classmethod(self):

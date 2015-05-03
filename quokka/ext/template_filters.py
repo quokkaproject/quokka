@@ -11,11 +11,13 @@ from quokka.core.models import Content
 from quokka_themes import Theme
 
 
-basetypes = (
-    int, str, float, dict, list, tuple, Blueprint, QuokkaModule, Theme, Rule)
+if sys.version_info.major == 3:
+    unicode = lambda x: u'{}'.format(x)
+    basestring = str
 
-if sys.version_info.major == 2:
-    basetypes += (unicode, basestring)
+basetypes = (
+    int, str, float, dict, list, tuple, Blueprint, QuokkaModule, Theme, Rule,
+    basestring, unicode)
 
 
 def is_instance(v, cls):

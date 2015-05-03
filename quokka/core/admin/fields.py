@@ -1,5 +1,6 @@
 # coding: utf-8
 import random
+import sys
 
 from werkzeug.datastructures import FileStorage
 from flask import current_app
@@ -9,6 +10,9 @@ from flask.ext.admin._compat import urljoin
 
 from quokka.core.models import SubContent, SubContentPurpose
 from quokka.modules.media.models import Image
+
+if sys.version_info.major == 3:
+    unicode = lambda x: u'{}'.format(x)
 
 
 class ThumbWidget(ImageUploadInput):
