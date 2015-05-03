@@ -2,7 +2,14 @@
 
 import logging
 import collections
-from urlparse import urljoin
+import sys
+
+# python3 support
+if sys.version_info.major == 3:
+    from urllib.parse import urljoin
+else:
+    from urlparse import urljoin
+
 from datetime import datetime
 from flask import request, redirect, url_for, abort, current_app
 from flask.views import MethodView

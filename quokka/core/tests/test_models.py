@@ -1,7 +1,12 @@
 # coding: utf-8
+import sys
+
 from . import BaseTestCase
 
 from ..models import Channel, Config, CustomValue
+
+if sys.version_info.major == 3:
+    unicode = lambda x: u'{}'.format(x)
 
 
 class TestChannel(BaseTestCase):

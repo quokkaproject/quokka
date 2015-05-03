@@ -1,8 +1,13 @@
 # coding: utf-8
+import sys
+
 from flask.ext.security.utils import encrypt_password
 
 from quokka.core.tests import BaseTestCase
 from ..models import User, Role
+
+if sys.version_info.major == 3:
+    unicode = lambda x: u'{}'.format(x)
 
 
 class TestAccountsModels(BaseTestCase):
