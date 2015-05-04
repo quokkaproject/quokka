@@ -4,7 +4,7 @@ import os
 from flask import send_from_directory, current_app, request
 from flask.ext.security import roles_accepted
 from quokka.core.views import ContentDetail, ContentList, TagList
-from quokka.core.views import TagAtom, FeedAtom
+from quokka.core.views import TagAtom, FeedAtom, TagRss, FeedRss
 from quokka.core.models import Channel
 
 
@@ -50,9 +50,12 @@ def configure(app):
                      view_func=ContentDetail.as_view('detail'))
 
     # Atom Feed
-    app.add_url_rule('/<path:long_slug>.atom',
-                     view_func=FeedAtom.as_view('atom_list'))
+    app.add_url_rule('/<path:long_slug>.atom', view_func=FeedAtom.as_view('atom_list'))
     app.add_url_rule('/tag/<tag>.atom', view_func=TagAtom.as_view('atom_tag'))
+
+    # RSS Feed
+    app.add_url_rule('/<path:long_slug>.xml', view_func=FeedRss.as_view('rss_list'))
+    app.add_url_rule('/tag/<tag>.xml', view_func=TagRss.as_view('rss_tag'))
 
     # Tag list
     app.add_url_rule('/tag/<tag>/', view_func=TagList.as_view('tag'))
