@@ -9,13 +9,13 @@ import sys
 # python3 support
 if sys.version_info.major == 3:
     from urllib.parse import urljoin
-	from io import StringIO
+    # from io import StringIO
 else:
     from urlparse import urljoin
-	import StringIO
+    # import StringIO
 
 from datetime import datetime, timedelta
-from flask import request, redirect, url_for, abort, current_app, Response
+from flask import request, redirect, url_for, abort, current_app
 from flask.views import MethodView
 from quokka.utils.atom import AtomFeed
 from quokka.core.models import Channel, Content, Config
@@ -69,11 +69,8 @@ class ContentList(MethodView):
         user = get_current_user()
 
         if channel.roles:
-            forbidden = True
-            for role in user.roles:
-                if role in channel.roles:
-                    forbidden = False
-                    break  # break in first occurence
+            forbidden = next(
+                (True for role in user.roles if role in user.roles), False)
         else:
             forbidden = False
 
@@ -346,26 +343,28 @@ class BaseFeed(MethodView):
     def make_rss(self, feed_name, contents):
         conf = current_app.config
 
-        if not self.channel: # Feed view
+        if not self.channel:  # Feed view
             description = 'Articles with tag: ' + self.tag
             categories = [self.tag]
 
-        else:                # Tag View
+        else:  # Tag View
             description = self.channel.get_text()
             categories = self.channel.tags
 
         rss = pyrss.RSS2(
-            title = feed_name,
-            link = request.url_root,
-            description = description,  # channel description after markdown processing
-            language = conf.get('RSS_LANGUAGE', 'en-us'),
-            copyright = conf.get('RSS_COPYRIGHT', 'All rights reserved.'),
-            lastBuildDate = datetime.now(),
-            categories = categories,
+            title=feed_name,
+            link=request.url_root,
+            # channel description after markdown processing
+            description=description,
+            language=conf.get('RSS_LANGUAGE', 'en-us'),
+            copyright=conf.get('RSS_COPYRIGHT', 'All rights reserved.'),
+            lastBuildDate=datetime.now(),
+            categories=categories,
         )
 
         # set rss.pubDate to the newest post in the collection
-        rss_pubDate = datetime.today() - timedelta(days = 365 * 10) # 10 years in the past
+        rss_pubDate =\
+            datetime.today() - timedelta(days=365 * 10)  # 10 years in the past
 
         for content in contents:
             if not content.channel.include_in_rss:
@@ -373,18 +372,21 @@ class BaseFeed(MethodView):
 
             if content.created_at > rss_pubDate:
                 rss_pubDate = content.created_at
-
-            author = content.created_by.name if content.created_by else Config.get('site', 'site_author', '')
+            if content.created_by:
+                author = content.created_by.name
+            else:
+                author = Config.get('site', 'site_author', '')
 
             rss.items.append(
                 pyrss.RSSItem(
-                    title = content.title,
-                    link = content.get_absolute_url(),
-                    description = content.get_text(),
-                    author = author,
-                    categories = content.tags,
-                    guid = hashlib.sha1(content.title + content.get_absolute_url()).hexdigest(),
-                    pubDate = content.created_at,
+                    title=content.title,
+                    link=content.get_absolute_url(),
+                    description=content.get_text(),
+                    author=author,
+                    categories=content.tags,
+                    guid=hashlib.sha1(content.title +
+                                      content.get_absolute_url()).hexdigest(),
+                    pubDate=content.created_at,
                 )
             )
 
@@ -392,8 +394,6 @@ class BaseFeed(MethodView):
         rss.pubDate = rss_pubDate
 
         return rss.to_xml(encoding=conf.get('RSS_ENCODING', 'utf-8'))
-
-
 
 
 class ContentFeed(BaseFeed):
