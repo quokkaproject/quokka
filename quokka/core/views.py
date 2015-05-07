@@ -464,3 +464,36 @@ class TagAtom(BaseFeed, BaseTagView):
         feed = self.make_atom(feed_name, contents)
 
         return feed.get_response()
+
+
+class FeedRss(ContentFeed):
+    def get(self, long_slug):
+        # instantiates the self.channel property
+        contents = self.get_contents(long_slug)
+        self.tag = None
+
+        if current_app.config.get("PAGINATION_ENABLED", True):
+            contents = contents.items
+
+        feed_name = u"{0} | {1} | feed".format(
+            Config.get('site', 'site_name', ''),
+            self.channel.title
+        )
+
+        return self.make_rss(feed_name, contents)
+
+
+class TagRss(BaseFeed, BaseTagView):
+    def get(self, tag):
+        contents = self.get_contents(tag)
+        self.channel = None
+
+        if current_app.config.get('PAGINATION_ENABLED', True):
+            contents = contents.items
+
+        feed_name = u"{0} | {1} | feed".format(
+            Config.get('site', 'site_name', ''),
+            "Tag {0}".format(tag)
+        )
+
+        return self.make_rss(feed_name, contents)
