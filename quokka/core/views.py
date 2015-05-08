@@ -1,13 +1,12 @@
 # coding: utf-8
 
-import StringIO
 import logging
 import collections
 import hashlib
 import PyRSS2Gen as pyrss
 from urlparse import urljoin
 from datetime import datetime, timedelta
-from flask import request, redirect, url_for, abort, current_app, Response
+from flask import request, redirect, url_for, abort, current_app
 from flask.views import MethodView
 from quokka.utils.atom import AtomFeed
 from quokka.core.models import Channel, Content, Config
@@ -338,7 +337,7 @@ class BaseFeed(MethodView):
     def make_rss(self, feed_name, contents):
         conf = current_app.config
 
-        if not self.channel: # Feed view
+        if not self.channel:  # Feed view
             description = 'Articles with tag: ' + self.tag
             categories = [self.tag]
 
@@ -347,17 +346,18 @@ class BaseFeed(MethodView):
             categories = self.channel.tags
 
         rss = pyrss.RSS2(
-            title = feed_name,
-            link = request.url_root,
-            description = description,  # channel description after markdown processing
-            language = conf.get('RSS_LANGUAGE', 'en-us'),
-            copyright = conf.get('RSS_COPYRIGHT', 'All rights reserved.'),
-            lastBuildDate = datetime.now(),
-            categories = categories,
+            title=feed_name,
+            link=request.url_root,
+            description=description,  # channel description after md processing
+            language=conf.get('RSS_LANGUAGE', 'en-us'),
+            copyright=conf.get('RSS_COPYRIGHT', 'All rights reserved.'),
+            lastBuildDate=datetime.now(),
+            categories=categories,
         )
 
         # set rss.pubDate to the newest post in the collection
-        rss_pubDate = datetime.today() - timedelta(days = 365 * 10) # 10 years in the past
+        # back 10 years in the past
+        rss_pubDate = datetime.today() - timedelta(days=365 * 10)
 
         for content in contents:
             if not content.channel.include_in_rss:
@@ -366,17 +366,22 @@ class BaseFeed(MethodView):
             if content.created_at > rss_pubDate:
                 rss_pubDate = content.created_at
 
-            author = content.created_by.name if content.created_by else Config.get('site', 'site_author', '')
+            if content.created_by:
+                author = content.created_by.name
+            else:
+                author = Config.get('site', 'site_author', '')
 
             rss.items.append(
                 pyrss.RSSItem(
-                    title = content.title,
-                    link = content.get_absolute_url(),
-                    description = content.get_text(),
-                    author = author,
-                    categories = content.tags,
-                    guid = hashlib.sha1(content.title + content.get_absolute_url()).hexdigest(),
-                    pubDate = content.created_at,
+                    title=content.title,
+                    link=content.get_absolute_url(),
+                    description=content.get_text(),
+                    author=author,
+                    categories=content.tags,
+                    guid=hashlib.sha1(
+                        content.title + content.get_absolute_url()
+                    ).hexdigest(),
+                    pubDate=content.created_at,
                 )
             )
 
@@ -384,8 +389,6 @@ class BaseFeed(MethodView):
         rss.pubDate = rss_pubDate
 
         return rss.to_xml(encoding=conf.get('RSS_ENCODING', 'utf-8'))
-
-
 
 
 class ContentFeed(BaseFeed):
@@ -426,6 +429,7 @@ class ContentFeed(BaseFeed):
 
         return contents
 
+
 class FeedAtom(ContentFeed):
     def get(self, long_slug):
         contents = self.get_contents(long_slug)
@@ -455,6 +459,7 @@ class TagAtom(BaseFeed, BaseTagView):
 
         return feed.get_response()
 
+
 class FeedRss(ContentFeed):
     def get(self, long_slug):
         # instantiates the self.channel property
@@ -470,6 +475,7 @@ class FeedRss(ContentFeed):
         )
 
         return self.make_rss(feed_name, contents)
+
 
 class TagRss(BaseFeed, BaseTagView):
     def get(self, tag):
