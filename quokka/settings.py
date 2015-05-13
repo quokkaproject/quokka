@@ -118,6 +118,14 @@ python manage.py collectstatic to copy to main static folder
 """
 COLLECT_STATIC_ROOT = STATIC_ROOT
 
+
+"""
+Activates Flask-Weasyprint extension
+so that Posts can be rendered to PDF just by
+changing the extension from .html to .pdf
+"""
+ENABLE_TO_PDF = True
+
 """
 Never change it here, use local_settings for this.
 """
