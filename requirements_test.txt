@@ -11,6 +11,7 @@ Flask-Assets
 Flask-Babel
 Flask-Bcrypt
 Flask-Mistune
+oauthlib
 Flask-OAuthlib
 Flask-Gravatar
 https://github.com/quokkaproject/flask-htmlbuilder/tarball/master
