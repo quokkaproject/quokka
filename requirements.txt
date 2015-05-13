@@ -17,6 +17,7 @@ Flask-Cache
 flask-admin
 flask-babelex
 flask-debugtoolbar
+flask-weasyprint
 dealer
 flask-collect
 flake8
