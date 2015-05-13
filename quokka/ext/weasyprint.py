@@ -1,15 +1,12 @@
 # -*- coding: utf-8 -*-
 
 import logging
-import collections
-
 from flask import url_for
-
 
 logger = logging.getLogger()
 
 try:
-    from flask_weasyprint import render_pdf, HTML
+    from flask_weasyprint import render_pdf
 
     import_error = False
 except (ImportError, OSError) as e:
