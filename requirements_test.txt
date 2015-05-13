@@ -19,7 +19,8 @@ Flask-Principal
 Flask-Mail
 Flask-Testing
 Flask-Cache
-https://github.com/flask-admin/flask-admin/tarball/master
+# Flask-Admin (needs fix)
+https://github.com/flask-admin/flask-admin/archive/v1.0.8.zip
 https://github.com/mrjoes/flask-babelex/tarball/master
 flask-debugtoolbar
 dealer

@@ -14,7 +14,8 @@ Flask-Principal
 Flask-Mail
 Flask-Testing
 Flask-Cache
-flask-admin
+# flask-admin (needs fix)
+https://github.com/flask-admin/flask-admin/archive/v1.0.8.zip
 flask-babelex
 flask-debugtoolbar
 dealer
