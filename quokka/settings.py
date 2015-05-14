@@ -123,8 +123,10 @@ COLLECT_STATIC_ROOT = STATIC_ROOT
 Activates Flask-Weasyprint extension
 so that Posts can be rendered to PDF just by
 changing the extension from .html to .pdf
+please install Flask-Weasyprint in your python env
+pip install flask-weasyprint
 """
-ENABLE_TO_PDF = True
+ENABLE_TO_PDF = False
 
 """
 Never change it here, use local_settings for this.

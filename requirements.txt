@@ -19,7 +19,7 @@ Flask-Cache
 https://github.com/flask-admin/flask-admin/archive/v1.0.8.zip
 flask-babelex
 flask-debugtoolbar
-flask-weasyprint
+#flask-weasyprint
 dealer
 flask-collect
 flake8
