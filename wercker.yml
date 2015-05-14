@@ -4,12 +4,12 @@ build:
     - install-packages:
         packages: mongodb
     - virtualenv:
-        name: quokka
+        name: quokka virtual env
         install_wheel: false
     - script:
         name: install test requirements
         code: |
-          pip install requirements_test.txt
+          pip install -r requirements_test.txt
     - script:
         name: Run Tests
         code: |
