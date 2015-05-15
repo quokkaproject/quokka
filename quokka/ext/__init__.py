@@ -12,7 +12,7 @@ from quokka.modules.accounts.models import Role, User
 
 from . import (generic, babel, blueprints, error_handlers, context_processors,
                template_filters, before_request, views, themes, fixtures,
-               oauthlib)
+               oauthlib, weasyprint)
 
 
 class Security(_Security):
@@ -38,6 +38,9 @@ def configure_extensions(app, admin):
 
     blueprints.load_from_packages(app)
     blueprints.load_from_folder(app)
+
+    # enable .pdf support for posts
+    weasyprint.configure(app)
 
     configure_admin(app, admin)
 

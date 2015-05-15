@@ -9,13 +9,13 @@ import sys
 # python3 support
 if sys.version_info.major == 3:
     from urllib.parse import urljoin
-    # from io import StringIO
+    from io import StringIO
 else:
     from urlparse import urljoin
-    # import StringIO
+    import StringIO
 
 from datetime import datetime, timedelta
-from flask import request, redirect, url_for, abort, current_app
+from flask import request, redirect, url_for, abort, current_app, Response
 from flask.views import MethodView
 from quokka.utils.atom import AtomFeed
 from quokka.core.models import Channel, Content, Config
@@ -343,11 +343,11 @@ class BaseFeed(MethodView):
     def make_rss(self, feed_name, contents):
         conf = current_app.config
 
-        if not self.channel:  # Feed view
+        if not self.channel: # Feed view
             description = 'Articles with tag: ' + self.tag
             categories = [self.tag]
 
-        else:  # Tag View
+        else:                # Tag View
             description = self.channel.get_text()
             categories = self.channel.tags
 
@@ -363,8 +363,8 @@ class BaseFeed(MethodView):
         )
 
         # set rss.pubDate to the newest post in the collection
-        rss_pubDate =\
-            datetime.today() - timedelta(days=365 * 10)  # 10 years in the past
+        # back 10 years in the past
+        rss_pubDate = datetime.today() - timedelta(days=365 * 10)
 
         for content in contents:
             if not content.channel.include_in_rss:
@@ -372,6 +372,7 @@ class BaseFeed(MethodView):
 
             if content.created_at > rss_pubDate:
                 rss_pubDate = content.created_at
+
             if content.created_by:
                 author = content.created_by.name
             else:
@@ -384,8 +385,9 @@ class BaseFeed(MethodView):
                     description=content.get_text(),
                     author=author,
                     categories=content.tags,
-                    guid=hashlib.sha1(content.title +
-                                      content.get_absolute_url()).hexdigest(),
+                    guid=hashlib.sha1(
+                        content.title + content.get_absolute_url()
+                    ).hexdigest(),
                     pubDate=content.created_at,
                 )
             )
@@ -394,6 +396,8 @@ class BaseFeed(MethodView):
         rss.pubDate = rss_pubDate
 
         return rss.to_xml(encoding=conf.get('RSS_ENCODING', 'utf-8'))
+
+
 
 
 class ContentFeed(BaseFeed):

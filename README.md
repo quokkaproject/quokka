@@ -5,11 +5,13 @@
 [![Twitter](http://img.shields.io/badge/twitter-@quokkaproject-green.svg)](http://twitter.com/quokkaproject)
 [![Gitter chat](https://badges.gitter.im/quokkaproject/quokka.png)](https://gitter.im/quokkaproject/quokka)
 
+
+[![wercker status](https://app.wercker.com/status/e9cbc4497ee946083aa19fbd3f756c91/m "wercker status")](https://app.wercker.com/project/bykey/e9cbc4497ee946083aa19fbd3f756c91)
+
 Quokka project
 ===============================================
 
 ### Flask and MongoDB powered CMS
-#### (alpha version, work in progress)
 
 <p align="center">
 <img src="docs/logo.png" alt="quokka cms" />

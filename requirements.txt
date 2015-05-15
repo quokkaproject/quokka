@@ -7,6 +7,7 @@ blinker
 Flask-Assets
 Flask-Babel
 Flask-Gravatar
+oauthlib
 Flask-OAuthlib
 https://github.com/quokkaproject/flask-htmlbuilder/tarball/master
 Flask-Login<0.2.7
@@ -14,9 +15,11 @@ Flask-Principal
 Flask-Mail
 Flask-Testing
 Flask-Cache
-flask-admin
+# flask-admin (needs fix)
+https://github.com/flask-admin/flask-admin/archive/v1.0.8.zip
 flask-babelex
 flask-debugtoolbar
+#flask-weasyprint
 dealer
 flask-collect
 flake8
