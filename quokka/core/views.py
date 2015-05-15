@@ -9,13 +9,13 @@ import sys
 # python3 support
 if sys.version_info.major == 3:
     from urllib.parse import urljoin
-    from io import StringIO
+    # from io import StringIO
 else:
     from urlparse import urljoin
-    import StringIO
+    # import StringIO
 
 from datetime import datetime, timedelta
-from flask import request, redirect, url_for, abort, current_app, Response
+from flask import request, redirect, url_for, abort, current_app  # ,  Response
 from flask.views import MethodView
 from quokka.utils.atom import AtomFeed
 from quokka.core.models import Channel, Content, Config
@@ -343,7 +343,7 @@ class BaseFeed(MethodView):
     def make_rss(self, feed_name, contents):
         conf = current_app.config
 
-        if not self.channel: # Feed view
+        if not self.channel:  # Feed view
             description = 'Articles with tag: ' + self.tag
             categories = [self.tag]
 
@@ -396,8 +396,6 @@ class BaseFeed(MethodView):
         rss.pubDate = rss_pubDate
 
         return rss.to_xml(encoding=conf.get('RSS_ENCODING', 'utf-8'))
-
-
 
 
 class ContentFeed(BaseFeed):
