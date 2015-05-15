@@ -11,6 +11,7 @@ Flask-Assets
 Flask-Babel
 Flask-Bcrypt
 Flask-Mistune
+oauthlib
 Flask-OAuthlib
 Flask-Gravatar
 https://github.com/quokkaproject/flask-htmlbuilder/tarball/master
@@ -19,7 +20,8 @@ Flask-Principal
 Flask-Mail
 Flask-Testing
 Flask-Cache
-https://github.com/flask-admin/flask-admin/tarball/master
+# Flask-Admin (needs fix)
+https://github.com/flask-admin/flask-admin/archive/v1.0.8.zip
 https://github.com/mrjoes/flask-babelex/tarball/master
 flask-debugtoolbar
 dealer
@@ -34,3 +36,4 @@ https://github.com/pythonhub/quokka-themes/tarball/master
 https://github.com/pythonhub/flask-security/tarball/quokka
 awesome_slugify
 pymongo==2.7.1
+PyRSS2Gen
