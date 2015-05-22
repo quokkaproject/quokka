@@ -1,6 +1,10 @@
-#pylint:
-#  disable:
-#    - eval-used
+pylint:
+  disable:
+    - bare-except
+    - unused-argument
+    - pointless-string-statement
+    - too-many-locals
+    - too-many-arguments
     
 pep8:
   disable:
