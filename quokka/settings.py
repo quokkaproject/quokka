@@ -36,7 +36,7 @@ in your shell
 $ python -c "import uuid;print uuid.uuid4()"
 then use the generated key
 """
-SECRET_KEY = "S3cr3Tk3Y"
+SECRET_KEY = "S3cr3Tk3Y"  # noqa
 
 """
 Take a look at Flask-Cache documentation
@@ -191,9 +191,9 @@ DEFAULT_MAIL_SENDER = None
 Take a look at Flask-Security docs
 http://pythonhosted.org/Flask-Security/configuration.html
 """
-SECURITY_PASSWORD_HASH = 'pbkdf2_sha512'
+SECURITY_PASSWORD_HASH = 'pbkdf2_sha512'  # noqa
 SECURITY_URL_PREFIX = '/accounts'
-SECURITY_PASSWORD_SALT = '6e95b1ed-a8c3-4da0-8bac-6fcb11c39ab4'
+SECURITY_PASSWORD_SALT = '6e95b1ed-a8c3-4da0-8bac-6fcb11c39ab4'  # noqa
 SECURITY_EMAIL_SENDER = 'reply@localhost'
 SECURITY_REGISTERABLE = True
 SECURITY_CHANGEABLE = True
