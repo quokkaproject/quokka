@@ -5,6 +5,8 @@ pylint:
     - pointless-string-statement
     - too-many-locals
     - too-many-arguments
+    - protected-access
+    - unused-variable
     
 pep8:
   disable:
