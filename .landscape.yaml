@@ -1,0 +1,21 @@
+#pylint:
+#  disable:
+#    - eval-used
+    
+pep8:
+  disable:
+    - E1002
+    
+ignore-paths:
+    - docs
+    - logs
+    - quokka/static
+    - quokka/templates
+    - quokka/themes
+    - quokka/fixtures
+
+requirements:
+    - requirements.txt
+    - requirements_test.txt
+    
+#max-line-length: 120
