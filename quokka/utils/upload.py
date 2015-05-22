@@ -21,7 +21,7 @@ def dated_path(obj, file_data):
     filename = secure_filename(filename)
     today = date.today()
     path = u"{prefix}/{t.year}/{t.month}/{filename}".format(
-        prefix=prefix, t=today, filename=filename, r=random.getrandbits(32)
+        prefix=prefix, t=today, filename=filename
     )
     return path
 
