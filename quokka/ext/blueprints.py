@@ -49,20 +49,18 @@ def load_from_folder(app):
                 blueprint.name += str(random.getrandbits(8))
                 app.register_blueprint(blueprint)
                 logger.warning(
-                    "CONFLICT:{0} already registered, using {1}".format(
-                        fname, blueprint.name
-                    )
+                    "CONFLICT:%s already registered, using %s",
+                    fname,
+                    blueprint.name
                 )
 
             # register admin
             try:
                 importlib.import_module(".".join([module_name, 'admin']))
             except ImportError:
-                logger.info(
-                    "{0} module does not define admin".format(fname)
-                )
+                logger.info("%s module does not define admin", fname)
 
-    logger.info("{0} modules loaded".format(mods.keys()))
+    logger.info("%s modules loaded", mods.keys())
 
 
 def load_blueprint_commands(manager):
@@ -94,10 +92,8 @@ def load_blueprint_commands(manager):
                         name = getattr(obj, 'command_name', obj_name.lower())
                         if name in manager._commands:
                             name += str(random.getrandbits(8))
-                            logger.info("registering command {0}".format(name))
+                            logger.info("registering command %s", name)
                         manager.add_command(name, obj())
             except ImportError:
-                logger.info(
-                    "{0} module does not define commands".format(fname)
-                )
-    logger.info("{0} management commands loaded".format(mods.keys()))
+                logger.info("%s module does not define commands", fname)
+    logger.info("%s management commands loaded", mods.keys())

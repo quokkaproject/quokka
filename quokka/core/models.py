@@ -128,15 +128,14 @@ class CustomValue(db.EmbeddedDocument):
     DEFAULT_FORMATTER = default_formatter
 
     FORMATTERS = {
-        'json': lambda value: json.loads(value),
+        'json': json.loads,
         'text': DEFAULT_FORMATTER,
-        'int': lambda value: int(value),
-        'float': lambda value: float(value)
+        'int': int,
+        'float': float
     }
 
     REVERSE_FORMATTERS = {
-        'json': lambda value:
-        value if isinstance(value, str) else json.dumps(value),
+        'json': lambda val: val if isinstance(val, str) else json.dumps(val),
         'text': DEFAULT_FORMATTER,
         'int': DEFAULT_FORMATTER,
         'float': DEFAULT_FORMATTER
@@ -310,7 +309,7 @@ class Channel(Tagged, HasCustomValue, Publishable, LongSlugged,
         try:
             homepage = cls.objects.get(is_homepage=True)
         except Exception as e:
-            logger.info("There is no homepage: %s" % e.message)
+            logger.info("There is no homepage: %s", e.message)
             return None
         else:
             if not attr:

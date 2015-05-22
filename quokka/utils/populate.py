@@ -42,7 +42,7 @@ class Populate(object):
             role, created = Role.objects.get_or_create(name=name)
             self.roles[name] = role
             if created:
-                logger.info("Created role: {0}".format(name))
+                logger.info("Created role: %s", name)
         return self.roles.get(name)
 
     def load_existing_users(self):
@@ -61,12 +61,9 @@ class Populate(object):
                 data['roles'] = [self.role(role) for role in data.get('roles')]
                 user = User.createuser(**data)
                 self.users[name] = user
-                logger.info(
-                    "Created: User: mail:{o.email} pwd:{pwd}".format(o=user,
-                                                                     pwd=pwd)
-                )
+                logger.info("Created: User: mail:%s pwd:%s", user.email, pwd)
             else:
-                logger.info("Exist: User: mail:{o[email]}".format(o=data))
+                logger.info("Exist: User: mail: %s", data.get('email'))
 
     def create_config(self, data):
         try:
@@ -109,9 +106,9 @@ class Populate(object):
             channel, created = Channel.objects.get_or_create(**data)
 
         if created:
-            logger.info("Created channel:{0}".format(channel.title))
+            logger.info("Created channel: %s", channel.title)
         else:
-            logger.info("Channel get: {0}".format(channel.title))
+            logger.info("Channel get: %s", channel.title)
 
         for child in childs:
             child['parent'] = channel
@@ -133,9 +130,9 @@ class Populate(object):
             )
 
         if created:
-            logger.info("Created channel_type:{0}".format(channel_type.title))
+            logger.info("Created channel_type: %s", channel_type.title)
         else:
-            logger.info("ChannelType get: {0}".format(channel_type.title))
+            logger.info("ChannelType get: %s", channel_type.title)
 
         if channel_type.identifier not in self.channel_types:
             self.channel_types[channel_type.identifier] = channel_type
@@ -182,10 +179,10 @@ class Populate(object):
         data['published'] = True
         try:
             post = Post.objects.get(slug=data.get('slug'))
-            logger.info("Post get: {0}".format(post.title))
+            logger.info("Post get: %s", post.title)
         except Exception:
             post = Post.objects.create(**data)
-            logger.info("Post created: {0}".format(post.title))
+            logger.info("Post created: %s", post.title)
 
         return post
 
