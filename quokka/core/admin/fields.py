@@ -35,7 +35,7 @@ class ThumbField(form.ImageUploadField):
 
 class ImageUploadField(form.ImageUploadField):
     def is_file_allowed(self, filename):
-        extensions = self.allowed_extensions
+        extensions = self.allowed_extensions  # noqa
         if isinstance(extensions, (str, unicode)) and extensions.isupper():
             items = current_app.config.get(extensions, extensions)
             merged_items = [
