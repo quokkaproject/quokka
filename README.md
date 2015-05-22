@@ -1,5 +1,3 @@
-[![Flattr](http://api.flattr.com/button/flattr-badge-large.png)](http://flattr.com/thing/1680610/rochacbrunoquokka-on-GitHub)
-[![Gittip](http://img.shields.io/gittip/rochacbruno.svg)](https://www.gittip.com/rochacbruno/)
 [![Travis CI](http://img.shields.io/travis/quokkaproject/quokka.svg)](https://travis-ci.org/quokkaproject/quokka)
 [![Coverage Status](http://img.shields.io/coveralls/quokkaproject/quokka.svg)](https://coveralls.io/r/quokkaproject/quokka)
 [![Twitter](http://img.shields.io/badge/twitter-@quokkaproject-green.svg)](http://twitter.com/quokkaproject)
