@@ -3,48 +3,20 @@ Quokka Roadmap
 
 Core
 ====
-* Media center (for images and files), thumbnail engine, video/audio manager/ flask-uploads
-* ContentBox
+* image upload in TinyMCE with support to cloud upload or local storage via API
+* Media center (for images and files), thumbnail engine (like thumbor and others), video/audio manager/ flask-uploads
+* ContentBox (a special content which is a bundle of other contents and can be listed/embedded)
 * i18n
 * Blueprints manager admin view (manage folder, package etc..)
-
-Docs
-===
-- http://pythonhosted.org/Flask-Security/configuration.html
-- from flask.ext.security import login_required, roles_required, roles_accepted
-
-Blueprints (built_in)
-=====================
-* Comment
-* Page
-* Search
-* API with flask-restful http://flask-restful.readthedocs.org/en/latest/
-
-Blueprints (blueprint central)
-==============================
-* Poll
-* Recipe
-* Feedcrawler
-* Social
-* Ganalytics
-
-Notes
-=====
-http://majorz.github.io/flask-htmlbuilder/
-https://github.com/playpauseandstop/Flask-Dropbox
-http://pythonhosted.org/Flask-Social/
-https://github.com/mattupstate/flask-social
-https://github.com/mattupstate/flask-security
-https://github.com/sashka/flask-googleauth
-https://github.com/eugenkiss/Simblin
-https://github.com/elasticsales/Flask-gzip
-https://github.com/rahulkmr/flask-bigapp-template
-https://github.com/dcolish/flask-markdown
-https://github.com/zzzsochi/Flask-Gravatar
-https://github.com/mattupstate/flask-rq
-https://github.com/kazoup/flask-elasticsearch
-
-
-/home/rochacbruno/tumblelog/bin/uwsgi -s /tmp/uwsgi.sock -w quokka:app
-
-https://flask-mongoengine.readthedocs.org/en/latest/
+* Change the way blueprints are loaded - use strict settings
+* Better settings management (maybe using using drgarcia1986/simple-settings, create a flask-simple-settings)
+* Create quokka-admin tool
+* PIP package installs quokka-admin tool which only has commands to manage themes, modules and downloads quokka
+* Upgrade to new version of Flask-Admin and find a better way to manage themes and custom static files (or replace flask-admin with ng-admin)
+* Support to ipynb files upload and conversion before publish
+* Search Component (configurable using mongo or E.S)
+* API REST
+* Simple form os posting static Page
+* QuickPost content and Widget
+* Better dashboard for index on admin
+* include docs for "uwsgi -s /tmp/uwsgi.sock -w quokka:app"
