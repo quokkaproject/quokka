@@ -2,7 +2,7 @@
 [![Coverage Status](http://img.shields.io/coveralls/quokkaproject/quokka.svg)](https://coveralls.io/r/quokkaproject/quokka)
 [![Twitter](http://img.shields.io/badge/twitter-@quokkaproject-green.svg)](http://twitter.com/quokkaproject)
 [![Gitter chat](https://badges.gitter.im/quokkaproject/quokka.png)](https://gitter.im/quokkaproject/quokka)
-
+[![Code Health](https://landscape.io/github/quokkaproject/quokka/master/landscape.svg?style=flat)](https://landscape.io/github/quokkaproject/quokka/master)
 
 [![wercker status](https://app.wercker.com/status/e9cbc4497ee946083aa19fbd3f756c91/m "wercker status")](https://app.wercker.com/project/bykey/e9cbc4497ee946083aa19fbd3f756c91)
 
