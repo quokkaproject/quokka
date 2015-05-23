@@ -122,7 +122,8 @@ def configure_admin(app, admin):
                     category="Files",
                     endpoint="{0}_static_files".format(theme.identifier),
                     roles_accepted=('admin', "editor"),
-                    editable_extensions=app.config.get('DEFAULT_EDITABLE_EXTENSIONS')
+                    editable_extensions=app.config.get(
+                        'DEFAULT_EDITABLE_EXTENSIONS')
                 )
             )
             admin.add_view(
@@ -134,7 +135,8 @@ def configure_admin(app, admin):
                     category="Files",
                     endpoint="{0}_template_files".format(theme.identifier),
                     roles_accepted=('admin', "editor"),
-                    editable_extensions=app.config.get('DEFAULT_EDITABLE_EXTENSIONS')
+                    editable_extensions=app.config.get(
+                        'DEFAULT_EDITABLE_EXTENSIONS')
                 )
             )
         except:

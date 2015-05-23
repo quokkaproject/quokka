@@ -86,8 +86,9 @@ mapped in your server or in flask, see quooka.ext.views
 """
 
 DEFAULT_EDITABLE_EXTENSIONS = (
-    'html', 'css', 'js', 'py', 'txt', 'md', 'cfg', 'coffee', 'html', 'json', 'xml', 'yaml', 'yml',
-    'HTML', 'CSS', 'JS', 'PY', 'TXT', 'MD', 'CFG', 'COFFEE', 'HTML', 'JSON', 'XML', 'YAML', 'YML'
+    'html', 'css', 'js', 'py', 'txt', 'md', 'cfg', 'coffee', 'html', 'json',
+    'xml', 'yaml', 'yml', 'HTML', 'CSS', 'JS', 'PY', 'TXT', 'MD', 'CFG',
+    'COFFEE', 'HTML', 'JSON', 'XML', 'YAML', 'YML'
 )
 
 FILE_ADMIN = [
