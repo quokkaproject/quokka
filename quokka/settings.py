@@ -84,6 +84,12 @@ ADMIN = {'name': 'Quokka admin', 'url': '/admin'}
 File admin can expose folders, you just need to have them
 mapped in your server or in flask, see quooka.ext.views
 """
+
+DEFAULT_EDITABLE_EXTENSIONS = (
+    'html', 'css', 'js', 'py', 'txt', 'md', 'cfg', 'coffee', 'html', 'json', 'xml', 'yaml', 'yml',
+    'HTML', 'CSS', 'JS', 'PY', 'TXT', 'MD', 'CFG', 'COFFEE', 'HTML', 'JSON', 'XML', 'YAML', 'YML'
+)
+
 FILE_ADMIN = [
     {
         "name": "Template files",
@@ -91,7 +97,8 @@ FILE_ADMIN = [
         "path": os.path.join(PROJECT_ROOT, 'templates'),
         "url": "/template_files/",  # create nginx rule
         "endpoint": "template_files",
-        "roles_accepted": ("admin", "editor")
+        "roles_accepted": ("admin", "editor"),
+        "editable_extensions": DEFAULT_EDITABLE_EXTENSIONS
     },
     {
         "name": "Static files",
@@ -99,7 +106,8 @@ FILE_ADMIN = [
         "path": STATIC_ROOT,
         "url": "/static/",  # create nginx rule
         "endpoint": "static_files",
-        "roles_accepted": ("admin", "editor")
+        "roles_accepted": ("admin", "editor"),
+        "editable_extensions": DEFAULT_EDITABLE_EXTENSIONS
     },
     {
         "name": "Media files",
@@ -107,7 +115,8 @@ FILE_ADMIN = [
         "path": MEDIA_ROOT,
         "url": "/mediafiles/",  # Create nginx rule
         "endpoint": "media_files",
-        "roles_accepted": ("admin", "editor")
+        "roles_accepted": ("admin", "editor"),
+        "editable_extensions": DEFAULT_EDITABLE_EXTENSIONS
     }
 ]
 

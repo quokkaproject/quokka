@@ -114,8 +114,10 @@ def get_url(self, request, obj, fieldname, *args, **kwargs):
 
 
 class FileAdmin(ThemeMixin, Roled, _FileAdmin):
+
     def __init__(self, *args, **kwargs):
-        self.roles_accepted = kwargs.pop('roles_accepted')
+        self.roles_accepted = kwargs.pop('roles_accepted', list())
+        self.editable_extensions = kwargs.pop('editable_extensions', tuple())
         super(FileAdmin, self).__init__(*args, **kwargs)
 
 
