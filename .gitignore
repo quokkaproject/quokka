@@ -47,3 +47,5 @@ media/*
 # VIM
 .ropeproject
 *.swp
+
+quokka/mediafiles
