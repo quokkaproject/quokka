@@ -1,4 +1,36 @@
 {% extends theme('admin/master.html') %}
 
 {% block body %}
+    <div class="well">
+        <h1>{{ admin_view.admin.name }}</h1>
+        <h3>{{_gettext('Latest Posts')}}:</h3>
+        <ul>
+            {% for post in Content.objects(model='posts.post').limit(5)  %}
+                <li>
+                    {{ post.channel.title }} | {{ post.title }}
+                    | <i class={% if post.published %} "icon-ok-circle" {% else %} "icon-ban-circle" {% endif %}></i>
+                    <a class="btn btn-success btn-small" href="{{ url_for('postview.edit_view', id=post.id)}}">
+                    <i class="icon-edit"></i> {{_gettext('Edit')}}</a>
+                    <a class="btn btn-primary btn-small" target="_blank" href="{{ post.get_canonical_url() }}">
+                    <i class="icon-globe"></i> {{_gettext('View')}}</a>
+                </li>
+            {% else %}
+                <li>{{ _gettext("There is no content yet!") }}<br><a class="btn btn-primary" href="{{ url_for('postview.create_view') }}"><i class="icon-pencil"></i> {{_gettext('Create a new post')}}</a></li>
+            {% endfor %}
+        </ul>
+    </div>
+    <div>
+    <a class="btn btn-large" href="{{ url_for('postview.create_view') }}"><i class="icon-pencil"></i> {{_gettext('New Post')}}</a>
+    <a class="btn btn-large" href="{{ url_for('postview.index_view') }}"><i class="icon-th-list"></i> {{_gettext('Posts')}}</a>
+
+    <a class="btn btn-large" href="{{ url_for('configview.index_view') }}"><i class="icon-cog"></i> {{_gettext('Config')}}</a>
+    <a class="btn btn-large" href="{{ url_for('userview.index_view') }}"><i class="icon-user"></i> {{_gettext('Users')}}</a>
+
+    <a class="btn btn-large" href="{{ url_for('imageview.index_view') }}"><i class="icon-picture"></i> {{_gettext('Images')}}</a>
+    <a class="btn btn-large" href="{{ url_for('imageview.create_view') }}"><i class="icon-arrow-up"></i> {{_gettext('New Image')}}</a>
+
+    <a class="btn btn-large" href="{{ url_for('imageview.index_view') }}"><i class="icon-file"></i> {{_gettext('File')}}</a>
+    <a class="btn btn-large" href="{{ url_for('imageview.create_view') }}"><i class="icon-arrow-up"></i> {{_gettext('New File')}}</a>
+
+    </div>
 {% endblock %}
