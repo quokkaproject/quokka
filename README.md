@@ -18,6 +18,10 @@ Quokka project
 
 Quokka is a flexible content management platform powered by Python, Flask and MongoDB.
 
+<p align="center">
+<img src="docs/quokka_dashboard_content.png" alt="quokka cms admin content dashboard" />
+</p>
+
 
 Quick start
 ============
