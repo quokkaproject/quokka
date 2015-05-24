@@ -38,6 +38,11 @@ class Comment(Publishable, BaseComment, db.Document):
     def __unicode__(self):
         return u"{0} - {1}...".format(self.author_name, self.body[:15])
 
+    def get_canonical_url(self):
+        # TODO; use configured extension
+        return "/{}.html".format(
+            self.path) if not self.path.startswith("/") else self.path
+
     meta = {
         "ordering": ['-created_at'],
         "indexes": ['-created_at', 'path']

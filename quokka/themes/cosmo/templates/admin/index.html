@@ -1,24 +1,49 @@
 {% extends theme('admin/master.html') %}
 
 {% block body %}
-    <div class="well">
-        <h1>{{ admin_view.admin.name }}</h1>
-        <h3>{{_gettext('Latest Posts')}}:</h3>
-        <ul>
-            {% for post in Content.objects(model='posts.post').limit(5)  %}
-                <li>
-                    {{ post.channel.title }} | {{ post.title }}
-                    | <i class={% if post.published %} "icon-ok-circle" {% else %} "icon-ban-circle" {% endif %}></i>
-                    <a class="btn btn-success btn-small" href="{{ url_for('postview.edit_view', id=post.id)}}">
-                    <i class="icon-edit"></i> {{_gettext('Edit')}}</a>
-                    <a class="btn btn-primary btn-small" target="_blank" href="{{ post.get_canonical_url() }}">
-                    <i class="icon-globe"></i> {{_gettext('View')}}</a>
-                </li>
-            {% else %}
-                <li>{{ _gettext("There is no content yet!") }}<br><a class="btn btn-primary" href="{{ url_for('postview.create_view') }}"><i class="icon-pencil"></i> {{_gettext('Create a new post')}}</a></li>
-            {% endfor %}
-        </ul>
+    <div class="row">
+
+
+        <div class="well span8">
+            <h1>{{ admin_view.admin.name }}</h1>
+            <h3>{{_gettext('Latest Posts')}}:</h3>
+            <ul>
+                {% for post in get_contents(model='posts.post', limit=5) %}
+                    <li>
+                        {{ post.channel.title }} | {{ post.title }}
+                        | <i class={% if post.published %} "icon-ok-circle" {% else %} "icon-ban-circle" {% endif %}></i>
+                        <a class="btn btn-success btn-small" href="{{ url_for('postview.edit_view', id=post.id)}}">
+                        <i class="icon-edit"></i> {{_gettext('Edit')}}</a>
+                        <a class="btn btn-primary btn-small" target="_blank" href="{{ post.get_canonical_url() }}">
+                        <i class="icon-globe"></i> {{_gettext('View')}}</a>
+                    </li>
+                {% else %}
+                    <li>{{ _gettext("There is no content yet!") }}<br><a class="btn btn-primary" href="{{ url_for('postview.create_view') }}"><i class="icon-pencil"></i> {{_gettext('Create a new post')}}</a></li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <div class="well span3">
+            <h3>{{_gettext('Latest Comments')}}:</h3>
+            <ul>
+                {% for comment in get_comments(limit=5)  %}
+                    <li>
+                        {{ comment.body }}
+                        | <i class={% if comment.published %} "icon-ok-circle" {% else %} "icon-ban-circle" {% endif %}></i>
+                        <a class="btn btn-success btn-small" href="{{ url_for('commentview.edit_view', id=comment.id)}}">
+                        <i class="icon-edit"></i> {{_gettext('Edit')}}</a>
+                        <a class="btn btn-primary btn-small" target="_blank" href="{{ comment.get_canonical_url() }}">
+                        <i class="icon-globe"></i> {{_gettext('View')}}</a>
+                    </li>
+                {% else %}
+                    {{ _gettext("No comments yet!") }}
+                {% endfor %}
+            </ul>
+           <small>{{ _gettext("Internal comment system is enabled, if you want to change it click in config button and change from 'internal' to 'disqus' in comments configuration and set your disqus_script.") }}</small>
+        </div>
+
     </div>
+
     <div>
     <a class="btn btn-large" href="{{ url_for('postview.create_view') }}"><i class="icon-pencil"></i> {{_gettext('New Post')}}</a>
     <a class="btn btn-large" href="{{ url_for('postview.index_view') }}"><i class="icon-th-list"></i> {{_gettext('Posts')}}</a>

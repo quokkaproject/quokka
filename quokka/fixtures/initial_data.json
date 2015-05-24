@@ -79,7 +79,7 @@
         },
         {
             "group": "comments",
-            "description": "Comment system can be: internal, disqus, facebook, google  requires_login: 0 or 1",
+            "description": "Comment system can be: internal or disqus requires_login: 0 or 1",
             "values": [
                {
                    "name": "system",
