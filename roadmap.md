@@ -18,5 +18,5 @@ Core
 * API REST
 * Simple form os posting static Page
 * QuickPost content and Widget
-* Better dashboard for index on admin
+* Better dashboard for index on admin with drag and drop changeable widgets
 * include docs for "uwsgi -s /tmp/uwsgi.sock -w quokka:app"
