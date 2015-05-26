@@ -9,14 +9,14 @@ Core
 * i18n
 * Blueprints manager admin view (manage folder, package etc..)
 * Change the way blueprints are loaded - use strict settings
-* Better settings management (maybe using using drgarcia1986/simple-settings, create a flask-simple-settings)
+* Better settings management (maybe using drgarcia1986/simple-settings, create a flask-simple-settings)
 * Create quokka-admin tool
 * PIP package installs quokka-admin tool which only has commands to manage themes, modules and downloads quokka
 * Upgrade to new version of Flask-Admin and find a better way to manage themes and custom static files (or replace flask-admin with ng-admin)
 * Support to ipynb files upload and conversion before publish
 * Search Component (configurable using mongo or E.S)
 * API REST
-* Simple form os posting static Page
+* Simple form of posting static Page
 * QuickPost content and Widget
 * Better dashboard for index on admin with drag and drop changeable widgets
 * include docs for "uwsgi -s /tmp/uwsgi.sock -w quokka:app"
