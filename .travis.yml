@@ -3,7 +3,7 @@ python:
   - "2.7"
 services: mongodb
 install:
-  - pip install codecov
+  - "pip install codecov"
   - "pip install twill --allow-external twill --allow-unverified twill"
   - "pip install -r requirements_test.txt"
 script: make test
