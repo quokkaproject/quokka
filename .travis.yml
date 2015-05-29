@@ -2,9 +2,12 @@ language: python
 python:
   - "2.7"
 services: mongodb
+before_install:
+  - pip install codecov
 install:
   - "pip install twill --allow-external twill --allow-unverified twill"
   - "pip install -r requirements_test.txt"
 script: make test
 after_success:
   - coveralls
+  - codecov
