@@ -26,7 +26,7 @@ Quokka is a flexible content management platform powered by Python, Flask and Mo
 Quick start
 ============
 
-> You need a MongoDB instance running locally or remotely to connect. 
+> You need a MongoDB instance running locally or remotely to connect.
 > Quokka runs on Python 2.7
 
 1. Get Quokka
@@ -50,7 +50,7 @@ DEBUG = True
 3. Populate with sample data (optional)
 
 ```bash
-$ python manage.py populate 
+$ python manage.py populate
 
 ```
 
@@ -67,7 +67,7 @@ P4$$W0Rd
 ```bash
 $ python manage.py runserver
 ```
-6. Access on http://localhost:5000 
+6. Access on http://localhost:5000
 7. Admin on http://localhost:5000/admin
 
 or by making your server reachable on other networks
@@ -79,8 +79,17 @@ $ python manage.py run0
 7. Admin on http://0.0.0.0:8000/admin
 
 
-Docs on [Wiki](https://github.com/quokkaproject/quokka/wiki)
+Documentation is not complete yet, but is being written at:
+
+http://quokkaproject.org/documentation
+
+> If you want to help writing the docs please go to https://github.com/quokkaproject/quokkaproject.github.io
+
+
+Also there is a [Wiki](https://github.com/quokkaproject/quokka/wiki)
 ===============================================
+
+> NOTE: the content from wiki will be moved to /documentation 
 
 * [About & Features](https://github.com/quokkaproject/quokka/wiki/about)
 * [Installing and running](https://github.com/quokkaproject/quokka/wiki/installation)
@@ -122,7 +131,7 @@ There is a large number of great CMS's in Python ecosystem (Plone, Opps, Mezanni
 
 ### Why Flask?
 
-Because Flask is Pythonic! In my research + experience it is the best framework to develop applications which rely on "pluggable features" thanks to its Blueprints and Extension patterns, also Flask plays well with any DB/ORM of choice. (see next question) 
+Because Flask is Pythonic! In my research + experience it is the best framework to develop applications which rely on "pluggable features" thanks to its Blueprints and Extension patterns, also Flask plays well with any DB/ORM of choice. (see next question)
 
 ### Why MongoDB?
 
@@ -157,5 +166,3 @@ Because it is the happiest animal in the world!
 
 ## License
 This project is licensed under the [MIT license](http://opensource.org/licenses/MIT), see `LICENSE` for more details.
-
-
