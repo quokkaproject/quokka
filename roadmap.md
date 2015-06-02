@@ -5,7 +5,7 @@ Core
 ====
 * image upload in TinyMCE with support to cloud upload or local storage via API
 * Better tag widget in admin (using autocomplete for existing tags)
-* Redirect content type (as link)
+* <del>Redirect content type (as link)</del>
 * Create a "NOTE" content type with minimum requirements
 * Multiple language reference for contents using language slug prefix
 * Create ARQUIVE template filter, displays a wordpress like arquive menu separating itens by year/month
@@ -14,7 +14,7 @@ Core
 * Finish cache implementation (redis as option)
 * TITLE and TAGS management by content type and channel for better SEO
 * Create a SIDEBAR widget (as default as a bundle content) to create a sidebar filled with links and a bundle manager to manage things like sidebar (needs to be generic ans can be used to create many bars in the site
-* Create a command in admin to clone/copy a post
+* <del>Create a command in admin to clone/copy a post</del>
 * In dashboard include a filter to see only DRAFTS (unpublished posts)
 * Control visibility (by role) for posts also instead only by channels (currently suported)
 * Media center (for images and files), thumbnail engine (like thumbor and others), video/audio manager/ flask-uploads
@@ -28,11 +28,11 @@ Core
 * Upgrade to new version of Flask-Admin and find a better way to manage themes and custom static files (or replace flask-admin with ng-admin)
 * Support to ipynb files upload and conversion before publish
 * Search Component (configurable using mongo or E.S)
-* API REST
+* API REST (should use model and rendering workflow)
 * Simple form of posting static Page
 * QuickPost content and Widget
 * Better dashboard for index on admin with drag and drop changeable widgets
 * include docs for "uwsgi -s /tmp/uwsgi.sock -w quokka:app"
 * Implement a task queue, for sending email notifications, configurable to use python-rq or celery with https://github.com/Robpol86/Flask-Celery-Helper
 * Adapt purepelican theme as default front end theme
-* mkdocs in website
+* <del>mkdocs in website</del>
