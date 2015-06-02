@@ -33,8 +33,10 @@ class InspectorView(BaseView):
 
 class LinkAdmin(BaseContentAdmin):
     roles_accepted = ('admin', 'editor', 'writer', 'moderator')
-    column_list = ('title', 'channel', 'slug', 'published')
-    form_columns = ('title', 'slug', 'channel', 'link',
+    column_list = ('title', 'channel', 'slug', 'force_redirect', 'published')
+    form_columns = ('title', 'slug', 'channel',
+                    'related_channels',
+                    'link', 'force_redirect', 'increment_visits', 'visits',
                     'content_format', 'summary', 'add_image', 'contents',
                     'values', 'available_at', 'available_until', 'published')
 

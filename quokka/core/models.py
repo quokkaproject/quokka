@@ -5,7 +5,7 @@ import json
 import logging
 import datetime
 import random
-from flask import url_for, current_app
+from flask import url_for, current_app, redirect
 from flask.ext.mistune import markdown
 
 from quokka.core import TEXT_FORMATS
@@ -619,6 +619,20 @@ class Content(HasCustomValue, Publishable, LongSlugged,
         self.populate_related_mpath()
         super(Content, self).save(*args, **kwargs)
 
+    def pre_render(self, render_function, *args, **kwargs):
+        return render_function(*args, **kwargs)
+
 
 class Link(Content):
     link = db.StringField(required=True)
+    force_redirect = db.BooleanField(default=True)
+    increment_visits = db.BooleanField(default=True)
+    visits = db.IntField(default=0)
+
+    def pre_render(self, render_function, *args, **kwargs):
+        if self.increment_visits:
+            self.visits = self.visits + 1
+            self.save()
+        if self.force_redirect:
+            return redirect(self.link)
+        return super(Link, self).pre_render(render_function, *args, **kwargs)

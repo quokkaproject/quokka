@@ -248,7 +248,8 @@ class ContentDetail(MethodView):
         context = self.get_context(long_slug, render_content)
         if not render_content and isinstance(context, collections.Callable):
             return context
-        return render_template(
+        return self.content.pre_render(
+            render_template,
             self.get_template_names(),
             theme=self.content.get_themes(),
             **context
