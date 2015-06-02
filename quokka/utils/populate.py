@@ -191,6 +191,13 @@ class Populate(object):
         for data in self.post_data:
             _channel = data.get('channel')
             data['channel'] = self.channels.get(_channel)
+
+            related_channels = data.get('related_channels', [])
+            data['related_channels'] = [
+                self.channels.get(_related)
+                for _related in related_channels
+            ]
+
             try:
                 self.create_post(data)
             except:

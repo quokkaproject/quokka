@@ -93,7 +93,11 @@ class ContentList(MethodView):
 
         if not channel.is_homepage:
             base_filters['__raw__'] = {
-                'mpath': {'$regex': "^{0}".format(mpath)}}
+                '$or': [
+                    {'mpath': {'$regex': "^{0}".format(mpath)}},
+                    {'related_mpath': {'$regex': "^{0}".format(mpath)}}
+                ]
+            }
 
         filters.update(channel.get_content_filters())
         contents = Content.objects(**base_filters).filter(**filters)

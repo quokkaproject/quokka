@@ -379,7 +379,12 @@ class Channeling(object):
     related_channels = db.ListField(
         db.ReferenceField('Channel', reverse_delete_rule=db.PULL)
     )
+    related_mpath = db.ListField(db.StringField())
     show_on_channel = db.BooleanField(default=True)
+
+    def populate_related_mpath(self):
+        if self.related_channels:
+            self.related_mpath = [rel.mpath for rel in self.related_channels]
 
 
 class ChannelingNotRequired(Channeling):
@@ -607,9 +612,11 @@ class Content(HasCustomValue, Publishable, LongSlugged,
         self.model = "{0}.{1}".format(self.module_name, self.model_name)
 
     def save(self, *args, **kwargs):
+        # TODO: all those functions should be in a dynamic pipeline
         self.validate_slug()
         self.validate_long_slug()
         self.heritage()
+        self.populate_related_mpath()
         super(Content, self).save(*args, **kwargs)
 
 
