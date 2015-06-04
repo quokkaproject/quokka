@@ -13,7 +13,7 @@ from quokka.core.db import db
 from quokka.core.fields import MultipleObjectsReturned
 from quokka.modules.accounts.models import User
 from quokka.utils.text import slugify
-from quokka.utils import get_current_user
+from quokka.utils import get_current_user_for_models
 
 from .admin.utils import _l
 
@@ -49,9 +49,7 @@ class Publishable(Dated, Owned):
     def save(self, *args, **kwargs):
         self.updated_at = datetime.datetime.now()
 
-        user = get_current_user()
-        if not user.is_authenticated():
-            user = None
+        user = get_current_user_for_models()
 
         if not self.id:
             self.created_by = user
