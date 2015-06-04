@@ -7,7 +7,7 @@ from quokka.core.models import Channel
 from ..models import Post
 
 if sys.version_info.major == 3:
-    unicode = lambda x: u'{}'.format(x)
+    unicode = str
 
 
 class TestPost(BaseTestCase):
