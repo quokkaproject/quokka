@@ -69,6 +69,10 @@ table.filters {
     line-height: 28px;
 }
 
+.inline-field-control {
+    float: left;
+}
+
 /* Inline forms */
 .fa-inline-field {
     padding-bottom: 0.5em;

@@ -44,7 +44,24 @@ class BasicTestCase(TestCase):
 
     def test_has_posts(self):
         from quokka.modules.posts.models import Post
-        self.assertTrue(Post.objects.count() == 3)
+        self.assertTrue(Post.objects.count() == 4)
+
+    def test_blog_has_only_one_post(self):
+        from quokka.modules.posts.models import Post
+        only_blog_filter = {'__raw__': {'mpath': {'$regex': '^,blog,'}}}
+        self.assertTrue(Post.objects(**only_blog_filter).count() == 1)
+
+    def test_blog_including_related_has_only_3_posts(self):
+        from quokka.modules.posts.models import Post
+        only_blog_filter = {
+            '__raw__': {
+                '$or': [
+                    {'mpath': {'$regex': '^,blog,'}},
+                    {'related_mpath': {'$regex': '^,blog,'}}
+                ]
+            }
+        }
+        self.assertTrue(Post.objects(**only_blog_filter).count() == 3)
 
     def test_has_default_theme(self):
         from quokka.core.models import Config

@@ -99,7 +99,11 @@ class ContentList(MethodView):
 
         if not channel.is_homepage:
             base_filters['__raw__'] = {
-                'mpath': {'$regex': "^{0}".format(mpath)}}
+                '$or': [
+                    {'mpath': {'$regex': "^{0}".format(mpath)}},
+                    {'related_mpath': {'$regex': "^{0}".format(mpath)}}
+                ]
+            }
 
         filters.update(channel.get_content_filters())
         contents = Content.objects(**base_filters).filter(**filters)
@@ -250,7 +254,8 @@ class ContentDetail(MethodView):
         context = self.get_context(long_slug, render_content)
         if not render_content and isinstance(context, collections.Callable):
             return context
-        return render_template(
+        return self.content.pre_render(
+            render_template,
             self.get_template_names(),
             theme=self.content.get_themes(),
             **context

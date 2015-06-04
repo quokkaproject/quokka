@@ -20,7 +20,7 @@ from .utils import _, _l, _n
 _n is here only for backwards compatibility, to be imported by 3rd party
 modules. The below _n below is to avoid pep8 error
 '''
-_n
+_n  # noqa
 
 logger = logging.getLogger()
 
@@ -94,11 +94,13 @@ def configure_admin(app, admin):
                     name=entry['name'],
                     category=entry['category'],
                     endpoint=entry['endpoint'],
-                    roles_accepted=entry.get('roles_accepted')
+                    roles_accepted=entry.get('roles_accepted'),
+                    editable_extensions=entry.get('editable_extensions')
                 )
             )
-        except:
-            pass  # TODO: check blueprint endpoisnt colision
+        except Exception as e:
+            logger.info(e)
+            # TODO: check blueprint endpoisnt colision
 
     # register all themes in file manager
     for k, theme in app.theme_manager.themes.items():
@@ -119,7 +121,9 @@ def configure_admin(app, admin):
                                                         theme.identifier),
                     category="Files",
                     endpoint="{0}_static_files".format(theme.identifier),
-                    roles_accepted=('admin', "editor")
+                    roles_accepted=('admin', "editor"),
+                    editable_extensions=app.config.get(
+                        'DEFAULT_EDITABLE_EXTENSIONS')
                 )
             )
             admin.add_view(
@@ -130,7 +134,9 @@ def configure_admin(app, admin):
                                                           theme.identifier),
                     category="Files",
                     endpoint="{0}_template_files".format(theme.identifier),
-                    roles_accepted=('admin', "editor")
+                    roles_accepted=('admin', "editor"),
+                    editable_extensions=app.config.get(
+                        'DEFAULT_EDITABLE_EXTENSIONS')
                 )
             )
         except:

@@ -5,7 +5,7 @@ import json
 import logging
 import datetime
 import random
-from flask import url_for, current_app
+from flask import url_for, current_app, redirect
 from flask.ext.mistune import markdown
 
 from quokka.core import TEXT_FORMATS
@@ -128,15 +128,14 @@ class CustomValue(db.EmbeddedDocument):
     DEFAULT_FORMATTER = default_formatter
 
     FORMATTERS = {
-        'json': lambda value: json.loads(value),
+        'json': json.loads,
         'text': DEFAULT_FORMATTER,
-        'int': lambda value: int(value),
-        'float': lambda value: float(value)
+        'int': int,
+        'float': float
     }
 
     REVERSE_FORMATTERS = {
-        'json': lambda value:
-        value if isinstance(value, str) else json.dumps(value),
+        'json': lambda val: val if isinstance(val, str) else json.dumps(val),
         'text': DEFAULT_FORMATTER,
         'int': DEFAULT_FORMATTER,
         'float': DEFAULT_FORMATTER
@@ -310,7 +309,7 @@ class Channel(Tagged, HasCustomValue, Publishable, LongSlugged,
         try:
             homepage = cls.objects.get(is_homepage=True)
         except Exception as e:
-            logger.info("There is no homepage: %s" % e.message)
+            logger.info("There is no homepage: %s", e.message)
             return None
         else:
             if not attr:
@@ -380,7 +379,12 @@ class Channeling(object):
     related_channels = db.ListField(
         db.ReferenceField('Channel', reverse_delete_rule=db.PULL)
     )
+    related_mpath = db.ListField(db.StringField())
     show_on_channel = db.BooleanField(default=True)
+
+    def populate_related_mpath(self):
+        if self.related_channels:
+            self.related_mpath = [rel.mpath for rel in self.related_channels]
 
 
 class ChannelingNotRequired(Channeling):
@@ -608,11 +612,27 @@ class Content(HasCustomValue, Publishable, LongSlugged,
         self.model = "{0}.{1}".format(self.module_name, self.model_name)
 
     def save(self, *args, **kwargs):
+        # TODO: all those functions should be in a dynamic pipeline
         self.validate_slug()
         self.validate_long_slug()
         self.heritage()
+        self.populate_related_mpath()
         super(Content, self).save(*args, **kwargs)
+
+    def pre_render(self, render_function, *args, **kwargs):
+        return render_function(*args, **kwargs)
 
 
 class Link(Content):
     link = db.StringField(required=True)
+    force_redirect = db.BooleanField(default=True)
+    increment_visits = db.BooleanField(default=True)
+    visits = db.IntField(default=0)
+
+    def pre_render(self, render_function, *args, **kwargs):
+        if self.increment_visits:
+            self.visits = self.visits + 1
+            self.save()
+        if self.force_redirect:
+            return redirect(self.link)
+        return super(Link, self).pre_render(render_function, *args, **kwargs)

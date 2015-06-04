@@ -22,15 +22,15 @@ def oauth_login(provider):
     clean_sessions()
 
     if provider == 'google':
-        next = None
+        _next = None
     else:
-        next = request.args.get('next', request.referrer) or None
+        _next = request.args.get('next', request.referrer) or None
 
     return oauth_app.authorize(
         callback=url_for(
             '{0}_authorized'.format(provider),
             _external=True,
-            next=next
+            next=_next
         )
     )
 
@@ -96,11 +96,11 @@ def make_oauth_handler(provider):
 
         login_user(user)
 
-        next = request.args.get(
+        _next = request.args.get(
             'next', request.referrer
         ) or session.get(
             'next'
         ) or app.config.get('OAUTH_POST_LOGIN', "/")
 
-        return redirect(next)
+        return redirect(_next)
     return oauth_handler

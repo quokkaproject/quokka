@@ -5,6 +5,8 @@
 *.so
 
 # Packages
+.idea
+*.idea
 *.egg
 *.egg-info
 dist
@@ -45,3 +47,5 @@ media/*
 # VIM
 .ropeproject
 *.swp
+
+quokka/mediafiles

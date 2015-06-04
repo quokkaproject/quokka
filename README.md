@@ -1,10 +1,8 @@
-[![Flattr](http://api.flattr.com/button/flattr-badge-large.png)](http://flattr.com/thing/1680610/rochacbrunoquokka-on-GitHub)
-[![Gittip](http://img.shields.io/gittip/rochacbruno.svg)](https://www.gittip.com/rochacbruno/)
 [![Travis CI](http://img.shields.io/travis/quokkaproject/quokka.svg)](https://travis-ci.org/quokkaproject/quokka)
 [![Coverage Status](http://img.shields.io/coveralls/quokkaproject/quokka.svg)](https://coveralls.io/r/quokkaproject/quokka)
 [![Twitter](http://img.shields.io/badge/twitter-@quokkaproject-green.svg)](http://twitter.com/quokkaproject)
 [![Gitter chat](https://badges.gitter.im/quokkaproject/quokka.png)](https://gitter.im/quokkaproject/quokka)
-
+[![Code Health](https://landscape.io/github/quokkaproject/quokka/master/landscape.svg?style=flat)](https://landscape.io/github/quokkaproject/quokka/master)
 
 [![wercker status](https://app.wercker.com/status/e9cbc4497ee946083aa19fbd3f756c91/m "wercker status")](https://app.wercker.com/project/bykey/e9cbc4497ee946083aa19fbd3f756c91)
 
@@ -20,11 +18,15 @@ Quokka project
 
 Quokka is a flexible content management platform powered by Python, Flask and MongoDB.
 
+<p align="center">
+<img src="docs/quokka_dashboard_content.png" alt="quokka cms admin content dashboard" />
+</p>
+
 
 Quick start
 ============
 
-> You need a MongoDB instance running locally or remotely to connect. 
+> You need a MongoDB instance running locally or remotely to connect.
 > Quokka runs on Python 2.7
 
 1. Get Quokka
@@ -48,7 +50,7 @@ DEBUG = True
 3. Populate with sample data (optional)
 
 ```bash
-$ python manage.py populate 
+$ python manage.py populate
 
 ```
 
@@ -65,7 +67,7 @@ P4$$W0Rd
 ```bash
 $ python manage.py runserver
 ```
-6. Access on http://localhost:5000 
+6. Access on http://localhost:5000
 7. Admin on http://localhost:5000/admin
 
 or by making your server reachable on other networks
@@ -77,8 +79,17 @@ $ python manage.py run0
 7. Admin on http://0.0.0.0:8000/admin
 
 
-Docs on [Wiki](https://github.com/quokkaproject/quokka/wiki)
+Documentation is not complete yet, but is being written at:
+
+http://quokkaproject.org/documentation
+
+> If you want to help writing the docs please go to https://github.com/quokkaproject/quokkaproject.github.io
+
+
+Also there is a [Wiki](https://github.com/quokkaproject/quokka/wiki)
 ===============================================
+
+> NOTE: the content from wiki will be moved to /documentation 
 
 * [About & Features](https://github.com/quokkaproject/quokka/wiki/about)
 * [Installing and running](https://github.com/quokkaproject/quokka/wiki/installation)
@@ -120,7 +131,7 @@ There is a large number of great CMS's in Python ecosystem (Plone, Opps, Mezanni
 
 ### Why Flask?
 
-Because Flask is Pythonic! In my research + experience it is the best framework to develop applications which rely on "pluggable features" thanks to its Blueprints and Extension patterns, also Flask plays well with any DB/ORM of choice. (see next question) 
+Because Flask is Pythonic! In my research + experience it is the best framework to develop applications which rely on "pluggable features" thanks to its Blueprints and Extension patterns, also Flask plays well with any DB/ORM of choice. (see next question)
 
 ### Why MongoDB?
 
@@ -155,5 +166,3 @@ Because it is the happiest animal in the world!
 
 ## License
 This project is licensed under the [MIT license](http://opensource.org/licenses/MIT), see `LICENSE` for more details.
-
-
