@@ -50,6 +50,9 @@ class Publishable(Dated, Owned):
         self.updated_at = datetime.datetime.now()
 
         user = get_current_user()
+        if not user.is_authenticated():
+            user = None
+
         if not self.id:
             self.created_by = user
         self.last_updated_by = user
@@ -381,10 +384,13 @@ class Channeling(object):
     )
     related_mpath = db.ListField(db.StringField())
     show_on_channel = db.BooleanField(default=True)
+    channel_roles = db.ListField(db.StringField())
 
     def populate_related_mpath(self):
-        if self.related_channels:
-            self.related_mpath = [rel.mpath for rel in self.related_channels]
+        self.related_mpath = [rel.mpath for rel in self.related_channels]
+
+    def populate_channel_roles(self):
+        self.channel_roles = [role.name for role in self.channel.roles]
 
 
 class ChannelingNotRequired(Channeling):
@@ -617,6 +623,7 @@ class Content(HasCustomValue, Publishable, LongSlugged,
         self.validate_long_slug()
         self.heritage()
         self.populate_related_mpath()
+        self.populate_channel_roles()
         super(Content, self).save(*args, **kwargs)
 
     def pre_render(self, render_function, *args, **kwargs):

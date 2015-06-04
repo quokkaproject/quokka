@@ -9,7 +9,7 @@ from .models import Comment
 
 
 class CommentAdmin(ModelAdmin):
-    roles_accepted = ('admin', 'editor')
+    roles_accepted = ('admin', 'editor', 'moderator')
     column_list = ('path', 'author_name', 'author_email',
                    'created_at', 'published')
     form_columns = ['path', 'author_email', 'author_name',

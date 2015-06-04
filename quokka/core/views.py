@@ -20,7 +20,7 @@ from flask.views import MethodView
 from quokka.utils.atom import AtomFeed
 from quokka.core.models import Channel, Content, Config
 from quokka.core.templates import render_template
-from quokka.utils import get_current_user
+from quokka.utils import is_accessible, get_current_user
 
 
 logger = logging.getLogger()
@@ -66,16 +66,8 @@ class ContentList(MethodView):
 
         channel = Channel.objects.get_or_404(mpath=mpath, published=True)
 
-        user = get_current_user()
-
-        if channel.roles:
-            forbidden = next(
-                (True for role in user.roles if role in user.roles), False)
-        else:
-            forbidden = False
-
-        if forbidden:
-            return abort('Access Denied')  # or redirect
+        if not is_accessible(roles_accepted=channel.roles):
+            raise abort(403, "User has no role to view this channel content")
 
         # if channel.is_homepage and request.path != "/":
         #     return redirect("/")
@@ -104,6 +96,19 @@ class ContentList(MethodView):
                     {'related_mpath': {'$regex': "^{0}".format(mpath)}}
                 ]
             }
+        else:
+            # list only allowed items in homepage
+            user_roles = [role.name for role in get_current_user().roles]
+            if 'admin' not in user_roles:
+                base_filters['__raw__'] = {
+                    "$or": [
+                        {"channel_roles": {"$in": user_roles}},
+                        {"channel_roles": {"$size": 0}},
+                        # the following filters are for backwards compatibility
+                        {"channel_roles": None},
+                        {"channel_roles": {"$exists": False}}
+                    ]
+                }
 
         filters.update(channel.get_content_filters())
         contents = Content.objects(**base_filters).filter(**filters)
@@ -240,6 +245,11 @@ class ContentDetail(MethodView):
 
         if not content.channel.published:
             return abort(404)
+
+        if not is_accessible(roles_accepted=content.channel.roles):
+            # TODO: access control only takes main channel roles
+            # TODOC: deal with related channels
+            raise abort(403, "User has no role to view this channel content")
 
         self.content = content
 
