@@ -24,12 +24,12 @@ dealer
 flask-collect
 flake8
 passlib
-twill
+https://github.com/alexandre/twill/tarball/master
 markupsafe
 Pillow
 pyyaml
 speaklater
-https://github.com/pythonhub/quokka-themes/tarball/master
+https://github.com/quokkaproject/quokka-themes/tarball/master
 flask-security
 awesome-slugify
 Flask-Mistune

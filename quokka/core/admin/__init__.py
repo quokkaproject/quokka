@@ -103,7 +103,7 @@ def configure_admin(app, admin):
             # TODO: check blueprint endpoisnt colision
 
     # register all themes in file manager
-    for k, theme in app.theme_manager.themes.iteritems():
+    for k, theme in app.theme_manager.themes.items():
         try:
 
             if k == app.config.get('DEFAULT_THEME'):

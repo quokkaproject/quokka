@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+from __future__ import print_function
 import logging
 from flask import url_for
 
@@ -11,7 +12,7 @@ try:
     import_error = False
 except (ImportError, OSError) as e:
 
-    print ("""
+    print("""
     Error importing flask-weasyprint!
     PDF support is temporarily disabled.
     Manual dependencies may need to be installed.
@@ -19,7 +20,7 @@ except (ImportError, OSError) as e:
         `http://weasyprint.org/docs/install/#by-platform`_
         `https://github.com/Kozea/WeasyPrint/issues/79`_
 
-    """ + e.message)
+    """ + str(e))
 
     import_error = True
 

@@ -40,6 +40,7 @@ def _filter(self):
 def _get(self):
     def inner(*args, **kwargs):
         values = only_matches(self, kwargs)
+        values = list(values)
         if len(values) > 1:
             raise MultipleObjectsReturned("More than one object returned")
         return values and values[0]

@@ -32,8 +32,8 @@ markupsafe
 Pillow
 pyyaml
 speaklater
-https://github.com/pythonhub/quokka-themes/tarball/master
-https://github.com/pythonhub/flask-security/tarball/quokka
+https://github.com/quokkaproject/quokka-themes/tarball/master
+https://github.com/quokkaproject/flask-security/tarball/quokka
 awesome_slugify
 pymongo==2.7.1
 PyRSS2Gen

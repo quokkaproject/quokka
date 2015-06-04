@@ -16,7 +16,10 @@ Core
 * Create a SIDEBAR widget (as default as a bundle content) to create a sidebar filled with links and a bundle manager to manage things like sidebar (needs to be generic ans can be used to create many bars in the site
 * <del>Create a command in admin to clone/copy a post</del>
 * In dashboard include a filter to see only DRAFTS (unpublished posts)
-* Control visibility (by role) for posts also instead only by channels (currently suported)
+* <del>Control visibility (by role) for posts also instead only by channels (currently suported)</del>
+* Create and admin for admin views and roles, also a centralized role/channel/content view/admin
+* Create hierarchy in roles
+* in Base Content admin show a CHECK/NO-CHECK if content/channel has roles protection
 * Media center (for images and files), thumbnail engine (like thumbor and others), video/audio manager/ flask-uploads
 * ContentBox (a special content which is a bundle of other contents and can be listed/embedded)
 * i18n

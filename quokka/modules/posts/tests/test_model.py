@@ -1,8 +1,13 @@
 # coding: utf-8
+import sys
+
 from quokka.core.tests import BaseTestCase
 from quokka.core.models import Channel
 
 from ..models import Post
+
+if sys.version_info.major == 3:
+    unicode = str
 
 
 class TestPost(BaseTestCase):
