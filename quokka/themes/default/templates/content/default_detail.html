@@ -14,9 +14,6 @@
     <div class="col-12 col-sm-12 col-lg-12">
         <small>{{load_page_time(content)}}</small>
     </div>
-    <div class="col-12 col-sm-12 col-lg-12">
-        {{load_share_area(content)}}
-    </div>
 
     <div style="margin-top:25px;" class="clearfix"></div>
 {% endblock %}
@@ -28,6 +25,10 @@
         {{load_page_content(content)}}
 
         {{load_tags_area(content)}}
+
+        <div class="col-12 col-sm-12 col-lg-12">
+            {{load_share_area(content)}}
+        </div>
 
         {{load_recommendation_area(content)}}
 
