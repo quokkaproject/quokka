@@ -1,0 +1,3 @@
+{% extends 'index.html' %}
+{% block title %}{{ author|striptags }} author // {{ super() }}{% endblock title %}
+{% block pagetitle %}Posts by '{{ author }}'{% endblock pagetitle %}

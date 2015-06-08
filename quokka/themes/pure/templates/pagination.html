@@ -1,0 +1,19 @@
+<div class="pagination-wrapper content-subhead">
+    {% if DEFAULT_PAGINATION %}
+    <div class="pagination">
+        <div class="pagination-left">
+            {% if articles_page.has_previous() %}
+                <a href="{{ SITEURL }}/{{ articles_previous_page.url }}"><span>&larr; Newer posts</span></a>
+            {% else %}
+                &nbsp;
+            {% endif %}
+        </div>
+        <span>Page {{ articles_page.number }} / {{ articles_paginator.num_pages }}</span>
+        <div class="pagination-right">
+            {% if articles_page.has_next() %}
+                <a href="{{ SITEURL }}/{{ articles_next_page.url }}">Older posts&nbsp;&rarr;</a>
+            {% endif %}
+        </div>
+    </div>
+    {% endif %}
+</div>

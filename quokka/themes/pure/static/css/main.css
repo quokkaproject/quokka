@@ -1,0 +1,23 @@
+.hidden-menu {
+  display: none;
+}
+
+.account_menu {
+    margin-top: 20px;
+    list-style: none;
+}
+.account_menu li {
+   float: left;
+   margin-right: 10px;
+}
+
+#sidebar .list-group-item:last-child {
+    margin-bottom: -1px;
+    border-bottom-right-radius: 0px;
+    border-bottom-left-radius: 0px;
+}
+
+#sidebar .list-group-item:first-child {
+    border-top-right-radius: 0px;
+    border-top-left-radius: 0px;
+}

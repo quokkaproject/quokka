@@ -1,0 +1,26 @@
+{% from theme('_helpers.html') import render_list, render_pagination with context %}
+{% extends theme("base.html") %}
+
+{%block title%} {{channel.long_slug.split('/')|join(' | ')}} | {{Config.get('site', 'site_name', 'Quokka site')}} {% endblock %}
+
+{% block seo_meta %}
+<meta name="description" content="{{channel.description}}">
+<meta name="keywords" content="{{channel.tags|join(',')}}">
+{% endblock %}
+
+{% block content %}
+<div class="pure-g-r" id="layout">
+    {% include theme('sidebar.html') %}
+    <div class="pure-u-1">
+        <div class="content">
+            <!-- A wrapper for all the blog posts -->
+            <div class="posts">
+                {{render_list(contents.items)}}
+                {{render_pagination(contents, channel.get_absolute_url())}}
+                {#% include theme('pagination.html') %#}
+                {% include theme('footer.html') %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

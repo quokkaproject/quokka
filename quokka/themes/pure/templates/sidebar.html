@@ -1,0 +1,23 @@
+<div class="sidebar pure-u">
+    <div class="cover-img" style="background-image: url('{{Config.get('site', 'sidebar_image', 'http://lorempixel.com/1000/1000/')}}')">
+        <div class="cover-body">
+            <header class="header">
+                <hgroup>
+                    <a class="navbar-brand" href="/"><img src="{{ Config.get('site', 'site_logo', theme_static('img/logo.png')) }}" alt="{{Config.get('site', 'site_name')}}" height="20" style="height: 20px;"/></a>
+                    <h1 class="brand-main"><a href="/">{{Config.get('site', 'site_name', 'Quokka site')}}</a></h1>
+                    <p class="tagline">{{Config.get('site', 'tagline', '<b>Quokka site description</b>')|safe}}</p>
+                {% for title, link in MENUITEMS %}
+                    <p class="links"><a href="{{ link }}">{{ title }}</a></p>
+                {% endfor %}
+                    <p class="social">
+                {% for title, link in SOCIAL %}
+                        <a href="{{ link }}">
+                            <i class="fa fa-{{ title }} fa-3x"></i>
+                        </a>
+                {% endfor %}
+                    <p>
+                </hgroup>
+            </header>
+        </div>
+    </div>
+</div>
