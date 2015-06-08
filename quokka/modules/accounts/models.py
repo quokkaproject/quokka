@@ -43,6 +43,8 @@ class User(db.DynamicDocument, UserMixin):
     remember_token = db.StringField(max_length=255)
     authentication_token = db.StringField(max_length=255)
 
+    bio = db.StringField()
+
     def clean(self, *args, **kwargs):
         if not self.username:
             self.username = User.generate_username(self.email)

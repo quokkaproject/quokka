@@ -166,17 +166,61 @@
 
 
 {% macro load_page_content(content, truncate=None) %}
-<p>
-    {% with main_image=content.get_main_image_url(thumb=True, default=None) %}
-        {% if main_image %}
-            <img src="{{main_image}}" style="float:left; margin-right: 10px;margin-bottom:10px;"/>
-        {% endif %}
-    {% endwith %}
+{#<p>#}
+{#    {% with main_image=content.get_main_image_url(thumb=True, default=None) %}#}
+{#        {% if main_image %}#}
+{#            <img src="{{main_image}}" style="float:left; margin-right: 10px;margin-bottom:10px;"/>#}
+{#        {% endif %}#}
+{#    {% endwith %}#}
+{##}
+{##}
+{#    {{ content.get_text()|safe() }}#}
+{##}
+{#</p>#}
+    
+    
 
-
-    {{ content.get_text()|safe() }}
-
-</p>
+        <div class="sidebar sidebar-article pure-u">
+        <header class="header-article">
+            <hgroup>
+                <a href="" title="See posts by {{ content.created_by.name }} dddd">
+                    {% if content.author_gravatar %}
+                        <img class="avatar" alt="{{ content.created_by }}" src="{{ content.created_by }}">
+                    {% endif %}
+                </a>
+                <h2 class="article-info">{{ content.created_by.display_name }}</h2>
+                <small class="about-author">{{ content.created_by.bio }}</small>
+                <h5>Published</h5>
+                <p>{{ content.created_at.strftime('%H:%M of %m/%d/%Y') }}</p>
+                <a href="/">&larr;Home</a>
+            </hgroup>
+        </header>
+    </div>
+    <div class="pure-u">
+        <div class="content">
+            <section class="post">
+                <header class="post-header">
+                    <h1>{{ content.title }}</h1>
+                        <p class="post-meta">
+                            // under {% for tag in content.tags %}
+                                <a class="post-category" href="{{ SITEURL }}/{{ tag.url }}">{{ tag }}</a>
+                            {% endfor %}
+                        </p>
+                </header>
+            </section>
+            {{ content.get_text()|safe() }}
+        <div class="hr"></div>
+            <a href="#" class="go-top">Go Top</a>
+            {% if DISQUS_SITENAME %}
+                {% include theme('disqus.html') %}
+            {% endif %}
+            {{ load_comment_area(content) }}
+            {% include theme('footer.html') %}
+        </div>
+    </div>
+    
+    
+    
 {% endmacro %}
 
 {# blog list#}

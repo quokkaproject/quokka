@@ -8,33 +8,43 @@
 <meta name="keywords" content="{{content.tags|join(',')}}">
 {% endblock %}
 
-{% block front %}
+{% block head_css %}
+    <link rel="stylesheet" href="{{ SITEURL }}/theme/css/pygments.css">
+{% endblock %}
 
-    {{load_page_header(content)}}
-    <div class="col-12 col-sm-12 col-lg-12">
-        <small>{{load_page_time(content)}}</small>
-    </div>
-
-    <div style="margin-top:25px;" class="clearfix"></div>
+{% block head_js %}
+    <script src="//cdnjs.cloudflare.com/ajax/libs/fitvids/1.0.1/jquery.fitvids.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            $(".content").fitVids();
+        });
+    </script>
 {% endblock %}
 
 {% block content %}
 
-    <div class="col-12 col-sm-12 col-lg-12">
 
-        {{load_page_content(content)}}
-
-        {{load_tags_area(content)}}
-
-        <div class="col-12 col-sm-12 col-lg-12">
-            {{load_share_area(content)}}
-        </div>
-
-        {{load_recommendation_area(content)}}
-
-        {{load_comment_area(content)}}
-
+    <div class="pure-g-r" id="layout">
+      {{load_page_content(content)}}
     </div>
+
+
+
+{#    <div class="col-12 col-sm-12 col-lg-12">#}
+{##}
+{##}
+{##}
+{#        {{load_tags_area(content)}}#}
+{##}
+{#        <div class="col-12 col-sm-12 col-lg-12">#}
+{#            {{load_share_area(content)}}#}
+{#        </div>#}
+{##}
+{#        {{load_recommendation_area(content)}}#}
+{##}
+{#        {{load_comment_area(content)}}#}
+{##}
+{#    </div>#}
 {% endblock %}
 
 
