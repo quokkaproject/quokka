@@ -1,8 +1,8 @@
 {
     "identifier":   "pure",
     "application":  "quokka",
-    "name":         "Quokka theme inpsired by pure pelican",
-    "description":  "Pure CSS theme for quokka CMS.",
+    "name":         "Quokka Pure CSS theme",
+    "description":  "Pelican inspired theme for quokka CMS.",
     "author":       "Bruno Cezar Rocha",
     "website":      "http://www.quokkaproject.org",
     "license":      "WTF",

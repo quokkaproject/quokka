@@ -142,7 +142,7 @@ ENABLE_TO_PDF = False
 Never change it here, use local_settings for this.
 """
 MODE = 'production'
-DEBUG = False
+DEBUG = True
 
 """
 Debug toolbar only works if installed
@@ -156,8 +156,8 @@ DEBUG_TB_PANELS = (
     'flask_debugtoolbar.panels.timer.TimerDebugPanel',
     'flask_debugtoolbar.panels.headers.HeaderDebugPanel',
     'flask_debugtoolbar.panels.request_vars.RequestVarsDebugPanel',
-    # 'flask_debugtoolbar.panels.template.TemplateDebugPanel',
-    # 'flask.ext.mongoengine.panels.MongoDebugPanel',
+    'flask_debugtoolbar.panels.template.TemplateDebugPanel',
+    'flask.ext.mongoengine.panels.MongoDebugPanel',
     'flask_debugtoolbar.panels.logger.LoggingPanel',
     'flask_debugtoolbar.panels.profiler.ProfilerDebugPanel',
 )
@@ -167,7 +167,7 @@ By default DEBUG_TOOLBAR is disabled
 do not change it here, do it in local_settings.py
 DEBUG_TOOLBAR_ENABLED = True
 """
-DEBUG_TOOLBAR_ENABLED = False
+DEBUG_TOOLBAR_ENABLED = True
 
 
 """
@@ -256,6 +256,7 @@ MEDIA_FILE_ALLOWED_EXTENSIONS = ('pdf', 'txt', 'doc', 'docx', 'xls', 'xmlsx')
 
 # default admin THEME
 ADMIN_THEME = 'cosmo'
+DEFAULT_THEME = 'pure'
 
 # default content extension for url buildind
 CONTENT_EXTENSION = "html"
