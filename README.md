@@ -1,7 +1,8 @@
 [![Travis CI](http://img.shields.io/travis/quokkaproject/quokka.svg)](https://travis-ci.org/quokkaproject/quokka)
 [![Coverage Status](http://img.shields.io/coveralls/quokkaproject/quokka.svg)](https://coveralls.io/r/quokkaproject/quokka)
 [![Twitter](http://img.shields.io/badge/twitter-@quokkaproject-green.svg)](http://twitter.com/quokkaproject)
-[![Gitter chat](https://badges.gitter.im/quokkaproject/quokka.png)](https://gitter.im/quokkaproject/quokka)
+[![Join Slack Chat](https://img.shields.io/badge/JOIN_SLACK-CHAT-green.svg)](https://quokkaslack.herokuapp.com/)
+[![Slack](https://img.shields.io/badge/SLACK-CHAT-blue.svg)](https://quokkaproject.slack.com/messages/)
 [![Code Health](https://landscape.io/github/quokkaproject/quokka/master/landscape.svg?style=flat)](https://landscape.io/github/quokkaproject/quokka/master)
 <a href="http://smallactsmanifesto.org" title="Small Acts Manifesto"><img src="http://smallactsmanifesto.org/static/images/smallacts-badge-80x15-blue.png" style="border: none;" alt="Small Acts Manifesto" /></a>
 
