@@ -2,7 +2,7 @@
 [![Coverage Status](http://img.shields.io/coveralls/quokkaproject/quokka.svg)](https://coveralls.io/r/quokkaproject/quokka)
 [![Twitter](http://img.shields.io/badge/twitter-@quokkaproject-green.svg)](http://twitter.com/quokkaproject)
 [![Join Slack Chat](https://img.shields.io/badge/JOIN_SLACK-CHAT-green.svg)](https://quokkaslack.herokuapp.com/)
-[![Slack](https://img.shields.io/badge/SLACK-CHAT-blue.svg)](https://quokkaproject.slack.com/messages/)
+[![Slack](http://quokkaslack.herokuapp.com/badge.svg)](https://quokkaproject.slack.com/messages/)
 [![Code Health](https://landscape.io/github/quokkaproject/quokka/master/landscape.svg?style=flat)](https://landscape.io/github/quokkaproject/quokka/master)
 <a href="http://smallactsmanifesto.org" title="Small Acts Manifesto"><img src="http://smallactsmanifesto.org/static/images/smallacts-badge-80x15-blue.png" style="border: none;" alt="Small Acts Manifesto" /></a>
 
@@ -77,7 +77,7 @@ or by making your server reachable on other networks
 ```bash
 $ python manage.py run0
 ```
-6. Access on http://0.0.0.0:8000  
+6. Access on http://0.0.0.0:8000
 7. Admin on http://0.0.0.0:8000/admin
 
 
@@ -91,7 +91,7 @@ http://quokkaproject.org/documentation
 Also there is a [Wiki](https://github.com/quokkaproject/quokka/wiki)
 ===============================================
 
-> NOTE: the content from wiki will be moved to /documentation 
+> NOTE: the content from wiki will be moved to /documentation
 
 * [About & Features](https://github.com/quokkaproject/quokka/wiki/about)
 * [Installing and running](https://github.com/quokkaproject/quokka/wiki/installation)
