@@ -1,5 +1,3 @@
-{% import 'admin/static.html' as admin_static with context %}
-
 {% macro dropdown(actions, btn_class='dropdown-toggle') -%}
     <a class="{{ btn_class }}" data-toggle="dropdown" href="javascript:void(0)">{{ _gettext('With selected') }}<b class="caret"></b></a>
     <ul class="dropdown-menu">
@@ -24,7 +22,7 @@
 
 {% macro script(message, actions, actions_confirmation) %}
     {% if actions %}
-    <script src="{{ admin_static.url(filename='admin/js/actions.js') }}"></script>
+    <script src="{{theme_static('admin/js/actions.js')}}"></script>
     <script language="javascript">
         var modelActions = new AdminModelActions({{ message|tojson|safe }}, {{ actions_confirmation|tojson|safe }});
     </script>
