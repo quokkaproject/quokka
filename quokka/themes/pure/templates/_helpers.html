@@ -34,27 +34,30 @@
 
 
 {% macro render_list_item(content) %}
-<div class="col-12 col-sm-12 col-lg-12">
-    <h3>
-        <a href="{{ content.get_absolute_url() }}">
-            {{ content.title }}
+<section class="post">
+    <header class="post-header">
+        <a href="" title="See posts by {{ content.created_by.display_name }}">
+            {% if content.created_by.email %}
+                <img class="avatar" alt="{{ content.created_by.name }}" src="{{ content.created_by.email | gravatar(size=64) }}">
+            {% endif %}
         </a>
-    </h3>
-    {% with main_image=content.get_main_image_url(thumb=True, default=None) %}
-        {% if main_image %}
-            <img src="{{main_image}}" style="float:left; margin-right: 10px;margin-bottom:10px;"/>
-        {% endif %}
-    {% endwith %}
-    <p>
-      {{content.get_summary()|truncate(255)|safe()}}
-    </p>
-    <p>
-        Published at {{ content.created_at.strftime('%H:%M of %m/%d/%Y') }}
-    </p>
-    <p>
-        <a class="btn btn-default" href="{{ content.get_absolute_url() }}" role="button">Read more &raquo;</a>
-    </p>
-</div><!--/span-->
+        <h3><a class="post-title" href="{{ content.get_absolute_url() }}">{{ content.title }}</a></h3>
+            <p class="post-meta">
+              {% with main_image=content.get_main_image_url(thumb=True, default=None) %}
+                  {% if main_image %}
+                      <img src="{{main_image}}" style="float:left; margin-right: 10px;margin-bottom:10px;"/>
+                  {% endif %}
+              {% endwith %}
+              {{content.get_summary()|truncate(255)|safe()}}
+            </p>
+            <p>
+                <a class="pure-button pure-button-primary" href="{{ content.get_absolute_url()}}">Read more...</a>
+            </p>
+            <p class="post-meta">
+                in <a href="{{ content.channel.get_absolute_url() }}">{{ content.channel.title }}</a> &middot; {{ content.created_at.strftime('%H:%M of %m/%d/%Y') }}
+            </p>
+    </header>
+</section>
 {% endmacro %}
 
 {% macro render_list(contents) %}
@@ -184,9 +187,9 @@
         <header class="header-article">
             <hgroup>
                 <a href="" title="See posts by {{ content.created_by.name }} dddd">
-                    {% if content.author_gravatar %}
-                        <img class="avatar" alt="{{ content.created_by }}" src="{{ content.created_by }}">
-                    {% endif %}
+                  {% if content.created_by.email %}
+                      <img class="avatar" alt="{{ content.created_by.name }}" src="{{ content.created_by.email | gravatar(size=64) }}">
+                  {% endif %}
                 </a>
                 <h2 class="article-info">{{ content.created_by.display_name }}</h2>
                 <small class="about-author">{{ content.created_by.bio }}</small>
@@ -250,24 +253,31 @@
 
 {% macro render_pagination(pagination, endpoint) %}
 <div class="pagination-wrapper content-subhead">
-  {% if pagination.pages > 1 %}
-  <ul class="pagination">
-  {%- for page in pagination.iter_pages() %}
-    {% if page %}
-      {% if page != pagination.page %}
-        {% if not request.args.get('per_page') %}
-         <li><a href="{{ '{}?page={}'.format(endpoint, page) }}">{{ page }}</a></li>
-         {% else %}
-          <li><a href="{{ '{}?page={}&per_page={}'.format(endpoint, page, request.args.get('per_page')) }}">{{ page }}</a></li>
-         {% endif %}
-      {% else %}
-        <li class="active"><a href="{{request.full_path}}"><strong>{{ page }}</strong></a></li>
-      {% endif %}
-    {% else %}
-      <li class="disabled">…</li>
+    {% if pagination.pages > 1 %}
+    <div class="pagination">
+        <div class="pagination-left">
+            {% if pagination.has_prev %}
+                {% if not request.args.get('per_page') %}
+                <a href="{{ '{}?page={}'.format(endpoint, pagination.prev_num) }}"><span>&larr; PREVIOUS</span></a>
+                {% else %}
+                  <a href="{{ '{}?page={}&per_page={}'.format(endpoint, pagination.prev_num, request.args.get('per_page')) }}"><span>&larr; PREVIOUS</span></a>
+                {% endif %}
+            {% else %}
+                &nbsp;
+            {% endif %}
+
+        </div>
+        <span>PAGE {{ pagination.page }} / {{ pagination.pages }}</span>
+        <div class="pagination-right">
+            {% if pagination.has_next %}
+                {% if not request.args.get('per_page') %}
+                <a href="{{ '{}?page={}'.format(endpoint, pagination.next_num) }}">NEXT&nbsp;&rarr;</a>
+                {% else %}
+                  <a href="{{ '{}?page={}&per_page={}'.format(endpoint, pagination.next_num, request.args.get('per_page')) }}">NEXT&nbsp;&rarr;</a>
+                {% endif %}
+            {% endif %}
+        </div>
+    </div>
     {% endif %}
-  {%- endfor %}
-  </ul>
-  {% endif %}
-</div>
+
 {% endmacro %}
