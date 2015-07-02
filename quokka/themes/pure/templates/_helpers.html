@@ -249,6 +249,7 @@
 {# --------- pagination ----------- #}
 
 {% macro render_pagination(pagination, endpoint) %}
+<div class="pagination-wrapper content-subhead">
   {% if pagination.pages > 1 %}
   <ul class="pagination">
   {%- for page in pagination.iter_pages() %}
@@ -268,4 +269,5 @@
   {%- endfor %}
   </ul>
   {% endif %}
+</div>
 {% endmacro %}

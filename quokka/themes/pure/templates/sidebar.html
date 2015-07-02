@@ -1,21 +1,39 @@
 <div class="sidebar pure-u">
-    <div class="cover-img" style="background-image: url('{{Config.get('site', 'sidebar_image', 'http://lorempixel.com/1000/1000/')}}')">
+    <div class="cover-img" style="background-image: url('{{Config.get('site', 'sidebar_image', Config.get('site', 'sidebar_image', 'http://lorempixel.com/500/800/animals'))}}')">
         <div class="cover-body">
             <header class="header">
                 <hgroup>
-                    <a class="navbar-brand" href="/"><img src="{{ Config.get('site', 'site_logo', theme_static('img/logo.png')) }}" alt="{{Config.get('site', 'site_name')}}" height="20" style="height: 20px;"/></a>
-                    <h1 class="brand-main"><a href="/">{{Config.get('site', 'site_name', 'Quokka site')}}</a></h1>
-                    <p class="tagline">{{Config.get('site', 'tagline', '<b>Quokka site description</b>')|safe}}</p>
-                {% for title, link in MENUITEMS %}
-                    <p class="links"><a href="{{ link }}">{{ title }}</a></p>
-                {% endfor %}
+                    <h1 class="brand-main"><a href="/"><img src="{{ Config.get('site', 'site_logo', theme_static('img/logo.png')) }}" alt="{{Config.get('site', 'site_name')}}"></a></h1>
+                    <p class="tagline">{{Config.get('site', 'tagline', '<b>The Happiest CMS in the World!</b>')|safe}}</p>
+
+                    {% for title, link in Config.get('site', 'menu_items', []) %}
+                        <p class="links"><a href="{{ link }}">{{ title }}</a></p>
+                    {% endfor %}
+
+                    <div class="section articles-random">
+                      <div id="random-articles">
+                        <ul>
+                        {% for cont in Content.objects.limit(4) %}
+                            <li><a href="{{ cont.get_absolute_url() }}">{{ cont.title }}</a></li>
+                        {% endfor %}
+                      </ul>
+                      </div>
+                    </div>
+
                     <p class="social">
-                {% for title, link in SOCIAL %}
-                        <a href="{{ link }}">
-                            <i class="fa fa-{{ title }} fa-3x"></i>
+                      {% for title, link in Config.get('site', 'social_items', []) %}
+                      <a href="{{ link }}">
+                          <i class="fa fa-{{ title }} fa-3x"></i>
                         </a>
-                {% endfor %}
-                    <p>
+                        {% endfor %}
+                    </p>
+
+                    <p class="tagline">
+                      <a target="_blank" href="http://smallactsmanifesto.org" title="Small Acts Manifesto">
+                        <img src="http://smallactsmanifesto.org/static/images/smallacts-badge-80x15.png" style="border: none;" alt="Small Acts Manifesto" />
+                      </a>
+                    </p>
+
                 </hgroup>
             </header>
         </div>
