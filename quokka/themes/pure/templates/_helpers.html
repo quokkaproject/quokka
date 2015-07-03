@@ -186,12 +186,72 @@
         <div class="sidebar sidebar-article pure-u">
         <header class="header-article">
             <hgroup>
-                <a href="" title="See posts by {{ content.created_by.name }} dddd">
+                <a href="" title="See posts by {{ content.created_by.name }}">
                   {% if content.created_by.email %}
-                      <img class="avatar" alt="{{ content.created_by.name }}" src="{{ content.created_by.email | gravatar(size=64) }}">
+                      <img class="article-avatar" alt="{{ content.created_by.name }}" src="{{ content.created_by.email | gravatar(size=200) }}">
                   {% endif %}
                 </a>
                 <h2 class="article-info">{{ content.created_by.display_name }}</h2>
+
+                <ul class="author-social">
+                    {% if content.created_by.gittip %}
+                    <li>
+                        <a target="_blank" href="https://www.gittip.com/{{ article.gittip }}">
+                            <i class="fa fa-lg fa-fw fa-gittip"></i>
+                            <strong>Gittip</strong>
+                        </a>
+                    </li>
+                    {% endif %}
+                    {% if content.created_by.github %}
+                    <li>
+                        <a target="_blank" href="https://github.com/{{ article.github }}">
+                            <i class="fa fa-lg fa-fw fa-github"></i>
+                            <strong>Github</strong>
+                        </a>
+                    </li>
+                    {% endif %}
+                    {% if content.created_by.bitbucket %}
+                    <li>
+                        <a target="_blank" href="https://bitbucket.org/{{ article.bitbucket }}">
+                            <i class="fa fa-lg fa-fw fa-bitbucket"></i>
+                            <strong>Bitbucket</strong>
+                        </a>
+                    </li>
+                    {% endif %}
+                    {% if content.created_by.twitter %}
+                    <li>
+                        <a target="_blank" href="https://twitter.com/{{ article.twitter }}">
+                            <i class="fa fa-lg fa-fw fa-twitter"></i>
+                            <strong>Twitter</strong>
+                        </a>
+                    </li>
+                    {% endif %}
+                    {% if content.created_by.linkedin %}
+                    <li>
+                        <a target="_blank" href="http://www.linkedin.com/in/{{ article.linkedin }}">
+                            <i class="fa fa-lg fa-fw fa-linkedin"></i>
+                            <strong>Linkedin</strong>
+                        </a>
+                    </li>
+                    {% endif %}
+                    {% if content.created_by.facebook %}
+                    <li>
+                        <a target="_blank" href="https://www.facebook.com/{{ article.facebook }}">
+                            <i class="fa fa-lg fa-fw fa-facebook"></i>
+                            <strong>Facebook</strong>
+                        </a>
+                    </li>
+                    {% endif %}
+                    {% if content.created_by.site %}
+                    <li>
+                        <a target="_blank" href="{{ article.site }}">
+                            <i class="fa fa-lg fa-fw fa-globe"></i>
+                            <strong>Site</strong>
+                        </a>
+                    </li>
+                    {% endif %}
+                </ul>
+
                 <small class="about-author">{{ content.created_by.bio }}</small>
                 <h5>Published</h5>
                 <p>{{ content.created_at.strftime('%H:%M of %m/%d/%Y') }}</p>
@@ -205,8 +265,8 @@
                 <header class="post-header">
                     <h1>{{ content.title }}</h1>
                         <p class="post-meta">
-                            // under {% for tag in content.tags %}
-                                <a class="post-category" href="{{ SITEURL }}/{{ tag.url }}">{{ tag }}</a>
+                            // Tags {% for tag in content.tags %}
+                                <a class="post-category" href="{{url_for('tag', tag=tag)}}">{{ tag }}</a>
                             {% endfor %}
                         </p>
                 </header>
