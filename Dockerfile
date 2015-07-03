@@ -14,11 +14,11 @@ RUN mkdir -p /var/log/nginx/app
 RUN mkdir -p /var/log/uwsgi/app/
 
 RUN rm /etc/nginx/sites-enabled/default
-COPY /quokka/quokka_nginx.conf /etc/nginx/sites-available/quokka.conf
+COPY quokka_nginx.conf /etc/nginx/sites-available/quokka.conf
 RUN ln -s /etc/nginx/sites-available/quokka.conf /etc/nginx/sites-enabled/quokka.conf
 
 RUN mkdir -p /var/log/supervisor
-COPY /quokka/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
 RUN pip install -r requirements.txt
 
