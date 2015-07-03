@@ -11,3 +11,5 @@ script: make test
 after_success:
   - coveralls
   - codecov
+notifications:
+  slack: quokkaproject:pjF8y81mqwXxQRtf5sGz5zqr

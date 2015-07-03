@@ -4,8 +4,8 @@ coveralls
 flask
 flask-script
 wtforms<2.0
-mongoengine
-flask_mongoengine
+flask-mongoengine==0.7.1
+mongoengine==0.9.0
 blinker
 Flask-Assets
 Flask-Babel
