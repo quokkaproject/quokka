@@ -4,8 +4,13 @@
 {%block title%} {{channel.long_slug.split('/')|join(' | ')}} | {{Config.get('site', 'site_name', 'Quokka site')}} {% endblock %}
 
 {% block seo_meta %}
-<meta name="description" content="{{channel.description}}">
+<meta name="description" content="{{channel.description or Config.get('site', 'site_description')}}">
+{%if channel.tags %}
 <meta name="keywords" content="{{channel.tags|join(',')}}">
+{%else%}
+<meta name="keywords" content="{{Config.get('site', 'site_keywords')}}">
+{%endif%}
+
 {% endblock %}
 
 {% block content %}
