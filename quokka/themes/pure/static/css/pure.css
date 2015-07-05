@@ -29,6 +29,11 @@ pre {
     padding: 15px 15px 15px 15px;
     font-size: 90%;
     box-shadow: 2px 2px 2px #888;
+
+     /*coding*/
+    background: #2d2d2d;
+    color: #cccccc;
+    font-family: Consolas, "Liberation Mono", Courier, monospace;
 }
 
 .sidebar {
@@ -40,6 +45,7 @@ pre {
 }
 
 .cover-img {
+    background-color: #131516;
     position: absolute;
     width: 100%;
     height: 100%;
@@ -87,7 +93,6 @@ pre {
     border-radius: 60px;
     float: right;
     margin-left: 1em;
-    border: 3px solid #fff;
     z-index: 500;
     background-color: #fff;
     -webkit-box-shadow: 0 1px 1px rgba(0,0,0,0.3);
@@ -196,7 +201,7 @@ pre {
 .post-meta {
     color: #999;
     font-size: 90%;
-    margin-top: -10px;
+    /*margin-top: -10px;*/
 }
 
 .post-category {
@@ -356,4 +361,65 @@ pre {
     .cover-img {
         background-position: 0;
     }
+}
+
+/* share buttons */
+.twitter-share-button {
+    margin: 0 0 -6px 6px;
+}
+
+/* Tags sociais (git,twitter,in,fb...) */
+.author-social {
+    list-style:none;
+    position:relative;
+    max-width:170px;
+    word-wrap:break-word;
+    display:inline-block;
+    padding: 0;
+}
+.author-social li {
+    display:inline-block;
+	background-repeat:no-repeat;
+	-webkit-transition-property: opacity;
+	-webkit-transition-duration: 500ms;
+	-moz-transition-property: opacity;
+	-moz-transition-duration: 500ms;
+	padding-bottom: 13px;
+}
+.author-social li a {
+    display:block;
+    padding-left:10px;
+    position:relative;
+    text-decoration:none;
+}
+.author-social li a strong {
+	font-weight:normal;
+	position:absolute;
+	left:10px;
+	top:-25px;
+	color:#fff;
+	padding:3px;
+	z-index:9999;
+	text-shadow:1px 1px 0 rgba(0, 0, 0, 0.75);
+	background-color:rgba(0, 0, 0, 0.7);
+	-moz-border-radius:3px;
+	-moz-box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+	-webkit-border-radius:3px;
+	-webkit-box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+	border-radius:3px;
+	box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+	opacity:0;
+	-webkit-transition-property: opacity, top;
+	-webkit-transition-duration: 300ms;
+	-moz-transition-property: opacity, top;
+	-moz-transition-duration: 300ms;
+}
+.author-social:hover li {
+    opacity:0.2;
+}
+.author-social li:hover {
+    opacity:1;
+}
+.author-social li:hover a strong {
+    opacity:1;
 }

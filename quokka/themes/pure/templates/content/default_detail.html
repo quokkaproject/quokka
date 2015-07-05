@@ -9,42 +9,42 @@
 {% endblock %}
 
 {% block head_css %}
-    <link rel="stylesheet" href="{{ SITEURL }}/theme/css/pygments.css">
+    <link rel="stylesheet" href="{{theme_static('css/pygments.css')}}">
 {% endblock %}
 
-{% block head_js %}
+{% block bottom_js %}
     <script src="//cdnjs.cloudflare.com/ajax/libs/fitvids/1.0.1/jquery.fitvids.min.js"></script>
     <script>
         $(document).ready(function(){
             $(".content").fitVids();
         });
+        $(window).load(function(){
+          $("iframe").css("margin-bottom", "-6px")
+          $("#twitter-widget-0").css("margin-bottom", "-5px");
+          $("#twitter-widget-0").css("margin-left", "-1px");
+        });
+    </script>
+    <script type="text/javascript" src="https://apis.google.com/js/platform.js">
+      {lang: 'pt-BR'}
     </script>
 {% endblock %}
 
+
+{% block head %}
+    {{ super() }}
+    <meta property="fb:app_id" content="{{ Config.get('site', 'FACEBOOK_APPID', '') }}" />
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content="{{ content.title }}" />
+    <meta property="og:site_name" content="{{ Config.get('site', 'site_name') }}" />
+    <meta property="og:url" content="{{ content.get_absolute_url() }}" />
+    <meta property="og:description" content="{{ content.get_summary()|truncate(255)|striptags }}" />
+    <meta property="og:image" content="{{ content.get_main_image_url(default=Config.get('site', 'site_logo', theme_static('img/logo.png'))) }}" />
+{% endblock head %}
+
 {% block content %}
-
-
     <div class="pure-g-r" id="layout">
       {{load_page_content(content)}}
     </div>
-
-
-
-{#    <div class="col-12 col-sm-12 col-lg-12">#}
-{##}
-{##}
-{##}
-{#        {{load_tags_area(content)}}#}
-{##}
-{#        <div class="col-12 col-sm-12 col-lg-12">#}
-{#            {{load_share_area(content)}}#}
-{#        </div>#}
-{##}
-{#        {{load_recommendation_area(content)}}#}
-{##}
-{#        {{load_comment_area(content)}}#}
-{##}
-{#    </div>#}
 {% endblock %}
 
 

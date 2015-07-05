@@ -22,6 +22,14 @@ class Role(db.Document, RoleMixin):
         return u"{0} ({1})".format(self.name, self.description or 'Role')
 
 
+class UserLinks(db.EmbeddedDocument):
+    title = db.StringField(max_length=50, required=True)
+    link = db.StringField(max_length=255, required=True)
+    icon = db.StringField(max_length=255)
+    css_class = db.StringField(max_length=50)
+    order = db.IntField(default=0)
+
+
 class User(db.DynamicDocument, UserMixin):
     name = db.StringField(max_length=255)
     email = db.EmailField(max_length=255, unique=True)
@@ -43,7 +51,9 @@ class User(db.DynamicDocument, UserMixin):
     remember_token = db.StringField(max_length=255)
     authentication_token = db.StringField(max_length=255)
 
+    tagline = db.StringField(max_length=255)
     bio = db.StringField()
+    links = db.ListField(db.EmbeddedDocumentField(UserLinks))
 
     def clean(self, *args, **kwargs):
         if not self.username:

@@ -15,7 +15,7 @@ class PostAdmin(BaseContentAdmin):
                     'content_format', 'body',
                     'comments_enabled', 'published', 'add_image', 'contents',
                     'show_on_channel', 'available_at', 'available_until',
-                    'tags', 'values', 'template_type']
+                    'tags', 'values', 'template_type', 'license']
 
     form_args = {
         'body': {'widget': TextEditor()},

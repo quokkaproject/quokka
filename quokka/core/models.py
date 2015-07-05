@@ -5,7 +5,7 @@ import json
 import logging
 import datetime
 import random
-from flask import url_for, current_app, redirect
+from flask import url_for, current_app, redirect, request
 from flask.ext.mistune import markdown
 
 from quokka.core import TEXT_FORMATS
@@ -495,6 +495,13 @@ class SubContent(Publishable, Ordered, db.EmbeddedDocument):
         return self.content and self.content.title or self.caption
 
 
+class License(db.EmbeddedDocument):
+    LICENSES = (('custom', 'custom'), ('creative_commons_by_nc_nd', 'creative_commons_by_nc_nd'))
+    title = db.StringField(max_length=255)
+    link = db.StringField(max_length=255)
+    identifier = db.StringField(max_length=255, choices=LICENSES)
+
+
 ###############################################################
 # Base Content for every new content to extend. inheritance=True
 ###############################################################
@@ -510,6 +517,7 @@ class Content(HasCustomValue, Publishable, LongSlugged,
     contents = db.ListField(db.EmbeddedDocumentField(SubContent))
     model = db.StringField()
     comments_enabled = db.BooleanField(default=True)
+    license = db.EmbeddedDocumentField(License)
 
     meta = {
         'allow_inheritance': True,
@@ -555,6 +563,10 @@ class Content(HasCustomValue, Publishable, LongSlugged,
         if theme:
             themes.insert(0, theme)
         return list(set(themes))
+
+    def get_http_url(self):
+        site_url = Config.get('site', 'site_url', '')
+        return u"{}{}".format(site_url, self.get_absolute_url())
 
     def get_absolute_url(self, endpoint='detail'):
         if self.channel.is_homepage:

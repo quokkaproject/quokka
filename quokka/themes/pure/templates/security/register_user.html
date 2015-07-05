@@ -2,24 +2,28 @@
 {% extends theme("base.html") %}
 
 {% block content %}
-<div class="col-12 col-sm-12 col-lg-12">
-{% include theme("security/_messages.html") %}
-<h1>Register</h1>
-
-
-<form class="form-horizontal" role="form" action="{{ url_for_security('register') }}" method="POST" name="register_user_form">
-
-  {{ register_user_form.hidden_tag() }}
-  {{ render_field_with_errors(register_user_form.email, class="form-control", placeholder="you@domain.com") }}
-  {{ render_field_with_errors(register_user_form.password, class="form-control") }}
-  {% if register_user_form.password_confirm %}
-    {{ render_field_with_errors(register_user_form.password_confirm, class="form-control") }}
-  {% endif %}
-  {{ render_button(register_user_form.submit, class="btn btn-primary") }}
-
-</form>
-
-{% include theme("security/_menu.html") %}
-
+<div class="pure-g-r" id="layout">
+    {% include theme('sidebar.html') %}
+    <div class="pure-u-1">
+        <div class="content">
+            <!-- A wrapper for all the blog posts -->
+            <div class="posts">
+              <h1>Register</h1>
+              {% include theme("security/_messages.html") %}
+              <form action="{{ url_for_security('register') }}" method="POST" name="register_user_form" class="pure-form pure-form-aligned" role="form">
+                <fieldset>
+                  {{ register_user_form.hidden_tag() }}
+                  {{ render_field_with_errors(register_user_form.email, class="form-control", placeholder="you@domain.com") }}
+                  {{ render_field_with_errors(register_user_form.password, class="form-control") }}
+                  {% if register_user_form.password_confirm %}
+                    {{ render_field_with_errors(register_user_form.password_confirm, class="form-control") }}
+                  {% endif %}
+                  {{ render_button(register_user_form.submit, class="pure-button pure-button-primary") }}
+                </fieldset>
+              </form>
+              {% include theme("security/_menu.html") %}
+            </div>
+        </div>
+    </div>
 </div>
 {% endblock %}

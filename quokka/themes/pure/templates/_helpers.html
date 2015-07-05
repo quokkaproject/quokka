@@ -70,42 +70,67 @@
 {# --- Content areas ----- #}
 {% macro load_share_area(content) %}
 
-<!-- AddThis Button BEGIN -->
-<div class="addthis_toolbox addthis_default_style col-12 col-sm-12 col-lg-12">
-<a class="addthis_button_tweet pull-right"></a>
-<a class="addthis_button_google_plusone pull-right" g:plusone:size="medium"></a>
-<a class="addthis_button_pinterest_pinit pull-right" pi:pinit:layout="horizontal"></a>
-<a class="addthis_button_facebook_like pull-right" fb:like:layout="button_count"></a>
-<!-- a class="addthis_counter addthis_pill_style"></a -->
-</div>
-<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=xa-528545795c9cdf00"></script>
-<!-- AddThis Button END -->
+<div class="sharing">
+  <p class="post-meta">
+      // Share
+  </p>
+    <!-- Facebook sharing -->
+    <div id="fb-root"></div>
+    <script>(function(d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) return;
+    js = d.createElement(s); js.id = id;
+    js.src = "//connect.facebook.net/pt_BR/sdk.js#xfbml=1&appId={{ Config.get('site', 'FACEBOOK_APPID', '') }}&version=v2.0";
+    fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));</script>
+    <div class="fb-share-button" data-href="{{ content.get_http_url() }}" data-type="button_count"></div>
 
+    <!-- Google+ sharing -->
+    <div class="g-plus alinhar" data-action="share" data-annotation="bubble" data-href="{{ content.get_http_url() }}"></div>
+
+    <!-- Twitter sharing -->
+    <a href="https://twitter.com/share" class="twitter-share-button" data-lang="pt" style="margin-bottom: -4px !important;">Tweetar</a>
+    <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+</div>
+
+{% endmacro %}
+
+{% macro render_license_area(content) %}
+{% if content.license.title %}
+  <div class="licence">
+  {% if content.license.identifier == 'creative_commons_by_nc_nd' %}
+  <a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/4.0/">
+    <img alt="Licença Creative Commons"
+         style="border-width:0"
+         src="http://i.creativecommons.org/l/by-nc-nd/4.0/88x31.png"/></a><br/>
+         <a xmlns:dct="http://purl.org/dc/terms/" property="dct:title"
+      href="{{content.get_absolute_url()}}">"{{ content.title }}"</a> by <a
+      xmlns:cc="http://creativecommons.org/ns#" href=""
+      property="cc:attributionName" rel="cc:attributionURL">"{{ content.created_by.display_name }}"</a> is licensed under
+  <a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/4.0/">Creative Commons -
+      Attribution Non Commercial No Derivatives 4.0 Internacional</a>.
+
+  {% else %}
+    <a xmlns:dct="http://purl.org/dc/terms/" property="dct:title"
+  href="{{content.get_absolute_url()}}">"{{ content.title }}"</a> by <a
+  xmlns:cc="{{content.license.link}}s#" href=""
+  property="cc:attributionName" rel="cc:attributionURL">"{{ content.created_by.display_name }}"</a> is licensed under
+  <a rel="license" href="{{content.license.link}}">{{content.license.title}}</a>
+  {% endif %}
+  </div>
+{% endif %}
 {% endmacro %}
 
 
 {% macro render_recommend_item(content) %}
-<div class="col-6 col-sm-6 col-lg-4">
-    <h4>
-        <a href="{{ content.get_absolute_url() }}">
-            {{ content.title }}
-        </a>
-    </h4>
-    {% with main_image=content.get_main_image_url(thumb=True, default=None) %}
-        {% if main_image %}
-            <img src="{{main_image}}" style="float:left; margin-right: 10px;margin-bottom:10px;"/>
-        {% endif %}
-    {% endwith %}
-    <p>
-      {{content.get_summary()|truncate(140)|safe()}}
-    </p>
-    <p>
-        <small>Published at {{ content.created_at.strftime('%H:%M of %m/%d/%Y') }}</small>
-    </p>
-    <p>
-        <a class="btn btn-default btn-xs" href="{{ content.get_absolute_url() }}" role="button">Read more &raquo;</a>
-    </p>
-</div><!--/span-->
+
+    <li class="post-header">
+      <a class="post-title-small" href="{{ content.get_absolute_url() }}">{{ content.title }}</a>
+            <small>
+                in <a href="{{ content.channel.get_absolute_url() }}">{{ content.channel.title }}</a> &middot; {{ content.created_at.strftime('%H:%M of %m/%d/%Y') }}
+            </small>
+
+    </li>
 {% endmacro %}
 
 
@@ -114,10 +139,10 @@
  {% with %}
    {% set recommendations=content.get_recommendations()%}
       {% if recommendations %}
-        <div class="col-12 col-sm-12 col-lg-12 clearfix">
-          <div class="page-header">
-             <h3>You may also like</h3>
-          </div>
+        <div>
+          <p class="post-meta">
+              // You may also like
+          </p>
          {% for item in recommendations %}
             {{render_recommend_item(item)}}
          {% endfor %}
@@ -137,12 +162,20 @@
 
 {% macro load_comment_area(content) %}
     {% if content.comments_enabled %}
+            <hr />
+            <p class="post-meta">
+                // Comment
+            </p>
         {% if Config.get('comments', 'system') == 'internal' %}
-            <hr />
             <div id="comment-area" data-system="internal" data-path="{{url_for('comments.comment', path=content.long_slug)}}"></div>
+        {% elif Config.get('comments', 'system') == 'custom'%}
+            {{Config.get('comments', 'custom_script', '')|safe()}}
         {% elif Config.get('comments', 'system') == 'disqus'%}
-            <hr />
-           {{Config.get('comments', 'disqus_script', '')|safe()}}
+           {%if Config.get('comments', 'disqus_script') %}
+               {{Config.get('comments', 'disqus_script', '')|safe()}}
+           {% else %}
+               {% include theme('disqus.html') %}
+           {% endif %}
         {% endif %}
     {% endif %}
 {% endmacro %}
@@ -169,20 +202,6 @@
 
 
 {% macro load_page_content(content, truncate=None) %}
-{#<p>#}
-{#    {% with main_image=content.get_main_image_url(thumb=True, default=None) %}#}
-{#        {% if main_image %}#}
-{#            <img src="{{main_image}}" style="float:left; margin-right: 10px;margin-bottom:10px;"/>#}
-{#        {% endif %}#}
-{#    {% endwith %}#}
-{##}
-{##}
-{#    {{ content.get_text()|safe() }}#}
-{##}
-{#</p>#}
-
-
-
         <div class="sidebar sidebar-article pure-u">
         <header class="header-article">
             <hgroup>
@@ -194,65 +213,17 @@
                 <h2 class="article-info">{{ content.created_by.display_name }}</h2>
 
                 <ul class="author-social">
-                    {% if content.created_by.gittip %}
+                    {% for link in content.created_by.links %}
                     <li>
-                        <a target="_blank" href="https://www.gittip.com/{{ article.gittip }}">
-                            <i class="fa fa-lg fa-fw fa-gittip"></i>
-                            <strong>Gittip</strong>
-                        </a>
+                      <a target="_blank" href="{{link.link}}">
+                          <i class="fa fa-lg fa-fw fa-{{link.css_class or 'globe'}}"></i>
+                          <strong>{{link.title}}</strong>
+                      </a>
                     </li>
-                    {% endif %}
-                    {% if content.created_by.github %}
-                    <li>
-                        <a target="_blank" href="https://github.com/{{ article.github }}">
-                            <i class="fa fa-lg fa-fw fa-github"></i>
-                            <strong>Github</strong>
-                        </a>
-                    </li>
-                    {% endif %}
-                    {% if content.created_by.bitbucket %}
-                    <li>
-                        <a target="_blank" href="https://bitbucket.org/{{ article.bitbucket }}">
-                            <i class="fa fa-lg fa-fw fa-bitbucket"></i>
-                            <strong>Bitbucket</strong>
-                        </a>
-                    </li>
-                    {% endif %}
-                    {% if content.created_by.twitter %}
-                    <li>
-                        <a target="_blank" href="https://twitter.com/{{ article.twitter }}">
-                            <i class="fa fa-lg fa-fw fa-twitter"></i>
-                            <strong>Twitter</strong>
-                        </a>
-                    </li>
-                    {% endif %}
-                    {% if content.created_by.linkedin %}
-                    <li>
-                        <a target="_blank" href="http://www.linkedin.com/in/{{ article.linkedin }}">
-                            <i class="fa fa-lg fa-fw fa-linkedin"></i>
-                            <strong>Linkedin</strong>
-                        </a>
-                    </li>
-                    {% endif %}
-                    {% if content.created_by.facebook %}
-                    <li>
-                        <a target="_blank" href="https://www.facebook.com/{{ article.facebook }}">
-                            <i class="fa fa-lg fa-fw fa-facebook"></i>
-                            <strong>Facebook</strong>
-                        </a>
-                    </li>
-                    {% endif %}
-                    {% if content.created_by.site %}
-                    <li>
-                        <a target="_blank" href="{{ article.site }}">
-                            <i class="fa fa-lg fa-fw fa-globe"></i>
-                            <strong>Site</strong>
-                        </a>
-                    </li>
-                    {% endif %}
+                    {% endfor %}
                 </ul>
 
-                <small class="about-author">{{ content.created_by.bio }}</small>
+                <small class="about-author">{{ content.created_by.tagline }}</small>
                 <h5>Published</h5>
                 <p>{{ content.created_at.strftime('%H:%M of %m/%d/%Y') }}</p>
                 <a href="/">&larr;Home</a>
@@ -270,20 +241,27 @@
                             {% endfor %}
                         </p>
                 </header>
+
+                 {% with main_image=content.get_main_image_url(thumb=False, default=None) %}
+                      {% if main_image %}
+                            <div style="background-image:url({{main_image}});height:200px;background-repeat: no-repeat;background-position-y: center;">
+                            </div>
+                      {% endif %}
+                 {% endwith %}
+
             </section>
             {{ content.get_text()|safe() }}
+
+            {{render_license_area(content)}}
+            {{load_share_area(content)}}
+
         <div class="hr"></div>
             <a href="#" class="go-top">Go Top</a>
-            {% if DISQUS_SITENAME %}
-                {% include theme('disqus.html') %}
-            {% endif %}
+            {{load_recommendation_area(content)}}
             {{ load_comment_area(content) }}
             {% include theme('footer.html') %}
         </div>
     </div>
-
-
-
 {% endmacro %}
 
 {# blog list#}

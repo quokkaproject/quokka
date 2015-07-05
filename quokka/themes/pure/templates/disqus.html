@@ -2,7 +2,10 @@
     <div id="disqus_thread"></div>
     <script type="text/javascript">
         /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
-        var disqus_shortname = "{{ DISQUS_SITENAME }}"; // required: replace example with your forum shortname
+        var disqus_shortname = "{{ Config.get('comments', 'disqus_shortname') }}"; // required: replace example with your forum shortname
+        var disqus_identifier = '{{ content.long_slug }}';
+        var disqus_title = '{{ content.title }}';
+        var disqus_url = '{{ request.base_url }}';
 
         /* * * DON'T EDIT BELOW THIS LINE * * */
         (function() {

@@ -15,7 +15,7 @@ class UserAdmin(ModelAdmin):
     form_columns = ('name', 'email', 'roles', 'active', 'newpassword',
                     'confirmed_at',
                     'last_login_at', 'current_login_at', 'last_login_ip',
-                    'current_login_ip', 'login_count', 'bio')
+                    'current_login_ip', 'login_count', 'tagline', 'bio', 'links')
 
     form_extra_fields = {
         "newpassword": TextField(widget=PasswordInput())
