@@ -44,7 +44,7 @@ class BasicTestCase(TestCase):
 
     def test_has_posts(self):
         from quokka.modules.posts.models import Post
-        self.assertTrue(Post.objects.count() == 4)
+        self.assertTrue(Post.objects.count() == 5)
 
     def test_blog_has_only_one_post(self):
         from quokka.modules.posts.models import Post
@@ -65,7 +65,7 @@ class BasicTestCase(TestCase):
 
     def test_has_default_theme(self):
         from quokka.core.models import Config
-        self.assertTrue(Config.get('settings', 'DEFAULT_THEME') == 'default')
+        self.assertTrue(Config.get('settings', 'DEFAULT_THEME') == 'pure')
 
     def test_app_has_admin(self):
         self.assertTrue(self.app.extensions.get("admin"))

@@ -142,7 +142,7 @@ ENABLE_TO_PDF = False
 Never change it here, use local_settings for this.
 """
 MODE = 'production'
-DEBUG = True
+DEBUG = False
 
 """
 Debug toolbar only works if installed
@@ -167,7 +167,7 @@ By default DEBUG_TOOLBAR is disabled
 do not change it here, do it in local_settings.py
 DEBUG_TOOLBAR_ENABLED = True
 """
-DEBUG_TOOLBAR_ENABLED = True
+DEBUG_TOOLBAR_ENABLED = False
 
 
 """

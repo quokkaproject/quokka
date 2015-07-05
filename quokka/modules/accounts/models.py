@@ -22,7 +22,7 @@ class Role(db.Document, RoleMixin):
         return u"{0} ({1})".format(self.name, self.description or 'Role')
 
 
-class UserLinks(db.EmbeddedDocument):
+class UserLink(db.EmbeddedDocument):
     title = db.StringField(max_length=50, required=True)
     link = db.StringField(max_length=255, required=True)
     icon = db.StringField(max_length=255)
@@ -53,7 +53,11 @@ class User(db.DynamicDocument, UserMixin):
 
     tagline = db.StringField(max_length=255)
     bio = db.StringField()
-    links = db.ListField(db.EmbeddedDocumentField(UserLinks))
+    links = db.ListField(db.EmbeddedDocumentField(UserLink))
+    gravatar_email = db.EmailField(max_length=255)
+
+    def get_gravatar_email(self):
+        return self.gravatar_email or self.email
 
     def clean(self, *args, **kwargs):
         if not self.username:
@@ -78,16 +82,22 @@ class User(db.DynamicDocument, UserMixin):
 
     @classmethod
     def createuser(cls, name, email, password,
-                   active=True, roles=None, username=None):
+                   active=True, roles=None, username=None,
+                   *args, **kwargs):
 
         username = username or cls.generate_username(email)
+        if "links" in kwargs:
+            kwargs["links"] = [UserLink(**link) for link in kwargs['links']]
+
         return cls.objects.create(
             name=name,
             email=email,
             password=encrypt_password(password),
             active=active,
             roles=roles,
-            username=username
+            username=username,
+            *args,
+            **kwargs
         )
 
     @property

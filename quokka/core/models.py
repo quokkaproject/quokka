@@ -51,7 +51,7 @@ class Publishable(Dated, Owned):
 
         user = get_current_user_for_models()
 
-        if not self.id:
+        if not self.id and not self.created_by:
             self.created_by = user
         self.last_updated_by = user
 

@@ -38,7 +38,7 @@
     <header class="post-header">
         <a href="" title="See posts by {{ content.created_by.display_name }}">
             {% if content.created_by.email %}
-                <img class="avatar" alt="{{ content.created_by.name }}" src="{{ content.created_by.email | gravatar(size=64) }}">
+                <img class="avatar" alt="{{ content.created_by.name }}" src="{{ content.created_by.get_gravatar_email() | gravatar(size=64) }}">
             {% endif %}
         </a>
         <h3><a class="post-title" href="{{ content.get_absolute_url() }}">{{ content.title }}</a></h3>
@@ -206,11 +206,9 @@
         <header class="header-article">
             <hgroup>
               <a href="/" class="back-home"><img src="{{ Config.get('site', 'site_logo_internal', theme_static('img/logo_black.png')) }}" alt="{{Config.get('site', 'site_name')}}"></a>
-
-
                 <a href="" title="See posts by {{ content.created_by.name }}">
                   {% if content.created_by.email %}
-                      <img class="article-avatar" alt="{{ content.created_by.name }}" src="{{ content.created_by.email | gravatar(size=200) }}">
+                      <img class="article-avatar" alt="{{ content.created_by.name }}" src="{{ content.created_by.get_gravatar_email() | gravatar(size=200) }}">
                   {% endif %}
                 </a>
 

@@ -3,26 +3,34 @@
         {
             "name" : "admin",
             "email" : "admin@example.com",
+            "gravatar_email": "rochacbruno+quokka@gmail.com",
             "password" : "admin",
-            "roles" : [ "admin" ]
-        },
-        {
-            "name" : "moderator",
-            "email" : "moderator@example.com",
-            "password" : "moderator",
-            "roles" : [ "moderator" ]
-        },
-        {
-            "name" : "editor",
-            "email" : "editor@example.com",
-            "password" : "editor",
-            "roles" : [ "editor" ]
-        },
-        { 
-            "name" : "user",
-            "email" : "user@example.com",
-            "password" : "user",
-            "roles" : [ "user", "viewer" ]
+            "roles" : [ "admin" ],
+            "bio": "Quokka Example Admin",
+            "tagline": "Quokka is the best CMS!",
+            "links": [
+                {
+                    "title" : "facebook",
+                    "link" : "http://facebook.com/quokkaproject",
+                    "icon" : "facebook",
+                    "css_class" : "facebook",
+                    "order" : 0
+                },
+                {
+                    "title" : "github",
+                    "link" : "http://github.com/quokkaproject",
+                    "icon" : "github",
+                    "css_class" : "github",
+                    "order" : 0
+                },
+                {
+                    "title" : "twitter",
+                    "link" : "http://twitter.com/quokkaproject",
+                    "icon" : "twitter",
+                    "css_class" : "twitter",
+                    "order" : 0
+                }
+            ]
         }
     ],
     "configs": [
@@ -42,7 +50,12 @@
                },
                {
                    "name": "site_description",
-                   "rawvalue": "A Quokka CMS website",
+                   "rawvalue": "The Happiest CMS in the World",
+                   "formatter": "text"
+               },
+               {
+                   "name": "site_tagline",
+                   "rawvalue": "The Happiest CMS in the World",
                    "formatter": "text"
                },
                {
@@ -74,6 +87,16 @@
                    "name": "google-site-verification",
                    "rawvalue": "",
                    "formatter": "text"
+               },
+               {
+                   "name": "menu_items",
+                   "rawvalue":"[[\"Quokka CMS\", \"http://www.quokkaproject.org\"], [\"Slack Chat\", \"https://quokkaslack.herokuapp.com/\"]]",
+                   "formatter": "json"
+               },
+               {
+                   "name": "social_items",
+                   "rawvalue":"[[\"github\", \"http://github.com/quokkaproject\"], [\"twitter\", \"https://twitter.com/quokkaproject/\"]]",
+                   "formatter": "json"
                }
             ]
         },
@@ -83,12 +106,17 @@
             "values": [
                {
                    "name": "system",
-                   "rawvalue": "internal",
+                   "rawvalue": "disqus",
                    "formatter": "text"
                },
                {
-                   "name": "disqus_script",
+                   "name": "custom_script",
                    "rawvalue": "",
+                   "formatter": "text"
+               },
+               {
+                   "name": "disqus_shortname",
+                   "rawvalue": "quokkaexample",
                    "formatter": "text"
                },
                {
@@ -119,13 +147,8 @@
             "description": "App settings override CAUTION!!!",
             "values": [
                {
-                   "name": "DEFAULT_THEME",
-                   "rawvalue": "default",
-                   "formatter": "text"
-               },
-               {
-                   "name": "ADMIN_THEME",
-                   "rawvalue": "cosmo",
+                   "name": "EXAMPLE",
+                   "rawvalue": "this_overwrite_the_value_in_settings",
                    "formatter": "text"
                }
             ]
@@ -164,9 +187,10 @@
             "published": true,
             "indexable": true,
             "order": 0,
-            "channel_type": "portal",
+            "channel_type": "list",
             "content_filters": { "model__not__startswith": "media." },
-            "canonical_url": "/"
+            "canonical_url": "/",
+            "per_page": 4
         },
         {
             "title": "Media",
@@ -360,7 +384,12 @@
             "summary": "Python Surpasses Standards, Reaches New Levels of Quality",
             "channel": "programming",
             "related_channels": ["blog"],
-            "tags": [ "quality", "python", "coverity" ],            
+            "tags": [ "quality", "python", "coverity" ],
+            "license" : {
+                "title" : "Creative Commons",
+                "link" : "http://creativecommons.com",
+                "identifier" : "creative_commons_by_nc_nd"
+            },
             "body": "<p>Throughout Python's 20-plus year history, its quality has been in the hands of the volunteers around the world openly contributing to it. Thanks to Coverity, those volunteers have been pointed to many quality and security issues via Coverity Scan, a service which finds defects in C/C++ and Java projects at no cost.</p> <p> As the CPython project includes over 370,000 lines of C code*, accounting for 42% of the codebase, a lot of it lies outside of the analysis tools our community has created to work with Python code. Since 2006, Coverity's scans of that code have found nearly 1,000 defects, 860 of which our contributors have fixed.</p> <p> In an industry where the standard defect density is a rate of 1 per 1,000 lines of code, CPython has attained a rate of 0.005 defects per 1,000 lines, and \"introduces a new level of quality for open source software,\" said Coverity.</p> <p> \"Python is the model citizen of good code quality practices, and we applaud their contributors and maintainers for their commitment to quality,\" said Jennifer Johnson, chief marketing officer for Coverity.</p> <p> The PSF and the rest of the community join Coverity in applauding all of those who have contributed their time and effort to make CPython a better project, along with the countless others who contribute to a powerful landscape of Python interpreters.</p>"
         },
         {
@@ -370,6 +399,11 @@
             "channel": "mobile",
             "related_channels": ["blog"],
             "tags": [ "mobile", "acts", "smallacts" ],
+            "license" : {
+                "title" : "Creative Commons",
+                "link" : "http://creativecommons.com",
+                "identifier" : "creative_commons_by_nc_nd"
+            },
             "body": "<div><p>We are discovering better ways of building communities by connecting people.</p><p>Through this endeavor we have come to value:</p><ul><li><strong>Trust</strong> - which must be respected and never put at risk;</li><li><strong>Dialog</strong> - is the way to establish a truly trustful relationship;</li><li><strong>Personal Contact</strong> - the richest experience, not matched by any media or technology;</li><li><strong>Transparency</strong> - the mean to maintain a sustainable community;</li><li><strong>Diversity</strong> - people have many interests, but if you need a label, label yourself as a human;</li><li><strong>Self-organization</strong> - leaders come and go, but there should be no owners;</li> <li><strong>Example</strong> - that's how you teach, live and learn;</li> <li><strong>Consistency</strong> - things take time, intensity is not always the answer;</li><li><strong>Give, give, give!</strong> - you'll be impressed by how fast things will come back;</li><li><strong>Do it!</strong> - as simple as you can, just what is essential to pass it forward.</li></ul><p>Together, these elements build the foundation of a <em>Small Act</em> capable of transforming people's lives.</p></div>" 
         },
         {
@@ -378,6 +412,11 @@
             "summary": "Quokka is a flexible content management platform powered by Python, Flask and MongoDB.",
             "channel": "home",
             "tags": [ "quokka", "python", "flask" ],
+            "license" : {
+                "title" : "Creative Commons",
+                "link" : "http://creativecommons.com",
+                "identifier" : "creative_commons_by_nc_nd"
+            },
             "body": "<p>Quokka provides a \"full-stack\" Flask application plus a bunch of selected extensions to provide all the needed CMS admin features and a flexible-easy way to extend the platform with <strong>quokka-modules</strong> built following the Flask <strong>Blueprints</strong> pattern.</p> <p align=\"center\"><a href=\"https://raw.github.com/pythonhub/quokka/master/docs/logo.png\" target=\"_blank\"><img src=\"https://raw.github.com/pythonhub/quokka/master/docs/logo.png\" alt=\"quokka cms\" style=\"max-width:100%;\"></a></p>"
         },
         {
@@ -387,6 +426,25 @@
             "channel": "blog",
             "tags": [ "blog" ],
             "body": "# this is a blog post",
+            "license" : {
+                "title" : "Creative Commons",
+                "link" : "http://creativecommons.com",
+                "identifier" : "creative_commons_by_nc_nd"
+            },
+            "content_format": "markdown"
+        },
+        {
+            "title" : "Why is Flask a good web framework choice?",
+            "summary" : "Flask is easy to get started with as a beginner because there is little boilerplate code for getting a simple app up and running.",
+            "slug" : "why-is-flask-a-good-web-framework-choice",
+            "channel": "programming",
+            "tags": [ "python", "flask", "web" ],
+            "body" : "Flask is easy to get started with as a beginner because there is little boilerplate code for getting a simple app up and running.\r\n\r\nFor example, here's a valid \"hello world\" web application with Flask:\r\n\r\n    from flask import Flask\r\n    app = Flask(__name__)\r\n    \r\n    @app.route('/')\r\n    def hello_world():\r\n        return 'Hello World!'\r\n    \r\n    if __name__ == '__main__':\r\n        app.run()\r\n\t\r\n\t",
+            "license" : {
+                "title" : "Creative Commons",
+                "link" : "http://creativecommons.com",
+                "identifier" : "creative_commons_by_nc_nd"
+            },
             "content_format": "markdown"
         }
     ]
