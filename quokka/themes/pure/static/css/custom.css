@@ -143,3 +143,8 @@ p code {
 .has-error input {
   background-color: pink;
 }
+
+a.back-home {
+  display: block;
+  margin-bottom: 20px;
+}
