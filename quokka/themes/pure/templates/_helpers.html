@@ -80,7 +80,7 @@
     var js, fjs = d.getElementsByTagName(s)[0];
     if (d.getElementById(id)) return;
     js = d.createElement(s); js.id = id;
-    js.src = "//connect.facebook.net/pt_BR/sdk.js#xfbml=1&appId={{ Config.get('site', 'FACEBOOK_APPID', '') }}&version=v2.0";
+    js.src = "//connect.facebook.net/pt_BR/sdk.js#xfbml=1&appId={{ Config.get('site', 'facebook_app_id', '') }}&version=v2.0";
     fjs.parentNode.insertBefore(js, fjs);
     }(document, 'script', 'facebook-jssdk'));</script>
     <div class="fb-share-button" data-href="{{ content.get_http_url() }}" data-type="button_count"></div>
@@ -228,8 +228,8 @@
                 </ul>
 
                 <small class="about-author">{{ content.created_by.tagline }}</small>
-                <h5>Published</h5>
-                <p>{{ content.created_at.strftime('%H:%M of %m/%d/%Y') }}</p>
+
+                <p>Published in {{ content.created_at.strftime('%H:%M of %m/%d/%Y') }}</p>
                 <a href="/" class="back-home">&larr;Home</a>
             </hgroup>
         </header>

@@ -30,16 +30,16 @@
 {% endblock %}
 
 
-{% block head %}
+{% block meta %}
     {{ super() }}
-    <meta property="fb:app_id" content="{{ Config.get('site', 'FACEBOOK_APPID', '') }}" />
+    <meta property="fb:app_id" content="{{ Config.get('site', 'facebook_app_id', '') }}" />
     <meta property="og:type" content="article" />
     <meta property="og:title" content="{{ content.title }}" />
     <meta property="og:site_name" content="{{ Config.get('site', 'site_name') }}" />
     <meta property="og:url" content="{{ content.get_absolute_url() }}" />
     <meta property="og:description" content="{{ content.get_summary()|truncate(255)|striptags }}" />
     <meta property="og:image" content="{{ content.get_main_image_url(default=Config.get('site', 'site_logo', theme_static('img/logo.png'))) }}" />
-{% endblock head %}
+{% endblock meta %}
 
 {% block content %}
     <div class="pure-g-r" id="layout">

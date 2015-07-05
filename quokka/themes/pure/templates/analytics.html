@@ -5,7 +5,7 @@
     </script>
     <script type="text/javascript">
         try {
-            var pageTracker = _gat._getTracker("{{ GOOGLE_ANALYTICS }}");
+            var pageTracker = _gat._getTracker("{{ Config.get('site', 'google-analytics') }}");
             pageTracker._trackPageview();
             } catch(err) {}
     </script>

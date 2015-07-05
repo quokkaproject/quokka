@@ -3,7 +3,7 @@
 """
 This file is used for runtests.py or make test
 """
-from quokka.settings import *  # flake8: noqa 
+from quokka.settings import *  # flake8: noqa
 
 MONGODB_SETTINGS = {'DB': "quokka_test"}
 

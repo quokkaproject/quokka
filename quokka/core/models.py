@@ -496,7 +496,8 @@ class SubContent(Publishable, Ordered, db.EmbeddedDocument):
 
 
 class License(db.EmbeddedDocument):
-    LICENSES = (('custom', 'custom'), ('creative_commons_by_nc_nd', 'creative_commons_by_nc_nd'))
+    LICENSES = (('custom', 'custom'),
+                ('creative_commons_by_nc_nd', 'creative_commons_by_nc_nd'))
     title = db.StringField(max_length=255)
     link = db.StringField(max_length=255)
     identifier = db.StringField(max_length=255, choices=LICENSES)
@@ -565,7 +566,7 @@ class Content(HasCustomValue, Publishable, LongSlugged,
         return list(set(themes))
 
     def get_http_url(self):
-        site_url = Config.get('site', 'site_url', '')
+        site_url = Config.get('site', 'site_domain', request.url_root)
         return u"{}{}".format(site_url, self.get_absolute_url())
 
     def get_absolute_url(self, endpoint='detail'):
