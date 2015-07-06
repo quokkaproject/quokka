@@ -36,7 +36,7 @@
 {% macro render_list_item(content) %}
 <section class="post">
     <header class="post-header">
-        <a href="" title="See posts by {{ content.created_by.display_name }}">
+        <a href="{{url_for('authors.author', author_id=content.created_by.username)}}" title="See posts by {{ content.created_by.display_name }}">
             {% if content.created_by.email %}
                 <img class="avatar" alt="{{ content.created_by.name }}" src="{{ content.created_by.get_gravatar_email() | gravatar(size=64) }}">
             {% endif %}
@@ -105,7 +105,7 @@
          src="http://i.creativecommons.org/l/by-nc-nd/4.0/88x31.png"/></a><br/>
          <a xmlns:dct="http://purl.org/dc/terms/" property="dct:title"
       href="{{content.get_absolute_url()}}">"{{ content.title }}"</a> by <a
-      xmlns:cc="http://creativecommons.org/ns#" href=""
+      xmlns:cc="http://creativecommons.org/ns#" href="{{url_for('authors.author', author_id=content.created_by.username)}}"
       property="cc:attributionName" rel="cc:attributionURL">"{{ content.created_by.display_name }}"</a> is licensed under
   <a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/4.0/">Creative Commons -
       Attribution Non Commercial No Derivatives 4.0 Internacional</a>.
@@ -206,7 +206,7 @@
         <header class="header-article">
             <hgroup>
               <a href="/" class="back-home"><img src="{{ Config.get('site', 'site_logo_internal', theme_static('img/logo_black.png')) }}" alt="{{Config.get('site', 'site_name')}}"></a>
-                <a href="" title="See posts by {{ content.created_by.name }}">
+                <a href="{{url_for('authors.author', author_id=content.created_by.username)}}" title="See posts by {{ content.created_by.display_name }}">
                   {% if content.created_by.email %}
                       <img class="article-avatar" alt="{{ content.created_by.name }}" src="{{ content.created_by.get_gravatar_email() | gravatar(size=200) }}">
                   {% endif %}

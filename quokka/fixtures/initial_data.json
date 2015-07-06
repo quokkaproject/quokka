@@ -69,6 +69,11 @@
                    "formatter": "text"
                },
                {
+                   "name": "sidebar_image",
+                   "rawvalue": "http://lorempixel.com/g/500/800/animals",
+                   "formatter": "text"
+               },
+               {
                    "name": "admin_logo",
                    "rawvalue": "",
                    "formatter": "text"
@@ -335,7 +340,7 @@
             "order": 3
         }
     ],
-    "purposes": [    
+    "purposes": [
         {
             "title": "General",
             "identifier": "general",
@@ -404,7 +409,7 @@
                 "link" : "http://creativecommons.com",
                 "identifier" : "creative_commons_by_nc_nd"
             },
-            "body": "<div><p>We are discovering better ways of building communities by connecting people.</p><p>Through this endeavor we have come to value:</p><ul><li><strong>Trust</strong> - which must be respected and never put at risk;</li><li><strong>Dialog</strong> - is the way to establish a truly trustful relationship;</li><li><strong>Personal Contact</strong> - the richest experience, not matched by any media or technology;</li><li><strong>Transparency</strong> - the mean to maintain a sustainable community;</li><li><strong>Diversity</strong> - people have many interests, but if you need a label, label yourself as a human;</li><li><strong>Self-organization</strong> - leaders come and go, but there should be no owners;</li> <li><strong>Example</strong> - that's how you teach, live and learn;</li> <li><strong>Consistency</strong> - things take time, intensity is not always the answer;</li><li><strong>Give, give, give!</strong> - you'll be impressed by how fast things will come back;</li><li><strong>Do it!</strong> - as simple as you can, just what is essential to pass it forward.</li></ul><p>Together, these elements build the foundation of a <em>Small Act</em> capable of transforming people's lives.</p></div>" 
+            "body": "<div><p>We are discovering better ways of building communities by connecting people.</p><p>Through this endeavor we have come to value:</p><ul><li><strong>Trust</strong> - which must be respected and never put at risk;</li><li><strong>Dialog</strong> - is the way to establish a truly trustful relationship;</li><li><strong>Personal Contact</strong> - the richest experience, not matched by any media or technology;</li><li><strong>Transparency</strong> - the mean to maintain a sustainable community;</li><li><strong>Diversity</strong> - people have many interests, but if you need a label, label yourself as a human;</li><li><strong>Self-organization</strong> - leaders come and go, but there should be no owners;</li> <li><strong>Example</strong> - that's how you teach, live and learn;</li> <li><strong>Consistency</strong> - things take time, intensity is not always the answer;</li><li><strong>Give, give, give!</strong> - you'll be impressed by how fast things will come back;</li><li><strong>Do it!</strong> - as simple as you can, just what is essential to pass it forward.</li></ul><p>Together, these elements build the foundation of a <em>Small Act</em> capable of transforming people's lives.</p></div>"
         },
         {
             "title": "Welcome to Quokka CMS",

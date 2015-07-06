@@ -1,0 +1,9 @@
+{{author.display_name}}
+<ul>
+    {% for content in get_author_contents(author).items %}
+     <li> {{content}} </li>
+    {% endfor %}
+</ul>
+
+
+{{url_for('authors.author', author_id=author.id)}}

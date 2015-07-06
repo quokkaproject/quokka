@@ -1,0 +1,12 @@
+<ul>
+{% for author in authors %}
+    <li>
+    {{ author.display_name }}
+        <ul>
+            {% for content in get_author_contents(author).items %}
+             <li> {{content}} </li>
+            {% endfor %}
+        </ul>
+    </li>
+{% endfor %}
+</li>
