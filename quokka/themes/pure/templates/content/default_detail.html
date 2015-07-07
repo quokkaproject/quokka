@@ -8,10 +8,6 @@
 <meta name="keywords" content="{{content.tags|join(',')}}">
 {% endblock %}
 
-{% block head_css %}
-    <link rel="stylesheet" href="{{theme_static('css/pygments.css')}}">
-{% endblock %}
-
 {% block bottom_js %}
     <script src="//cdnjs.cloudflare.com/ajax/libs/fitvids/1.0.1/jquery.fitvids.min.js"></script>
     <script>
@@ -36,7 +32,7 @@
     <meta property="og:type" content="article" />
     <meta property="og:title" content="{{ content.title }}" />
     <meta property="og:site_name" content="{{ Config.get('site', 'site_name') }}" />
-    <meta property="og:url" content="{{ content.get_absolute_url() }}" />
+    <meta property="og:url" content="{{ content.get_http_url() }}" />
     <meta property="og:description" content="{{ content.get_summary()|truncate(255)|striptags }}" />
     <meta property="og:image" content="{{ content.get_main_image_url(default=Config.get('site', 'site_logo', theme_static('img/logo.png'))) }}" />
 {% endblock meta %}

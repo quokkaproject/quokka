@@ -148,3 +148,7 @@ a.back-home {
   display: block;
   margin-bottom: 20px;
 }
+
+#flDebugToolbar, #flDebug {
+    letter-spacing: normal;
+}

@@ -3,7 +3,7 @@
 
 from flask.views import MethodView
 from quokka.core.templates import render_template
-from .utils import get_authors, get_author
+from .utils import get_authors, get_author, get_author_contents
 
 
 class AuthorListView(MethodView):
@@ -21,5 +21,7 @@ class AuthorView(MethodView):
     """
 
     def get(self, author_id):
+        author = get_author(author_id)
+        contents = get_author_contents(author)
         return render_template('authors/detail.html',
-                               author=get_author(author_id))
+                               author=author, contents=contents)
