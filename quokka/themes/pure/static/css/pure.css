@@ -185,7 +185,7 @@ pre {
     padding: 2em 3em 0;
     max-width: 1000px;
     font-size: 110%;
-    line-height: 1.45;
+    /*line-height: 1.45;*/
     color: #333332;
 }
 
@@ -375,7 +375,7 @@ pre {
     max-width:170px;
     word-wrap:break-word;
     display:inline-block;
-    padding: 0;
+    /*padding: 0;*/
 }
 .author-social li {
     display:inline-block;
