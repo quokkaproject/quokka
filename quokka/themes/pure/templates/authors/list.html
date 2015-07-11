@@ -1,0 +1,43 @@
+{% from theme('_helpers.html') import render_pagination with context %}
+{% extends theme("base.html") %}
+{%block title%} Authors | {{Config.get('site', 'site_name', 'Quokka site')}} {% endblock %}
+
+{% block content %}
+<div class="pure-g-r" id="layout">
+    {% include theme('sidebar.html') %}
+    <div class="pure-u-1">
+        {{ menu.build_nodes(nodes=channels) }}
+        <div class="content">
+            <!-- A wrapper for all the blog posts -->
+            <div class="posts">
+                <h1 class="content-subhead">All authors</h1>
+                {% for author in authors.items %}
+                    <section class="post">
+                        <header class="post-header">
+                            <a href="{{url_for('authors.author', author_id=author.username)}}" title="See posts by {{ author.display_name }}">
+                                {% if author.email %}
+                                    <img class="avatar" alt="{{ author.display_name }}" src="{{ author.get_gravatar_email() | gravatar(size=64) }}">
+                                {% endif %}
+                            </a>
+                            <h3><a class="post-title" href="{{url_for('authors.author', author_id=author.username)}}">{{ author.display_name }}</a></h3>
+                                <p class="post-meta">
+                                  {{author.tagline|truncate(255)|safe()}}
+                                </p>
+                                <p class="post-meta">
+                                    <ul>
+                                        {% for content in get_author_contents(author).items %}
+                                         <li> <a href="{{ content.get_absolute_url() }}">{{ content.title }}</a> </li>
+                                        {% endfor %}
+                                    </ul>
+                                </p>
+                        </header>
+                    </section>
+                {% endfor %}
+
+                {{render_pagination(authors, request.path)}}
+                {% include theme('footer.html') %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

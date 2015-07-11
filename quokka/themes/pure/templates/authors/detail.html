@@ -1,0 +1,53 @@
+{% from theme('_helpers.html') import render_pagination, render_list_item, render_author_sidebar with context %}
+{% extends theme("base.html") %}
+
+{%block title%} {{author.display_name}} | {{Config.get('site', 'site_name', 'Quokka site')}} {% endblock %}
+
+{% block seo_meta %}
+<meta name="description" content="{{author.bio or author.tagline}}">
+{% endblock %}
+
+{% block meta %}
+    {{ super() }}
+    <meta property="fb:app_id" content="{{ Config.get('site', 'facebook_app_id', '') }}" />
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content="{{ author.display_name }}" />
+    <meta property="og:site_name" content="{{ Config.get('site', 'site_name') }}" />
+    <meta property="og:url" content="{{url_for('authors.author', author_id=author.id)}}" />
+    <meta property="og:description" content="{{ author.bio|truncate(255)|striptags }}" />
+    <meta property="og:image" content="{{ author.get_gravatar_email() | gravatar(size=64) }}" />
+{% endblock meta %}
+
+{% block content %}
+    <div class="pure-g-r" id="layout">
+        <div class="sidebar sidebar-article pure-u">
+        <header class="header-article">
+            <hgroup>
+              <a href="/" class="back-home"><img src="{{ Config.get('site', 'site_logo_internal', theme_static('img/logo_black.png')) }}" alt="{{Config.get('site', 'site_name')}}"></a>
+                {{render_author_sidebar(author)}}
+                <p class="about-author">{{ author.bio }}</p>
+                <a href="{{url_for('authors.authors')}}" class="back-home">&larr;Authors</a>
+            </hgroup>
+        </header>
+        </div>
+
+        <div class="pure-u-1">
+            {{ menu.build_nodes(nodes=channels) }}
+            <div class="content">
+                <!-- A wrapper for all the blog posts -->
+                <h1 class="content-subhead">Contents written by "{{author.display_name}}"</h1>
+                <div class="posts">
+                    {% for content in contents.items %}
+                      {{render_list_item(content)}}
+                    {% endfor %}
+
+                    {{render_pagination(contents, request.path)}}
+
+
+                    {% include theme('footer.html') %}
+                </div>
+            </div>
+        </div>
+
+    </div>
+{% endblock %}

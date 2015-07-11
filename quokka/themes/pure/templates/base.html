@@ -1,0 +1,80 @@
+{% import theme('_menu.html') as menu with context -%}
+<!doctype html>
+<html lang="en">
+<head>
+    <base href="{{request.url_root}}">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#101212">
+
+    {% block seo_meta %}
+    <meta name="description" content="{{Config.get('site', 'site_description')}}">
+    <meta name="keywords" content="{{Config.get('site', 'site_keywords')}}">
+    {% endblock %}
+
+    {% block meta %}{% endblock %}
+    {%if content %}
+      <link rel="canonical" href="{{content.get_canonical_url()}}"/>
+      <meta name="author" content="{{content.created_by.display_name}}">
+    {% elif channel %}
+      <meta name="author" content="{{Config.get('site', 'site_author')}}">
+      <link rel="canonical" href="{{channel.get_canonical_url()}}"/>
+      <link rel="alternate" type="application/atom+xml" title="{{ channel.title|title }} Posts (Atom 0.3)" href="{{url_for('atom_list', long_slug=channel.long_slug)}}">
+      <link rel="alternate" type="application/rss+xml" title="{{ channel.title|title }} Posts (RSS 2.0)" href="{{ url_for('rss_list', long_slug=channel.long_slug) }}">
+    {% endif %}
+    <link rel="shortcut icon" href="{{theme_static('favicon.ico')}}">
+
+    <title>{%block title%}{{Config.get('site', 'site_name', 'The Happiest CMS in the World')}}{% endblock %}</title>
+    {% block head %}
+    {% endblock head %}
+
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/pure/0.6.0/pure-min.css">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="{{theme_static('css/pure.css')}}">
+    <link rel="stylesheet" href="{{theme_static('css/custom.css')}}">
+    {% block head_css %}{% endblock %}
+    {% block head_js %}{% endblock %}
+    {% include theme('analytics.html') %}
+
+    {% with %}
+        {% set g_s_v = Config.get('site', 'google-site-verification')%}
+        {% if g_s_v %}
+        <meta name="google-site-verification" content="{{g_s_v}}" />
+        {% endif %}
+    {% endwith %}
+</head>
+
+<body>
+    {% block content %}
+    {% endblock %}
+
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    {% block bottom_js %}{% endblock %}
+    {% block js_footer %}{% endblock %}
+    <script>
+        var $top = $('.go-top');
+
+        // Show or hide the sticky footer button
+        $(window).scroll(function() {
+            if ($(this).scrollTop() > 200) {
+                $top.fadeIn(200);
+            } else {
+                $top.fadeOut(200);
+            }
+        });
+
+        // Animate the scroll to top
+        $top.click(function(event) {
+            event.preventDefault();
+            $('html, body').animate({scrollTop: 0}, 300);
+        })
+
+        // Makes sure that the href="#" attached to the <a> elements
+        // don't scroll you back up the page.
+        $('body').on('click', 'a[href="#"]', function(event) {
+            event.preventDefault();
+        });
+    </script>
+</body>
+</html>

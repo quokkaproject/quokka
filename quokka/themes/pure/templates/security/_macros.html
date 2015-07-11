@@ -1,0 +1,23 @@
+{% macro render_field_with_errors(field) %}
+ <div class="pure-control-group{%if field.errors %} has-error{% endif %}">
+    <label for="{{field.id}}">{{ field.label }}</label>
+      {{field(**kwargs)|safe}}
+  </div>
+{% endmacro %}
+
+{% macro render_field(field) %}
+{% if field.type != 'HiddenField' %}
+ <div class="pure-control-group">
+    <label for="{{field.id}}">{{ field.label }}</label>
+    {{field(**kwargs)|safe}}
+  </div>
+{% else %}
+    {{field(**kwargs)|safe}}
+{% endif %}
+{% endmacro %}
+
+{% macro render_button(field) %}
+   <div class="pure-controls">
+      {{field(**kwargs)|safe}}
+  </div>
+{% endmacro %}

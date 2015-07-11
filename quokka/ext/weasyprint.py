@@ -12,15 +12,15 @@ try:
     import_error = False
 except (ImportError, OSError) as e:
 
-    print("""
-    Error importing flask-weasyprint!
-    PDF support is temporarily disabled.
-    Manual dependencies may need to be installed.
-    See,
-        `http://weasyprint.org/docs/install/#by-platform`_
-        `https://github.com/Kozea/WeasyPrint/issues/79`_
+    # print("""
+    # Error importing flask-weasyprint!
+    # PDF support is temporarily disabled.
+    # Manual dependencies may need to be installed.
+    # See,
+    #     `http://weasyprint.org/docs/install/#by-platform`_
+    #     `https://github.com/Kozea/WeasyPrint/issues/79`_
 
-    """ + str(e))
+    # """ + str(e))
 
     import_error = True
 

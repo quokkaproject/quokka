@@ -156,8 +156,8 @@ DEBUG_TB_PANELS = (
     'flask_debugtoolbar.panels.timer.TimerDebugPanel',
     'flask_debugtoolbar.panels.headers.HeaderDebugPanel',
     'flask_debugtoolbar.panels.request_vars.RequestVarsDebugPanel',
-    # 'flask_debugtoolbar.panels.template.TemplateDebugPanel',
-    # 'flask.ext.mongoengine.panels.MongoDebugPanel',
+    'flask_debugtoolbar.panels.template.TemplateDebugPanel',
+    'flask.ext.mongoengine.panels.MongoDebugPanel',
     'flask_debugtoolbar.panels.logger.LoggingPanel',
     'flask_debugtoolbar.panels.profiler.ProfilerDebugPanel',
 )
@@ -256,6 +256,7 @@ MEDIA_FILE_ALLOWED_EXTENSIONS = ('pdf', 'txt', 'doc', 'docx', 'xls', 'xmlsx')
 
 # default admin THEME
 ADMIN_THEME = 'cosmo'
+DEFAULT_THEME = 'pure'
 
 # default content extension for url buildind
 CONTENT_EXTENSION = "html"

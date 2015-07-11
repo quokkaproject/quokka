@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 import logging
 from speaklater import make_lazy_string
-from quokka.modules.accounts.models import User
 
 logger = logging.getLogger()
 
@@ -14,6 +13,7 @@ def lazy_str_setting(key, default=None):
 
 
 def get_current_user():
+    from quokka.modules.accounts.models import User
     from flask.ext.security import current_user
     try:
         return User.objects.get(id=current_user.id)

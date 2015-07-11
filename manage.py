@@ -21,10 +21,6 @@ if app.config.get("LOGGER_ENABLED"):
     )
 
 manager = Manager(app)
-manager.add_option("-c", "--config",
-                   dest="config", required=False,
-                   default='quokka.settings')
-
 collect = Collect()
 collect.init_script(manager)
 

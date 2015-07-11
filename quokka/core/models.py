@@ -5,7 +5,7 @@ import json
 import logging
 import datetime
 import random
-from flask import url_for, current_app, redirect
+from flask import url_for, current_app, redirect, request
 from flask.ext.mistune import markdown
 
 from quokka.core import TEXT_FORMATS
@@ -41,6 +41,14 @@ class Dated(object):
 class Owned(object):
     created_by = db.ReferenceField(User)
     last_updated_by = db.ReferenceField(User)
+    authors = db.ListField(db.ReferenceField(User))
+
+    def get_authors(self, sortedf=None):
+        return set(self.authors + [self.created_by])
+
+    @property
+    def has_multiple_authors(self):
+        return len(self.get_authors()) > 1
 
 
 class Publishable(Dated, Owned):
@@ -51,7 +59,7 @@ class Publishable(Dated, Owned):
 
         user = get_current_user_for_models()
 
-        if not self.id:
+        if not self.id and not self.created_by:
             self.created_by = user
         self.last_updated_by = user
 
@@ -260,6 +268,12 @@ class Channel(Tagged, HasCustomValue, Publishable, LongSlugged,
         if self.content_filters:
             filters.update(self.content_filters)
         return filters
+
+    def get_ancestors_count(self):
+        """
+        return how many ancestors this node has based on slugs
+        """
+        return len(self.get_ancestors_slugs())
 
     def get_ancestors_slugs(self):
         """return ancestors slugs including self as 1st item
@@ -495,6 +509,14 @@ class SubContent(Publishable, Ordered, db.EmbeddedDocument):
         return self.content and self.content.title or self.caption
 
 
+class License(db.EmbeddedDocument):
+    LICENSES = (('custom', 'custom'),
+                ('creative_commons_by_nc_nd', 'creative_commons_by_nc_nd'))
+    title = db.StringField(max_length=255)
+    link = db.StringField(max_length=255)
+    identifier = db.StringField(max_length=255, choices=LICENSES)
+
+
 ###############################################################
 # Base Content for every new content to extend. inheritance=True
 ###############################################################
@@ -510,6 +532,7 @@ class Content(HasCustomValue, Publishable, LongSlugged,
     contents = db.ListField(db.EmbeddedDocumentField(SubContent))
     model = db.StringField()
     comments_enabled = db.BooleanField(default=True)
+    license = db.EmbeddedDocumentField(License)
 
     meta = {
         'allow_inheritance': True,
@@ -556,6 +579,10 @@ class Content(HasCustomValue, Publishable, LongSlugged,
             themes.insert(0, theme)
         return list(set(themes))
 
+    def get_http_url(self):
+        site_url = Config.get('site', 'site_domain', request.url_root)
+        return u"{}{}".format(site_url, self.get_absolute_url())
+
     def get_absolute_url(self, endpoint='detail'):
         if self.channel.is_homepage:
             long_slug = self.slug
@@ -592,7 +619,7 @@ class Content(HasCustomValue, Publishable, LongSlugged,
         elif hasattr(self, 'description'):
             text = self.description
         else:
-            text = self.summary
+            text = self.summary or ""
 
         if self.content_format == "markdown":
             return markdown(text)
@@ -633,6 +660,7 @@ class Link(Content):
     force_redirect = db.BooleanField(default=True)
     increment_visits = db.BooleanField(default=True)
     visits = db.IntField(default=0)
+    show_on_channel = db.BooleanField(default=False)
 
     def pre_render(self, render_function, *args, **kwargs):
         if self.increment_visits:

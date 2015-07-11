@@ -37,5 +37,5 @@ Core
 * Better dashboard for index on admin with drag and drop changeable widgets
 * include docs for "uwsgi -s /tmp/uwsgi.sock -w quokka:app"
 * Implement a task queue, for sending email notifications, configurable to use python-rq or celery with https://github.com/Robpol86/Flask-Celery-Helper
-* Adapt purepelican theme as default front end theme
+* <del>Adapt purepelican theme as default front end theme</del>
 * <del>mkdocs in website</del>

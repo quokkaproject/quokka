@@ -1,0 +1,28 @@
+{% from theme('_helpers.html') import render_list, render_pagination with context %}
+{% extends theme("base.html") %}
+
+{%block title%} Tag search | {{Config.get('site', 'site_name', 'Quokka site')}} {% endblock %}
+
+{% block seo_meta %}
+<meta name="description" content="Tag Search">
+<meta name="keywords" content="{{request.view_args.tag}}">
+<link rel="alternate" type="application/atom+xml" title="Tagged posts (Atom 0.3)" href="{{url_for('atom_tag', tag=request.view_args.tag)}}">
+{% endblock %}
+
+{% block content %}
+<div class="pure-g-r" id="layout">
+    {% include theme('sidebar.html') %}
+    <div class="pure-u-1">
+        {{ menu.build_nodes(nodes=channels) }}
+        <div class="content">
+            <!-- A wrapper for all the blog posts -->
+            <h1 class="content-subhead">Contents with the tag "{{request.view_args.tag}}"</h1>
+            <div class="posts">
+                {{render_list(contents.items)}}
+                {{render_pagination(contents, request.path)}}
+                {% include theme('footer.html') %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

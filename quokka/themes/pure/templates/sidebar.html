@@ -1,0 +1,48 @@
+<div class="sidebar pure-u">
+    <div class="cover-img"
+     {% if Config.get('site', 'sidebar_color') %}
+     style="background-color: Config.get('site', 'sidebar_color');"
+     {% else %}
+     style="background-image: url('{{Config.get('site', 'sidebar_image', Config.get('site', 'sidebar_image', 'http://lorempixel.com/500/800/animals'))}}')"
+     {% endif %}
+    >
+
+        <div class="cover-body">
+            <header class="header">
+                <hgroup>
+                    <h1 class="brand-main"><a href="/"><img src="{{ Config.get('site', 'site_logo', theme_static('img/logo.png')) }}" alt="{{Config.get('site', 'site_name')}}"></a></h1>
+                    <p class="tagline">{{Config.get('site', 'site_tagline', '<b>The Happiest CMS in the World!</b>')|safe}}</p>
+
+                    {% for title, link in Config.get('site', 'menu_items', []) %}
+                        <p class="links"><a href="{{ link }}">{{ title }}</a></p>
+                    {% endfor %}
+
+                    <div class="section articles-random">
+                      <div id="random-articles">
+                        <ul>
+                        {% for cont in Link.objects.filter(tags='sidebar').limit(10) %}
+                            <li><a href="{{ cont.get_absolute_url() }}">{{ cont.title }}</a></li>
+                        {% endfor %}
+                      </ul>
+                      </div>
+                    </div>
+
+                    <p class="social">
+                      {% for title, link in Config.get('site', 'social_items', []) %}
+                      <a href="{{ link }}">
+                          <i class="fa fa-{{ title }} fa-3x"></i>
+                        </a>
+                        {% endfor %}
+                    </p>
+
+                    <p class="tagline">
+                      <a target="_blank" href="http://smallactsmanifesto.org" title="Small Acts Manifesto">
+                        <img src="http://smallactsmanifesto.org/static/images/smallacts-badge-80x15.png" style="border: none;" alt="Small Acts Manifesto" />
+                      </a>
+                    </p>
+
+                </hgroup>
+            </header>
+        </div>
+    </div>
+</div>

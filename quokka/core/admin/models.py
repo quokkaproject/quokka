@@ -225,7 +225,7 @@ class BaseContentAdmin(ModelAdmin):
     or Flask-admin documentation
     """
 
-    roles_accepted = ('admin', 'editor')
+    roles_accepted = ('admin', 'editor', 'author')
     can_create = True
     can_edit = True
     can_delete = True
@@ -258,7 +258,7 @@ class BaseContentAdmin(ModelAdmin):
     form_columns = ['title', 'slug', 'channel', 'related_channels', 'summary',
                     'published', 'add_image', 'contents',
                     'show_on_channel', 'available_at', 'available_until',
-                    'tags', 'values', 'template_type']
+                    'tags', 'values', 'template_type', 'license', 'authors']
     # form_excluded_columns = []
     # form = None
     # form_overrides = None

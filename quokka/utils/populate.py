@@ -3,7 +3,7 @@ import logging
 import json
 
 from quokka.core.models import Channel, ChannelType, SubContentPurpose, \
-    Config, CustomValue
+    Config, CustomValue, License
 from quokka.modules.accounts.models import User, Role
 from quokka.modules.posts.models import Post
 
@@ -175,8 +175,12 @@ class Populate(object):
             self.create_purpose(purpose)
 
     def create_post(self, data):
-        data['created_by'] = data['last_updated_by'] = self.users.get('editor')
+        data['created_by'] = data['last_updated_by'] = self.users.get('admin')
         data['published'] = True
+
+        if 'license' in data and not isinstance(data['license'], License):
+            data['license'] = License(**data['license'])
+
         try:
             post = Post.objects.get(slug=data.get('slug'))
             logger.info("Post get: %s", post.title)
@@ -184,6 +188,8 @@ class Populate(object):
             post = Post.objects.create(**data)
             logger.info("Post created: %s", post.title)
 
+        # post.created_by = self.users.get('admin')
+        # post.save()
         return post
 
     def create_posts(self):

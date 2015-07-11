@@ -13,6 +13,8 @@ def slugify(text):
 
 def abbreviate(name, pretty=False):
     names = name.split()
+    if len(names) == 1:
+        return name
     if len(names) == 2:
         return name
     result = [names[0]]

@@ -1,0 +1,115 @@
+{% if not request.is_xhr %}
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/pure/0.3.0/pure-min.css">
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.0.3/css/font-awesome.min.css">
+<link rel="stylesheet" href="{{theme_static('css/pure.css')}}">
+<link rel="stylesheet" href="{{theme_static('css/custom.css')}}">
+{% endif %}
+<div class="pure-g-r" id="layout-comments">
+    <div class="pure-u-1">
+        <div class="comment-area">
+            <!-- A wrapper for all the comments -->
+            <div class="comments">
+              {% if not Config.get('comments', 'requires_login') or current_user.is_authenticated() %}
+                <form role="form" class="pure-form pure-form-aligned" action="{{url_for('comments.comment', path=path)}}" method="post" id="comment-form">
+                <fieldset>
+                  {% for field in form %}
+                  {% if field.type in ['CSRFTokenField', 'HiddenField'] %}
+                    {{ field() }}
+                  {% endif %}
+                  {% endfor %}
+
+                  <div class="pure-control-group {%if form.author_name.errors%}has-error{%endif%}">
+                    <label for="author_name" >Name</label>
+                    {% if current_user.is_authenticated() %}
+                          {{form.author_name(value=current_user.name, type="hidden")}}
+                          {{current_user.name}}
+                    {% else %}
+                      {{form.author_name(class="form-control", placeholder="your name", required="required")}}
+                    {% endif %}
+                  </div>
+
+                  <div class="pure-control-group {%if form.author_email.errors%}has-error{%endif%}">
+                    <label for="author_email">Email</label>
+
+                    {% if current_user.is_authenticated() %}
+                          {{form.author_email(value=current_user.email, type="hidden")}}
+                          {{current_user.email}}
+                    {% else %}
+                         {{form.author_email(class="form-control", placeholder="you@domain.com", required="required", type="email")}}
+                    {% endif %}
+
+                  </div>
+
+                  <div class="pure-control-group {%if form.body.errors%}has-error{%endif%}">
+                    <label for="body">Comment</label>
+                      {{form.body(class="", rows="3", columns="90")}}
+                  </div>
+
+                  <div class="actions pure-controls">
+
+                         <input type="submit" class="pure-button" value="comment">
+
+                  </div>
+
+
+
+                </fieldset>
+              </form>
+              {% else %}
+              <a href="{{url_for_security('login', next='/{0}.html'.format(path))}}" style="margin-bottom:10px;" class="pure-button">Login to add a comment</a>
+              {% endif %}
+
+              {% if request.method == "POST" and not current_user.is_authenticated() %}
+              <span class="alert alert-info">Thanks, your comment will be moderated!</span>
+              {% endif %}
+
+              {% for comment in comments %}
+              <section class="comment">
+                  <header class="comment-header">
+                      <a href="" title="{{comment.author_name}}">
+                          {% if comment.gravatar_email %}
+                              <img class="avatar" style="width:32px;height:32px;float:left;  margin-right: 16px;" alt="{{comment.author_name}}" src="{{comment.gravatar_email | gravatar(size=64)}}">
+                          {% endif %}
+                      </a>
+                      <h6 class="comment-title">@{{comment.author_name}} <small>at {{comment.created_at.strftime("%m/%d/%Y %H:%M")}}</small></h6>
+                          <div class="comment-meta" style="font-size:12px;margin-left:25px;">
+                          {{comment.body|urlize|markdown}}
+                        </div>
+
+                          {%for reply in comment.replies.filter(parent="") %}
+                          <!-- Nested media object -->
+                          <div class="media">
+                            <a class="pull-left" href="#">
+                              <img class="media-object" data-src="holder.js/64x64" alt="64x64" style="width: 32px; height: 32px;" src="{{reply.gravatar_email | gravatar(size=64)}}">
+                            </a>
+                            <div class="media-body">
+                              <h6 class="media-heading">@{{reply.author_name}} <small>at {{reply.created_at.strftime("%m/%d/%Y %H:%M")}}</small></h6>
+                              {{reply.body|urlize|markdown}}
+
+
+                              {%for treply in comment.replies.filter(parent=reply.uid) %}
+                              <!-- Nested media object -->
+                              <div class="media">
+                                <a class="pull-left" href="#">
+                                  <img class="media-object" data-src="holder.js/64x64" alt="64x64" style="width: 32px; height: 32px;" src="{{treply.gravatar_email | gravatar(size=64)}}">
+                                </a>
+                                <div class="media-body">
+                                  <h6 class="media-heading">@{{treply.author_name}} <small>at {{treply.created_at.strftime("%m/%d/%Y %H:%M")}}</small></h6>
+                                   {{treply.body|urlize|markdown}}
+                                </div>
+                              </div>
+                              {% endfor %}
+
+                            </div>
+                          </div>
+                          {% endfor %}
+                  </header>
+              </section>
+
+              {% endfor %}
+
+
+            </div>
+      </div>
+    </div>
+</div>

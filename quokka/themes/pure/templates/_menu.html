@@ -1,0 +1,30 @@
+{% macro build_node(node, style="", allow_hover=True) %}
+   {% with has_children = node.get_children(show_in_menu=True).count() %}
+    <li style="{{style}}" class="{%if allow_hover %}pure-menu-allow-hover{%endif%} pure-menu-item {%if request.path.startswith(node.get_absolute_url()) %}pure-menu-selected{% endif %} {%if has_children%}pure-menu-has-children{%endif%}">
+        <a href="{{ node.get_absolute_url() }}" class="pure-menu-link">{{node.title}}</a>
+        {{build_main_nodes(parent=node)}}    
+    </li>
+    {% endwith %}
+{% endmacro %}
+
+{% macro build_main_nodes(parent=None, nodes=None) %}
+     {% if not parent and nodes %}
+     <ul class="pure-menu-list">
+        {% for node in nodes|selectattr("show_in_menu") %}
+            {{ build_node(node) }}
+        {% endfor %}
+     </ul>
+     {% elif parent %}
+     <ul class="pure-menu-children">
+        {% for node in parent.get_children(show_in_menu=True) %}
+           {{build_node(node,style="margin-left:%s0px;" % node.get_ancestors_count(), allow_hover=True)}}
+        {% endfor %}
+     </ul>
+     {% endif %}
+{% endmacro %}
+
+{% macro build_nodes(nodes)%}
+<nav class="pure-menu pure-menu-horizontal">
+   {{build_main_nodes(nodes=nodes)}}
+</nav>
+{% endmacro %}
