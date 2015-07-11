@@ -178,3 +178,27 @@ nav.pure-menu {
 .multiple-author-sidebar {
   font-size: 60%;
 }
+
+.pure-blog-div {
+  border-bottom: 1px solid #CBCBC4;
+}
+
+.pure-blog .post {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+
+.pure-grid .post-meta, .pure-grid .post-description {
+  font-size: 60%;
+}
+
+.author-block {
+  /*border-left: 1px solid #CBCBC4;*/
+  padding-left: 20px;
+  border-bottom: none;
+}
+
+.author-block .avatar {
+  border-radius: 120px;
+}

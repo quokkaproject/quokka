@@ -3,27 +3,40 @@
 {%- endmacro %}
 
 {% macro render_grid_item(content) %}
-<div class="col-6 col-sm-6 col-lg-4">
-    <h4>
-        <a href="{{ content.get_absolute_url() }}">
-            {{ content.title }}
-        </a>
-    </h4>
-    {% with main_image=content.get_main_image_url(thumb=True, default=None) %}
+<section class="post pure-u-2-5 pure-grid">
+  <header class="post-header">
+     {%if Config.get('site', 'list_avatar_enabled', default="enabled") == "enabled" %}
+       {%if content.has_multiple_authors %}
+           {% for author in content.get_authors()|sort(attribute="display_name") %}
+                {{render_author_avatar(author, size=144 / content.get_authors()|length)}}
+           {% endfor %} 
+       {%else%}
+          {% if content.created_by.email %}
+              {{render_author_avatar(content.created_by)}}
+          {% endif %}
+       {%endif%}
+     {% endif %}
+      <h6><a class="post-title" href="{{ content.get_absolute_url() }}">{{ content.title }}</a></h6>
+      <p class="post-meta">
+          By {% for author in content.get_authors()%}<a href="{{url_for('authors.author', author_id=author.username)}}" class="post-author">{{ author.display_name }}</a> &middot;  {%endfor%} tagged {% for tag in content.tags%}<a class="post-category post-category-design" href="{{url_for('tag', tag=tag)}}">{{tag}}</a> {% endfor %} under <a href="{{ content.channel.get_absolute_url() }}">{{ content.channel.title }}</a> &middot; {{ content.created_at.strftime('%H:%M of %m/%d/%Y') }}
+      </p>
+  </header>
+  <div class="post-description">
+        {% with main_image=content.get_main_image_url(thumb=True, default=None) %}
         {% if main_image %}
-            <img src="{{main_image}}" style="float:left; margin-right: 10px;margin-bottom:10px;"/>
+            <img src="{{main_image}}" height="48" width="48" style="float:left; margin-right: 10px;margin-bottom:10px;"/>
         {% endif %}
-    {% endwith %}
-    <p>
-      {{content.get_summary()|truncate(255)|safe()}}
-    </p>
-    <p>
-        Published at {{ content.created_at.strftime('%H:%M of %m/%d/%Y') }}
-    </p>
-    <p>
-        <a class="btn btn-default" href="{{ content.get_absolute_url() }}" role="button">Read more &raquo;</a>
-    </p>
-</div><!--/span-->
+      {% endwith %}
+      <p>
+
+          {{content.get_summary()|truncate(255)|safe()}} 
+      
+      </p>
+  </div>
+  <div class="post-meta">
+  <a class="pure-button pure-button-primary button-xsmall" href="{{ content.get_absolute_url()}}">Read more...</a>
+  </div>
+</section>
 {% endmacro %}
 
 {% macro render_grid(contents) %}
@@ -251,9 +264,6 @@
 {% macro load_breadcrumbs() %}
 {% if channel %}
    <small class="breadcrumb">
-      {% if channel != homepage %}
-          <span><a href="/"> {{homepage.title}}</a></span>
-      {% endif %}
       {%for crumb in channel.get_ancestors()|reverse %}
           {% if loop.last and not content %}
           > <span class="active">{{crumb.title}}</span>
@@ -266,7 +276,9 @@
 {% endmacro %}
 
 
-{% macro load_page_content(content, truncate=None) %}
+{% macro load_page_content(content, truncate=None, sidebar=True, link_in_title=False, breadcrumbs=True, license=True, share=True, rec=True, comments=True, footer=True, container_css="") %}
+        
+        {%if sidebar %}
         <div class="sidebar sidebar-article pure-u">
         <header class="header-article">
             <hgroup>
@@ -286,14 +298,22 @@
             </hgroup>
         </header>
     </div>
-    <div class="pure-u">
+    {% endif%}
+
+    <div class="pure-u {{container_css}}">
         <div class="content">
             <section class="post">
                 <header class="post-header">
+                    {% if not link_in_title %}
                     <h1>{{ content.title }}</h1>
+                    {%else%}
+                    <h3><a class="post-title" href="{{content.get_absolute_url()}}">{{ content.title }}</a></h3>
+                    {% endif %}      
+                    {% if breadcrumbs %}               
                     <p class="post-meta">
                     {{load_breadcrumbs()}}
                     </p>
+                    {% endif %}
                     <p class="post-meta">
                         // Tags {% for tag in content.tags %}
                             <a class="post-category" href="{{url_for('tag', tag=tag)}}">{{ tag }}</a>
@@ -309,39 +329,41 @@
                  {% endwith %}
 
             </section>
+
             {{ content.get_text()|safe() }}
 
-            {{render_license_area(content)}}
-            {{load_share_area(content)}}
+            {% if license %}
+                {{render_license_area(content)}}
+            {% endif %}
 
-        <div class="hr"></div>
-            <a href="#" class="go-top">Go Top</a>
-            {{load_recommendation_area(content)}}
-            {{ load_comment_area(content) }}
-            {% include theme('footer.html') %}
+            {%if share %}
+                {{load_share_area(content)}}
+            {% endif %}
+
+            {%if rec%}
+                {{load_recommendation_area(content)}}
+            {% endif %}
+
+            {% if comments %}
+                {{ load_comment_area(content) }}
+            {%endif%}
+
+            {%if footer%}
+               <a href="#" class="go-top">Go Top</a>
+               {% include theme('footer.html') %}
+            {%endif%}
         </div>
     </div>
 {% endmacro %}
 
 {# blog list#}
 
-
-{%macro render_blog_item(content) %}
-    {{load_page_header(content, link=True)}}
-    <div class="col-12 col-sm-12 col-lg-12">
-        <small>{{load_page_time(content)}}</small>
-    </div>
-    <div class="col-12 col-sm-12 col-lg-12">
-        {{load_page_content(content, truncate=2000)}}
-        <a href="{{content.get_absolute_url()}}" class=" btn btn-info btn-xs pull-right">read more</a>
-        {{load_tags_area(content)}}
-    </div>
-{% endmacro %}
-
 {% macro render_blog(contents) %}
    {% for content in contents %}
-       {{render_blog_item(content)}}
-       <hr />
+       {{load_page_content(content, truncate=2000, sidebar=False, link_in_title=True, breadcrumbs=False, license=False, share=False, rec=False, comments=False, footer=False, container_css="pure-blog")}}
+       <div style='margin-bottom:35px;' class='pure-blog-div'>
+       <a href="{{content.get_absolute_url()}}" class="pure-button pure-button-primary button-small" style="float:right;">read more...</a>
+       </div>
    {% endfor %}
 {% endmacro %}
 

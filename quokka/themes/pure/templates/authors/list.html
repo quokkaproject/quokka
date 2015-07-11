@@ -3,20 +3,24 @@
 {%block title%} Authors | {{Config.get('site', 'site_name', 'Quokka site')}} {% endblock %}
 
 {% block content %}
+
 <div class="pure-g-r" id="layout">
     {% include theme('sidebar.html') %}
-    <div class="pure-u-1">
+    <!-- <div class="pure-u-1"> -->
         {{ menu.build_nodes(nodes=channels) }}
         <div class="content">
             <!-- A wrapper for all the blog posts -->
             <div class="posts">
                 <h1 class="content-subhead">All authors</h1>
+
+                <div class="pure-g">
+
                 {% for author in authors.items %}
-                    <section class="post">
+                    <section class="post  pure-u-1-2 author-block">
                         <header class="post-header">
                             <a href="{{url_for('authors.author', author_id=author.username)}}" title="See posts by {{ author.display_name }}">
                                 {% if author.email %}
-                                    <img class="avatar" alt="{{ author.display_name }}" src="{{ author.get_gravatar_email() | gravatar(size=64) }}">
+                                    <img class="avatar" alt="{{ author.display_name }}" src="{{ author.get_gravatar_email() | gravatar(size=120) }}">
                                 {% endif %}
                             </a>
                             <h3><a class="post-title" href="{{url_for('authors.author', author_id=author.username)}}">{{ author.display_name }}</a></h3>
@@ -26,18 +30,21 @@
                                 <p class="post-meta">
                                     <ul>
                                         {% for content in get_author_contents(author).items %}
-                                         <li> <a href="{{ content.get_absolute_url() }}">{{ content.title }}</a> </li>
+                                         <li> <a href="{{ content.get_absolute_url() }}"><small>{{ content.title }}</small></a> </li>
                                         {% endfor %}
                                     </ul>
                                 </p>
                         </header>
                     </section>
                 {% endfor %}
+</div>
+
+        
 
                 {{render_pagination(authors, request.path)}}
                 {% include theme('footer.html') %}
             </div>
         </div>
-    </div>
+    <!-- </div> -->
 </div>
 {% endblock %}
