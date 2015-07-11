@@ -33,9 +33,9 @@
 {% endmacro %}
 
 
-{% macro render_author_avatar(author, size=70) %}
- <a href="{{url_for('authors.author', author_id=author.username)}}" title="See posts by {{ author.display_name }}">
-    <img class="post-avatar avatar" alt="{{ author.display_name }}" height="{{size}}" width="{{size}}" src="{{ author.get_gravatar_email() | gravatar(size=size) }}">
+{% macro render_author_avatar(author, size=70, css="post-avatar avatar") %}
+<a href="{{url_for('authors.author', author_id=author.username)}}" title="See posts by {{ author.display_name }}">
+    <img class="{{css}}" alt="{{ author.display_name }}" height="{{size}}" width="{{size}}" src="{{ author.get_gravatar_email() | gravatar(size=size) }}">
 </a>
 {% endmacro %}
 
@@ -43,10 +43,8 @@
 {% macro render_author_sidebar(author, size=120, multiple=False) %}
 
 <div {%if multiple%}class="multiple-author-sidebar"{%endif%}>
-  {% if author.email %}
-    <a href="{{url_for('authors.author', author_id=author.username)}}" title="See posts by {{ author.display_name }}">
-      <img class="article-avatar" alt="{{ author.name }}" src="{{ author.get_gravatar_email() | gravatar(size=size) }}">
-    </a>
+  {% if author.email and Config.get('site', 'sidebar_avatar_enabled', default='enabled') == 'enabled' %}
+    {{render_author_avatar(author, size=size, css="article-avatar")}}
   {% endif %}
   <h2 class="article-info">{{ author.display_name }}</h2>
   <ul class="author-social">
@@ -73,18 +71,19 @@
 
 
 {% macro render_list_item(content) %}
-
 <section class="post">
   <header class="post-header">
-     {%if content.has_multiple_authors %}
-         {% for author in content.get_authors()|sort(attribute="display_name") %}
-              {{render_author_avatar(author, size=144 / content.get_authors()|length)}}
-         {% endfor %} 
-     {%else%}
-        {% if content.created_by.email %}
-            {{render_author_avatar(content.created_by)}}
-        {% endif %}
-     {%endif%}
+     {%if Config.get('site', 'list_avatar_enabled', default="enabled") == "enabled" %}
+       {%if content.has_multiple_authors %}
+           {% for author in content.get_authors()|sort(attribute="display_name") %}
+                {{render_author_avatar(author, size=144 / content.get_authors()|length)}}
+           {% endfor %} 
+       {%else%}
+          {% if content.created_by.email %}
+              {{render_author_avatar(content.created_by)}}
+          {% endif %}
+       {%endif%}
+     {% endif %}
       <h3><a class="post-title" href="{{ content.get_absolute_url() }}">{{ content.title }}</a></h3>
       <p class="post-meta">
           By {% for author in content.get_authors()%}<a href="{{url_for('authors.author', author_id=author.username)}}" class="post-author">{{ author.display_name }}</a> &middot;  {%endfor%} tagged {% for tag in content.tags%}<a class="post-category post-category-design" href="{{url_for('tag', tag=tag)}}">{{tag}}</a> {% endfor %} under <a href="{{ content.channel.get_absolute_url() }}">{{ content.channel.title }}</a> &middot; {{ content.created_at.strftime('%H:%M of %m/%d/%Y') }}
