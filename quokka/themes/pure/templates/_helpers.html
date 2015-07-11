@@ -33,30 +33,78 @@
 {% endmacro %}
 
 
+{% macro render_author_avatar(author, size=70) %}
+ <a href="{{url_for('authors.author', author_id=author.username)}}" title="See posts by {{ author.display_name }}">
+    <img class="post-avatar avatar" alt="{{ author.display_name }}" height="{{size}}" width="{{size}}" src="{{ author.get_gravatar_email() | gravatar(size=size) }}">
+</a>
+{% endmacro %}
+
+
+{% macro render_author_sidebar(author, size=120, multiple=False) %}
+
+<div {%if multiple%}class="multiple-author-sidebar"{%endif%}>
+  {% if author.email %}
+    <a href="{{url_for('authors.author', author_id=author.username)}}" title="See posts by {{ author.display_name }}">
+      <img class="article-avatar" alt="{{ author.name }}" src="{{ author.get_gravatar_email() | gravatar(size=size) }}">
+    </a>
+  {% endif %}
+  <h2 class="article-info">{{ author.display_name }}</h2>
+  <ul class="author-social">
+  {% for link in author.links %}
+    <li>
+      <a target="_blank" href="{{link.link}}">
+        <i class="fa fa-lg fa-fw fa-{{link.css_class or 'globe'}}"></i>
+        <strong>{{link.title}}</strong>
+      </a>
+    </li>
+  {%else%}
+     <li>
+      <a target="_blank" href="{{url_for('authors.author', author_id=author.username)}}">
+        <i class="fa fa-lg fa-fw fa-globe"></i>
+        <strong>Author`s Page</strong>
+      </a>
+    </li>
+  {% endfor %}
+  </ul>
+
+  <small class="about-author">{{ author.tagline }}</small>
+</div>
+{% endmacro%}
+
+
 {% macro render_list_item(content) %}
+
 <section class="post">
-    <header class="post-header">
-        <a href="{{url_for('authors.author', author_id=content.created_by.username)}}" title="See posts by {{ content.created_by.display_name }}">
-            {% if content.created_by.email %}
-                <img class="avatar" alt="{{ content.created_by.name }}" src="{{ content.created_by.get_gravatar_email() | gravatar(size=64) }}">
-            {% endif %}
-        </a>
-        <h3><a class="post-title" href="{{ content.get_absolute_url() }}">{{ content.title }}</a></h3>
-            <p class="post-meta">
-              {% with main_image=content.get_main_image_url(thumb=True, default=None) %}
-                  {% if main_image %}
-                      <img src="{{main_image}}" style="float:left; margin-right: 10px;margin-bottom:10px;"/>
-                  {% endif %}
-              {% endwith %}
-              {{content.get_summary()|truncate(255)|safe()}}
-            </p>
-            <p>
-                <a class="pure-button pure-button-primary" href="{{ content.get_absolute_url()}}">Read more...</a>
-            </p>
-            <p class="post-meta">
-                in <a href="{{ content.channel.get_absolute_url() }}">{{ content.channel.title }}</a> &middot; {{ content.created_at.strftime('%H:%M of %m/%d/%Y') }}
-            </p>
-    </header>
+  <header class="post-header">
+     {%if content.has_multiple_authors %}
+         {% for author in content.get_authors()|sort(attribute="display_name") %}
+              {{render_author_avatar(author, size=144 / content.get_authors()|length)}}
+         {% endfor %} 
+     {%else%}
+        {% if content.created_by.email %}
+            {{render_author_avatar(content.created_by)}}
+        {% endif %}
+     {%endif%}
+      <h3><a class="post-title" href="{{ content.get_absolute_url() }}">{{ content.title }}</a></h3>
+      <p class="post-meta">
+          By {% for author in content.get_authors()%}<a href="{{url_for('authors.author', author_id=author.username)}}" class="post-author">{{ author.display_name }}</a> &middot;  {%endfor%} tagged {% for tag in content.tags%}<a class="post-category post-category-design" href="{{url_for('tag', tag=tag)}}">{{tag}}</a> {% endfor %} under <a href="{{ content.channel.get_absolute_url() }}">{{ content.channel.title }}</a> &middot; {{ content.created_at.strftime('%H:%M of %m/%d/%Y') }}
+      </p>
+  </header>
+  <div class="post-description">
+        {% with main_image=content.get_main_image_url(thumb=True, default=None) %}
+        {% if main_image %}
+            <img src="{{main_image}}" height="48" width="48" style="float:left; margin-right: 10px;margin-bottom:10px;"/>
+        {% endif %}
+      {% endwith %}
+      <p>
+
+          {{content.get_summary()|truncate(255)|safe()}} 
+      
+      </p>
+  </div>
+  <div class="post-meta">
+  <a class="pure-button pure-button-primary button-xsmall" href="{{ content.get_absolute_url()}}">Read more...</a>
+  </div>
 </section>
 {% endmacro %}
 
@@ -201,31 +249,38 @@
 {% endmacro %}
 
 
+{% macro load_breadcrumbs() %}
+{% if channel %}
+   <small class="breadcrumb">
+      {% if channel != homepage %}
+          <span><a href="/"> {{homepage.title}}</a></span>
+      {% endif %}
+      {%for crumb in channel.get_ancestors()|reverse %}
+          {% if loop.last and not content %}
+          > <span class="active">{{crumb.title}}</span>
+          {% else %}
+          > <span><a href="{{crumb.get_absolute_url()}}">{{crumb.title}}</a></span>
+          {% endif %}
+      {% endfor %}
+   </small>
+{% endif %}
+{% endmacro %}
+
+
 {% macro load_page_content(content, truncate=None) %}
         <div class="sidebar sidebar-article pure-u">
         <header class="header-article">
             <hgroup>
               <a href="/" class="back-home"><img src="{{ Config.get('site', 'site_logo_internal', theme_static('img/logo_black.png')) }}" alt="{{Config.get('site', 'site_name')}}"></a>
-                <a href="{{url_for('authors.author', author_id=content.created_by.username)}}" title="See posts by {{ content.created_by.display_name }}">
-                  {% if content.created_by.email %}
-                      <img class="article-avatar" alt="{{ content.created_by.name }}" src="{{ content.created_by.get_gravatar_email() | gravatar(size=200) }}">
-                  {% endif %}
-                </a>
 
-                <h2 class="article-info">{{ content.created_by.display_name }}</h2>
+                 {% if content.has_multiple_authors %}
+                  {%for author in content.get_authors()|sort(attribute="display_name")%}
+                     {{render_author_sidebar(author, size=100 / content.get_authors()|length, multiple=True)}}
 
-                <ul class="author-social">
-                    {% for link in content.created_by.links %}
-                    <li>
-                      <a target="_blank" href="{{link.link}}">
-                          <i class="fa fa-lg fa-fw fa-{{link.css_class or 'globe'}}"></i>
-                          <strong>{{link.title}}</strong>
-                      </a>
-                    </li>
-                    {% endfor %}
-                </ul>
-
-                <small class="about-author">{{ content.created_by.tagline }}</small>
+                  {% endfor %}
+                 {% else %}
+                 {{render_author_sidebar(content.created_by)}}
+                 {%endif%}
 
                 <p>Published in {{ content.created_at.strftime('%H:%M of %m/%d/%Y') }}</p>
                 <a href="/" class="back-home">&larr;Home</a>
@@ -237,11 +292,14 @@
             <section class="post">
                 <header class="post-header">
                     <h1>{{ content.title }}</h1>
-                        <p class="post-meta">
-                            // Tags {% for tag in content.tags %}
-                                <a class="post-category" href="{{url_for('tag', tag=tag)}}">{{ tag }}</a>
-                            {% endfor %}
-                        </p>
+                    <p class="post-meta">
+                    {{load_breadcrumbs()}}
+                    </p>
+                    <p class="post-meta">
+                        // Tags {% for tag in content.tags %}
+                            <a class="post-category" href="{{url_for('tag', tag=tag)}}">{{ tag }}</a>
+                        {% endfor %}
+                    </p>
                 </header>
 
                  {% with main_image=content.get_main_image_url(thumb=False, default=None) %}

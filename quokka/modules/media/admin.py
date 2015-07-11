@@ -18,7 +18,7 @@ from quokka.core.admin.ajax import AjaxModelLoader
 
 
 class MediaAdmin(ModelAdmin):
-    roles_accepted = ('admin', 'editor')
+    roles_accepted = ('admin', 'editor', 'author')
     column_list = ('title', 'path', 'published')
     form_columns = ['title', 'slug', 'path', 'channel', 'content_format',
                     'summary', 'comments_enabled', 'published']
@@ -90,12 +90,12 @@ class AudioAdmin(FileAdmin):
 
 
 class ImageAdmin(MediaAdmin):
-    roles_accepted = ('admin', 'editor')
+    roles_accepted = ('admin', 'editor', 'author')
     column_list = ('title', 'path', 'thumb', 'published')
     form_columns = ['title', 'slug', 'path', 'channel', 'content_format',
                     'comments_enabled', 'summary', 'published']
 
-    def _list_thumbnail(view, context, model, name):
+    def _list_thumbnail(self, context, model, name):
         if not model.path:
             return ''
 
@@ -134,7 +134,7 @@ class ImageAdmin(MediaAdmin):
 
 
 class MediaGalleryAdmin(BaseContentAdmin):
-    roles_accepted = ('admin', 'editor')
+    roles_accepted = ('admin', 'editor', 'author')
     column_searchable_list = ('title', 'body', 'summary')
 
     form_columns = ['title', 'slug', 'channel', 'related_channels', 'summary',

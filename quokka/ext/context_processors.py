@@ -1,7 +1,7 @@
 # coding: utf-8
 
 import datetime
-from quokka.core.models import Channel, Config, Content
+from quokka.core.models import Channel, Config, Content, Link
 
 
 def configure(app):
@@ -16,5 +16,6 @@ def configure(app):
             Config=Config,
             Content=Content,
             Channel=Channel,
-            homepage=Channel.get_homepage()
+            homepage=Channel.get_homepage(),
+            Link=Link
         )

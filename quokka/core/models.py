@@ -41,6 +41,14 @@ class Dated(object):
 class Owned(object):
     created_by = db.ReferenceField(User)
     last_updated_by = db.ReferenceField(User)
+    authors = db.ListField(db.ReferenceField(User))
+
+    def get_authors(self, sortedf=None):
+        return set(self.authors + [self.created_by])
+
+    @property
+    def has_multiple_authors(self):
+        return len(self.get_authors()) > 1
 
 
 class Publishable(Dated, Owned):
@@ -260,6 +268,12 @@ class Channel(Tagged, HasCustomValue, Publishable, LongSlugged,
         if self.content_filters:
             filters.update(self.content_filters)
         return filters
+
+    def get_ancestors_count(self):
+        """
+        return how many ancestors this node has based on slugs
+        """
+        return len(self.get_ancestors_slugs())
 
     def get_ancestors_slugs(self):
         """return ancestors slugs including self as 1st item
@@ -605,7 +619,7 @@ class Content(HasCustomValue, Publishable, LongSlugged,
         elif hasattr(self, 'description'):
             text = self.description
         else:
-            text = self.summary
+            text = self.summary or ""
 
         if self.content_format == "markdown":
             return markdown(text)
@@ -646,6 +660,7 @@ class Link(Content):
     force_redirect = db.BooleanField(default=True)
     increment_visits = db.BooleanField(default=True)
     visits = db.IntField(default=0)
+    show_on_channel = db.BooleanField(default=False)
 
     def pre_render(self, render_function, *args, **kwargs):
         if self.increment_visits:

@@ -80,7 +80,7 @@ pre {
 }
 
 .article-info {
-    padding-top: 15px;
+    padding-top: 10px;
     clear: right;
     font-weight: 300;
     color: rgb(0, 0, 0);
@@ -88,10 +88,11 @@ pre {
 }
 
 .article-avatar {
-    width: 120px;
-    height: 120px;
+/*    width: 120px;
+    height: 120px;*/
     border-radius: 60px;
     float: right;
+    clear: both;
     margin-left: 1em;
     z-index: 500;
     background-color: #fff;
@@ -105,7 +106,7 @@ pre {
     width: 85%;
     padding: 0 0px;
     float: right;
-    margin-bottom: 35px;
+    margin-bottom: 20px;
 }
     hr {
         border: 1px solid #f2f2f0;
@@ -182,7 +183,8 @@ pre {
 }
 
 .content {
-    padding: 2em 3em 0;
+    /*padding: 2em 3em 0;*/
+    padding: 0 3em 0;
     max-width: 1000px;
     font-size: 110%;
     /*line-height: 1.45;*/
@@ -228,10 +230,10 @@ pre {
 .avatar {
     float: right;
     border-radius: 50px;
-    margin-left: 16px;
-    margin-top: 7px;
-    width: 70px;
-    height: 70px;
+/*    margin-left: 16px;
+    margin-top: 7px;*/
+   /* width: 70px;
+    height: 70px;*/
 }
 
 .archive-meta {

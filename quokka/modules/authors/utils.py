@@ -9,9 +9,16 @@ from quokka.modules.accounts.models import User, Role
 def get_author_contents(author):
     now = datetime.datetime.now()
     contents = Content.objects.filter(
-        created_by=author,
         published=True,
-        available_at__lte=now
+        available_at__lte=now,
+        model__not__startswith="media."
+    ).filter(model__not__startswith="quokka.link").filter(
+        __raw__={
+            "$or": [
+                {"created_by": author.id},
+                {"authors": author.id}
+            ]
+        }
     )
     if current_app.config.get("PAGINATION_ENABLED", True):
         pagination_arg = current_app.config.get("PAGINATION_ARG", "page")

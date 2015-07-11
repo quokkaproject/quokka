@@ -39,6 +39,7 @@
 
 {% block content %}
     <div class="pure-g-r" id="layout">
+      {{ menu.build_nodes(nodes=channels) }}
       {{load_page_content(content)}}
     </div>
 {% endblock %}

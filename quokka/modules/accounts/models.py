@@ -1,7 +1,9 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+from random import randint
 from quokka.core.db import db
+from quokka.utils.text import abbreviate, slugify
 from flask.ext.security import UserMixin, RoleMixin
 from flask.ext.security.utils import encrypt_password
 
@@ -61,7 +63,7 @@ class User(db.DynamicDocument, UserMixin):
 
     def clean(self, *args, **kwargs):
         if not self.username:
-            self.username = User.generate_username(self.email)
+            self.username = User.generate_username(self.name)
 
         try:
             super(User, self).clean(*args, **kwargs)
@@ -69,10 +71,14 @@ class User(db.DynamicDocument, UserMixin):
             pass
 
     @classmethod
-    def generate_username(cls, email):
-        username = email.lower()
-        for item in ['@', '.', '-', '+']:
-            username = username.replace(item, '_')
+    def generate_username(cls, name):
+        # username = email.lower()
+        # for item in ['@', '.', '-', '+']:
+        #     username = username.replace(item, '_')
+        # return username
+        username = slugify(name)
+        if cls.objects.filter(username=username).count():
+            username = "{}{}".format(username, randint(1, 1000))
         return username
 
     def set_password(self, password, save=False):
@@ -85,7 +91,7 @@ class User(db.DynamicDocument, UserMixin):
                    active=True, roles=None, username=None,
                    *args, **kwargs):
 
-        username = username or cls.generate_username(email)
+        username = username or cls.generate_username(name)
         if "links" in kwargs:
             kwargs["links"] = [UserLink(**link) for link in kwargs['links']]
 
@@ -102,7 +108,7 @@ class User(db.DynamicDocument, UserMixin):
 
     @property
     def display_name(self):
-        return self.name or self.email
+        return abbreviate(self.name) or self.email
 
     def __unicode__(self):
         return u"{0} <{1}>".format(self.name or '', self.email)

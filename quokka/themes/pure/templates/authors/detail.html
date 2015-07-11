@@ -1,4 +1,4 @@
-{% from theme('_helpers.html') import render_pagination with context %}
+{% from theme('_helpers.html') import render_pagination, render_list_item, render_author_sidebar with context %}
 {% extends theme("base.html") %}
 
 {%block title%} {{author.display_name}} | {{Config.get('site', 'site_name', 'Quokka site')}} {% endblock %}
@@ -24,26 +24,7 @@
         <header class="header-article">
             <hgroup>
               <a href="/" class="back-home"><img src="{{ Config.get('site', 'site_logo_internal', theme_static('img/logo_black.png')) }}" alt="{{Config.get('site', 'site_name')}}"></a>
-                <a href="{{url_for('authors.author', author_id=author.username)}}" title="See posts by {{ author.display_name }}">
-                  {% if author.email %}
-                      <img class="article-avatar" alt="{{ author.name }}" src="{{ author.get_gravatar_email() | gravatar(size=200) }}">
-                  {% endif %}
-                </a>
-
-                <h2 class="article-info">{{ author.display_name }}</h2>
-
-                <ul class="author-social">
-                    {% for link in author.links %}
-                    <li>
-                      <a target="_blank" href="{{link.link}}">
-                          <i class="fa fa-lg fa-fw fa-{{link.css_class or 'globe'}}"></i>
-                          <strong>{{link.title}}</strong>
-                      </a>
-                    </li>
-                    {% endfor %}
-                </ul>
-
-                <small class="about-author">{{ author.tagline }}</small>
+                {{render_author_sidebar(author)}}
                 <p class="about-author">{{ author.bio }}</p>
                 <a href="{{url_for('authors.authors')}}" class="back-home">&larr;Authors</a>
             </hgroup>
@@ -51,35 +32,13 @@
         </div>
 
         <div class="pure-u-1">
+            {{ menu.build_nodes(nodes=channels) }}
             <div class="content">
                 <!-- A wrapper for all the blog posts -->
-                <h2>Contents written by "{{author.display_name}}"</h2>
+                <h1 class="content-subhead">Contents written by "{{author.display_name}}"</h1>
                 <div class="posts">
                     {% for content in contents.items %}
-                    <section class="post">
-                        <header class="post-header">
-                            <a href="{{url_for('authors.author', author_id=content.created_by.username)}}" title="See posts by {{ content.created_by.display_name }}">
-                                {% if content.created_by.email %}
-                                    <img class="avatar" alt="{{ content.created_by.name }}" src="{{ content.created_by.get_gravatar_email() | gravatar(size=64) }}">
-                                {% endif %}
-                            </a>
-                            <h3><a class="post-title" href="{{ content.get_absolute_url() }}">{{ content.title }}</a></h3>
-                                <p class="post-meta">
-                                  {% with main_image=content.get_main_image_url(thumb=True, default=None) %}
-                                      {% if main_image %}
-                                          <img src="{{main_image}}" style="float:left; margin-right: 10px;margin-bottom:10px;"/>
-                                      {% endif %}
-                                  {% endwith %}
-                                  {{content.get_summary()|truncate(255)|safe()}}
-                                </p>
-                                <p>
-                                    <a class="pure-button pure-button-primary" href="{{ content.get_absolute_url()}}">Read more...</a>
-                                </p>
-                                <p class="post-meta">
-                                    in <a href="{{ content.channel.get_absolute_url() }}">{{ content.channel.title }}</a> &middot; {{ content.created_at.strftime('%H:%M of %m/%d/%Y') }}
-                                </p>
-                        </header>
-                    </section>
+                      {{render_list_item(content)}}
                     {% endfor %}
 
                     {{render_pagination(contents, request.path)}}

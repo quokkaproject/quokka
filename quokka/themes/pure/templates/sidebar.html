@@ -20,7 +20,7 @@
                     <div class="section articles-random">
                       <div id="random-articles">
                         <ul>
-                        {% for cont in Content.objects.limit(4) %}
+                        {% for cont in Link.objects.filter(tags='sidebar').limit(10) %}
                             <li><a href="{{ cont.get_absolute_url() }}">{{ cont.title }}</a></li>
                         {% endfor %}
                       </ul>

@@ -152,3 +152,29 @@ a.back-home {
 #flDebugToolbar, #flDebug {
     letter-spacing: normal;
 }
+
+
+.button-xsmall {
+    font-size: 50%;
+}
+
+.button-small {
+    font-size: 85%;
+}
+
+.button-large {
+    font-size: 110%;
+}
+
+.button-xlarge {
+    font-size: 125%;
+}
+
+nav.pure-menu {
+    padding: 0 3em 0;
+
+}
+
+.multiple-author-sidebar {
+  font-size: 60%;
+}

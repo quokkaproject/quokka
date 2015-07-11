@@ -6,10 +6,11 @@
 <div class="pure-g-r" id="layout">
     {% include theme('sidebar.html') %}
     <div class="pure-u-1">
+        {{ menu.build_nodes(nodes=channels) }}
         <div class="content">
             <!-- A wrapper for all the blog posts -->
             <div class="posts">
-                <h2>All authors</h2>
+                <h1 class="content-subhead">All authors</h1>
                 {% for author in authors.items %}
                     <section class="post">
                         <header class="post-header">

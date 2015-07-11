@@ -13,9 +13,10 @@
 <div class="pure-g-r" id="layout">
     {% include theme('sidebar.html') %}
     <div class="pure-u-1">
+        {{ menu.build_nodes(nodes=channels) }}
         <div class="content">
             <!-- A wrapper for all the blog posts -->
-            <h2>Contents with the tag "{{request.view_args.tag}}"</h2>
+            <h1 class="content-subhead">Contents with the tag "{{request.view_args.tag}}"</h1>
             <div class="posts">
                 {{render_list(contents.items)}}
                 {{render_pagination(contents, request.path)}}

@@ -9,7 +9,8 @@ from .models import BaseIndexView, BaseView, ModelAdmin, BaseContentAdmin
 
 
 class IndexView(BaseIndexView):
-    roles_accepted = ('admin', 'editor', 'moderator', 'writer', 'staff')
+    roles_accepted = ('admin', 'editor', 'moderator', 'writer', 'staff',
+                      'author')
 
     @expose('/')
     def index(self):
@@ -32,13 +33,15 @@ class InspectorView(BaseView):
 ###############################################################
 
 class LinkAdmin(BaseContentAdmin):
-    roles_accepted = ('admin', 'editor', 'writer', 'moderator')
+    roles_accepted = ('admin', 'editor', 'writer', 'moderator', 'author')
     column_list = ('title', 'channel', 'slug', 'force_redirect', 'published')
     form_columns = ('title', 'slug', 'channel',
                     'related_channels',
-                    'link', 'force_redirect', 'increment_visits', 'visits',
+                    'link', 'show_on_channel',
+                    'force_redirect', 'increment_visits', 'visits',
                     'content_format', 'summary', 'add_image', 'contents',
-                    'values', 'available_at', 'available_until', 'published')
+                    'values', 'tags', 'available_at',
+                    'available_until', 'published')
 
     form_args = {
         'summary': {'widget': TextEditor()}
@@ -54,19 +57,19 @@ class ConfigAdmin(ModelAdmin):
 
 
 class SubContentPurposeAdmin(ModelAdmin):
-    roles_accepted = ('admin', 'editor')
+    roles_accepted = ('admin', 'editor', 'author')
 
 
 class ChannelTypeAdmin(ModelAdmin):
-    roles_accepted = ('admin', 'editor')
+    roles_accepted = ('admin', 'editor', 'author')
 
 
 class ContentTemplateTypeAdmin(ModelAdmin):
-    roles_accepted = ('admin', 'editor')
+    roles_accepted = ('admin', 'editor', 'author')
 
 
 class ChannelAdmin(ModelAdmin):
-    roles_accepted = ('admin', 'editor')
+    roles_accepted = ('admin', 'editor', 'author')
     column_list = ('title', 'long_slug', 'is_homepage',
                    'channel_type', 'created_at', 'available_at', 'published',
                    'view_on_site')
