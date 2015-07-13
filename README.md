@@ -37,16 +37,16 @@ Quick start
     $ pip install -r requirements.txt
 ```
 
-2. Quokka require a MongoDB instance running to connect. 
+2. Quokka require a MongoDB instance running to connect.
 
     1. If you don't have a MongoDB instance running, you can quickly configure it:
-        * Download from [here](http://https://www.mongodb.org/downloads) 
+        * Download from [here](https://www.mongodb.org/downloads)
         * Unzip the file
         * Run it inside the MongoDB directory:
             ```bash
             ./bin/mongod --dbpath /tmp/
             ```
-            
+
         > WARNING: If you want to persist the data, give another path in place of ```--dbpath /tmp```
 
     2. If you already have, just define your MongoDB settings:
@@ -63,7 +63,7 @@ Quick start
         $ cd quokka
         $ docker run -d -v $PWD/mongodata:/data/db -p 27017:27017 mongo
         ```
-        
+
 3. Populate with sample data (optional)
 
 ```bash
