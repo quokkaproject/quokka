@@ -36,23 +36,27 @@ Quick start
     cd quokka
 ```
 
-2. Prepare the environment
+2. Run Quokka in a Development environment
 
+> You have 2 options **RUN NORMAL** or **RUN IN DOCKER**
+
+
+- ### RUN NORMAL
     1. Install needed packages in your local computer
 
     You can install everything you need in your local computer or if preferred use a virtualenv for Python
 
-        1. Quokka require a MongoDB instance running to connect. 
+        1. Quokka require a MongoDB instance running to connect.
 
             1. If you don't have a MongoDB instance running, you can quickly configure it:
-                * Download from [here](https://www.mongodb.org/downloads) 
+                * Download from [here](https://www.mongodb.org/downloads)
                 * Unzip the file
                 * Open a separate console
                 * Run it inside the MongoDB directory:
                     ```bash
                     ./bin/mongod --dbpath /tmp/
                     ```
-                    
+
                 > WARNING: If you want to persist the data, give another path in place of ```--dbpath /tmp```
 
             2. If you already have, just define your MongoDB settings:
@@ -74,12 +78,12 @@ Quick start
 
             1. O.S Requirements (for media conversions)
 
-            you may need the following requirements on your operating system 
+            you may need the following requirements on your operating system
             - Ubuntu/Debian:
                 ```bash
                 sudo apt-get install libtiff5-dev libjpeg8-dev zlib1g-dev libfreetype6-dev
                 ```
-            - Alpine
+            - Alpine Linux
                 ```bash
                 apk add gcc python py-pip libjpeg zlib zlib-dev tiff freetype git py-pillow python-dev musl-dev
                 ```
@@ -113,19 +117,20 @@ Quick start
         - Admin on http://localhost:5000/admin
 
 
-    2. Run in Docker
+- ### RUN IN DOCKER
+    1. Run pre built docker images with everything pre-installed
 
-    The easiest way to run Quokka for development is in Docker, you will need docker and docker compose installed in your machine
+    You will need docker and docker compose installed in your machine
 
     > Once in Docker all data is stored behind quokka/etc folder
 
-    - **Docker** - https://docs.docker.com/installation/
-    - **Docker-Compose** - https://docs.docker.com/compose/install/
+      - **Docker** - https://docs.docker.com/installation/
+      - **Docker-Compose** - https://docs.docker.com/compose/install/
 
-    Ensure that local port 27017(mongo) is not being used on your computer
+    > Ensure that local port 27017(mongo) is not being used on your computer
 
-        1. Run with compose
-        
+        1. ### Run with docker-compose
+
             1. Easiest way just run
             ```bash
             docker-compose up
@@ -143,8 +148,9 @@ Quick start
             docker-compose run shell python manage.py populate
             ```
 
+        2. ### Run standalone containers
+        > (each in separate shells or use -d option)
 
-        2. Run standalone containers (each in separate shells or use -d option)
             1. run mongo container
             ```bash
             docker run -v $PWD/etc/mongodata:/data/db -p 27017:27017 --name mongo mongo
@@ -162,7 +168,9 @@ Quick start
 
             ```
 
-    
+
+
+## DOCS
 Documentation is not complete yet, but is being written at:
 
 http://quokkaproject.org/documentation
