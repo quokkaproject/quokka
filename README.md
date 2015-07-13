@@ -126,13 +126,13 @@ You can install everything you need in your local computer or if preferred use a
 
 #### Install Docker and docker-compose
 
-    - **Docker** - https://docs.docker.com/installation/
-    - **Docker-Compose** - https://docs.docker.com/compose/install/
+- **Docker** - https://docs.docker.com/installation/
+- **Docker-Compose** - https://docs.docker.com/compose/install/
 
 
 > Ensure that local port 27017(mongo) is not being used on your computer
 
-1. ### Run with docker-compose
+* ### Run with docker-compose
 
     1. Easiest way just run
     ```bash
@@ -151,7 +151,7 @@ You can install everything you need in your local computer or if preferred use a
     docker-compose run shell python manage.py populate
     ```
 
-2. ### Run standalone containers
+* ### Run standalone containers
 > (each in separate shells or use -d option)
 
     1. run mongo container
@@ -172,6 +172,9 @@ You can install everything you need in your local computer or if preferred use a
     ```
 
 
+## Deployment
+
+Check ``wsgi.py``, ``wsgi_gunicorn.py`` and scripts under /etc folder for deployment options or check documentation
 
 ## DOCS
 Documentation is not complete yet, but is being written at:
