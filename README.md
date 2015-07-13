@@ -46,6 +46,8 @@ Quick start
             ```bash
             ./bin/mongod --dbpath /tmp/
             ```
+            
+        > WARNING: If you want to persist the data, give another path in place of ```--dbpath /tmp```
 
     2. If you already have, just define your MongoDB settings:
         ```bash
