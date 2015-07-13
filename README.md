@@ -64,8 +64,13 @@ You can install everything you need in your local computer or if preferred use a
         ```bash
         $ $EDITOR quokka/local_settings.py
         ===============quokka/quokka/local_settings.py===============
-        MONGODB_SETTINGS = {'DB': 'your_mongo_db', 'HOST': 'host_ip', 'PORT': '27017'}
+        MONGODB_DB = "yourdbname"
+        MONGODB_HOST = 'your_host'
+        MONGODB_PORT = 27017
+        MONGODB_USERNAME = None
+        MONGODB_PASSWORD = None
         DEBUG = True
+        DEBUG_TOOLBAR_ENABLED = True
         =============================================================
         ```
     
