@@ -1,25 +1,10 @@
-FROM ubuntu:14.04
-
+FROM alpine
 MAINTAINER Bruno Rocha <rochacbruno@gmail.com>
+WORKDIR /tmp
+COPY requirements.txt /tmp/
+RUN apk update
+RUN apk add gcc python py-pip libjpeg zlib zlib-dev tiff freetype git py-pillow python-dev musl-dev bash
+RUN pip install -r /tmp/requirements.txt
+RUN pip install ipython
 
-ADD . /quokka
-WORKDIR /quokka
-
-ENV DEBIAN_FRONTEND noninteractive
-
-RUN apt-get update
-RUN apt-get -y install nginx sed python-pip python-dev uwsgi-plugin-python supervisor libjpeg-dev
-
-RUN mkdir -p /var/log/nginx/app
-RUN mkdir -p /var/log/uwsgi/app/
-
-RUN rm /etc/nginx/sites-enabled/default
-COPY quokka_nginx.conf /etc/nginx/sites-available/quokka.conf
-RUN ln -s /etc/nginx/sites-available/quokka.conf /etc/nginx/sites-enabled/quokka.conf
-
-RUN mkdir -p /var/log/supervisor
-COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
-
-RUN pip install -r requirements.txt
-
-CMD ["/usr/bin/supervisord"]
+# docker run --link <mongo_container_id>:mongo -v $PWD:/quokka -t -i quokka/quokkadev /bin/bash
