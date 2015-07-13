@@ -27,27 +27,34 @@ Quokka is a flexible content management platform powered by Python, Flask and Mo
 
 Quick start
 ============
-
-> You need a MongoDB instance running locally or remotely to connect.
 > Quokka runs on Python 2.7
 
+
 1. Get Quokka
-
-```bash
-$ git clone https://github.com/quokkaproject/quokka
-$ cd quokka
-$ pip install -r requirements.txt
+    ```bash
+    $ git clone https://github.com/quokkaproject/quokka
+    $ cd quokka
+    $ pip install -r requirements.txt
 ```
 
-2. Define your MongoDB settings
+2. Quokka require a MongoDB instance running to connect. 
 
-```bash
-$ $EDITOR quokka/local_settings.py
-===============quokka/quokka/local_settings.py===============
-MONGODB_SETTINGS = {'DB': 'your_mongo_db'}
-DEBUG = True
-=============================================================
-```
+    1. If you don't have a MongoDB instance running, you can quickly configurate it:
+        * Download from [here](http://https://www.mongodb.org/downloads) 
+        * Unzip the file
+        * Run it inside the MongoDB directory:
+            ```
+            ./bin/mongod --dbpath /tmp/
+            ```
+
+    2. If you alredy have, just define your MongoDB settings:
+        ```bash
+        $ $EDITOR quokka/local_settings.py
+        ===============quokka/quokka/local_settings.py===============
+        MONGODB_SETTINGS = {'DB': 'your_mongo_db'}
+        DEBUG = True
+        =============================================================
+        ```
 
 3. Populate with sample data (optional)
 
