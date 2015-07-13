@@ -17,17 +17,11 @@ Import it if you want to pass some password to your configs.
 """
 DB for localhost
 """
-MONGODB_SETTINGS = {'DB': "quokka_db"}
-
-"""
-DB in remote host
-- register for free in mongolab.com
-"""
-# MONGODB_SETTINGS = {'DB': "quokka",
-#                     'USERNAME': 'quokka',
-#                     'PASSWORD': get_password('db'),
-#                     'HOST': 'ds035498.mongolab.com',
-#                     'PORT': 35498}
+MONGODB_DB = "quokka_db"
+MONGODB_HOST = 'localhost'
+MONGODB_PORT = 27017
+MONGODB_USERNAME = None
+MONGODB_PASSWORD = None
 
 """
 This should really be secret for security

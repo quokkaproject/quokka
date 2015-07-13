@@ -34,12 +34,11 @@ class BasicTestCase(TestCase):
         self.assertTrue(self.app.extensions.get('mongoengine'))
 
     def test_db_is_connected_in_the_test_database(self):
-        dbconf = self.get_config('MONGODB_SETTINGS')
         self.assertTrue(
-            self.db.connection.port == dbconf.get('PORT', 27017)
+            self.db.connection.port == self.get_config('MONGODB_PORT')
         )
         self.assertTrue(
-            self.db.connection.host == dbconf.get('HOST', 'localhost')
+            self.db.connection.host == self.get_config('MONGODB_HOST')
         )
 
     def test_has_posts(self):

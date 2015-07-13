@@ -44,7 +44,7 @@ adduser --disabled-login --gecos 'Quokka' quokka
 cd /home/quokka
 virtualenv quokka-env
 cd quokka-env
-git clone https://github.com/pythonhub/quokka
+git clone https://github.com/quokkaproject/quokka
 
 cd quokka
 /home/quokka/quokka-env/bin/pip install -r requirements.txt
@@ -82,7 +82,7 @@ echo 'server {
         }
 
         location / {
-            uwsgi_pass      unix:/home/quokka/quokka-env/quokka/logs/quokka.socket;
+            uwsgi_pass      unix:/home/quokka/quokka-env/quokka/etc/quokka.socket;
             include         /etc/nginx/uwsgi_params;
             uwsgi_param     UWSGI_SCHEME $scheme;
             uwsgi_param     SERVER_SOFTWARE    nginx/$nginx_version;
@@ -104,9 +104,9 @@ chmod-socket = 666
 virtualenv = /home/quokka/quokka-env
 mount  = /=wsgi:application
 chdir  = /home/quokka/quokka-env/quokka
-socket = /home/quokka/quokka-env/quokka/logs/%n.socket
-stats  = /home/quokka/quokka-env/quokka/logs/%n.stats.socket
-logto  = /home/quokka/quokka-env/quokka/logs/%n.log
+socket = /home/quokka/quokka-env/quokka/etc/logs/%n.socket
+stats  = /home/quokka/quokka-env/quokka/etc/logs/%n.stats.socket
+logto  = /home/quokka/quokka-env/quokka/etc/logs/%n.log
 workers = 4
 uid = quokka
 gid = quokka
