@@ -39,7 +39,7 @@ Quick start
 
 2. Quokka require a MongoDB instance running to connect. 
 
-    1. If you don't have a MongoDB instance running, you can quickly configurate it:
+    1. If you don't have a MongoDB instance running, you can quickly configure it:
         * Download from [here](http://https://www.mongodb.org/downloads) 
         * Unzip the file
         * Run it inside the MongoDB directory:
