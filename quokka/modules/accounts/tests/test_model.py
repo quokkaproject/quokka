@@ -39,7 +39,7 @@ class TestAccountsModels(BaseTestCase):
 
     def test_user_fields(self):
         self.assertIsInstance(self.user, User)
-        self.assertEqual(self.user.username, u'guybrush_monkeyisland_com')
+        self.assertEqual(self.user.username, u'guybrush-treepwood')
         self.assertEqual(self.user.name, u'Guybrush Treepwood')
         self.assertEqual(self.user.email, u'guybrush@monkeyisland.com')
         self.assertEqual(self.user.password, self.user_dict['password'])
@@ -53,7 +53,7 @@ class TestAccountsModels(BaseTestCase):
             'lechuck@monkeyisland.com',
             'guybrushsucks',
         )
-        self.assertEqual(user.username, u'lechuck_monkeyisland_com')
+        self.assertEqual(user.username, u'lechuck')
         self.assertEqual(user.name, u'Lechuck')
         self.assertEqual(user.email, u'lechuck@monkeyisland.com')
         self.assertEqual(user.display_name, user.name)
@@ -61,7 +61,7 @@ class TestAccountsModels(BaseTestCase):
     def test_generate_username_classmethod(self):
         email = u'elaine.treepwood-ca@monkeyisland.com'
         generated = User.generate_username(email)
-        self.assertEqual(generated, u'elaine_treepwood_ca_monkeyisland_com')
+        self.assertEqual(generated, u'elaine-treepwood-ca-monkeyisland-com')
 
     def test_role_field(self):
         self.assertEqual(unicode(self.role.name), u'kill pirates')
@@ -75,7 +75,7 @@ class TestAccountsModels(BaseTestCase):
 
     def test_user_clean(self):
         self.user.clean()
-        self.assertEqual(self.user.username, 'guybrush_monkeyisland_com')
+        self.assertEqual(self.user.username, 'guybrush-treepwood')
 
     def test_add_role_to_user(self):
         self.user.roles.append(self.role)
