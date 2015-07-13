@@ -2,6 +2,10 @@
 <a href="{{ url_for(endpoint, **kwargs) }}">{{ text }}</a>
 {%- endmacro %}
 
+{% macro render_tag_area(content)%}
+tagged {% for tag in content.tags%}<a class="post-category post-category-design" href="{{url_for('tag', tag=tag)}}">{{tag}}</a> {% endfor %}
+{% endmacro %}
+
 {% macro render_grid_item(content) %}
 <section class="post pure-u-2-5 pure-grid">
   <header class="post-header">
@@ -18,7 +22,7 @@
      {% endif %}
       <h6><a class="post-title" href="{{ content.get_absolute_url() }}">{{ content.title }}</a></h6>
       <p class="post-meta">
-          By {% for author in content.get_authors()%}<a href="{{url_for('authors.author', author_id=author.username)}}" class="post-author">{{ author.display_name }}</a> &middot;  {%endfor%} tagged {% for tag in content.tags%}<a class="post-category post-category-design" href="{{url_for('tag', tag=tag)}}">{{tag}}</a> {% endfor %} under <a href="{{ content.channel.get_absolute_url() }}">{{ content.channel.title }}</a> &middot; {{ content.created_at.strftime('%H:%M of %m/%d/%Y') }}
+          By {% for author in content.get_authors()%}<a href="{{url_for('authors.author', author_id=author.username)}}" class="post-author">{{ author.display_name }}</a> &middot;  {%endfor%} under <a href="{{ content.channel.get_absolute_url() }}">{{ content.channel.title }}</a> &middot; {{ content.created_at.strftime('%H:%M of %m/%d/%Y') }}
       </p>
   </header>
   <div class="post-description">
@@ -99,7 +103,7 @@
      {% endif %}
       <h3><a class="post-title" href="{{ content.get_absolute_url() }}">{{ content.title }}</a></h3>
       <p class="post-meta">
-          By {% for author in content.get_authors()%}<a href="{{url_for('authors.author', author_id=author.username)}}" class="post-author">{{ author.display_name }}</a> &middot;  {%endfor%} tagged {% for tag in content.tags%}<a class="post-category post-category-design" href="{{url_for('tag', tag=tag)}}">{{tag}}</a> {% endfor %} under <a href="{{ content.channel.get_absolute_url() }}">{{ content.channel.title }}</a> &middot; {{ content.created_at.strftime('%H:%M of %m/%d/%Y') }}
+          By {% for author in content.get_authors()%}<a href="{{url_for('authors.author', author_id=author.username)}}" class="post-author">{{ author.display_name }}</a> &middot;  {%endfor%} under <a href="{{ content.channel.get_absolute_url() }}">{{ content.channel.title }}</a> &middot; {{ content.created_at.strftime('%H:%M of %m/%d/%Y') }}
       </p>
   </header>
   <div class="post-description">
