@@ -43,11 +43,11 @@ Quick start
         * Download from [here](http://https://www.mongodb.org/downloads) 
         * Unzip the file
         * Run it inside the MongoDB directory:
-            ```
+            ```bash
             ./bin/mongod --dbpath /tmp/
             ```
 
-    2. If you alredy have, just define your MongoDB settings:
+    2. If you already have, just define your MongoDB settings:
         ```bash
         $ $EDITOR quokka/local_settings.py
         ===============quokka/quokka/local_settings.py===============
@@ -56,6 +56,12 @@ Quick start
         =============================================================
         ```
 
+    3. (optional) If you have Docker installed you can simply run the official Mongo image
+        ```bash
+        $ cd quokka
+        $ docker run -d -v $PWD/mongodata:/data/db -p 27017:27017 mongo
+        ```
+        
 3. Populate with sample data (optional)
 
 ```bash
