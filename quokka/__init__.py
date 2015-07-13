@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 import os
+from .utils import parse_conf_data
+
 
 VERSION = (0, 2, 0)
 
@@ -10,7 +12,7 @@ __description__ = "Flexible & modular CMS powered by Flask and MongoDB"
 __author__ = "Bruno Rocha <rochacbruno@gmail.com>"
 __email__ = "quokka-developers@googlegroups.com"
 __license__ = "MIT License"
-__copyright__ = "Copyright 2014, Quokka Project / PythonHub.com"
+__copyright__ = "Copyright 2014, Quokka Project"
 
 
 try:
@@ -42,6 +44,15 @@ def create_app(config=None, test=False, admin_instance=None, **settings):
         app.config.from_envvar("QUOKKA_SETTINGS", silent=True)
     else:
         app.config.from_envvar("QUOKKATEST_SETTINGS", silent=True)
+
+    # Try config from separated env vars
+    try:
+        app.config.update(
+            {key.partition('_')[-1]: parse_conf_data(data)
+             for key, data in os.environ.items() if key.startswith('QUOKKA')}
+        )
+    except:
+        pass
 
     # testing trick
     # with app.test_request_context():
