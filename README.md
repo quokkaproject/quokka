@@ -25,148 +25,151 @@ Quokka is a flexible content management platform powered by Python, Flask and Mo
 </p>
 
 
-Quick start
-============
-> Quokka runs on Python 2.7
+> Quokka runs on Python 2.7  (Python 3 support is being developed)
 
 
-1. Get Quokka and enters its root directory
-    ```bash
-    git clone https://github.com/quokkaproject/quokka
-    cd quokka
+##  Get Quokka and enter in to its root directory
+```bash
+git clone https://github.com/quokkaproject/quokka
+cd quokka
 ```
 
-2. Run Quokka in a Development environment
+## Run Quokka (for development)
 
-> You have 2 options **RUN NORMAL** or **RUN IN DOCKER**
+You have 2 options **RUN NORMAL** or **RUN IN DOCKER**
 
+### RUN NORMAL
 
-- ### RUN NORMAL
-    1. Install needed packages in your local computer
+Install needed packages in your local computer
 
-    You can install everything you need in your local computer or if preferred use a virtualenv for Python
+You can install everything you need in your local computer or if preferred use a virtualenv for Python
 
-        1. Quokka require a MongoDB instance running to connect.
+#### Mongo 
 
-            1. If you don't have a MongoDB instance running, you can quickly configure it:
-                * Download from [here](https://www.mongodb.org/downloads)
-                * Unzip the file
-                * Open a separate console
-                * Run it inside the MongoDB directory:
-                    ```bash
-                    ./bin/mongod --dbpath /tmp/
-                    ```
+* Quokka requires a MongoDB instance running to connect.
 
-                > WARNING: If you want to persist the data, give another path in place of ```--dbpath /tmp```
-
-            2. If you already have, just define your MongoDB settings:
-                ```bash
-                $ $EDITOR quokka/local_settings.py
-                ===============quokka/quokka/local_settings.py===============
-                MONGODB_SETTINGS = {'DB': 'your_mongo_db', 'HOST': 'host_ip', 'PORT': '27017'}
-                DEBUG = True
-                =============================================================
-                ```
-
-            3. (optional) If you have Docker installed you can simply run the official Mongo image
-                ```bash
-                cd quokka
-                docker run -d -v $PWD/etc/mongodata:/data/db -p 27017:27017 mongo
-                ```
-
-        2. Install requirements
-
-            1. O.S Requirements (for media conversions)
-
-            you may need the following requirements on your operating system
-            - Ubuntu/Debian:
-                ```bash
-                sudo apt-get install libtiff5-dev libjpeg8-dev zlib1g-dev libfreetype6-dev
-                ```
-            - Alpine Linux
-                ```bash
-                apk add gcc python py-pip libjpeg zlib zlib-dev tiff freetype git py-pillow python-dev musl-dev
-                ```
-
-            2. Python requirements
-                ```bash
-                pip install -r requirements.txt
-                ```
-
-        3. Populate with sample data (optional)
-
+    1. If you don't have a MongoDB instance running, you can quickly configure it:
+    
+        * Download from [here](https://www.mongodb.org/downloads)
+        * Unzip the file
+        * Open a separate console
+        * Run it inside the MongoDB directory:
         ```bash
-        $ python manage.py populate
+        ./bin/mongod --dbpath /tmp/
+        ```
+        > WARNING: If you want to persist the data, give another path in place of ```--dbpath /tmp```
 
+
+    2. If you already have, just define your MongoDB settings:
+        ```bash
+        $ $EDITOR quokka/local_settings.py
+        ===============quokka/quokka/local_settings.py===============
+        MONGODB_SETTINGS = {'DB': 'your_mongo_db', 'HOST': 'host_ip', 'PORT': '27017'}
+        DEBUG = True
+        =============================================================
+        ```
+    
+    3. (optional) If you have Docker installed you can simply run the official Mongo image
+        ```bash
+        cd quokka
+        docker run -d -v $PWD/etc/mongodata:/data/db -p 27017:27017 mongo
         ```
 
-        4. Create a superuser
+#### Requirements
+    
+* O.S Requirements (for media conversions) you may need the following requirements on your operating system
+    
+    1. Ubuntu/Debian  
+        ```bash
+        sudo apt-get install libtiff5-dev libjpeg8-dev zlib1g-dev libfreetype6-dev
+        ```
+    2. Alpine Linux  
+        ```bash
+        apk add gcc python py-pip libjpeg zlib zlib-dev tiff freetype git py-pillow python-dev musl-dev
+        ```
+    3. Python requirements  
+        ```bash
+        pip install -r requirements.txt
+        ```
+    
+#### Bootstrap commands
 
+* Initial data, users and running commands
+    
+    3. Populate with sample data (optional)  
+        ```bash
+        $ python manage.py populate
+        
+        ```
+
+    4. Create a superuser  
         ```bash
         $ python manage.py createsuperuser
         you@email.com
         P4$$W0Rd
         ```
-
-        5. Run
-
+    
+    5. Run
         ```bash
         $ python manage.py runserver --host 0.0.0.0 --port 5000
         ```
-        - Site on http://localhost:5000
-        - Admin on http://localhost:5000/admin
+        - Site on [http://localhost:5000](http://localhost:5000)
+        - Admin on [http://localhost:5000/admin](http://localhost:5000/admin)
 
 
-- ### RUN IN DOCKER
-    1. Run pre built docker images with everything pre-installed
+### RUN IN DOCKER
 
-    You will need docker and docker compose installed in your machine
+- Run pre built docker images with everything pre-installed
+- You will need docker and docker compose installed in your machine
+- Once in Docker all data is stored behind quokka/etc folder
 
-    > Once in Docker all data is stored behind quokka/etc folder
 
-      - **Docker** - https://docs.docker.com/installation/
-      - **Docker-Compose** - https://docs.docker.com/compose/install/
+#### Install Docker and docker-compose
 
-    > Ensure that local port 27017(mongo) is not being used on your computer
+    - **Docker** - https://docs.docker.com/installation/
+    - **Docker-Compose** - https://docs.docker.com/compose/install/
 
-        1. ### Run with docker-compose
 
-            1. Easiest way just run
-            ```bash
-            docker-compose up
-            ```
+> Ensure that local port 27017(mongo) is not being used on your computer
 
-            > use -d on above to leave it as a daemon
+1. ### Run with docker-compose
 
-            2. Enter Quokka Shell (in a separate console)
-            ```bash
-            docker-compose run shell python manage.py shell
-            ```
+    1. Easiest way just run
+    ```bash
+    docker-compose up
+    ```
 
-            3. Run Quokka Commands (in a separate console)
-            ```bash
-            docker-compose run shell python manage.py populate
-            ```
+    > use -d on above to leave it as a daemon
 
-        2. ### Run standalone containers
-        > (each in separate shells or use -d option)
+    2. Enter Quokka Shell (in a separate console)
+    ```bash
+    docker-compose run shell python manage.py shell
+    ```
 
-            1. run mongo container
-            ```bash
-            docker run -v $PWD/etc/mongodata:/data/db -p 27017:27017 --name mongo mongo
-            ```
+    3. Run Quokka Commands (in a separate console)
+    ```bash
+    docker-compose run shell python manage.py populate
+    ```
 
-            2. run quokka web app container
-            ```bash
-            docker run -e "QUOKKA_MONGODB_HOST=mongo" -p 5000:5000 --link mongo:mongo -v $PWD:/quokka --workdir /quokka -t -i quokka/quokkadev python manage.py runserver --host 0.0.0.0
+2. ### Run standalone containers
+> (each in separate shells or use -d option)
 
-            ```
+    1. run mongo container
+    ```bash
+    docker run -v $PWD/etc/mongodata:/data/db -p 27017:27017 --name mongo mongo
+    ```
 
-            3. run quokka shell if needed
-            ```bash
-            docker run -e "QUOKKA_MONGODB_HOST=mongo" -p 5000:5000 --link mongo:mongo -v $PWD:/quokka --workdir /quokka -t -i quokka/quokkadev python manage.py shell
+    2. run quokka web app container
+    ```bash
+    docker run -e "QUOKKA_MONGODB_HOST=mongo" -p 5000:5000 --link mongo:mongo -v $PWD:/quokka --workdir /quokka -t -i quokka/quokkadev python manage.py runserver --host 0.0.0.0
 
-            ```
+    ```
+
+    3. run quokka shell if needed
+    ```bash
+    docker run -e "QUOKKA_MONGODB_HOST=mongo" -p 5000:5000 --link mongo:mongo -v $PWD:/quokka --workdir /quokka -t -i quokka/quokkadev python manage.py shell
+
+    ```
 
 
 
