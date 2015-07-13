@@ -134,7 +134,7 @@ You can install everything you need in your local computer or if preferred use a
 
 * ### Run with docker-compose
 
-    1. Easiest way just run
+    1. Easiest way is just running the following command in quokka root folder
     ```bash
     docker-compose up
     ```
