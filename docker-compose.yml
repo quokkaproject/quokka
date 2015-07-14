@@ -30,8 +30,8 @@ web:
         - QUOKKA_MONGODB_HOST=mongo
         - WAIT_COMMAND=$(nc -zv mongo 27017)
         - WAIT_START_CMD=python manage.py runserver --host 0.0.0.0 --reload --debug
-        - WAIT_SLEEP=2
-        - WAIT_LOOPS=10
+        - WAIT_SLEEP=3
+        - WAIT_LOOPS=20
     mem_limit: 1000000000
 
 shell:
