@@ -39,7 +39,8 @@ If you want to have a new theme installed you can use quokkacms tool
     $ pip install quokkacms
     $ cd quokka
     $ quokkacms install_theme material
-The above commands will download material design theme to your themes folder, then just enable it.
+The above commands will download material design theme to your themes folder,
+then just enable it.
 
 DEFAULT_THEME = 'material'
 """
