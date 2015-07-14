@@ -17,7 +17,7 @@ export QUOKKA_MONGODB_PORT='$int 27017'
 Or just fill your values in this file and rename it to 'local_settings.py'
 """
 
-#MONGO
+# MONGO
 MONGODB_DB = "quokka_db"
 MONGODB_HOST = 'localhost'
 MONGODB_PORT = 27017
