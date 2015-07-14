@@ -28,9 +28,10 @@ Quokka is a flexible content management platform powered by Python, Flask and Mo
 > Quokka runs on Python 2.7  (Python 3 support is being developed)
 
 
-##  Get Quokka and enter in to its root directory
+##  Get Quokka Master and enter in to its root directory
+
 ```bash
-git clone https://github.com/quokkaproject/quokka
+git clone https://github.com/quokkaproject/quokka --branch master --single-branch
 cd quokka
 ```
 
