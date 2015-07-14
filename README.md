@@ -81,7 +81,7 @@ You can install everything you need in your local computer or if preferred use a
         docker run -d -v $PWD/etc/mongodata:/data/db -p 27017:27017 mongo
         ```
 
-#### Requirements
+#### O.S Requirements (optional)
     
 * O.S Requirements (for media conversions) you may need the following requirements on your operating system
     
@@ -93,27 +93,33 @@ You can install everything you need in your local computer or if preferred use a
         ```bash
         apk add gcc python py-pip libjpeg zlib zlib-dev tiff freetype git py-pillow python-dev musl-dev
         ```
-    3. Python requirements  
-        ```bash
-        pip install -r requirements.txt
-        ```
+        
+#### Python requirements 
+Install all needed python packages
+> activate your virtualenv if you want
+
+```bash
+pip install -r requirements.txt
+```
     
-#### Bootstrap commands
+#### Create admin user, sample data and run!
 
 * Initial data, users and running commands
     
-    3. Populate with sample data (optional)  
-        ```bash
-        $ python manage.py populate
-        
-        ```
 
-    4. Create a superuser  
+    3. Create a superuser  (required to login on admin interface)
         ```bash
         $ python manage.py createsuperuser
         you@email.com
         P4$$W0Rd
         ```
+    
+    4. Populate with sample data (optional if you want sample data)  
+        ```bash
+        $ python manage.py populate
+        
+        ```
+        > credentials for /admin will be email: admin@example.com passwd: admin
     
     5. Run
         ```bash
@@ -146,15 +152,21 @@ You can install everything you need in your local computer or if preferred use a
     ```
 
     > use -d on above to leave it as a daemon
-
-    2. Enter Quokka Shell (in a separate console)
+    
+    2. You can create a new admin user to login and start posting
     ```bash
-    docker-compose run shell python manage.py shell
+    docker-compose run shell python manage.py createsuperuser
     ```
 
-    3. Run Quokka Commands (in a separate console)
+    3. Or populate with sample data (optional)
     ```bash
     docker-compose run shell python manage.py populate
+    ```
+    > credentials for /admin will be email: admin@example.com passwd: admin
+    
+    4. You enter Quokka Shell (in a separate console) or run any other command in place of **shell*
+    ```bash
+    docker-compose run shell python manage.py shell
     ```
 
 * ### Run standalone containers
