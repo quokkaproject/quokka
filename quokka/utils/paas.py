@@ -22,7 +22,7 @@ def activate():
             if sys.version_info >= (3, 0):
                 with open(virtualenv) as f:
                     code = compile(f.read(), virtualenv, 'exec')
-                    exec(code, global_vars, local_vars)
+                    exec(code, globals(), locals())
             else:
                 execfile(virtualenv, dict(__file__=virtualenv))  # noqa
         except IOError:
