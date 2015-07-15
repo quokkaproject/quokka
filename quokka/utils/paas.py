@@ -19,6 +19,11 @@ def activate():
         virtualenv = os.path.join(virtenv, 'bin/activate_this.py')
 
         try:
-            execfile(virtualenv, dict(__file__=virtualenv))
+            if sys.version_info >= (3, 0):
+                with open(virtualenv) as f:
+                    code = compile(f.read(), virtualenv, 'exec')
+                    exec(code, global_vars, local_vars)
+            else:
+                execfile(virtualenv, dict(__file__=virtualenv))  # noqa
         except IOError:
             pass
