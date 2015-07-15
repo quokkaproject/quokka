@@ -172,7 +172,8 @@ a.back-home {
 
 nav.pure-menu {
     padding: 0 3em 0;
-
+    background-color: #333;
+    padding: 7px 0 0 40px;
 }
 
 .multiple-author-sidebar {
@@ -201,4 +202,39 @@ nav.pure-menu {
 
 .author-block .avatar {
   border-radius: 120px;
+}
+
+/* menu home page */
+nav.pure-menu .pure-menu-children {
+  background-color: #ddd;
+}
+
+nav.pure-menu ul.pure-menu-children li.pure-menu-allow-hover.pure-menu-item:hover {
+  background-color: #333; 
+  color: #ddd;
+}
+
+nav.pure-menu ul.pure-menu-children li.pure-menu-allow-hover.pure-menu-item {
+  padding-left: 20px;
+  margin-left: 0px !important;
+}
+
+nav.pure-menu ul.pure-menu-children {
+  margin-left: 20px;
+}
+
+nav.pure-menu .pure-menu-list> li.pure-menu-allow-hover > .pure-menu-link {
+  color: #d6d6d6;
+  border-bottom: 5px solid transparent;
+}
+
+nav.pure-menu .pure-menu-list > li.pure-menu-allow-hover > .pure-menu-link:hover, 
+nav.pure-menu .pure-menu-list > li.pure-menu-selected > .pure-menu-link {
+  border-bottom: 5px solid #ddd;
+  color: #d6d6d6;
+}
+
+nav.pure-menu .pure-menu-list .pure-menu-link {
+  background-color: transparent;
+  text-decoration: none;
 }
