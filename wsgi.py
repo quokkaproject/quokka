@@ -1,9 +1,12 @@
-# -*- coding: utf-8 -*-
+#!/usr/bin/python
 
 from werkzeug.serving import run_simple
 from werkzeug.wsgi import DispatcherMiddleware
-
 from quokka import create_app, create_api
+from quokka.utils.paas import activate
+
+# If running on PAAS such as OpenShift or heroku may require venv activation
+activate()
 
 application = DispatcherMiddleware(create_app(), {
     '/api': create_api()
