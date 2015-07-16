@@ -2,5 +2,9 @@
 # This is a simple post deploy hook executed after your application 
 # is deployed and started.  This script gets executed directly, so 
 # it could be python, php, ruby, etc.
-$OPENSHIFT_PYTHON_DIR/virtenv/bin/python etc/openshift_clean.py
-$OPENSHIFT_PYTHON_DIR/virtenv/bin/python manage.py populate
+if [ "$QUOKKA_MODE" == "demo" ]; then
+   cd $OPENSHIFT_REPO_DIR
+   export PYTHONPATH=$PWD
+   $OPENSHIFT_PYTHON_DIR/virtenv/bin/python etc/openshift_clean.py
+   $OPENSHIFT_PYTHON_DIR/virtenv/bin/python manage.py populate -f ./etc/fixtures/demo_data.json
+fi

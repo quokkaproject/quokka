@@ -1,6 +1,7 @@
 # coding: utf-8
 import logging
 import json
+import uuid
 
 from quokka.core.models import Channel, ChannelType, SubContentPurpose, \
     Config, CustomValue, License
@@ -33,8 +34,13 @@ class Populate(object):
         self.create_purposes()
         self.create_posts()
 
+    def generate_random_password(self):
+        return uuid.uuid4().hex
+
     def load_fixtures(self):
-        _file = open('./quokka/fixtures/initial_data.json')
+        filepath = self.kwargs.get('filepath',
+                                   './etc/fixtures/initial_data.json')
+        _file = open(filepath)
         self.json_data = json.load(_file)
 
     def role(self, name):

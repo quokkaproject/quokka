@@ -43,11 +43,12 @@ def check():
     return app
 
 
-@manager.command
-def populate():
+@manager.option('-f', '--filepath', help='Fixtures JSON path',
+                default="./etc/fixtures/initial_data.json")
+def populate(filepath):
     """Populate the database with sample data"""
     from quokka.utils.populate import Populate
-    Populate(db)()
+    Populate(db, filepath=filepath)()
 
 
 @manager.command
