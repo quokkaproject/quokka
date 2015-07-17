@@ -85,7 +85,7 @@
                },
                {
                    "name": "google-analytics",
-                   "rawvalue": "",
+                   "rawvalue": "UA-65278590-1",
                    "formatter": "text"
                },
                {
