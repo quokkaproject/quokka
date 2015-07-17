@@ -6,7 +6,6 @@ from jinja2 import Markup
 
 from quokka import admin
 from quokka.utils import lazy_str_setting
-from quokka.core.admin import _, _l
 from quokka.core.models import Channel
 from quokka.core.admin.models import ModelAdmin
 from quokka.core.admin.fields import ImageUploadField
@@ -15,6 +14,7 @@ from quokka.core.admin.models import BaseContentAdmin
 from quokka.core.widgets import TextEditor, PrepopulatedText
 from .models import Image, File, Video, Audio, MediaGallery
 from quokka.core.admin.ajax import AjaxModelLoader
+from quokka.ext.babel import _, _l
 
 
 class MediaAdmin(ModelAdmin):
@@ -148,10 +148,10 @@ class MediaGalleryAdmin(BaseContentAdmin):
         'slug': {'widget': PrepopulatedText(master='title')}
     }
 
-
-admin.register(File, FileAdmin, category=_('Media'), name=_l("File"))
-admin.register(Video, VideoAdmin, category=_('Media'), name=_l("Video"))
-admin.register(Audio, AudioAdmin, category=_('Media'), name=_l("Audio"))
-admin.register(Image, ImageAdmin, category=_('Media'), name=_l("Image"))
+    
+admin.register(File, FileAdmin, category=_l('Media'), name=_l("File"))
+admin.register(Video, VideoAdmin, category=_l('Media'), name=_l("Video"))
+admin.register(Audio, AudioAdmin, category=_l('Media'), name=_l("Audio"))
+admin.register(Image, ImageAdmin, category=_l('Media'), name=_l("Image"))
 admin.register(MediaGallery, MediaGalleryAdmin,
-               category=_('Content'), name=_l("Media Gallery"))
+               category=_l('Content'), name=_l("Media Gallery"))

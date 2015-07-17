@@ -1,6 +1,6 @@
 # coding: utf-8
 # from flask import request, session
-from flask.ext.babelex import Babel
+from flask.ext.babelex import Babel, Domain
 
 babel = Babel()
 
@@ -21,3 +21,7 @@ def configure(app):
     #     return request.accept_languages.best_match(
     #         app.config['BABEL_LANGUAGES'])
     # babel.localeselector(get_locale)
+domain = Domain()
+_l = domain.lazy_gettext
+_ = domain.gettext
+_n = domain.ngettext

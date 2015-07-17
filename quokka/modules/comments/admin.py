@@ -2,11 +2,10 @@
 
 
 from quokka import admin
-from quokka.core.admin import _, _l
 from quokka.core.admin.models import ModelAdmin
 from quokka.core.widgets import TextEditor
 from .models import Comment
-
+from quokka.ext.babel import _, _l
 
 class CommentAdmin(ModelAdmin):
     roles_accepted = ('admin', 'editor', 'moderator')
@@ -20,5 +19,5 @@ class CommentAdmin(ModelAdmin):
     }
 
 
-admin.register(Comment, CommentAdmin, category=_('Content'),
+admin.register(Comment, CommentAdmin, category=_l('Content'),
                name=_l("Comments"))
