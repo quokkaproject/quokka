@@ -1,8 +1,14 @@
 #!/bin/bash
-# This script cleans database daily
-if [ "$QUOKKA_MODE" == "demo" ]; then
+# This script cleans database and repopulate daily
+# This script runs only for quokka cms official demo page
+if [ "$OPENSHIFT_APP_DNS" == "wercker-rochacbruno.rhcloud.com" ]; then
    cd $OPENSHIFT_REPO_DIR
-   export PYTHONPATH=$PWD
-   $OPENSHIFT_PYTHON_DIR/virtenv/bin/python etc/openshift_clean.py
-   $OPENSHIFT_PYTHON_DIR/virtenv/bin/python manage.py populate -f ./etc/fixtures/demo_data.json
+   source ${OPENSHIFT_PYTHON_DIR}virtenv/bin/activate
+   export PYTHON_EGG_CACHE=${OPENSHIFT_PYTHON_DIR}virtenv/lib/python-2.7/site-packages
+   
+   echo "Executing 'python ${OPENSHIFT_REPO_DIR}etc/openshift_clean.py'"
+   python "$OPENSHIFT_REPO_DIR"etc/openshift_clean.py
+
+   echo "Executing 'python ${OPENSHIFT_REPO_DIR}manage.py populate -f ./etc/fixtures/demo_data.json'"
+   python "$OPENSHIFT_REPO_DIR"manage.py populate -f ./etc/fixtures/demo_data.json
 fi

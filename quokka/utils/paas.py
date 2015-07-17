@@ -5,6 +5,7 @@ import sys
 def activate():
     # Try OPENSHIFT
     if os.environ.get('OPENSHIFT_HOMEDIR', None):
+        sys.path.append(os.path.join(os.environ['OPENSHIFT_REPO_DIR']))
         sys.path.insert(0, os.path.dirname(__file__) or '.')
         if os.path.exists(os.path.join(
                 os.environ['OPENSHIFT_HOMEDIR'], "python-2.6")):

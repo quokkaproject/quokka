@@ -1,0 +1,27 @@
+Name: quokkadev
+Cartridge-Short-Name: QKADEV
+Display-Name: Quokka CMS Development
+Description: "Deploys development branch of Quokka CMS"
+Version: '1'
+Source-Url: https://github.com/quokkaproject/quokka.git
+License: MIT
+License-Url: http://opensource.org/licenses/MIT
+Vendor: quokkaproject
+Cartridge-Version: '0.0.1'
+Cartridge-Vendor: rochacbruno
+Categories:
+  - service
+  - web_framework
+  - cms
+Website: http://www.quokkaproject.org
+Help-Topics:
+  "Developer Center": http://quokkaproject.org
+Cart-Data:
+  - Key: QUOKKA_SITE_NAME
+    Type: environment
+    Description: "The name of your website."
+Provides:
+  - mongo
+Scaling:
+  Min: 1
+  Max: -1
