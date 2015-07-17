@@ -43,7 +43,7 @@ class BasicTestCase(TestCase):
 
     def test_has_posts(self):
         from quokka.modules.posts.models import Post
-        self.assertTrue(Post.objects.count() == 5)
+        self.assertTrue(Post.objects.count() == 6)
 
     def test_blog_has_only_one_post(self):
         from quokka.modules.posts.models import Post

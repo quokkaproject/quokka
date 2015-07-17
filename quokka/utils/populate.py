@@ -37,6 +37,43 @@ class Populate(object):
     def generate_random_password(self):
         return uuid.uuid4().hex
 
+    def create_initial_superuser(self):
+        password = self.generate_random_password()
+        user_data = {
+            "name": "Quokka Admin",
+            "email": "admin@quokkaproject.org",
+            "gravatar_email": "rochacbruno+quokka@gmail.com",
+            "password": password[:6],
+            "roles": ["admin"],
+            "bio": "Quokka Example Admin",
+            "tagline": "Quokka is the best CMS!",
+            "links": [
+                {
+                    "title": "facebook",
+                    "link": "http://facebook.com/quokkaproject",
+                    "icon": "facebook",
+                    "css_class": "facebook",
+                    "order": 0
+                },
+                {
+                    "title": "github",
+                    "link": "http://github.com/quokkaproject",
+                    "icon": "github",
+                    "css_class": "github",
+                    "order": 0
+                },
+                {
+                    "title": "twitter",
+                    "link": "http://twitter.com/quokkaproject",
+                    "icon": "twitter",
+                    "css_class": "twitter",
+                    "order": 0
+                }
+            ]
+        }
+        user_obj = self.create_user(user_data)
+        return user_data, user_obj
+
     def load_fixtures(self):
         filepath = self.kwargs.get('filepath',
                                    './etc/fixtures/initial_data.json')
@@ -56,20 +93,22 @@ class Populate(object):
         for user in users:
             self.users[user.name] = user
 
-    def create_users(self):
+    def create_user(self, data):
+        name = data.get('name')
+        if name not in self.users:
+            pwd = data.get("password")
+            data['roles'] = [self.role(role) for role in data.get('roles')]
+            user = User.createuser(**data)
+            self.users[name] = user
+            logger.info("Created: User: mail:%s pwd:%s", user.email, pwd)
+            return user
+        else:
+            logger.info("Exist: User: mail: %s", data.get('email'))
 
-        self.users_data = self.json_data.get('users')
-
+    def create_users(self, data=None):
+        self.users_data = data or self.json_data.get('users')
         for data in self.users_data:
-            name = data.get('name')
-            if name not in self.users:
-                pwd = data.get("password")
-                data['roles'] = [self.role(role) for role in data.get('roles')]
-                user = User.createuser(**data)
-                self.users[name] = user
-                logger.info("Created: User: mail:%s pwd:%s", user.email, pwd)
-            else:
-                logger.info("Exist: User: mail: %s", data.get('email'))
+            self.create_user(data)
 
     def create_config(self, data):
         try:
@@ -180,8 +219,42 @@ class Populate(object):
         for purpose in self.purpose_data:
             self.create_purpose(purpose)
 
+    def create_initial_post(self, user_data=None, user_obj=None):
+        post_data = {
+            "title": "Try Quokka CMS! write a post.",
+            "summary": (
+                "Use default credentials to access "
+                "/admin \r\n"
+                "user: {user[email]} \r\n"
+                "pass: {user[password]} \r\n"
+            ).format(user=user_data),
+            "slug": "try-quokka-cms",
+            "tags": ["quokka"],
+            "body": (
+                "## You can try Quokka ADMIN\r\n\r\n"
+                "Create some posts\r\n\r\n"
+                "> Use default credentials to access "
+                "[/admin](/admin) \r\n\r\n"
+                "- user: {user[email]}\r\n"
+                "- password: {user[password]}\r\n"
+                "> ATTENTION! Copy the credentials and delete this post"
+            ).format(user=user_data),
+            "license": {
+                "title": "Creative Commons",
+                "link": "http://creativecommons.com",
+                "identifier": "creative_commons_by_nc_nd"
+            },
+            "content_format": "markdown"
+        }
+        post_data['channel'] = self.channels.get("home")
+        post_data["created_by"] = user_obj or User.objects.first()
+        post = self.create_post(post_data)
+        return post
+
     def create_post(self, data):
-        data['created_by'] = data['last_updated_by'] = self.users.get('admin')
+        if not data.get('created_by'):
+            data['created_by'] = self.users.get('admin')
+        data['last_updated_by'] = data['created_by']
         data['published'] = True
 
         if 'license' in data and not isinstance(data['license'], License):

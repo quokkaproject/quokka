@@ -21,7 +21,7 @@ while ! is_ready; do
         echo "$(date) - still not ready, giving up"
         exit 1
     fi
-    echo "$(date) - waiting to be ready"
+    echo "$(date) - waiting to be ready - $i"
     sleep $WAIT_SLEEP
 done
 

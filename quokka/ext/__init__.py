@@ -28,7 +28,7 @@ def configure_extensions(app, admin):
     Dealer(app)
     error_handlers.configure(app)
     db.init_app(app)
-    fixtures.configure(app, db)
+
     themes.configure(app, db)  # Themes should be configured after db
 
     context_processors.configure(app)
@@ -36,6 +36,7 @@ def configure_extensions(app, admin):
 
     app.security = Security(app, MongoEngineUserDatastore(db, User, Role))
 
+    fixtures.configure(app, db)
     blueprints.load_from_packages(app)
     blueprints.load_from_folder(app)
 
