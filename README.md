@@ -7,6 +7,7 @@
 <a href="http://smallactsmanifesto.org" title="Small Acts Manifesto"><img src="http://smallactsmanifesto.org/static/images/smallacts-badge-80x15-blue.png" style="border: none;" alt="Small Acts Manifesto" /></a>
 
 [![wercker status](https://app.wercker.com/status/e9cbc4497ee946083aa19fbd3f756c91/m "wercker status")](https://app.wercker.com/project/bykey/e9cbc4497ee946083aa19fbd3f756c91)
+[![Launch on OpenShift](http://launch-shifter.rhcloud.com/button.svg)](https://openshift.redhat.com/app/console/application_type/custom?cartridges%5B%5D=python-2.7&cartridges%5B%5D=mongodb-2.4&initial_git_url=https://github.com/quokkaproject/quokka.git&name=quokka&initial_git_branch=development)
 
 Quokka project
 ===============================================
