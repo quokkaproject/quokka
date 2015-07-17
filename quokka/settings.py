@@ -45,6 +45,12 @@ by FLask-Admin file manager
 PROJECT_ROOT = os.path.abspath(os.path.dirname(__file__))
 MEDIA_ROOT = os.path.join(PROJECT_ROOT, 'mediafiles')
 STATIC_ROOT = os.path.join(PROJECT_ROOT, 'static')
+ROOT_DIR = os.path.abspath(os.path.join(PROJECT_ROOT, '..'))
+
+# For starting with sample data
+POPULATE_FILEPATH = os.path.join(
+    ROOT_DIR, 'etc', 'fixtures', 'initial_data.json'
+)
 
 """
 Files on MAP_STATIC_ROOT will be served from /static/

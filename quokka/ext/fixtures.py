@@ -16,7 +16,7 @@ def configure(app, db):
 
     if not is_installed:
         print("Loading fixtures")
-        populate = Populate(db)
+        populate = Populate(db, filepath=app.config.get('POPULATE_FILEPATH'))
         populate.create_configs()
         populate.create_purposes()
         populate.create_channel_types()

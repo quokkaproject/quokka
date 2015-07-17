@@ -1,10 +1,12 @@
 #!/bin/bash
 # This script runs only for quokka cms official demo page
 if [ "$OPENSHIFT_APP_DNS" == "wercker-rochacbruno.rhcloud.com" ]; then
-   cd $OPENSHIFT_REPO_DIR
    source ${OPENSHIFT_PYTHON_DIR}virtenv/bin/activate
    export PYTHON_EGG_CACHE=${OPENSHIFT_PYTHON_DIR}virtenv/lib/python-2.7/site-packages
 
+   cd $OPENSHIFT_REPO_DIR
+   export PYTHONPATH=$PWD
+   
    echo "Executing 'python ${OPENSHIFT_REPO_DIR}etc/openshift_clean.py'"
    python "$OPENSHIFT_REPO_DIR"etc/openshift_clean.py
 
