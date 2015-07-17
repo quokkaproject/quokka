@@ -21,7 +21,3 @@ def configure(app):
     #     return request.accept_languages.best_match(
     #         app.config['BABEL_LANGUAGES'])
     # babel.localeselector(get_locale)
-domain = Domain()
-_l = domain.lazy_gettext
-_ = domain.gettext
-_n = domain.ngettext

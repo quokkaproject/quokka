@@ -14,7 +14,7 @@ from quokka.core.admin.models import BaseContentAdmin
 from quokka.core.widgets import TextEditor, PrepopulatedText
 from .models import Image, File, Video, Audio, MediaGallery
 from quokka.core.admin.ajax import AjaxModelLoader
-from quokka.ext.babel import _, _l
+from quokka.utils.translation import _, _l
 
 
 class MediaAdmin(ModelAdmin):

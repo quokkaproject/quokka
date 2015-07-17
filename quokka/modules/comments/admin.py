@@ -5,7 +5,7 @@ from quokka import admin
 from quokka.core.admin.models import ModelAdmin
 from quokka.core.widgets import TextEditor
 from .models import Comment
-from quokka.ext.babel import _, _l
+from quokka.utils.translation import _, _l
 
 class CommentAdmin(ModelAdmin):
     roles_accepted = ('admin', 'editor', 'moderator')

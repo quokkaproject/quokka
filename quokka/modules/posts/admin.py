@@ -4,7 +4,7 @@ from quokka import admin
 from quokka.core.admin.models import BaseContentAdmin
 from quokka.core.widgets import TextEditor, PrepopulatedText
 from .models import Post
-from quokka.ext.babel import _, _l
+from quokka.utils.translation import _, _l
 
 
 class PostAdmin(BaseContentAdmin):

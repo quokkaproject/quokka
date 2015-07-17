@@ -242,6 +242,47 @@ msgstr "账户"
 msgid "Roles"
 msgstr "角色"
 
+msgid "User"
+msgstr "用户"
+
 msgid "Connection"
 msgstr "连接"
 
+msgid "Video"
+msgstr "视频"
+
+msgid "Audio"
+msgstr "音频"
+
+msgid "Image"
+msgstr "图像"
+
+msgid "Post"
+msgstr "文章"
+
+msgid "Comments"
+msgstr "评论"
+
+msgid "Link"
+msgstr "链接"
+
+msgid "Channel"
+msgstr "频道"
+
+msgid "Media Gallery"
+msgstr "媒体展览"
+
+msgid "Files"
+msgstr "文件"
+
+msgid "Inspector"
+msgstr "审查"
+
+msgid "Sub content purposes"
+msgstr "子内容意图"
+
+msgid "Channel type"
+msgstr "频道类型"
+
+msgid "Template type"
+msgstr "模板类型"

@@ -4,7 +4,7 @@ from wtforms.widgets import PasswordInput
 from quokka import admin
 from quokka.core.admin.models import ModelAdmin
 from .models import Role, User, Connection
-from quokka.ext.babel import _, _l
+from quokka.utils.translation import _, _l
 
 class UserAdmin(ModelAdmin):
     roles_accepted = ('admin',)
