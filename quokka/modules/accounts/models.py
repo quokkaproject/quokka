@@ -93,8 +93,8 @@ class User(db.DynamicDocument, UserMixin):
                    *args, **kwargs):
 
         username = username or cls.generate_username(name)
-        if "links" in kwargs:
-            kwargs["links"] = [UserLink(**link) for link in kwargs['links']]
+        if 'links' in kwargs:
+            kwargs['links'] = [UserLink(**link) for link in kwargs['links']]
 
         return cls.objects.create(
             name=name,
