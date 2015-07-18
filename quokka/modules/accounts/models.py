@@ -76,6 +76,7 @@ class User(db.DynamicDocument, UserMixin):
         # for item in ['@', '.', '-', '+']:
         #     username = username.replace(item, '_')
         # return username
+        name = name or ''
         username = slugify(name)
         if cls.objects.filter(username=username).count():
             username = "{}{}".format(username, randint(1, 1000))
