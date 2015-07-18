@@ -56,7 +56,8 @@ var AdminFilters = function(element, filters_element, operations, options, types
 
         var $field;
 
-        if (optId in options) {
+        var optIdInOptions = $.inArray(optId, options);
+        if (optIdInOptions != -1) {
             $field = $('<select class="filter-val" />')
                         .attr('name', 'flt' + lastCount + '_' + optId);
 
@@ -74,7 +75,8 @@ var AdminFilters = function(element, filters_element, operations, options, types
             $el.append($('<td/>').append($field));
         }
 
-        if (optId in types) {
+        var optIdInTypes = $.inArray(optId, types);
+        if (optIdInTypes != -1) {
             $field.attr('data-role', types[optId]);
             faForm.applyStyle($field, types[optId]);
         }
