@@ -14,7 +14,7 @@ from quokka.core.admin.models import BaseContentAdmin
 from quokka.core.widgets import TextEditor, PrepopulatedText
 from .models import Image, File, Video, Audio, MediaGallery
 from quokka.core.admin.ajax import AjaxModelLoader
-from quokka.utils.translation import _, _l
+from quokka.utils.translation import _l
 
 
 class MediaAdmin(ModelAdmin):
@@ -148,7 +148,7 @@ class MediaGalleryAdmin(BaseContentAdmin):
         'slug': {'widget': PrepopulatedText(master='title')}
     }
 
-    
+
 admin.register(File, FileAdmin, category=_l('Media'), name=_l("File"))
 admin.register(Video, VideoAdmin, category=_l('Media'), name=_l("Video"))
 admin.register(Audio, AudioAdmin, category=_l('Media'), name=_l("Audio"))
