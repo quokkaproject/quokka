@@ -1,6 +1,6 @@
 from flask import g
 from babel.support import LazyProxy
-from flask.ext.babelex import Domain
+from flask.ext.babelex import gettext, lazy_gettext, ngettext
 
 # from quokka.utils.translations import ugettext_lazy as _
 
@@ -13,7 +13,6 @@ def ugettext(s):
 
 ugettext_lazy = LazyProxy(ugettext)
 
-domain = Domain()
-_l = domain.lazy_gettext
-_ = domain.gettext
-_n = domain.ngettext
+_ = gettext
+_l = lazy_gettext
+_n = ngettext

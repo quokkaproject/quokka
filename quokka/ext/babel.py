@@ -1,6 +1,6 @@
 # coding: utf-8
 # from flask import request, session
-from flask.ext.babelex import Babel, Domain
+from flask.ext.babelex import Babel
 
 babel = Babel()
 
