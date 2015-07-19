@@ -3,8 +3,8 @@
 from quokka import admin
 from quokka.core.admin.models import BaseContentAdmin
 from quokka.core.widgets import TextEditor, PrepopulatedText
+from quokka.core.admin import _, _l
 from .models import Post
-from quokka.utils.translation import _l
 
 
 class PostAdmin(BaseContentAdmin):
@@ -23,4 +23,4 @@ class PostAdmin(BaseContentAdmin):
     }
 
 
-admin.register(Post, PostAdmin, category=_l('Content'), name=_l("Post"))
+admin.register(Post, PostAdmin, category=_("Content"), name=_l("Post"))
