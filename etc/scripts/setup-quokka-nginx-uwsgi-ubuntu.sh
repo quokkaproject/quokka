@@ -82,7 +82,7 @@ echo 'server {
         }
 
         location / {
-            uwsgi_pass      unix:/home/quokka/quokka-env/quokka/etc/quokka.socket;
+            uwsgi_pass      unix:/home/quokka/quokka-env/quokka/etc/logs/quokka.socket;
             include         /etc/nginx/uwsgi_params;
             uwsgi_param     UWSGI_SCHEME $scheme;
             uwsgi_param     SERVER_SOFTWARE    nginx/$nginx_version;
