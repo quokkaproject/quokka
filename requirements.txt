@@ -46,7 +46,8 @@ regex==2015.7.12
 requests==2.7.0
 requests-oauthlib==0.5.0
 simplejson==3.7.3
-speaklater==1.3
+#speaklater==1.3
+https://github.com/realli/speaklater/archive/temp_use.zip
 Unidecode==0.4.18
 webassets==0.10.1
 Werkzeug==0.10.4
