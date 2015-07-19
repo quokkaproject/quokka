@@ -76,6 +76,7 @@ class User(db.DynamicDocument, UserMixin):
         # for item in ['@', '.', '-', '+']:
         #     username = username.replace(item, '_')
         # return username
+        name = name or ''
         username = slugify(name)
         if cls.objects.filter(username=username).count():
             username = "{}{}".format(username, randint(1, 1000))
@@ -92,8 +93,8 @@ class User(db.DynamicDocument, UserMixin):
                    *args, **kwargs):
 
         username = username or cls.generate_username(name)
-        if "links" in kwargs:
-            kwargs["links"] = [UserLink(**link) for link in kwargs['links']]
+        if 'links' in kwargs:
+            kwargs['links'] = [UserLink(**link) for link in kwargs['links']]
 
         return cls.objects.create(
             name=name,
