@@ -41,8 +41,8 @@ var AdminFilters = function(element, filters_element, operations, options, types
         var $select = $('<select class="filter-op" />')
                       .change(changeOperation);
 
-        $(op).each(function() {
-            $select.append($('<option/>').attr('value', this[0]).text(this[1]));
+        $(op).each(function(index, value) {
+            $select.append($('<option/>').attr('value', value.arg).text(value.operation));
         });
 
         $el.append(
