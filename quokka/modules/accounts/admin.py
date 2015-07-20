@@ -34,6 +34,11 @@ class RoleAdmin(ModelAdmin):
     column_list = ('name', 'description')
 
 
+class ConnectionAdmin(ModelAdmin):
+    roles_accepted = ('admin',)
+
+
 admin.register(User, UserAdmin, category=_l("Accounts"), name=_l("User"))
 admin.register(Role, RoleAdmin, category=_l("Accounts"), name=_l("Roles"))
-admin.register(Connection, category=_l("Accounts"), name=_l("Connection"))
+admin.register(Connection, ConnectionAdmin,
+               category=_l("Accounts"), name=_l("Connection"))
