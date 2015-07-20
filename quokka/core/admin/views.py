@@ -5,7 +5,14 @@ from quokka.core.models import Content
 from quokka.utils.routing import expose
 from quokka.core.widgets import TextEditor, PrepopulatedText
 from .ajax import AjaxModelLoader
-from .models import BaseIndexView, BaseView, ModelAdmin, BaseContentAdmin
+from .models import (
+    BaseIndexView,
+    BaseView,
+    ModelAdmin,
+    BaseContentAdmin,
+    ContentActions,
+    PublishActions
+)
 
 
 class IndexView(BaseIndexView):
@@ -48,7 +55,7 @@ class LinkAdmin(BaseContentAdmin):
     }
 
 
-class ConfigAdmin(ModelAdmin):
+class ConfigAdmin(PublishActions, ModelAdmin):
     roles_accepted = ('admin', 'developer')
     column_list = ("group", "description", "published",
                    "created_at", "updated_at")
@@ -68,7 +75,7 @@ class ContentTemplateTypeAdmin(ModelAdmin):
     roles_accepted = ('admin', 'editor', 'author')
 
 
-class ChannelAdmin(ModelAdmin):
+class ChannelAdmin(ContentActions, PublishActions, ModelAdmin):
     roles_accepted = ('admin', 'editor', 'author')
     column_list = ('title', 'long_slug', 'is_homepage',
                    'channel_type', 'created_at', 'available_at', 'published',
