@@ -52,7 +52,7 @@ var AdminFilters = function(element, filters_element, operations, options, types
         $select.select2({width: 'resolve'});
 
         // Input
-        var optId = op[0][0];
+        var optId = op[0].arg;
 
         var $field;
 
