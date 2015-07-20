@@ -336,12 +336,25 @@ class Channel(Tagged, HasCustomValue, Publishable, LongSlugged,
         return self.long_slug
 
     def get_absolute_url(self, *args, **kwargs):
+        if self.is_homepage:
+            return "/"
         return "/{0}/".format(self.long_slug)
 
     def get_canonical_url(self, *args, **kwargs):
+        """
+        TODO: This method should be reviewed
+        Canonical URL is the preferred URL for a content
+        when the content can be served by multiple URLS
+        In the case of channels it will never happen
+        until we implement the channel alias feature
+        """
         if self.is_homepage:
             return "/"
         return self.get_absolute_url()
+
+    def get_http_url(self):
+        site_url = Config.get('site', 'site_domain', request.url_root)
+        return u"{}{}".format(site_url, self.get_absolute_url())
 
     def clean(self):
         homepage = Channel.objects(is_homepage=True)

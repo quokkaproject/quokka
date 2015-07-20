@@ -138,45 +138,6 @@ class ModelAdmin(ThemeMixin, Roled, ModelView):
         except self.model.DoesNotExist:
             flash(_("Item not found %(i)s", i=i), "error")
 
-    @action(
-        'toggle_publish',
-        _l('Publish/Unpublish'),
-        _l('Publish/Unpublish?')
-    )
-    def action_toggle_publish(self, ids):
-        for i in ids:
-            instance = self.get_instance(i)
-            instance.published = not instance.published
-            instance.save()
-        count = len(ids)
-        flash(_n('Item successfully published/Unpublished.',
-                 '%(count)s items were successfully published/Unpublished.',
-                 count,
-                 count=count))
-
-    @action(
-        'clone_item',
-        _l('Create a copy'),
-        _l('Are you sure you want a copy?')
-    )
-    def action_clone_item(self, ids):
-        if len(ids) > 1:
-            flash(
-                _("You can select only one item for this action"),
-                'error'
-            )
-            return
-
-        instance = self.get_instance(ids[0])
-        new = instance.from_json(instance.to_json())
-        new.id = None
-        new.published = False
-        new.last_updated_by = User.objects.get(id=current_user.id)
-        new.updated_at = datetime.datetime.now()
-        new.slug = "{0}-{1}".format(new.slug, random.getrandbits(32))
-        new.save()
-        return redirect(url_for('.edit_view', id=new.id))
-
     @action('export_to_json', _l('Export as json'))
     def export_to_json(self, ids):
         qs = self.model.objects(id__in=ids)
@@ -209,6 +170,49 @@ class ModelAdmin(ThemeMixin, Roled, ModelView):
         )
 
 
+class PublishActions(object):
+    @action(
+        'toggle_publish',
+        _l('Publish/Unpublish'),
+        _l('Publish/Unpublish?')
+    )
+    def action_toggle_publish(self, ids):
+        for i in ids:
+            instance = self.get_instance(i)
+            instance.published = not instance.published
+            instance.save()
+        count = len(ids)
+        flash(_n('Item successfully published/Unpublished.',
+                 '%(count)s items were successfully published/Unpublished.',
+                 count,
+                 count=count))
+
+
+class ContentActions(object):
+    @action(
+        'clone_item',
+        _l('Create a copy'),
+        _l('Are you sure you want a copy?')
+    )
+    def action_clone_item(self, ids):
+        if len(ids) > 1:
+            flash(
+                _("You can select only one item for this action"),
+                'error'
+            )
+            return
+
+        instance = self.get_instance(ids[0])
+        new = instance.from_json(instance.to_json())
+        new.id = None
+        new.published = False
+        new.last_updated_by = User.objects.get(id=current_user.id)
+        new.updated_at = datetime.datetime.now()
+        new.slug = "{0}-{1}".format(new.slug, random.getrandbits(32))
+        new.save()
+        return redirect(url_for('.edit_view', id=new.id))
+
+
 class BaseIndexView(Roled, ThemeMixin, AdminIndexView):
     pass
 
@@ -217,7 +221,7 @@ class BaseView(Roled, ThemeMixin, AdminBaseView):
     pass
 
 
-class BaseContentAdmin(ModelAdmin):
+class BaseContentAdmin(ContentActions, PublishActions, ModelAdmin):
     """
     All attributes added here for example
     more info in admin source
