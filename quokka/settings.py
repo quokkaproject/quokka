@@ -210,8 +210,12 @@ SECURITY_CHANGEABLE = True
 SECURITY_RECOVERABLE = True
 SECURITY_TRACKABLE = True
 
+# Configurations below should be changes in local_settings
+# when email system got setted up
 SECURITY_SEND_REGISTER_EMAIL = False
 SECURITY_LOGIN_WITHOUT_CONFIRMATION = True
+SECURITY_SEND_PASSWORD_CHANGE_EMAIL = False
+SECURITY_SEND_PASSWORD_RESET_NOTICE_EMAIL = False
 
 """
 Dealer can versionate static files if you are under a repo
