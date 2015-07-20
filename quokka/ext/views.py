@@ -3,7 +3,12 @@
 import os
 from flask import send_from_directory, current_app, request
 from flask.ext.security import roles_accepted
-from quokka.core.views import ContentDetail, ContentList, TagList
+from quokka.core.views import (
+    ContentDetail,
+    ContentDetailPreview,
+    ContentList,
+    TagList
+)
 from quokka.core.views import TagAtom, FeedAtom, TagRss, FeedRss
 from quokka.core.models import Channel
 
@@ -45,9 +50,13 @@ def configure(app):
 
     # Match content detail, .html added to distinguish from channels
     # better way? how?
-    CONTENT_EXTENSION = app.config.get("CONTENT_EXTENSION", "html")
-    app.add_url_rule('/<path:long_slug>.{0}'.format(CONTENT_EXTENSION),
+    content_extension = app.config.get("CONTENT_EXTENSION", "html")
+    app.add_url_rule('/<path:long_slug>.{0}'.format(content_extension),
                      view_func=ContentDetail.as_view('detail'))
+
+    # Draft preview
+    app.add_url_rule('/<path:long_slug>.preview',
+                     view_func=ContentDetailPreview.as_view('preview'))
 
     # Atom Feed
     app.add_url_rule(

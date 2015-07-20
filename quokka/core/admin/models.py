@@ -63,12 +63,12 @@ def format_datetime(self, request, obj, fieldname, *args, **kwargs):
 
 
 def view_on_site(self, request, obj, fieldname, *args, **kwargs):
-    endpoint = kwargs.pop('endpoint', 'detail')
+    endpoint = kwargs.pop('endpoint', 'detail' if obj.published else 'preview')
     return html.a(
         href=obj.get_absolute_url(endpoint),
         target='_blank',
     )(html.i(class_="icon icon-eye-open", style="margin-right: 5px;")(),
-      _l('View on site'))
+      _l('View on site') if obj.published else _l('Preview on site'))
 
 
 def format_ul(self, request, obj, fieldname, *args, **kwars):

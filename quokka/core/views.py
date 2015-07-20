@@ -216,8 +216,24 @@ class ContentDetail(MethodView):
 
         return names
 
-    def get_context(self, long_slug, render_content=False):
+    def get_filters(self):
         now = datetime.now()
+        filters = {
+            'published': True,
+            'available_at__lte': now
+        }
+        return filters
+
+    def check_if_is_accessible(self, content):
+        if not content.channel.published:
+            return abort(404)
+
+        if not is_accessible(roles_accepted=content.channel.roles):
+            # TODO: access control only takes main channel roles
+            # TODOC: deal with related channels
+            raise abort(403, "User has no role to view this channel content")
+
+    def get_context(self, long_slug, render_content=False):
         homepage = Channel.objects.get(is_homepage=True)
 
         if long_slug.startswith(homepage.slug) and \
@@ -226,10 +242,7 @@ class ContentDetail(MethodView):
             slug = long_slug.split('/')[-1]
             return redirect(url_for('detail', long_slug=slug))
 
-        filters = {
-            'published': True,
-            'available_at__lte': now
-        }
+        filters = self.get_filters()
 
         try:
             content = Content.objects.get(
@@ -243,13 +256,7 @@ class ContentDetail(MethodView):
                 **filters
             )
 
-        if not content.channel.published:
-            return abort(404)
-
-        if not is_accessible(roles_accepted=content.channel.roles):
-            # TODO: access control only takes main channel roles
-            # TODOC: deal with related channels
-            raise abort(403, "User has no role to view this channel content")
+        self.check_if_is_accessible(content=content)
 
         self.content = content
 
@@ -270,6 +277,21 @@ class ContentDetail(MethodView):
             theme=self.content.get_themes(),
             **context
         )
+
+
+class ContentDetailPreview(ContentDetail):
+    def get_filters(self):
+        return {}
+
+    def check_if_is_accessible(self, content):
+        if not content.channel.published:
+            return abort(404)
+
+        if (get_current_user() not in content.get_authors()) or (
+                not is_accessible(roles_accepted=['admin', 'reviewer'])):
+            # TODO: access control only takes main channel roles
+            # TODOC: deal with related channels
+            raise abort(403, "User has no role to view this channel content")
 
 
 class BaseTagView(MethodView):
@@ -379,14 +401,14 @@ class BaseFeed(MethodView):
 
         # set rss.pubDate to the newest post in the collection
         # back 10 years in the past
-        rss_pubDate = datetime.today() - timedelta(days=365 * 10)
+        rss_pubdate = datetime.today() - timedelta(days=365 * 10)
 
         for content in contents:
             if not content.channel.include_in_rss:
                 continue
 
-            if content.created_at > rss_pubDate:
-                rss_pubDate = content.created_at
+            if content.created_at > rss_pubdate:
+                rss_pubdate = content.created_at
 
             if content.created_by:
                 author = content.created_by.name
@@ -408,7 +430,7 @@ class BaseFeed(MethodView):
             )
 
         # set the new published date after iterating the contents
-        rss.pubDate = rss_pubDate
+        rss.pubDate = rss_pubdate
 
         return rss.to_xml(encoding=conf.get('RSS_ENCODING', 'utf-8'))
 
