@@ -160,7 +160,9 @@ DEBUG_TB_PANELS = (
     'flask.ext.mongoengine.panels.MongoDebugPanel',
     'flask_debugtoolbar.panels.logger.LoggingPanel',
     'flask_debugtoolbar.panels.profiler.ProfilerDebugPanel',
+    'flask_debugtoolbar.panels.config_vars.ConfigVarsDebugPanel',
 )
+
 
 """
 By default DEBUG_TOOLBAR is disabled
