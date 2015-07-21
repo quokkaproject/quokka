@@ -691,10 +691,7 @@ class Content(HasCustomValue, Publishable, LongSlugged,
 
         url = self.get_http_url()
         shortener = ShorterURL()
-        if not self.shortened_url:
-            self.shortened_url = ShortenedURL(original=url,
-                                              short=shortener.short(url))
-        elif url != self.shortened_url.original:
+        if not self.shortened_url or url != self.shortened_url.original:
             self.shortened_url = ShortenedURL(original=url,
                                               short=shortener.short(url))
 
