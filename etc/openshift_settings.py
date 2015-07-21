@@ -13,3 +13,7 @@ LOGGER_ENABLED = True
 LOGGER_LEVEL = 'DEBUG'
 LOGGER_FORMAT = '%(asctime)s %(name)-12s %(levelname)-8s %(message)s'
 LOGGER_DATE_FORMAT = '%d.%m %H:%M:%S'
+
+if os.environ['OPENSHIFT_APP_NAME'] == 'quokkadevelopment':
+    DEBUG_TOOLBAR_ENABLED = True
+    DEBUG = True
