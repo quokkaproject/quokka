@@ -237,7 +237,6 @@ class Channel(Tagged, HasCustomValue, Publishable, LongSlugged,
     indexable = db.BooleanField(default=True)
     canonical_url = db.StringField()
     order = db.IntField(default=0)
-    shortened_url = db.StringField()
 
     parent = db.ReferenceField('self', required=False, default=None,
                                reverse_delete_rule=db.DENY)
@@ -548,6 +547,7 @@ class Content(HasCustomValue, Publishable, LongSlugged,
     model = db.StringField()
     comments_enabled = db.BooleanField(default=True)
     license = db.EmbeddedDocumentField(License)
+    shortened_url = db.StringField(required=False)
 
     meta = {
         'allow_inheritance': True,
@@ -664,16 +664,16 @@ class Content(HasCustomValue, Publishable, LongSlugged,
         self.heritage()
         self.populate_related_mpath()
         self.populate_channel_roles()
-        self.save_shorter_url()
+        self.populate_shorter_url()
         super(Content, self).save(*args, **kwargs)
 
     def pre_render(self, render_function, *args, **kwargs):
         return render_function(*args, **kwargs)
 
-    def save_shorter_url(self):
+    def populate_shorter_url(self):
         url = self.get_http_url()
         shortener = ShorterURL()
-        print "My short url is {}".format(shortener.short(url))
+        self.shortened_url = shortener.short(url)
 
 
 class Link(Content):
