@@ -657,7 +657,7 @@ class Content(HasCustomValue, Publishable, LongSlugged,
 
     @property
     def short_url(self):
-        return self.shortened_url.short
+        return self.shortened_url.short if self.shortened_url else ''
 
     @property
     def model_name(self):
