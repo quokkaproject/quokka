@@ -5,7 +5,7 @@ from flask.ext.admin import form
 from jinja2 import Markup
 
 from quokka import admin
-from quokka.utils import lazy_str_setting
+from quokka.utils import lazy_setting
 from quokka.core.models import Channel
 from quokka.core.admin.models import ModelAdmin
 from quokka.core.admin.fields import ImageUploadField
@@ -114,8 +114,8 @@ class ImageAdmin(MediaAdmin):
         'path': ImageUploadField(
             'Image',
             base_path=lazy_media_path(),
-            thumbnail_size=lazy_str_setting('MEDIA_IMAGE_THUMB_SIZE',
-                                            default=(200, 200, True)),
+            thumbnail_size=lazy_setting('MEDIA_IMAGE_THUMB_SIZE',
+                                        default=(200, 200, True)),
             endpoint="media",
             namegen=dated_path,
             permission=0o777,

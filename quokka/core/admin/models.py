@@ -21,7 +21,7 @@ from quokka.core.templates import render_template
 from quokka.core.widgets import PrepopulatedText
 from quokka.core.admin.fields import ContentImageField
 from quokka.utils.upload import dated_path, lazy_media_path
-from quokka.utils import lazy_str_setting, is_accessible
+from quokka.utils import lazy_setting, is_accessible
 
 from .fields import ThumbField
 
@@ -81,6 +81,14 @@ def format_ul(self, request, obj, fieldname, *args, **kwars):
     return ul(*lis)
 
 
+def format_link(self, request, obj, fieldname, *args, **kwars):
+    value = getattr(obj, fieldname)
+    return html.a(href=value, title=value, target='_blank')(
+        html.i(class_="icon  icon-resize-small",
+               style="margin-right: 5px;")()
+    )
+
+
 def format_status(self, request, obj, fieldname, *args, **kwargs):
     status = getattr(obj, fieldname)
     column_formatters_args = getattr(self, 'column_formatters_args', {})
@@ -125,7 +133,8 @@ class ModelAdmin(ThemeMixin, Roled, ModelView):
         'view_on_site': view_on_site,
         'ul': format_ul,
         'status': format_status,
-        'get_url': get_url
+        'get_url': get_url,
+        'link': format_link
     }
     column_formatters_args = {}
 
@@ -239,12 +248,13 @@ class BaseContentAdmin(ContentActions, PublishActions, ModelAdmin):
     # create_template = 'admin/custom/create.html'
 
     column_list = ('title', 'slug', 'channel', 'published', 'created_at',
-                   'available_at', 'shortened_url', 'view_on_site')
+                   'available_at', 'view_on_site', 'short_url')
 
     column_formatters = {
         'view_on_site': ModelAdmin.formatters.get('view_on_site'),
         'created_at': ModelAdmin.formatters.get('datetime'),
-        'available_at': ModelAdmin.formatters.get('datetime')
+        'available_at': ModelAdmin.formatters.get('datetime'),
+        'short_url': ModelAdmin.formatters.get('link')
     }
 
     # column_type_formatters = {}
@@ -303,8 +313,8 @@ class BaseContentAdmin(ContentActions, PublishActions, ModelAdmin):
         'add_image': ContentImageField(
             'Add new image',
             base_path=lazy_media_path(),
-            thumbnail_size=lazy_str_setting('MEDIA_IMAGE_THUMB_SIZE',
-                                            default=(100, 100, True)),
+            thumbnail_size=lazy_setting('MEDIA_IMAGE_THUMB_SIZE',
+                                        default=(100, 100, True)),
             endpoint="media",
             namegen=dated_path,
             permission=0o777,

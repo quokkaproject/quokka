@@ -15,7 +15,7 @@ from quokka.modules.accounts.models import User
 from quokka.utils.text import slugify
 from quokka.utils import get_current_user_for_models
 from quokka.utils.shorturl import ShorterURL
-from quokka import settings
+from quokka.utils import lazy_setting
 
 from .admin.utils import _l
 
@@ -29,7 +29,7 @@ logger = logging.getLogger()
 class ContentFormat(object):
     content_format = db.StringField(
         choices=TEXT_FORMATS,
-        default="html"  # TODO: Find a way to set default form settings
+        default="html"  # TODO: Find a way to set default from settings
     )
 
 
@@ -532,6 +532,14 @@ class License(db.EmbeddedDocument):
     identifier = db.StringField(max_length=255, choices=LICENSES)
 
 
+class ShortenedURL(db.EmbeddedDocument):
+    original = db.StringField(max_length=255)
+    short = db.StringField(max_length=255)
+
+    def __str__(self):
+        return self.short
+
+
 ###############################################################
 # Base Content for every new content to extend. inheritance=True
 ###############################################################
@@ -548,7 +556,7 @@ class Content(HasCustomValue, Publishable, LongSlugged,
     model = db.StringField()
     comments_enabled = db.BooleanField(default=True)
     license = db.EmbeddedDocumentField(License)
-    shortened_url = db.StringField(required=False)
+    shortened_url = db.EmbeddedDocumentField(ShortenedURL)
 
     meta = {
         'allow_inheritance': True,
@@ -648,6 +656,10 @@ class Content(HasCustomValue, Publishable, LongSlugged,
         return self.title
 
     @property
+    def short_url(self):
+        return self.shortened_url.short
+
+    @property
     def model_name(self):
         return self.__class__.__name__.lower()
 
@@ -674,12 +686,17 @@ class Content(HasCustomValue, Publishable, LongSlugged,
         return render_function(*args, **kwargs)
 
     def populate_shorter_url(self):
-        if not settings.SHORTENER_ENABLED:
+        if not lazy_setting('SHORTENER_ENABLED'):
             return
 
         url = self.get_http_url()
         shortener = ShorterURL()
-        self.shortened_url = shortener.short(url)
+        if not self.shortened_url:
+            self.shortened_url = ShortenedURL(original=url,
+                                              short=shortener.short(url))
+        elif url != self.shortened_url.original:
+            self.shortened_url = ShortenedURL(original=url,
+                                              short=shortener.short(url))
 
 
 class Link(Content):

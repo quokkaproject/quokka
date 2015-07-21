@@ -2,13 +2,20 @@
 # -*- coding: utf-8 -*-
 
 from pyshorteners.shorteners import Shortener
-from quokka import settings
+from quokka.utils import lazy_str_setting
 
 
 class ShorterURL(object):
 
-    def __init__(self):
-        self.shortener = Shortener(settings.SHORTENER_DEFAULT_API)
+    _shortener = None
+
+    @property
+    def shortener(self):
+        if not self._shortener:
+            shortener_name = lazy_str_setting('SHORTENER_DEFAULT_API')
+            self._shortener = Shortener(shortener_name)
+        return self._shortener
 
     def short(self, url):
+        print 'shorting url'
         return self.shortener.short(url)
