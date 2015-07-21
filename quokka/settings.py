@@ -269,3 +269,9 @@ CONTENT_EXTENSION = "html"
 
 SENTRY_ENABLED = False
 SENTRY_DSN = ""
+
+"Shortner urls configuration"
+SHORTENER_ENABLED = True
+
+"Config default shorter"
+SHORTENER_DEFAULT_API = 'TinyurlShortener'

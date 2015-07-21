@@ -14,6 +14,7 @@ from quokka.core.fields import MultipleObjectsReturned
 from quokka.modules.accounts.models import User
 from quokka.utils.text import slugify
 from quokka.utils import get_current_user_for_models
+from quokka.utils.shorturl import ShorterURL
 
 from .admin.utils import _l
 
@@ -236,6 +237,7 @@ class Channel(Tagged, HasCustomValue, Publishable, LongSlugged,
     indexable = db.BooleanField(default=True)
     canonical_url = db.StringField()
     order = db.IntField(default=0)
+    shortened_url = db.StringField()
 
     parent = db.ReferenceField('self', required=False, default=None,
                                reverse_delete_rule=db.DENY)
@@ -662,10 +664,16 @@ class Content(HasCustomValue, Publishable, LongSlugged,
         self.heritage()
         self.populate_related_mpath()
         self.populate_channel_roles()
+        self.save_shorter_url()
         super(Content, self).save(*args, **kwargs)
 
     def pre_render(self, render_function, *args, **kwargs):
         return render_function(*args, **kwargs)
+
+    def save_shorter_url(self):
+        url = self.get_http_url()
+        shortener = ShorterURL()
+        print "My short url is {}".format(shortener.short(url))
 
 
 class Link(Content):
