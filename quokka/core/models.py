@@ -15,6 +15,7 @@ from quokka.modules.accounts.models import User
 from quokka.utils.text import slugify
 from quokka.utils import get_current_user_for_models
 from quokka.utils.shorturl import ShorterURL
+from quokka import settings
 
 from .admin.utils import _l
 
@@ -596,7 +597,9 @@ class Content(HasCustomValue, Publishable, LongSlugged,
 
     def get_http_url(self):
         site_url = Config.get('site', 'site_domain', request.url_root)
-        return u"{}{}".format(site_url, self.get_absolute_url())
+        absolute_url = self.get_absolute_url()
+        absolute_url = absolute_url[1:]
+        return u"{}{}".format(site_url, absolute_url)
 
     def get_absolute_url(self, endpoint='detail'):
         if self.channel.is_homepage:
@@ -671,6 +674,9 @@ class Content(HasCustomValue, Publishable, LongSlugged,
         return render_function(*args, **kwargs)
 
     def populate_shorter_url(self):
+        if not settings.SHORTENER_ENABLED:
+            return
+
         url = self.get_http_url()
         shortener = ShorterURL()
         self.shortened_url = shortener.short(url)
