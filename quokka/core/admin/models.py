@@ -239,7 +239,7 @@ class BaseContentAdmin(ContentActions, PublishActions, ModelAdmin):
     # create_template = 'admin/custom/create.html'
 
     column_list = ('title', 'slug', 'channel', 'published', 'created_at',
-                   'available_at', 'view_on_site')
+                   'available_at', 'shortened_url', 'view_on_site')
 
     column_formatters = {
         'view_on_site': ModelAdmin.formatters.get('view_on_site'),
