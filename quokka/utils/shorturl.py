@@ -17,5 +17,4 @@ class ShorterURL(object):
         return self._shortener
 
     def short(self, url):
-        print 'shorting url'
         return self.shortener.short(url)
