@@ -51,4 +51,4 @@ Unidecode==0.4.18
 webassets==0.10.1
 Werkzeug==0.10.4
 WTForms==1.0.5
-pyshorteners==0.3
+pyshorteners==0.4.1
