@@ -1,7 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-import os
-
 VERSION = (0, 2, 0)
 
 __version__ = ".".join(map(str, VERSION))
@@ -24,15 +22,7 @@ except:
 
 def create_app_base(config=None, test=False, admin_instance=None, **settings):
     app = QuokkaApp('quokka')
-    app.config.from_object(config or 'quokka.settings')
-    mode = 'test' if test else os.environ.get('QUOKKA_MODE', 'local')
-
-    app.config.from_object('quokka.%s_settings' % mode, silent=True)
-    app.config.update(settings)
-
-    path_settings = "QUOKKA_SETTINGS" if not test else "QUOKKATEST_SETTINGS"
-    app.config.from_envvar(path_settings, silent=True)
-    app.config.from_envvar_namespace(namespace='QUOKKA', silent=True)
+    app.config.load_quokka_config(config=config, test=test, **settings)
     return app
 
 
@@ -55,14 +45,14 @@ def create_celery_app(app=None):
     app = app or create_app()
     celery = Celery(__name__, broker=app.config['CELERY_BROKER_URL'])
     celery.conf.update(app.config)
-    TaskBase = celery.Task
+    taskbase = celery.Task
 
-    class ContextTask(TaskBase):
+    class ContextTask(taskbase):
         abstract = True
 
         def __call__(self, *args, **kwargs):
             with app.app_context():
-                return TaskBase.__call__(self, *args, **kwargs)
+                return taskbase.__call__(self, *args, **kwargs)
 
     celery.Task = ContextTask
     return celery

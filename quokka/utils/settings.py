@@ -1,4 +1,3 @@
-import os
 from flask import current_app
 from quokka.core.db import db
 from quokka.core.app import QuokkaApp
@@ -6,12 +5,7 @@ from quokka.core.app import QuokkaApp
 
 def create_app_min(config=None, test=False):
     app = QuokkaApp('quokka')
-    app.config.from_object(config or 'quokka.settings')
-    mode = os.environ.get('QUOKKA_MODE', 'local')
-    app.config.from_object('quokka.%s_settings' % mode, silent=True)
-    path_settings = "QUOKKA_SETTINGS" if not test else "QUOKKATEST_SETTINGS"
-    app.config.from_envvar(path_settings, silent=True)
-    app.config.from_envvar_namespace(namespace='QUOKKA', silent=True)
+    app.config.load_quokka_config(config=config, test=test)
     return app
 
 

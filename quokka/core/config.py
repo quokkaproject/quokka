@@ -87,3 +87,13 @@ class QuokkaConfig(collections.MutableMapping, Config):
                 return False
             e.message = 'Unable to load config env namespace (%s)' % e.message
             raise
+
+    def load_quokka_config(self, config=None, mode=None, test=None, **sets):
+        self.from_object(config or 'quokka.settings')
+        mode = mode or 'test' if test else os.environ.get(
+            'QUOKKA_MODE', 'local')
+        self.from_object('quokka.%s_settings' % mode, silent=True)
+        path = "QUOKKA_SETTINGS" if not test else "QUOKKATEST_SETTINGS"
+        self.from_envvar(path, silent=True)
+        self.from_envvar_namespace(namespace='QUOKKA', silent=True)
+        self.update(sets)
