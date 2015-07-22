@@ -7,6 +7,10 @@ build:
         name: quokka virtual env
         install_wheel: false
     - script:
+        name: install main requirements
+        code: |
+          pip install -r requirements.txt
+    - script:
         name: install test requirements
         code: |
           pip install -r requirements_test.txt
