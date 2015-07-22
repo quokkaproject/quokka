@@ -1,7 +1,13 @@
 import os
+import sys
 import collections
 from flask.config import Config
 from quokka.utils import parse_conf_data
+
+
+if sys.version_info.major == 3:
+    unicode = lambda x: u'{}'.format(x)
+    cmp = lambda a, b: (a > b) - (a < b)
 
 
 class QuokkaConfig(collections.MutableMapping, Config):
@@ -48,8 +54,14 @@ class QuokkaConfig(collections.MutableMapping, Config):
     def __call__(self, *args, **kwargs):
         return self.store.get(*args, **kwargs)
 
-    def __cmp__(self, dict):
-        return cmp(self.store, dict)
+    def __cmp__(self, other):
+        return cmp(self.store, other)
+
+    def __lt__(self, other):
+        return self.store < other
+
+    def __gt__(self, other):
+        return self.store > other
 
     def __contains__(self, item):
         return item in self.store
