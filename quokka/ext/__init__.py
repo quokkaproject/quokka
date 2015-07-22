@@ -53,3 +53,9 @@ def configure_extensions(app, admin):
         configure(app)
 
     return app
+
+
+def configure_extensions_min(app, admin):
+    db.init_app(app)
+    security.init_app(app, db)
+    return app

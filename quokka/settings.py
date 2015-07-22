@@ -270,6 +270,9 @@ CONTENT_EXTENSION = "html"
 SENTRY_ENABLED = False
 SENTRY_DSN = ""
 
+# html or markdown
+DEFAULT_TEXT_FORMAT = "html"
+
 "Shortner urls configuration"
 SHORTENER_ENABLED = False
 

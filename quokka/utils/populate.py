@@ -263,7 +263,7 @@ class Populate(object):
         try:
             post = Post.objects.get(slug=data.get('slug'))
             logger.info("Post get: %s", post.title)
-        except Exception:
+        except:
             post = Post.objects.create(**data)
             logger.info("Post created: %s", post.title)
 

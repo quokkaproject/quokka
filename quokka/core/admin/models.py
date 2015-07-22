@@ -21,8 +21,8 @@ from quokka.core.templates import render_template
 from quokka.core.widgets import PrepopulatedText
 from quokka.core.admin.fields import ContentImageField
 from quokka.utils.upload import dated_path, lazy_media_path
-from quokka.utils import lazy_setting, is_accessible
-
+from quokka.utils import is_accessible
+from quokka.utils.settings import get_setting_value
 from .fields import ThumbField
 
 from .utils import _, _l, _n
@@ -247,8 +247,10 @@ class BaseContentAdmin(ContentActions, PublishActions, ModelAdmin):
     # edit_template = 'admin/custom/edit.html'
     # create_template = 'admin/custom/create.html'
 
-    column_list = ('title', 'slug', 'channel', 'published', 'created_at',
-                   'available_at', 'view_on_site', 'short_url')
+    column_list = (
+        'title', 'slug', 'channel', 'published', 'created_at',
+        'available_at', 'view_on_site'
+    )
 
     column_formatters = {
         'view_on_site': ModelAdmin.formatters.get('view_on_site'),
@@ -313,8 +315,8 @@ class BaseContentAdmin(ContentActions, PublishActions, ModelAdmin):
         'add_image': ContentImageField(
             'Add new image',
             base_path=lazy_media_path(),
-            thumbnail_size=lazy_setting('MEDIA_IMAGE_THUMB_SIZE',
-                                        default=(100, 100, True)),
+            thumbnail_size=get_setting_value('MEDIA_IMAGE_THUMB_SIZE',
+                                             default=(100, 100, True)),
             endpoint="media",
             namegen=dated_path,
             permission=0o777,
@@ -323,11 +325,16 @@ class BaseContentAdmin(ContentActions, PublishActions, ModelAdmin):
     }
 
     # action_disallowed_list
-
     # page_size = 20
     # form_ajax_refs = {
     #     'main_image': {"fields": ('title',)}
     # }
+
+    def get_list_columns(self):
+        column_list = super(BaseContentAdmin, self).get_list_columns()
+        if get_setting_value('SHORTENER_ENABLED'):
+            column_list += [('short_url', 'Short URL')]
+        return column_list
 
     def after_model_change(self, form, model, is_created):
         if not hasattr(form, 'add_image'):

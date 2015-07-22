@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 from pyshorteners.shorteners import Shortener
-from quokka.utils import lazy_str_setting
+from quokka.utils.settings import get_setting_value
 
 
 class ShorterURL(object):
@@ -12,7 +12,7 @@ class ShorterURL(object):
     @property
     def shortener(self):
         if not self._shortener:
-            shortener_name = lazy_str_setting('SHORTENER_DEFAULT_API')
+            shortener_name = get_setting_value('SHORTENER_DEFAULT_API')
             self._shortener = Shortener(shortener_name)
         return self._shortener
 

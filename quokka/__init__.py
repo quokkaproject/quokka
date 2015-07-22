@@ -1,8 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 import os
-from .utils import parse_conf_data
-
 
 VERSION = (0, 2, 0)
 
@@ -19,46 +17,31 @@ try:
     from .core.admin import create_admin
     from .core.app import QuokkaApp
     # from .core.middleware import HTTPMethodOverrideMiddleware
-
     admin = create_admin()
 except:
-    # Fix setup install:
-    # If new environment not return error
     pass
 
 
-def create_app(config=None, test=False, admin_instance=None, **settings):
+def create_app_base(config=None, test=False, admin_instance=None, **settings):
     app = QuokkaApp('quokka')
     app.config.from_object(config or 'quokka.settings')
-    mode = os.environ.get('MODE', 'local')
-    if test:
-        mode = 'test'
-    try:
-        app.config.from_object('quokka.%s_settings' % mode)
-    except ImportError:
-        pass
+    mode = 'test' if test else os.environ.get('QUOKKA_MODE', 'local')
 
+    app.config.from_object('quokka.%s_settings' % mode, silent=True)
     app.config.update(settings)
 
-    if not test:
-        app.config.from_envvar("QUOKKA_SETTINGS", silent=True)
-    else:
-        app.config.from_envvar("QUOKKATEST_SETTINGS", silent=True)
+    path_settings = "QUOKKA_SETTINGS" if not test else "QUOKKATEST_SETTINGS"
+    app.config.from_envvar(path_settings, silent=True)
+    app.config.from_envvar_namespace(namespace='QUOKKA', silent=True)
+    return app
 
-    # Try config from separated env vars
-    try:
-        app.config.update(
-            {key.partition('_')[-1]: parse_conf_data(data)
-             for key, data in os.environ.items() if key.startswith('QUOKKA')}
-        )
-    except:
-        pass
 
-    # testing trick
-    # with app.test_request_context():
+def create_app(config=None, test=False, admin_instance=None, **settings):
+    app = create_app_base(
+        config=config, test=test, admin_instance=admin_instance, **settings
+    )
     from .ext import configure_extensions
     configure_extensions(app, admin_instance or admin)
-
     # app.wsgi_app = HTTPMethodOverrideMiddleware(app.wsgi_app)
     return app
 

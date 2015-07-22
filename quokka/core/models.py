@@ -15,8 +15,7 @@ from quokka.modules.accounts.models import User
 from quokka.utils.text import slugify
 from quokka.utils import get_current_user_for_models
 from quokka.utils.shorturl import ShorterURL
-from quokka.utils import lazy_setting
-
+from quokka.utils.settings import get_setting_value
 from .admin.utils import _l
 
 logger = logging.getLogger()
@@ -29,7 +28,7 @@ logger = logging.getLogger()
 class ContentFormat(object):
     content_format = db.StringField(
         choices=TEXT_FORMATS,
-        default="html"  # TODO: Find a way to set default from settings
+        default=get_setting_value('DEFAULT_TEXT_FORMAT', 'html')
     )
 
 
@@ -450,22 +449,10 @@ class Config(HasCustomValue, ContentFormat, Publishable, db.DynamicDocument):
                 ret = None
 
         if not ret and group == 'settings' and name is not None:
-            ret = current_app.config.get(name)
+            # get direct from store to avoid infinite loop
+            ret = current_app.config.store.get(name)
 
         return ret or default
-
-    def save(self, *args, **kwargs):
-        super(Config, self).save(*args, **kwargs)
-
-        # Try to update the config for the running app
-        # AFAIK Flask apps are not thread safe
-        # TODO: do it in a signal
-        try:
-            if self.group == 'settings':
-                _settings = {i.name: i.value for i in self.values}
-                current_app.config.update(_settings)
-        except:
-            logger.warning("Cant update app settings")
 
     def __unicode__(self):
         return self.group
@@ -686,7 +673,7 @@ class Content(HasCustomValue, Publishable, LongSlugged,
         return render_function(*args, **kwargs)
 
     def populate_shorter_url(self):
-        if not self.published or not lazy_setting('SHORTENER_ENABLED'):
+        if not self.published or not get_setting_value('SHORTENER_ENABLED'):
             return
 
         url = self.get_http_url()
