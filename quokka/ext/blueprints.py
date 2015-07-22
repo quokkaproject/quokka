@@ -4,7 +4,7 @@ import importlib
 import random
 import logging
 from flask.ext.script import Command
-
+from .commands_collector import CommandsCollector
 logger = logging.getLogger()
 
 
@@ -97,3 +97,14 @@ def load_blueprint_commands(manager):
             except ImportError:
                 logger.info("%s module does not define commands", fname)
     logger.info("%s management commands loaded", mods.keys())
+
+
+def blueprint_commands(app):
+    blueprints_path = app.config.get('BLUEPRINTS_PATH', 'modules')
+    path = os.path.join(
+        app.config.get('PROJECT_ROOT', '..'),
+        blueprints_path
+    )
+    cmds = CommandsCollector(path)
+    logger.info("%s management commands loaded", cmds.list_commands(cmds))
+    return cmds
