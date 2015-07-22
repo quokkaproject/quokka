@@ -24,7 +24,7 @@ def get_setting_value(key, default=None):
         return current_app.config.get(key, default)
     except RuntimeError:
         pass
-        
+
     try:
         app = create_app_min()
         db.init_app(app)
