@@ -25,8 +25,9 @@ def core_cmd():
 
 
 @core_cmd.command()
-def shell():
-    """Runs a Python shell development server i.e. app.run()"""
+@click.option('--ipython/--no-ipython', default=True)
+def shell(ipython):
+    """Runs a Python shell with Quokka context"""
     import code
     import readline
     import rlcompleter
@@ -35,8 +36,15 @@ def shell():
     _vars.update(dict(app=app, db=db))
     readline.set_completer(rlcompleter.Completer(_vars).complete)
     readline.parse_and_bind("tab: complete")
-    shell = code.InteractiveConsole(_vars)
-    shell.interact()
+    try:
+        if ipython is True:
+            from IPython import start_ipython
+            start_ipython(argv=[], user_ns=_vars)
+        else:
+            raise ImportError
+    except ImportError:
+        shell = code.InteractiveConsole(_vars)
+        shell.interact()
 
 
 @core_cmd.command()
