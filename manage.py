@@ -56,10 +56,10 @@ def check():
     '--f',
     help='Fixtures JSON path',
     default='./etc/fixtures/initial_data.json')
-def populate(filepath):
+def populate(f):
     """Populate the database with sample data"""
     from quokka.utils.populate import Populate
-    Populate(db, filepath=filepath)()
+    Populate(db, filepath=f)()
 
 
 @core_cmd.command()
