@@ -3,3 +3,12 @@
 # after the first deploy, make your settings changes only on quokka/local_settings.py
 cd $OPENSHIFT_REPO_DIR
 cp etc/openshift_settings.py quokka/local_settings.py
+
+source ${OPENSHIFT_PYTHON_DIR}virtenv/bin/activate
+export PYTHON_EGG_CACHE=${OPENSHIFT_PYTHON_DIR}virtenv/lib/python-2.7/site-packages
+
+cd $OPENSHIFT_REPO_DIR
+export PYTHONPATH=$PWD
+
+echo "installing requirements"
+pip install -r requirements.txt --upgrade
