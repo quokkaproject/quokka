@@ -63,7 +63,7 @@ def populate(filepath):
 
 
 @core_cmd.command()
-def show_config():
+def showconfig():
     """Print all config variables"""
     from pprint import pprint
     print("Config.")
@@ -85,6 +85,7 @@ help_text = """
 
     Example:
 
+    \b
     import click
     @click.command()
     def cli():
