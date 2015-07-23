@@ -454,11 +454,11 @@
         },
         {
             "title" : "Try Quokka CMS! write a post.",
-            "summary" : "Use default credentials to access http://demo.quokkaproject.org/admin \r\nuser: admin@example.com\r\npass: admin",
+            "summary" : "Use default credentials to access /admin \r\nuser: admin@example.com\r\npass: admin",
             "slug" : "try-quokka-cms",
             "channel": "blog",
             "tags": [ "quokka" ],
-            "body" : "## You can try Quokka ADMIN\r\n\r\nCreate some posts\r\n\r\n> Use default credentials to access http://demo.quokkaproject.org/admin \r\n\r\n- user: admin@example.com\r\n- password: admin",
+            "body" : "## You can try Quokka ADMIN\r\n\r\nCreate some posts\r\n\r\n> Use default credentials to access [/admin](/admin) \r\n\r\n- user: admin@example.com\r\n- password: admin",
             "license" : {
                 "title" : "Creative Commons",
                 "link" : "http://creativecommons.com",
