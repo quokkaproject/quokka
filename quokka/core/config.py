@@ -1,82 +1,75 @@
 import os
-import sys
-import collections
 from flask.config import Config
 from quokka.utils import parse_conf_data
+from cached_property import cached_property_ttl
 
 
-if sys.version_info.major == 3:
-    unicode = lambda x: u'{}'.format(x)
-    cmp = lambda a, b: (a > b) - (a < b)
-
-
-class QuokkaConfig(collections.MutableMapping, Config):
+class QuokkaConfig(Config):
     """A Config object for Flask that tries to ger vars from
     database and then from Config itself"""
 
-    def __init__(self, root_path, defaults=None, *args, **kwargs):
-        self.root_path = root_path
-        self.store = dict(defaults or {})
-        self.update(dict(*args, **kwargs))
+    @property
+    def store(self):
+        """
+        This property was created only to avoid
+        maximum recursion problem on __getitem__ and get
+        TODO: Use some lightweight strategy
+        CAVEAT: self.copy() uses __getitem__ which reads DB
+        so no config can be deleted from DB without the need of app restart
+        """
+        return self.copy()
 
-    def get_settings_from_db(self, group='settings'):
+    @cached_property_ttl(300)
+    def all_setings_from_db(self):
+        """
+        As config reads data from database on every app.config.get(key)/[key]
+        This data is cached as a cached_property
+        The TTL is fixed in 5 minutes because we can't read it from
+        config itself.
+        TODO: Find a way to set the config parameter in a file
+        maybe in a config_setting.ini
+        """
         try:
             from quokka.core.models import Config
             return {
                 item.name: item.value
-                for item in Config.objects.get(group=group).values
+                for item in Config.objects.get(group='settings').values
             }
         except:
             return {}
 
+    def get_from_db(self, key, default=None):
+        return self.all_setings_from_db.get(key, default)
+
     def __getitem__(self, key):
-        settings = self.get_settings_from_db()
-        return settings.get(key) or self.store[key]
+        return self.get_from_db(key) or self.store[key]
 
-    def __setitem__(self, key, value):
-        self.store[key] = value
+    # def __iter__(self):
+    #     return iter(self.store)
 
-    def __delitem__(self, key):
-        del self.store[key]
+    # def __len__(self):
+    #     return len(self.store)
 
-    def __iter__(self):
-        return iter(self.store)
+    # def __repr__(self):
+    #     return self.store.__repr__()
 
-    def __len__(self):
-        return len(self.store)
+    # def __unicode__(self):
+    #     return unicode(repr(self.store))
 
-    def __repr__(self):
-        return self.store.__repr__()
+    # def __call__(self, *args, **kwargs):
+    #     return self.store.get(*args, **kwargs)
 
-    def __unicode__(self):
-        return unicode(repr(self.store))
+    # def __contains__(self, item):
+    #     return item in self.store
 
-    def __call__(self, *args, **kwargs):
-        return self.store.get(*args, **kwargs)
+    # def keys(self):
+    #     return self.store.keys()
 
-    def __cmp__(self, other):
-        return cmp(self.store, other)
+    # def values(self):
+    #     return self.store.values()
 
-    def __lt__(self, other):
-        return self.store < other
-
-    def __gt__(self, other):
-        return self.store > other
-
-    def __contains__(self, item):
-        return item in self.store
-
-    def copy(self):
-        return self.store.copy()
-
-    def keys(self):
-        return self.store.keys()
-
-    def values(self):
-        return self.store.values()
-
-    def add(self, key, value):
-        self.store[key] = value
+    def get(self, key, default=None):
+        return self.get_from_db(key) or self.store.get(key) or default
 
     def from_object(self, obj, silent=False):
         try:
