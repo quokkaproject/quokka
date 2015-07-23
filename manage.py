@@ -76,7 +76,7 @@ def showconfig():
     """Print all config variables"""
     from pprint import pprint
     print("Config.")
-    pprint(dict(app.config))
+    pprint(dict(app.config.store))
 
 
 @core_cmd.command()
