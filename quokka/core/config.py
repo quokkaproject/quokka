@@ -1,23 +1,16 @@
 import os
 from flask.config import Config
 from quokka.utils import parse_conf_data
-from cached_property import cached_property_ttl
+from cached_property import cached_property_ttl, cached_property
 
 
 class QuokkaConfig(Config):
     """A Config object for Flask that tries to ger vars from
     database and then from Config itself"""
 
-    @property
+    @cached_property
     def store(self):
-        """
-        This property was created only to avoid
-        maximum recursion problem on __getitem__ and get
-        TODO: Use some lightweight strategy
-        CAVEAT: self.copy() uses __getitem__ which reads DB
-        so no config can be deleted from DB without the need of app restart
-        """
-        return self.copy()
+        return dict(self)
 
     @cached_property_ttl(300)
     def all_setings_from_db(self):
@@ -28,6 +21,8 @@ class QuokkaConfig(Config):
         config itself.
         TODO: Find a way to set the config parameter in a file
         maybe in a config_setting.ini
+        It takes 5 minutes for new values to be available
+        TODO: Make it possible to use REDIS as a cache
         """
         try:
             from quokka.core.models import Config
@@ -42,7 +37,7 @@ class QuokkaConfig(Config):
         return self.all_setings_from_db.get(key, default)
 
     def __getitem__(self, key):
-        return self.get_from_db(key) or self.store[key]
+        return self.get_from_db(key) or dict.__getitem__(self, key)
 
     # def __iter__(self):
     #     return iter(self.store)
