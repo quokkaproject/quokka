@@ -21,7 +21,6 @@ Flask-Mistune==0.1.1
 flask-mongoengine==0.7.1
 Flask-OAuthlib==0.9.1
 Flask-Principal==0.4.0
-Flask-Script==2.0.5
 Flask-Security==1.7.4
 Flask-Testing==0.4.2
 Flask-WTF==0.12
@@ -52,3 +51,4 @@ webassets==0.10.1
 Werkzeug==0.10.4
 WTForms==1.0.5
 pyshorteners==0.4.1
+click==4.1

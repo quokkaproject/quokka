@@ -3,8 +3,7 @@ import os
 import importlib
 import random
 import logging
-from flask.ext.script import Command
-
+from .commands_collector import CommandsCollector
 logger = logging.getLogger()
 
 
@@ -63,37 +62,12 @@ def load_from_folder(app):
     logger.info("%s modules loaded", mods.keys())
 
 
-def load_blueprint_commands(manager):
-    app = manager.app
+def blueprint_commands(app):
     blueprints_path = app.config.get('BLUEPRINTS_PATH', 'modules')
-    path = os.path.join(
+    modules_path = os.path.join(
         app.config.get('PROJECT_ROOT', '..'),
         blueprints_path
     )
     base_module_name = ".".join([app.name, blueprints_path])
-    dir_list = os.listdir(path)
-    mods = {}
-    for fname in dir_list:
-        if not os.path.exists(os.path.join(path, fname, 'DISABLED')) and  \
-                os.path.isdir(os.path.join(path, fname)) and \
-                os.path.exists(os.path.join(path, fname, '__init__.py')):
-
-            # register management commands
-            module_name = ".".join([base_module_name, fname])
-            try:
-                mod = importlib.import_module(
-                    ".".join([module_name, 'commands'])
-                )
-                mods[fname] = mod
-                for obj_name in dir(mod):
-                    obj = getattr(mod, obj_name)
-                    if obj_name != 'Command' and type(obj) == type and \
-                            issubclass(obj, Command):
-                        name = getattr(obj, 'command_name', obj_name.lower())
-                        if name in manager._commands:
-                            name += str(random.getrandbits(8))
-                            logger.info("registering command %s", name)
-                        manager.add_command(name, obj())
-            except ImportError:
-                logger.info("%s module does not define commands", fname)
-    logger.info("%s management commands loaded", mods.keys())
+    cmds = CommandsCollector(modules_path, base_module_name)
+    return cmds

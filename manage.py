@@ -1,13 +1,10 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 import logging
-
-from flask.ext.script import Manager, Server
-from flask.ext.collect import Collect
+import click
 from quokka import create_app
+from quokka.ext.blueprints import blueprint_commands
 from quokka.core.db import db
-from quokka.ext.blueprints import load_blueprint_commands
 
 app = create_app()
 
@@ -20,18 +17,37 @@ if app.config.get("LOGGER_ENABLED"):
         datefmt=app.config.get("LOGGER_DATE_FORMAT", '%d.%m %H:%M:%S')
     )
 
-manager = Manager(app)
-collect = Collect()
-collect.init_script(manager)
+
+@click.group()
+def core_cmd():
+    """ Core commands """
+    pass
 
 
-@manager.shell
-def make_shell_context():
-    " Update shell. "
-    return dict(app=app, db=db)
+@core_cmd.command()
+@click.option('--ipython/--no-ipython', default=True)
+def shell(ipython):
+    """Runs a Python shell with Quokka context"""
+    import code
+    import readline
+    import rlcompleter
+    _vars = globals()
+    _vars.update(locals())
+    _vars.update(dict(app=app, db=db))
+    readline.set_completer(rlcompleter.Completer(_vars).complete)
+    readline.parse_and_bind("tab: complete")
+    try:
+        if ipython is True:
+            from IPython import start_ipython
+            start_ipython(argv=[], user_ns=_vars)
+        else:
+            raise ImportError
+    except ImportError:
+        shell = code.InteractiveConsole(_vars)
+        shell.interact()
 
 
-@manager.command
+@core_cmd.command()
 def check():
     """Prints app status"""
     from pprint import pprint
@@ -43,29 +59,51 @@ def check():
     return app
 
 
-@manager.option('-f', '--filepath', help='Fixtures JSON path',
-                default="./etc/fixtures/initial_data.json")
-def populate(filepath):
+@core_cmd.command()
+@click.option(
+    '-f',
+    '--filename',
+    help='Fixtures JSON path',
+    default='./etc/fixtures/initial_data.json')
+def populate(filename):
     """Populate the database with sample data"""
     from quokka.utils.populate import Populate
-    Populate(db, filepath=filepath)()
+    Populate(db, filepath=filename)()
 
 
-@manager.command
-def show_config():
-    "print all config variables"
+@core_cmd.command()
+def showconfig():
+    """Print all config variables"""
     from pprint import pprint
     print("Config.")
-    pprint(dict(app.config))
+    pprint(dict(app.config.store))
 
-manager.add_command("run0", Server(
-    use_debugger=True,
-    use_reloader=True,
-    host='0.0.0.0',
-    port=8000
-))
 
-load_blueprint_commands(manager)
+@core_cmd.command()
+@click.option('--reloader/--no-reloader', default=True)
+@click.option('--host', default='127.0.0.1')
+@click.option('--port', default=5000)
+def runserver(reloader, host, port):
+    """Run the Flask development server i.e. app.run()"""
+    app.run(use_reloader=reloader, host=host, port=port)
+
+help_text = """
+    Subcommands are loaded from the modules/commands folder dynamically.
+    The file must be called cmd_<command_name> with a function 'cli'
+    being the click.command to be loaded:
+
+    Example:
+
+    \b
+    import click
+    @click.command()
+    def cli():
+        click.echo("Do whatever you want")
+    """
+manager = click.CommandCollection(help=help_text)
+manager.add_source(core_cmd)
+manager.add_source(blueprint_commands(app))
 
 if __name__ == '__main__':
-    manager.run()
+    with app.app_context():
+        manager()

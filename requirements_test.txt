@@ -1,3 +1,4 @@
 nose
 coverage
 coveralls
+mock==1.2.0
