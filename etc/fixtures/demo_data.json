@@ -186,7 +186,7 @@
             "title": "Home",
             "slug": "home",
             "description": "Home page",
-            "show_in_menu": true,
+            "show_in_menu": false,
             "is_homepage": true,
             "include_in_rss": true,
             "published": true,
