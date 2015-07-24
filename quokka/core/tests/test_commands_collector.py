@@ -11,11 +11,10 @@ class TestCommandsCollector(BaseTestCase):
     def test_load_commands(self, m_import_module, m_listdir, m_walk):
         m_walk.return_value = [('px', ['commands', 'aaa'], 'aa')]
         m_listdir.return_value = [
-            'cmd_testx.py', 'cmd_blah', 'a.py', 'cmd_xyz.py']
+            'testx.py', 'cmd_blah', '__init__.py', 'xyz.py']
         cmd = CommandsCollector('my_path', 'my_module')
-        self.assertIn('testx', cmd.commands)
-        self.assertListEqual(['testx', 'xyz'], cmd.list_commands(cmd))
-
-        cmd.get_command(cmd, 'testx')
+        self.assertListEqual(
+            ['px_testx', 'px_xyz'], cmd.list_commands(cmd))
+        cmd.get_command(cmd, 'px_testx')
         m_import_module.assert_called_once_with(
-            'my_module.px.commands.cmd_testx')
+            'my_module.px.commands.testx')

@@ -88,9 +88,14 @@ def runserver(reloader, host, port):
     app.run(use_reloader=reloader, host=host, port=port)
 
 help_text = """
-    Subcommands are loaded from the modules/commands folder dynamically.
-    The file must be called cmd_<command_name> with a function 'cli'
-    being the click.command to be loaded:
+    Subcommands are loaded from the module/commands folder dynamically.
+    The module name and command file inside commands folder will be
+    used for compose the command name.
+
+    (For a file in the path 'mymodule/commands/sayhi.py' the command
+    name will be 'mymodule_sayhi')
+
+    The click command function must be named 'cli'.
 
     Example:
 
