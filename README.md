@@ -36,6 +36,8 @@ git clone https://github.com/quokkaproject/quokka --branch master --single-branc
 cd quokka
 ```
 
+> if you are cloning to contribute to the project just clone it without the "--branch=master --single-branch" part
+
 ## Run Quokka (for development)
 
 You have 2 options **RUN NORMAL** or **RUN IN DOCKER**
@@ -110,7 +112,7 @@ pip install -r requirements.txt
 
     3. Create a superuser  (required to login on admin interface)
         ```bash
-        $ python manage.py createsuperuser
+        $ python manage.py accounts_createsuperuser
         you@email.com
         P4$$W0Rd
         ```
@@ -156,7 +158,7 @@ pip install -r requirements.txt
     
     2. You can create a new admin user to login and start posting
     ```bash
-    docker-compose run shell python manage.py createsuperuser
+    docker-compose run shell python manage.py accounts_createsuperuser
     ```
 
     3. Or populate with sample data (optional)
