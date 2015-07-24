@@ -79,7 +79,9 @@ class QuokkaConfig(Config):
         try:
             data = {
                 key.partition('_')[-1]: parse_conf_data(data)
-                for key, data in os.environ.items() if key.startswith('QUOKKA')
+                for key, data
+                in os.environ.items()
+                if key.startswith(namespace)
             }
             self.update(data)
         except Exception as e:
