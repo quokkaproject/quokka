@@ -29,6 +29,16 @@ Quokka is a flexible content management platform powered by Python, Flask and Mo
 > Quokka runs on Python 2.7  (Python 3 support is being developed)
 
 
+## See yourself
+
+User 'admin@example.com' and passwd 'admin' to login in to /admin
+
+- **DEMO**: http://demo.quokkaproject.org  (stable - master branch)
+- Development Demo: http://development.quokkaproject.org  (unstable - development branch) 
+
+
+# Get Quokka
+
 ##  Get Quokka Master and enter in to its root directory
 
 ```bash
@@ -38,11 +48,11 @@ cd quokka
 
 > if you are cloning to contribute to the project just clone it without the "--branch=master --single-branch" part
 
-## Run Quokka (for development)
+## Run Quokka
 
-You have 2 options **RUN NORMAL** or **RUN IN DOCKER**
+You have 2 options **RUN LOCAL** or **RUN IN DOCKER**
 
-### RUN NORMAL
+### RUN LOCAL
 
 Install needed packages in your local computer
 
@@ -73,12 +83,10 @@ You can install everything you need in your local computer or if preferred use a
         MONGODB_PORT = 27017
         MONGODB_USERNAME = None
         MONGODB_PASSWORD = None
-        DEBUG = True
-        DEBUG_TOOLBAR_ENABLED = True
         =============================================================
         ```
     
-    3. (optional) If you have Docker installed you can simply run the official Mongo image
+    3. If you have Docker installed you can simply run the official Mongo image
         ```bash
         cd quokka
         docker run -d -v $PWD/etc/mongodata:/data/db -p 27017:27017 mongo
