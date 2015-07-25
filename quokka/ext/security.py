@@ -17,4 +17,5 @@ class ExtendedRegisterForm(RegisterForm):
 
 def init_app(app, db):
     app.security = Security(app, MongoEngineUserDatastore(db, User, Role),
-                            register_form=ExtendedRegisterForm)
+                            register_form=ExtendedRegisterForm,
+                            confirm_register_form=ExtendedRegisterForm)
