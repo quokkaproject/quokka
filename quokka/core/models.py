@@ -673,7 +673,7 @@ class Content(HasCustomValue, Publishable, LongSlugged,
         return render_function(*args, **kwargs)
 
     def populate_shorter_url(self):
-        if not self.published not get_setting_value('SHORTENER_ENABLED'):
+        if not self.published or not get_setting_value('SHORTENER_ENABLED'):
             return
 
         url = self.get_http_url()
