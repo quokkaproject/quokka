@@ -250,8 +250,9 @@ Is it any good?
 &nbsp;
 [![pythonhub](http://secure.gravatar.com/avatar/fa9ccd40c6da8a0a934a383ffeb988e6?s=78)](http://github.com/pythonhub)
 
-### Details and Features
+## Details and Features
 
+#### Bit.ly integration
 Quokka has Bit.ly integration to short urls. In quokka/settings.py you can find the details of how
 to configure with your data. Check both items: SHORTENER_SETTINGS and SHORTENER_ENABLED. By default
 the shortener is disable, but you can change it putting True in the SHORTENER_ENABLED config.
