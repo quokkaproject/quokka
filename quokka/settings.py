@@ -276,5 +276,8 @@ DEFAULT_TEXT_FORMAT = "html"
 "Shortner urls configuration"
 SHORTENER_ENABLED = False
 
-"Config default shorter"
-SHORTENER_DEFAULT_API = 'TinyurlShortener'
+"Config shorter information"
+SHORTENER_SETTINGS = {"name": "BitlyShortener",
+                      "bitly_api_key": "R_7d84f09c68be4c749cac2a56ace2e73f",
+                      "bitly_token": "9964d1f9c8c8b4215f7690449f0980c4fe1a6906",
+                      "bitly_login": "quokkabitly"}

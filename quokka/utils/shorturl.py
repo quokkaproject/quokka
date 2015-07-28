@@ -7,14 +7,17 @@ from quokka.utils.settings import get_setting_value
 
 class ShorterURL(object):
 
-    _shortener = None
+    __shortener = None
 
     @property
     def shortener(self):
-        if not self._shortener:
-            shortener_name = get_setting_value('SHORTENER_DEFAULT_API')
-            self._shortener = Shortener(shortener_name)
-        return self._shortener
+        if not self.__shortener:
+            shortener_config = get_setting_value('SHORTENER_SETTINGS')
+            shortener_name = shortener_config['name']
+            del shortener_config['name']
+            self.__shortener = Shortener(shortener_name, **shortener_config)
+        return self.__shortener
 
     def short(self, url):
+        url = url.replace('localhost', '127.0.0.1')
         return self.shortener.short(url)
