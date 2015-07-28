@@ -1,4 +1,4 @@
-nose
-coverage
 coveralls
-mock==1.2.0
+pytest
+pytest-flask
+pytest-cov

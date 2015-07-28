@@ -8,7 +8,7 @@ shell:
 
 .PHONY: test
 test: pep8
-	python runtests.py	
+	py.test --cov quokka
 
 .PHONY: install
 install:
