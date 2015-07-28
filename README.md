@@ -34,7 +34,7 @@ Quokka is a flexible content management platform powered by Python, Flask and Mo
 User 'admin@example.com' and passwd 'admin' to login in to /admin
 
 - **DEMO**: http://demo.quokkaproject.org  (stable - master branch)
-- Development Demo: http://development.quokkaproject.org  (unstable - development branch) 
+- Development Demo: http://development.quokkaproject.org  (unstable - development branch)
 
 
 # Get Quokka
@@ -58,12 +58,12 @@ Install needed packages in your local computer
 
 You can install everything you need in your local computer or if preferred use a virtualenv for Python
 
-#### Mongo 
+#### Mongo
 
 * Quokka requires a MongoDB instance running to connect.
 
     1. If you don't have a MongoDB instance running, you can quickly configure it:
-    
+
         * Download from [here](https://www.mongodb.org/downloads)
         * Unzip the file
         * Open a separate console
@@ -85,7 +85,7 @@ You can install everything you need in your local computer or if preferred use a
         MONGODB_PASSWORD = None
         =============================================================
         ```
-    
+
     3. If you have Docker installed you can simply run the official Mongo image
         ```bash
         cd quokka
@@ -93,9 +93,9 @@ You can install everything you need in your local computer or if preferred use a
         ```
 
 #### O.S Requirements (optional)
-    
+
 * O.S Requirements (for media conversions) you may need the following requirements on your operating system
-    
+
     1. Ubuntu/Debian  
         ```bash
         sudo apt-get install libtiff5-dev libjpeg8-dev zlib1g-dev libfreetype6-dev
@@ -104,19 +104,19 @@ You can install everything you need in your local computer or if preferred use a
         ```bash
         apk add gcc python py-pip libjpeg zlib zlib-dev tiff freetype git py-pillow python-dev musl-dev
         ```
-        
-#### Python requirements 
+
+#### Python requirements
 Install all needed python packages
 > activate your virtualenv if you want
 
 ```bash
 pip install -r requirements.txt
 ```
-    
+
 #### Create admin user, sample data and run!
 
 * Initial data, users and running commands
-    
+
 
     3. Create a superuser  (required to login on admin interface)
         ```bash
@@ -124,14 +124,14 @@ pip install -r requirements.txt
         you@email.com
         P4$$W0Rd
         ```
-    
+
     4. Populate with sample data (optional if you want sample data)  
         ```bash
         $ python manage.py populate
-        
+
         ```
         > credentials for /admin will be email: admin@example.com passwd: admin
-    
+
     5. Run
         ```bash
         $ python manage.py runserver --host 0.0.0.0 --port 5000
@@ -163,7 +163,7 @@ pip install -r requirements.txt
     ```
 
     > use -d on above to leave it as a daemon
-    
+
     2. You can create a new admin user to login and start posting
     ```bash
     docker-compose run shell python manage.py accounts_createsuperuser
@@ -174,7 +174,7 @@ pip install -r requirements.txt
     docker-compose run shell python manage.py populate
     ```
     > credentials for /admin will be email: admin@example.com passwd: admin
-    
+
     4. You enter Quokka Shell (in a separate console) or run any other command in place of **shell*
     ```bash
     docker-compose run shell python manage.py shell
@@ -249,6 +249,13 @@ Is it any good?
 ![mongo](docs/mongo_powered.jpg)
 &nbsp;
 [![pythonhub](http://secure.gravatar.com/avatar/fa9ccd40c6da8a0a934a383ffeb988e6?s=78)](http://github.com/pythonhub)
+
+### Details and Features
+
+Quokka has Bit.ly integration to short urls. In quokka/settings.py you can find the details of how
+to configure with your data. Check both items: SHORTENER_SETTINGS and SHORTENER_ENABLED. By default
+the shortener is disable, but you can change it putting True in the SHORTENER_ENABLED config.
+
 
 ## FAQ
 
