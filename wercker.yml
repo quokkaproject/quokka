@@ -24,7 +24,7 @@ build:
           echo "python version $(python --version) running"
           echo "pip version $(pip --version) running"
   after-steps:
-    - sherzberg/slack-notify:
-        subdomain: quokkaproject
-        token: $SLACK_TOKEN
-        channel: "#wercker"
+    - slack-notifier:
+        url: $SLACK_URL
+        channel: wercker
+        username: wercker
