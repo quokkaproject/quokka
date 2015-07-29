@@ -50,6 +50,6 @@ Unidecode==0.4.18
 webassets==0.10.1
 Werkzeug==0.10.4
 WTForms==1.0.5
-pyshorteners==0.5
+pyshorteners==0.5.2
 click==4.1
 cached-property==1.2.0
