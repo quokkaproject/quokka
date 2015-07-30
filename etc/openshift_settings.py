@@ -17,3 +17,5 @@ LOGGER_DATE_FORMAT = '%d.%m %H:%M:%S'
 if os.environ['OPENSHIFT_APP_NAME'] == 'quokkadevelopment':
     DEBUG_TOOLBAR_ENABLED = True
     DEBUG = True
+
+SHORTENER_ENABLED = True
