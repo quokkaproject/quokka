@@ -274,7 +274,7 @@ SENTRY_DSN = ""
 DEFAULT_TEXT_FORMAT = "html"
 
 "Shortner urls configuration"
-SHORTENER_ENABLED = True
+SHORTENER_ENABLED = False
 
 "Config shorter information"
 SHORTENER_SETTINGS = {"name": "BitlyShortener",
