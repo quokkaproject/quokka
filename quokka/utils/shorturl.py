@@ -12,9 +12,9 @@ class ShorterURL(object):
     @property
     def shortener(self):
         if not self.__shortener:
-            shortener_config = get_setting_value('SHORTENER_SETTINGS')
-            shortener_name = shortener_config['name']
-            del shortener_config['name']
+            shortener_config = get_setting_value(
+                'SHORTENER_SETTINGS', {}).copy()
+            shortener_name = shortener_config.pop('name')
             self.__shortener = Shortener(shortener_name, **shortener_config)
         return self.__shortener
 
