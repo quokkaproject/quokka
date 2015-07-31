@@ -11,5 +11,5 @@ if [ "$OPENSHIFT_NAMESPACE" == "rochacbruno" ]; then
    python "$OPENSHIFT_REPO_DIR"etc/openshift_clean.py
 
    echo "Executing 'python ${OPENSHIFT_REPO_DIR}manage.py populate -f ./etc/fixtures/demo_data.json'"
-   python "$OPENSHIFT_REPO_DIR"manage.py populate -f ./etc/fixtures/demo_data.json
+   python "$OPENSHIFT_REPO_DIR"manage.py populate -f ./etc/fixtures/demo_data.json -b http://"$OPENSHIFT_GEAR_DNS"
 fi

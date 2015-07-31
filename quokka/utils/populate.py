@@ -23,8 +23,17 @@ class Populate(object):
         self.purposes = {}
         self.custom_values = {}
         self.load_fixtures()
+        self.baseurl = self.kwargs.get('baseurl', None)
+        self.app = self.kwargs.get('app', None)
 
     def __call__(self, *args, **kwargs):
+        if self.baseurl and self.app:
+            with self.app.test_request_context(base_url=self.baseurl):
+                self.pipeline()
+        else:
+            self.pipeline()
+
+    def pipeline(self):
         self.load_existing_users()
         self.create_users()
         self.create_configs()

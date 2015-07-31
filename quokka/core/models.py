@@ -15,7 +15,7 @@ from quokka.modules.accounts.models import User
 from quokka.utils.text import slugify
 from quokka.utils import get_current_user_for_models
 from quokka.utils.shorturl import ShorterURL
-from quokka.utils.settings import get_setting_value
+from quokka.utils.settings import get_setting_value, get_site_url
 from .admin.utils import _l
 
 logger = logging.getLogger()
@@ -591,7 +591,7 @@ class Content(HasCustomValue, Publishable, LongSlugged,
         return list(set(themes))
 
     def get_http_url(self):
-        site_url = Config.get('site', 'site_domain', request.url_root)
+        site_url = get_site_url()
         absolute_url = self.get_absolute_url()
         absolute_url = absolute_url[1:]
         return u"{}{}".format(site_url, absolute_url)
