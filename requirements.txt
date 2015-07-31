@@ -53,3 +53,4 @@ WTForms==1.0.5
 pyshorteners==0.5.2
 click==4.1
 cached-property==1.2.0
+shiftpy==0.1.3

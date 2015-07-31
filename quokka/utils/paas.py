@@ -1,30 +1,10 @@
-import os
-import sys
+# coding: utf-8
+
+from shiftpy.wsgi_utils import envify
 
 
-def activate():
-    # Try OPENSHIFT
-    if os.environ.get('OPENSHIFT_HOMEDIR', None):
-        sys.path.append(os.path.join(os.environ['OPENSHIFT_REPO_DIR']))
-        sys.path.insert(0, os.path.dirname(__file__) or '.')
-        if os.path.exists(os.path.join(
-                os.environ['OPENSHIFT_HOMEDIR'], "python-2.6")):
-            py_dir = os.path.join(
-                os.environ['OPENSHIFT_HOMEDIR'], "python-2.6")
-        else:
-            py_dir = os.path.join(os.environ['OPENSHIFT_HOMEDIR'], "python")
-
-        virtenv = py_dir + '/virtenv/'
-        py_cache = os.path.join(virtenv, 'lib', '2.6', 'site-packages')
-        os.environ['PYTHON_EGG_CACHE'] = os.path.join(py_cache)
-        virtualenv = os.path.join(virtenv, 'bin/activate_this.py')
-
-        try:
-            if sys.version_info >= (3, 0):
-                with open(virtualenv) as f:
-                    code = compile(f.read(), virtualenv, 'exec')
-                    exec(code, globals(), locals())
-            else:
-                execfile(virtualenv, dict(__file__=virtualenv))  # noqa
-        except IOError:
-            pass
+def activate(app):
+    # If running on Openshift wraps its virtualenv, otherwise do nothing
+    envify(app)
+    # Space left to insert hooks to another PaaS if needed
+    return app

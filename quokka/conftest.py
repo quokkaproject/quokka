@@ -11,5 +11,6 @@ from quokka import create_app
 def app():
     app = create_app(config='quokka.test_settings',
                      DEBUG=False,
-                     test=True,)
+                     test=True,
+                     mode='test')
     return app
