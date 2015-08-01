@@ -19,3 +19,10 @@ if os.environ['OPENSHIFT_APP_NAME'] == 'quokkadevelopment':
     DEBUG = True
 
 SHORTENER_ENABLED = True
+
+MAP_STATIC_ROOT = (
+    '/robots.txt',
+    '/sitemap.xml',
+    '/favicon.ico',
+    '/vaddy-c603c78bbeba8d9.html'
+)
