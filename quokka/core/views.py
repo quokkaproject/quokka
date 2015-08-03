@@ -69,8 +69,10 @@ class ContentList(MethodView):
         if not is_accessible(roles_accepted=channel.roles):
             raise abort(403, "User has no role to view this channel content")
 
-        # if channel.is_homepage and request.path != "/":
-        #     return redirect("/")
+        if channel.is_homepage and request.path != channel.get_absolute_url():
+            return redirect(channel.get_absolute_url())
+
+        published_channels = Channel.objects(published=True).values_list('id')
 
         if channel.redirect_url:
             return redirect(channel.redirect_url)
@@ -86,7 +88,8 @@ class ContentList(MethodView):
         filters = {
             'published': True,
             'available_at__lte': now,
-            'show_on_channel': True
+            'show_on_channel': True,
+            'channel__in': published_channels
         }
 
         if not channel.is_homepage:
@@ -129,12 +132,6 @@ class ContentList(MethodView):
             )
             contents = contents.paginate(page=int(page),
                                          per_page=int(per_page))
-
-        # this can be overkill! try another solution
-        # to filter out content in unpublished channels
-        # when homepage and also in blocks
-        # contents = [content for content in contents
-        #             if content.channel.published]
 
         themes = channel.get_themes()
         return render_template(self.get_template_names(),
