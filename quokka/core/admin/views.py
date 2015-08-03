@@ -1,9 +1,11 @@
 # Create customized index view class
 
-from flask import current_app
+from flask import current_app, flash
+from flask.ext.admin.actions import action
 from quokka.core.models import Content
 from quokka.utils.routing import expose
 from quokka.core.widgets import TextEditor, PrepopulatedText
+from .utils import _, _l
 from .ajax import AjaxModelLoader
 from .models import (
     BaseIndexView,
@@ -113,3 +115,35 @@ class ChannelAdmin(ContentActions, PublishActions, ModelAdmin):
                                           fields=['title', 'slug']),
         'parent': {'fields': ['title', 'slug', 'long_slug']},
     }
+
+    @action(
+        'set_homepage',
+        _l('Set as homepage'),
+        _l('Set as homepage?')
+    )
+    def action_set_homepage(self, ids):
+        if len(ids) > 1:
+            flash(
+                _("You can select only one item for this action"),
+                'error'
+            )
+            return
+
+        instance = self.get_instance(ids[0])
+        if instance.is_homepage:
+            flash(
+                _("Already homepage"),
+                'error'
+            )
+            return
+
+        current_homepage = self.model.objects.filter(is_homepage=True)
+        try:
+            current_homepage.update(is_homepage=False)
+            instance.is_homepage = True
+            instance.save()
+        except Exception as e:
+            current_homepage.update(is_homepage=True)
+            flash(_('Error setting channel as homepage %s', e), 'error')
+        else:
+            flash(_('Channel set as homepage'))
