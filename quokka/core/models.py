@@ -399,6 +399,8 @@ class Channel(Tagged, HasCustomValue, Publishable, LongSlugged,
         self.validate_long_slug()
         self.heritage()
         self.update_descendants_and_contents()
+        if not self.channel_type:
+            self.channel_type = ChannelType.objects.first()
         super(Channel, self).save(*args, **kwargs)
 
 
