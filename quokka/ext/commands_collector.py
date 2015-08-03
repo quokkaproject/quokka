@@ -33,7 +33,10 @@ class CommandsCollector(click.MultiCommand):
         try:
             if sys.version_info[0] == 2:
                 name = name.encode('ascii', 'replace')
-            module_name, command_name = name.split('_')
+            splitted = name.split('_')
+            if len(splitted) <= 1:
+                return
+            module_name, command_name = splitted
             if not all([module_name, command_name]):
                 return
             module = '{}.{}.commands.{}'.format(
