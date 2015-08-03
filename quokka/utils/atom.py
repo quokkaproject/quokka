@@ -154,7 +154,7 @@ class AtomFeed(object):
             len(self.entries)
         )
 
-    def generate(self):
+    def generate(self):  # noqa
         """Return a generator that yields pieces of XML."""
         # atom demands either an author element in every entry or a global one
         if not self.author:

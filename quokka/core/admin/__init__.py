@@ -27,10 +27,10 @@ logger = logging.getLogger()
 
 class QuokkaAdmin(Admin):
     def register(self, model, view=None, *args, **kwargs):
-        View = view or ModelAdmin
-        self.add_view(View(model, *args, **kwargs))
+        _view = view or ModelAdmin
+        self.add_view(_view(model, *args, **kwargs))
         # try:
-        #     self.add_view(View(model, *args, **kwargs))
+        #     self.add_view(_view(model, *args, **kwargs))
         # except Exception as e:
         #     logger.warning(
         #         "admin.register({0}, {1}, {2}, {3}) error: {4}".format(
@@ -44,7 +44,7 @@ def create_admin(app=None):
     return QuokkaAdmin(app, index_view=index_view)
 
 
-def configure_admin(app, admin):
+def configure_admin(app, admin):  # noqa
 
     custom_index = app.config.get('ADMIN_INDEX_VIEW')
     if custom_index:
@@ -53,7 +53,7 @@ def configure_admin(app, admin):
             del admin._views[0]
         admin._views.insert(0, admin.index_view)
 
-    ADMIN = app.config.get(
+    admin_config = app.config.get(
         'ADMIN',
         {
             'name': 'Quokka Admin',
@@ -61,7 +61,7 @@ def configure_admin(app, admin):
         }
     )
 
-    for k, v in list(ADMIN.items()):
+    for k, v in list(admin_config.items()):
         setattr(admin, k, v)
 
     babel = app.extensions.get('babel')

@@ -61,10 +61,8 @@ def configure(app):
             **{k: v for k, v in data.items() if not k.startswith("_")}
         )
 
-        # TODO: cell-var-from-loop - W0640
-        oauth_app.tokengetter(
-            lambda: session.get("oauth_" + provider + "_token")
-        )
+        token_var = "oauth_{}_token".format(provider)
+        oauth_app.tokengetter(lambda: session.get(token_var))
 
         setattr(app, provider_name, oauth_app)
 

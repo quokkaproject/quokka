@@ -12,8 +12,8 @@ from quokka_themes import Theme
 
 
 if sys.version_info.major == 3:
-    unicode = lambda x: u'{}'.format(x)
-    basestring = str
+    unicode = lambda x: u'{}'.format(x)  # noqa
+    basestring = str  # noqa
 
 basetypes = (
     int, str, float, dict, list, tuple, Blueprint, QuokkaModule, Theme, Rule,

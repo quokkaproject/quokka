@@ -21,7 +21,7 @@ def get_current_user():
     try:
         return User.objects.get(id=current_user.id)
     except Exception as e:
-        logger.warning("No user found: {}".format(e))
+        logger.warning("No user found: %s", str(e))
         return current_user
 
 

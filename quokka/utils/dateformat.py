@@ -1,7 +1,7 @@
 # coding: utf: 8
 
 
-def pretty_date(time=False):
+def pretty_date(time=False):  # noqa
     """
     Get a datetime object or a int() Epoch timestamp and return a
     pretty string like 'an hour ago', 'Yesterday', '3 months ago',
