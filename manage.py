@@ -82,11 +82,12 @@ def showconfig():
 
 @core_cmd.command()
 @click.option('--reloader/--no-reloader', default=True)
+@click.option('--debug/--no-debug', default=True)
 @click.option('--host', default='127.0.0.1')
 @click.option('--port', default=5000)
-def runserver(reloader, host, port):
+def runserver(reloader, debug, host, port):
     """Run the Flask development server i.e. app.run()"""
-    app.run(use_reloader=reloader, host=host, port=port)
+    app.run(use_reloader=reloader, debug=debug, host=host, port=port)
 
 help_text = """
     Subcommands are loaded from the module/commands folder dynamically.
