@@ -1,14 +1,18 @@
 [![Travis CI](http://img.shields.io/travis/quokkaproject/quokka.svg)](https://travis-ci.org/quokkaproject/quokka)
 [![Coverage Status](http://img.shields.io/coveralls/quokkaproject/quokka.svg)](https://coveralls.io/r/quokkaproject/quokka)
-[![Twitter](http://img.shields.io/badge/twitter-@quokkaproject-green.svg)](http://twitter.com/quokkaproject)
+[![Code Health](https://landscape.io/github/quokkaproject/quokka/development/landscape.svg?style=flat)](https://landscape.io/github/quokkaproject/quokka/development)
+
+[![Stories in Ready](https://badge.waffle.io/quokkaproject/quokka.png?label=ready&title=Ready)](http://waffle.io/quokkaproject/quokka)
 [![Join Slack Chat](https://img.shields.io/badge/JOIN_SLACK-CHAT-green.svg)](https://quokkaslack.herokuapp.com/)
 [![Slack](http://quokkaslack.herokuapp.com/badge.svg)](https://quokkaproject.slack.com/messages/)
-[![Code Health](https://landscape.io/github/quokkaproject/quokka/development/landscape.svg?style=flat)](https://landscape.io/github/quokkaproject/quokka/development)
+
+[![Twitter](http://img.shields.io/badge/twitter-@quokkaproject-green.svg)](http://twitter.com/quokkaproject)
 <a href="http://smallactsmanifesto.org" title="Small Acts Manifesto"><img src="http://smallactsmanifesto.org/static/images/smallacts-badge-80x15-blue.png" style="border: none;" alt="Small Acts Manifesto" /></a>
+<a target="_blank" href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&amp;business=rochacbruno%40gmail%2ecom&amp;lc=BR&amp;item_name=quokkaproject&amp;no_note=0&amp;currency_code=USD&amp;bn=PP%2dDonationsBF%3abtn_donate_SM%2egif%3aNonHostedGuest"><img alt='Donate with Paypal' src='http://www.paypalobjects.com/en_US/i/btn/btn_donate_SM.gif' /></a>
 
 [![wercker status](https://app.wercker.com/status/e9cbc4497ee946083aa19fbd3f756c91/m "wercker status")](https://app.wercker.com/project/bykey/e9cbc4497ee946083aa19fbd3f756c91)
 [![Launch on OpenShift](http://launch-shifter.rhcloud.com/button.svg)](https://openshift.redhat.com/app/console/application_type/custom?cartridges%5B%5D=python-2.7&cartridges%5B%5D=mongodb-2.4&initial_git_url=https://github.com/quokkaproject/quokka.git&name=quokka&initial_git_branch=master)
-<a target="_blank" href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&amp;business=rochacbruno%40gmail%2ecom&amp;lc=BR&amp;item_name=quokkaproject&amp;no_note=0&amp;currency_code=USD&amp;bn=PP%2dDonationsBF%3abtn_donate_SM%2egif%3aNonHostedGuest"><img alt='Donate with Paypal' src='http://www.paypalobjects.com/en_US/i/btn/btn_donate_SM.gif' /></a>
+
 
 Quokka project
 ===============================================
