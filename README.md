@@ -306,3 +306,6 @@ Because it is the happiest animal in the world!
 
 ## License
 This project is licensed under the [MIT license](http://opensource.org/licenses/MIT), see `LICENSE` for more details.
+
+This project adheres to the [Open Code of Conduct][code-of-conduct]. By participating, you are expected to honor this code.
+[code-of-conduct]: http://todogroup.org/opencodeofconduct/#QuokkaProject/rochacbruno@gmail.com
