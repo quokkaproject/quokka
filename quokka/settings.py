@@ -261,7 +261,26 @@ MEDIA_VIDEO_ALLOWED_EXTENSIONS = ('avi', 'mp4', 'mpeg')
 MEDIA_FILE_ALLOWED_EXTENSIONS = ('pdf', 'txt', 'doc', 'docx', 'xls', 'xmlsx')
 
 # default admin THEME
-ADMIN_THEME = 'cosmo'
+ADMIN_THEME = 'admin'
+"""
+https://bootswatch.com/2/ themes available:
+amelia cerulean cosmo cyborg default flatly
+journal readable simplex slate spacelab
+spruce superhero united
+"""
+ADMIN_SWATCH = 'flatly'
+
+ADMIN_ICONS = [
+    ('post.create_view', 'pencil', 'Write'),
+    ('post.index_view', 'th-list', 'Posts'),
+    ('config.index_view', 'cog', 'Config'),
+    ('user.index_view', 'user', 'Users'),
+    ('image.index_view', 'picture', 'Images'),
+    ('image.create_view', 'arrow-up', 'Upload'),
+    ('channel.index_view', 'th-list', 'Channels')
+]
+
+# front end theme
 DEFAULT_THEME = 'pure'
 
 # default content extension for url buildind

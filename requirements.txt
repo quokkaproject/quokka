@@ -1,6 +1,6 @@
-https://github.com/flask-admin/flask-admin/archive/v1.0.8.zip
+https://github.com/quokkaproject/flask-admin/tarball/master
 https://github.com/quokkaproject/quokka-themes/tarball/master
-https://github.com/alexandre/twill/tarball/master
+https://github.com/quokkaproject/twill/tarball/master
 https://github.com/quokkaproject/flask-htmlbuilder/tarball/master
 awesome-slugify==1.6.5
 Babel==1.3
@@ -45,7 +45,7 @@ requests==2.7.0
 requests-oauthlib==0.5.0
 simplejson==3.7.3
 #speaklater==1.3
-https://github.com/realli/speaklater/archive/temp_use.zip
+https://github.com/quokkaproject/speaklater/archive/temp_use.zip
 Unidecode==0.4.18
 webassets==0.10.1
 Werkzeug==0.10.4
