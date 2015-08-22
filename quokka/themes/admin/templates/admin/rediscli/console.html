@@ -1,10 +1,9 @@
 {% extends 'admin/master.html' %}
 {% import 'admin/lib.html' as lib with context %}
-{% import 'admin/static.html' as admin_static with context%}
 
 {% block head %}
     {{ super() }}
-    <link href="{{ theme_static'admin/css/bootstrap2/rediscli.css') }}" rel="stylesheet">
+    <link href="{{ theme_static('admin/css/bootstrap2/rediscli.css', v='1.0.0') }}" rel="stylesheet">
 {% endblock %}
 
 {% block body %}
@@ -21,10 +20,10 @@
 
 {% block tail %}
   {{ super() }}
-  <script src="{{ theme_static'admin/js/rediscli-1.0.0.js') }}"></script>
+  <script src="{{ theme_static('admin/js/rediscli.js', v='1.0.0') }}"></script>
   <script language="javascript">
     $(function() {
-      var redisCli = new RedisCli({{ get_url('.execute_view')|tojson }});
+      var redisCli = new RedisCli({{ url_for('.execute_view')|tojson }});
     });
   </script>
 {% endblock %}

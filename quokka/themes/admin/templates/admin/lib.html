@@ -92,10 +92,10 @@
       {{ field(**kwargs)|safe }}
     </div>
     {% if field.description %}
-    <p class="help-block">{{ field.description }}</p>
+    <p class="help-block">{{ field.description|safe }}</p>
     {% endif %}
     {% if direct_error %}
-      <ul{% if direct_error %} class="input-errors"{% endif %}>
+      <ul class="input-errors">
       {% for e in field.errors if e is string %}
         <li>{{ e }}</li>
       {% endfor %}
@@ -129,7 +129,7 @@
             {{ r(form, form_opts=form_opts) }}
         {% endfor %}
     {% else %}
-        {% for f in form if f.type != 'HiddenField' and f.type != 'CSRFTokenField' %}
+        {% for f in form if f.widget.input_type != 'hidden' %}
           {% if form_opts %}
             {% set kwargs = form_opts.widget_args.get(f.name, {}) %}
           {% else %}
@@ -140,44 +140,48 @@
     {% endif %}
 {% endmacro %}
 
-{% macro form_tag(form=None) %}
-    <form action="" method="POST" class="admin-form form-horizontal" enctype="multipart/form-data">
+{% macro form_tag(form=None, action=None) %}
+    <form action="{{ action or '' }}" method="POST" class="admin-form form-horizontal" enctype="multipart/form-data">
       <fieldset>
         {{ caller() }}
       </fieldset>
     </form>
 {% endmacro %}
 
-{% macro render_form_buttons(cancel_url, extra=None) %}
+{% macro render_form_buttons(cancel_url, extra=None, is_modal=False) %}
+    <hr>
     <div class="control-group">
       <div class="controls">
-        <input type="submit" class="btn btn-primary" value="{{ _gettext('Submit') }}" />
+        <input type="submit" class="btn btn-primary" value="{{ _gettext('Save') }}" />
         {% if extra %}
         {{ extra }}
         {% endif %}
         {% if cancel_url %}
-        <a href="{{ cancel_url }}" class="btn">{{ _gettext('Cancel') }}</a>
+          <a href="{{ cancel_url }}" class="btn btn-danger" {% if is_modal %}data-dismiss="modal"{% endif %}>{{ _gettext('Cancel') }}</a>
         {% endif %}
       </div>
     </div>
 {% endmacro %}
 
-{% macro render_form(form, cancel_url, extra=None, form_opts=None) -%}
-    {% call form_tag() %}
+{% macro render_form(form, cancel_url, extra=None, form_opts=None, action=None, is_modal=False) -%}
+    {% call form_tag(action=action) %}
         {{ render_form_fields(form, form_opts=form_opts) }}
-        {{ render_form_buttons(cancel_url, extra) }}
+        {{ render_form_buttons(cancel_url, extra, is_modal) }}
     {% endcall %}
 {% endmacro %}
 
 {% macro form_css() %}
-  <link href="{{ theme_static('vendor/select2/select2.css') }}" rel="stylesheet">
-  <link href="{{ theme_static('vendor/bootstrap-daterangepicker/daterangepicker-bs2.css') }}" rel="stylesheet">
+  <link href="{{ theme_static('vendor/select2/select2.css', v='3.5.2') }}" rel="stylesheet">
+  <link href="{{ theme_static('vendor/bootstrap-daterangepicker/daterangepicker-bs2.css', v='1.3.22') }}" rel="stylesheet">
   {% if config.MAPBOX_MAP_ID %}
-  <link href="{{ theme_static('vendor/leaflet/leaflet.css') }}" rel="stylesheet">
-  <link href="{{ theme_static('vendor/leaflet/leaflet.draw.css') }}" rel="stylesheet">
+  <link href="{{ theme_static('vendor/leaflet/leaflet.css', v='0.7.3') }}" rel="stylesheet">
+  <link href="{{ theme_static('vendor/leaflet/leaflet.draw.css', v='0.2.3') }}" rel="stylesheet">
+  {% if config.MAPBOX_SEARCH %}
+  <link href="{{ theme_static('vendor/leaflet/leaflet.search.css', v='1.5.7') }}" rel="stylesheet">
+  {% endif %}
   {% endif %}
   {% if editable_columns %}
-  <link href="{{ theme_static('vendor/x-editable/css/bootstrap2-editable-1.5.1.css') }}" rel="stylesheet">
+  <link href="{{ theme_static('vendor/x-editable/css/bootstrap2-editable.css', v='1.5.1') }}" rel="stylesheet">
   {% endif %}
 {% endmacro %}
 
@@ -185,15 +189,22 @@
   {% if config.MAPBOX_MAP_ID %}
   <script>
   window.MAPBOX_MAP_ID = "{{ config.MAPBOX_MAP_ID }}";
+  {% if config.MAPBOX_ACCESS_TOKEN %}
+  window.MAPBOX_ACCESS_TOKEN = "{{ config.MAPBOX_ACCESS_TOKEN }}";
+  {% endif %}
   </script>
-  <script src="{{ theme_static('vendor/leaflet/leaflet.js') }}"></script>
-  <script src="{{ theme_static('vendor/leaflet/leaflet.draw.js') }}"></script>
+  <script src="{{ theme_static('vendor/leaflet/leaflet.js', v='0.7.3') }}"></script>
+  <script src="{{ theme_static('vendor/leaflet/leaflet.draw.js', v='0.2.3') }}"></script>
+  {% if config.MAPBOX_SEARCH %}
+  <script src="https://maps.googleapis.com/maps/api/js?v=3&sensor=false"></script>
+  <script src="{{ theme_static('vendor/leaflet/leaflet.search.js', v='1.5.7') }}"></script>
   {% endif %}
-  <script src="{{ theme_static('vendor/bootstrap-daterangepicker/daterangepicker.js') }}"></script>
+  {% endif %}
+  <script src="{{ theme_static('vendor/bootstrap-daterangepicker/daterangepicker.js', v='1.3.22') }}"></script>
   {% if editable_columns %}
-  <script src="{{ theme_static('vendor/x-editable/js/bootstrap2-editable-1.5.1.min.js') }}"></script>
+  <script src="{{ theme_static('vendor/x-editable/js/bootstrap2-editable.min.js', v='1.5.1') }}"></script>
   {% endif %}
-  <script src="{{ theme_static('admin/js/form-1.0.0.js') }}"></script>
+  <script src="{{ theme_static('admin/js/form.js', v='1.0.0') }}"></script>
 {% endmacro %}
 
 {% macro format_value(value) %}

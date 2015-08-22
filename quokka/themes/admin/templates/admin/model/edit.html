@@ -2,19 +2,38 @@
 {% import theme('admin/lib.html') as lib with context %}
 
 {% macro extra() %}
-  <input name="_continue_editing" type="submit" class="btn" value="{{ _gettext('Save and continue editing') }}" />
+  <input name="_add_another" type="submit" class="btn" value="{{ _gettext('Save and Add Another') }}" />
+  <input name="_continue_editing" type="submit" class="btn" value="{{ _gettext('Save and Continue Editing') }}" />
 {% endmacro %}
 
 {% block head %}
-    {{ super() }}
-    {{ lib.form_css() }}
+  {{ super() }}
+  {{ lib.form_css() }}
 {% endblock %}
 
 {% block body %}
-    {% call lib.form_tag(form) %}
-        {{ lib.render_form_fields(form, form_opts=form_opts) }}
-        {{ lib.render_form_buttons(return_url, extra()) }}
-    {% endcall %}
+  {% block navlinks %}
+  <ul class="nav nav-tabs">
+    <li>
+        <a href="{{ return_url }}">{{ _gettext('List') }}</a>
+    </li>
+    {%- if admin_view.can_create -%}
+    <li>
+        <a href="{{ url_for('.create_view', url=return_url) }}">{{ _gettext('Create') }}</a>
+    </li>
+    {%- endif -%}
+    <li class="active">
+        <a href="javascript:void(0)">{{ _gettext('Edit') }}</a>
+    </li>
+    {%- if admin_view.can_view_details -%}
+    <li>
+        <a href="{{ url_for('.details_view', id=model.id, url=return_url) }}">{{ _gettext('Details') }}</a>
+    </li>
+    {%- endif -%}
+  </ul>
+  {% endblock %}
+
+  {{ lib.render_form(form, return_url, extra(), form_opts) }}
 {% endblock %}
 
 {% block tail %}
