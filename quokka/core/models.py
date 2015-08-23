@@ -16,6 +16,7 @@ from quokka.utils import get_current_user_for_models
 from quokka.utils.shorturl import ShorterURL
 from quokka.utils.settings import get_setting_value, get_site_url
 from .base_models.custom_values import HasCustomValue
+from .base_models.queryset import ExtendedQuerySet
 from .admin.utils import _l
 
 logger = logging.getLogger()
@@ -148,6 +149,8 @@ class ChannelType(TemplateType, ChannelConfigs, db.DynamicDocument):
 class ContentProxy(db.DynamicDocument):
     content = db.GenericReferenceField(required=True, unique=True)
 
+    meta = {'queryset_class': ExtendedQuerySet}
+
     def __unicode__(self):
         return self.content.title
 
@@ -180,7 +183,8 @@ class Channel(Tagged, HasCustomValue, Publishable, LongSlugged,
     sort_by = db.ListField(db.StringField(), default=[])
 
     meta = {
-        'ordering': ['order', 'title']
+        'ordering': ['order', 'title'],
+        'queryset_class': ExtendedQuerySet
     }
 
     def get_text(self):
@@ -477,7 +481,8 @@ class Content(HasCustomValue, Publishable, LongSlugged,
     meta = {
         'allow_inheritance': True,
         'indexes': ['-created_at', 'slug'],
-        'ordering': ['-created_at']
+        'ordering': ['-created_at'],
+        'queryset_class': ExtendedQuerySet
     }
 
     @classmethod
