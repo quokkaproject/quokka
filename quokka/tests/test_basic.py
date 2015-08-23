@@ -7,7 +7,7 @@ from quokka.core.admin import create_admin
 class BasicTestCase(TestCase):
 
     def setUp(self):
-        self.db = self.app.extensions.get('mongoengine').keys()[0]
+        self.db = list(self.app.extensions.get('mongoengine').keys())[0]
         self.db.connection.drop_database('quokka_test')
         from quokka.utils.populate import Populate
         Populate(self.db)()
