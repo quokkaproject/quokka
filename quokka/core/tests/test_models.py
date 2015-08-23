@@ -3,7 +3,8 @@ import sys
 
 from . import BaseTestCase
 
-from ..models import Channel, Config, CustomValue
+from ..models import Channel, Config
+from ..base_models.custom_values import CustomValue
 
 if sys.version_info.major == 3:
     unicode = lambda x: u'{}'.format(x)
