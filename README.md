@@ -1,3 +1,4 @@
+[![Flask Registered](https://img.shields.io/badge/flask-registered-green.svg?style=flat)](https://github.com/pocoo/metaflask)
 [![Travis CI](http://img.shields.io/travis/quokkaproject/quokka.svg)](https://travis-ci.org/quokkaproject/quokka)
 [![Coverage Status](http://img.shields.io/coveralls/quokkaproject/quokka.svg)](https://coveralls.io/r/quokkaproject/quokka)
 [![Code Health](https://landscape.io/github/quokkaproject/quokka/development/landscape.svg?style=flat)](https://landscape.io/github/quokkaproject/quokka/development)
