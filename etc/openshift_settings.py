@@ -19,6 +19,7 @@ if os.environ['OPENSHIFT_APP_NAME'] == 'quokkadevelopment':
     DEBUG = True
 
 SHORTENER_ENABLED = True
+SERVER_NAME = 'development.quokkaproject.org'
 
 MAP_STATIC_ROOT = (
     '/robots.txt',

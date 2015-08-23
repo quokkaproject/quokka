@@ -275,6 +275,9 @@ DEFAULT_TEXT_FORMAT = "html"
 "Shortner urls configuration"
 SHORTENER_ENABLED = False
 
+"Note: if you enable shortener you have to define a SERVER_NAME"
+# SERVER_NAME = 'localhost'
+
 "Config shorter information"
 SHORTENER_SETTINGS = {"name": "BitlyShortener",
                       "bitly_api_key": "R_7d84f09c68be4c749cac2a56ace2e73f",
