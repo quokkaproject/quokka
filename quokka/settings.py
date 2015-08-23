@@ -122,14 +122,6 @@ FILE_ADMIN = [
 ]
 
 """
-This is for Flask-Collect extension
-you can install blueprints with static files and run
-python manage.py collectstatic to copy to main static folder
-"""
-COLLECT_STATIC_ROOT = STATIC_ROOT
-
-
-"""
 Activates Flask-Weasyprint extension
 so that Posts can be rendered to PDF just by
 changing the extension from .html to .pdf
@@ -218,18 +210,6 @@ SECURITY_SEND_REGISTER_EMAIL = False
 SECURITY_LOGIN_WITHOUT_CONFIRMATION = True
 SECURITY_SEND_PASSWORD_CHANGE_EMAIL = False
 SECURITY_SEND_PASSWORD_RESET_NOTICE_EMAIL = False
-
-"""
-Dealer can versionate static files if you are under a repo
-in most cases you dont need to change this config
-in templates you can do
-<script src="{{ url_for('static', filename='xxx.js')}}?version={{revision}}" >
-:revision: is the latest commit in the repository for this file.
-"""
-DEALER_PARAMS = dict(
-    backends=('git', 'mercurial', 'simple', 'null')
-)
-
 
 """
 Internationalization for Flask-Admin

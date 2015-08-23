@@ -1,7 +1,6 @@
 # coding: utf-8
 from flask.ext.mail import Mail
 
-from dealer.contrib.flask import Dealer
 from quokka.core.db import db
 from quokka.core.cache import cache
 from quokka.core.admin import configure_admin
@@ -16,7 +15,6 @@ def configure_extensions(app, admin):
     babel.configure(app)
     generic.configure(app)
     Mail(app)
-    Dealer(app)
     error_handlers.configure(app)
     db.init_app(app)
 

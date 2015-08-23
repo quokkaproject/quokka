@@ -4,7 +4,6 @@
 from random import randint
 from quokka.core.db import db
 from quokka.core.base_models.custom_values import HasCustomValue
-from quokka.core.base_models.queryset import ExtendedQuerySet
 from quokka.utils.text import abbreviate, slugify
 from flask.ext.security import UserMixin, RoleMixin
 from flask.ext.security.utils import encrypt_password
@@ -13,8 +12,6 @@ from .utils import ThemeChanger
 
 # Auth
 class Role(db.Document, ThemeChanger, HasCustomValue, RoleMixin):
-
-    meta = {'queryset_class': ExtendedQuerySet}
 
     name = db.StringField(max_length=80, unique=True)
     description = db.StringField(max_length=255)

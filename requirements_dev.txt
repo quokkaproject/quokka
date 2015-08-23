@@ -1,0 +1,2 @@
+Flask-DebugToolbar==0.10.0
+ipython==3.2.1

@@ -7,7 +7,7 @@ from quokka.core.admin import create_admin
 class BasicTestCase(TestCase):
 
     def setUp(self):
-        self.db = self.app.extensions.get('mongoengine')
+        self.db = self.app.extensions.get('mongoengine').keys()[0]
         self.db.connection.drop_database('quokka_test')
         from quokka.utils.populate import Populate
         Populate(self.db)()
@@ -36,10 +36,10 @@ class BasicTestCase(TestCase):
 
     def test_db_is_connected_in_the_test_database(self):
         self.assertTrue(
-            self.db.connection.port == self.get_config('MONGODB_PORT')
+            self.db.connection.PORT == self.get_config('MONGODB_PORT')
         )
         self.assertTrue(
-            self.db.connection.host == self.get_config('MONGODB_HOST')
+            self.db.connection.HOST == self.get_config('MONGODB_HOST')
         )
 
     def test_has_posts(self):
