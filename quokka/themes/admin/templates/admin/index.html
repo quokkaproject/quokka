@@ -45,7 +45,7 @@
 
     </div>
 
-    <div>
+    <div class="row">
     {% for endpoint, icon, text in config.get('ADMIN_ICONS', [])%}
         <div class="span1">
             <a href="{{ url_for(endpoint) }}" class="btn btn-primary">
@@ -55,5 +55,34 @@
         </div>
     {% endfor %}
 
+    </div>
+
+    <div class="row">
+    <div class="span1" style="margin-top: 30px;">
+    <form id="swatcher_form" action="{{url_for('accounts.set_swatch')}}" method="POST">
+        <input type="hidden" value="{{csrf_token()}}" name="csrf_token" id="csrf_token" />
+        <label>{{_gettext('Theme')}}</label>
+        <select id="swatch" name="swatch" onchange="$('#swatcher_form').submit();">
+            {% for swatch in (
+               'amelia',
+               'cerulean',
+               'cosmo',
+               'cyborg',
+               'default',
+               'flatly',
+               'journal',
+               'readable',
+               'simplex',
+               'slate',
+               'spacelab',
+               'spruce',
+               'superhero',
+               'united'
+            ) %}
+            <option id="{{swatch}}" value="{{swatch}}" {%if swatch == current_user.swatch %}selected{%endif%}>{{swatch}}</option>
+            {% endfor %}
+        </select>
+    </form>
+    </div>
     </div>
 {% endblock %}

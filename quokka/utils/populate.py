@@ -4,7 +4,8 @@ import json
 import uuid
 
 from quokka.core.models import Channel, ChannelType, SubContentPurpose, \
-    Config, CustomValue, License
+    Config, License
+from quokka.core.base_models.custom_values import CustomValue
 from quokka.modules.accounts.models import User, Role
 from quokka.modules.posts.models import Post
 

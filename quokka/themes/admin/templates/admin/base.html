@@ -10,7 +10,7 @@
     {% endblock %}
     {% block head_css %}
 
-        <link href="{{ theme_static('bootstrap/bootstrap2/swatch/{}/bootstrap.min.css'.format(config.get('ADMIN_SWATCH', 'default')), v='2.3.2') }}" rel="stylesheet">
+        <link href="{{ theme_static('bootstrap/bootstrap2/swatch/{}/bootstrap.min.css'.format(current_user.swatch), v='2.3.2') }}" rel="stylesheet">
 
         <link href="{{ theme_static('bootstrap/bootstrap2/css/bootstrap-responsive.min.css', v='2.3.2') }}" rel="stylesheet">
         <link href="{{ theme_static('admin/css/bootstrap2/admin.css', v='1.1.1') }}" rel="stylesheet">

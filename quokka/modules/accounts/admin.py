@@ -16,7 +16,7 @@ class UserAdmin(ModelAdmin):
                     'confirmed_at',
                     'last_login_at', 'current_login_at', 'last_login_ip',
                     'current_login_ip', 'login_count', 'tagline',
-                    'bio', 'links')
+                    'bio', 'links', 'values')
 
     form_extra_fields = {
         "newpassword": TextField(widget=PasswordInput())
@@ -31,7 +31,7 @@ class UserAdmin(ModelAdmin):
 
 class RoleAdmin(ModelAdmin):
     roles_accepted = ('admin',)
-    column_list = ('name', 'description')
+    column_list = ('name', 'description', 'values')
 
 
 class ConnectionAdmin(ModelAdmin):
