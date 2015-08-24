@@ -3,7 +3,7 @@ import os
 
 # MONGO
 MONGODB_DB = os.environ['OPENSHIFT_APP_NAME']
-MONGODB_HOST = os.environ['OPENSHIFT_MONGODB_DB_URL']
+MONGODB_HOST = os.environ['OPENSHIFT_MONGODB_DB_HOST']
 MONGODB_PORT = os.environ['OPENSHIFT_MONGODB_DB_PORT']
 MONGODB_USERNAME = os.environ['OPENSHIFT_MONGODB_DB_USERNAME']
 MONGODB_PASSWORD = os.environ['OPENSHIFT_MONGODB_DB_PASSWORD']
@@ -19,7 +19,7 @@ if os.environ['OPENSHIFT_APP_NAME'] == 'quokkadevelopment':
     DEBUG = True
 
 SHORTENER_ENABLED = True
-SERVER_NAME = 'development.quokkaproject.org'
+SERVER_NAME = os.environ['OPENSHIFT_APP_DNS']
 
 MAP_STATIC_ROOT = (
     '/robots.txt',
