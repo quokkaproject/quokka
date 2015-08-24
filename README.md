@@ -27,6 +27,10 @@ Quokka project
 
 Quokka is a flexible content management platform powered by Python, Flask and MongoDB.
 
+You can use Quokka CMS to publish a blog, a web portal, intranet, document management system and you can install existing quokka-modules such as quokka-cart to create an e-commerce app or you can easily create a new quokka-module to fit your needs. 
+
+#### Quokka Dashboard (based in Flask-Admin)
+
 <p align="center">
 <img src="docs/quokka_dashboard_content.png" alt="quokka cms admin content dashboard" />
 </p>
@@ -241,11 +245,7 @@ You can host a Quokka website in any VPS or cloud which supports Python and Flas
 - PythonAnywhere can run Quokka with Mongo hosted at MongoLab
 - DigitalOcean is a good option for a VPS
 - Jelastic Cloud has the easiest Quokka deployment - http://docs.jelastic.com/ru/quokka-cms
-
-Is it any good?
-==============
-
-[Yes!](https://news.ycombinator.com/item?id=3067434)
+- OpenShift [one click deploy](https://openshift.redhat.com/app/console/application_type/custom?cartridges%5B%5D=python-2.7&cartridges%5B%5D=mongodb-2.4&initial_git_url=https://github.com/quokkaproject/quokka.git&name=quokka&initial_git_branch=master) 
 
 
 ![python](docs/python_powered.png)
@@ -254,15 +254,16 @@ Is it any good?
 &nbsp;
 ![mongo](docs/mongo_powered.jpg)
 &nbsp;
-[![pythonhub](http://secure.gravatar.com/avatar/fa9ccd40c6da8a0a934a383ffeb988e6?s=78)](http://github.com/pythonhub)
 
 ## Details and Features
 
 #### Bit.ly integration
-Quokka has Bit.ly integration to short urls. In quokka/settings.py you can find the details of how
-to configure with your data. Check both items: SHORTENER_SETTINGS and SHORTENER_ENABLED. By default
-the shortener is disable, but you can change it putting True in the SHORTENER_ENABLED config.
 
+Quokka has Bit.ly integration to short post urls. In quokka/settings.py you can find the details of how
+to configure with your data. Check both items: ```SHORTENER_SETTINGS``` and ```SHORTENER_ENABLED```. By default
+the shortener is disable, but you can change it putting True in the ```SHORTENER_ENABLED``` config.
+
+> Do not change settings.py file, use a local_settings.py or export ```QUOKKA_SHORTENED_ENABLED="@bool true"``` to your env
 
 ## FAQ
 
