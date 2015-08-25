@@ -3,7 +3,7 @@ mongo:
     ports:
       - "27017:27017"
     volumes:
-      - etc/mongodata:/data/db
+      - ./etc/mongodata:/data/db
 
 # elastic:
 #     image: catholabs/elastic-with-marvel
