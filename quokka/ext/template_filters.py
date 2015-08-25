@@ -9,15 +9,17 @@ from werkzeug.routing import Rule
 from quokka.core.app import QuokkaModule
 from quokka.core.models import Content
 from quokka_themes import Theme
-
+from pymongo.mongo_client import MongoClient
 
 if sys.version_info.major == 3:
     unicode = lambda x: u'{}'.format(x)  # noqa
     basestring = str  # noqa
 
 basetypes = (
-    int, str, float, dict, list, tuple, Blueprint, QuokkaModule, Theme, Rule,
-    basestring, unicode)
+    int, str, float, dict, list, tuple,
+    Blueprint, QuokkaModule, Theme, Rule, MongoClient,
+    basestring, unicode
+)
 
 
 def is_instance(v, cls):

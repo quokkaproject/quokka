@@ -207,6 +207,8 @@
   <script src="{{ theme_static('admin/js/form.js', v='1.0.0') }}"></script>
 {% endmacro %}
 
+
+{# ---------------------- Quokka CUSTOM -------------------------- #}
 {% macro format_value(value) %}
 
     {% if value|isinstance('dict') %}
@@ -215,23 +217,25 @@
 
     {% elif value|isinstance('list') or value|isinstance('tuple') %}
 
-	<ul>
-	    {%for item in value %}<li>{{format_value(item)}}</li> {% endfor %}
-	</ul>
+    	<ul>
+    	    {%for item in value %}<li>{{format_value(item)}}</li> {% endfor %}
+    	</ul>
 
     {% elif value|isinstance('Blueprint') or value|isinstance('QuokkaModule') %}
 
-	  {{render_table(headers=('Attribute', 'Value'), values=(("name", value.name), ("module", value.import_name), ("static", value.static_folder), ("templates", value.template_folder)))}}
-
+	     {{render_table(headers=('Attribute', 'Value'), values=(("name", value.name), ("module", value.import_name), ("static", value.static_folder), ("templates", value.template_folder)))}}
 
     {% elif value|isinstance('Theme') %}
 
-	{{render_table(headers=('Attribute', 'Value'), values=(("name", value.name), ("author", value.author),("description", value.description),("version", value.version),("site", value.website)))}}
+	     {{render_table(headers=('Attribute', 'Value'), values=(("name", value.name), ("author", value.author),("description", value.description),("version", value.version),("site", value.website)))}}
 
     {% elif value|isinstance('Rule') %}
 
-	{{render_table(headers=('Attribute', 'Value'), values=(("arguments", value.arguments),("defaults", value.defaults),("methods", value.methods), ("endpoint", value.endpoint)))}}
+	   {{render_table(headers=('Attribute', 'Value'), values=(("arguments", value.arguments),("defaults", value.defaults),("methods", value.methods), ("endpoint", value.endpoint)))}}
 
+    {% elif value|isinstance('MongoClient') %}
+
+       {{ value.port }} - {{ value.host }}
 
     {% else %}
 
@@ -255,7 +259,7 @@
     {% for item in values %}
        <tr>
 	   {%for subitem in item %}
-	   <td>{{format_value(subitem)}}</td>
+	      <td>{{format_value(subitem)}}</td>
 	   {% endfor %}
        </tr>
     {% endfor %}
