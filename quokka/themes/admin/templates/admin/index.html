@@ -31,7 +31,7 @@
                         {{ comment.author_name }} {{ _gettext('says') }}:
                         <br><small>{{ comment.body[:140] }}</small>
                         <br> <i class={% if comment.published %} "icon-ok-circle" {% else %} "icon-ban-circle" {% endif %}></i>
-                        <a  href="{{ url_for('commentview.edit_view', id=comment.id)}}">
+                        <a  href="{{ url_for('comment.edit_view', id=comment.id)}}">
                         <i class="icon-edit"></i> </a>
                         <a target="_blank" href="{{ comment.get_canonical_url() }}">
                         <i class="icon-globe"></i></a>
