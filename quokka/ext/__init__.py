@@ -23,7 +23,7 @@ def configure_extensions(app, admin):
     context_processors.configure(app)
     template_filters.configure(app)
 
-    security.init_app(app, db)
+    security.configure(app, db)
 
     fixtures.configure(app, db)
     blueprints.load_from_packages(app)

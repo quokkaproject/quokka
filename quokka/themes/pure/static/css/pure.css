@@ -425,3 +425,7 @@ pre {
 .author-social li:hover a strong {
     opacity:1;
 }
+
+.recaptchafield {
+  margin-left: 120px;
+}

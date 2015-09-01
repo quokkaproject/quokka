@@ -23,6 +23,8 @@ except:
 def create_app_base(config=None, test=False, admin_instance=None, **settings):
     app = QuokkaApp('quokka')
     app.config.load_quokka_config(config=config, test=test, **settings)
+    if test or app.config.get('TESTING'):
+        app.testing = True
     return app
 
 
