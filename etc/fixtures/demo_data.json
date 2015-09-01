@@ -69,28 +69,8 @@
                    "formatter": "text"
                },
                {
-                   "name": "sidebar_image",
-                   "rawvalue": "http://lorempixel.com/g/500/800/animals",
-                   "formatter": "text"
-               },
-               {
-                   "name": "admin_logo",
-                   "rawvalue": "",
-                   "formatter": "text"
-               },
-               {
-                   "name": "site_domain",
-                   "rawvalue": "",
-                   "formatter": "text"
-               },
-               {
                    "name": "google-analytics",
                    "rawvalue": "UA-65278590-1",
-                   "formatter": "text"
-               },
-               {
-                   "name": "google-site-verification",
-                   "rawvalue": "",
                    "formatter": "text"
                },
                {

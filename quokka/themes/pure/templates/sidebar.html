@@ -3,7 +3,7 @@
      {% if Config.get('site', 'sidebar_color') %}
      style="background-color: Config.get('site', 'sidebar_color');"
      {% else %}
-     style="background-image: url('{{Config.get('site', 'sidebar_image', Config.get('site', 'sidebar_image', 'http://lorempixel.com/500/800/animals'))}}')"
+     style="background-image: url('{{Config.get('site', 'sidebar_image', theme_static('img/bg.jpg'))}}')"
      {% endif %}
     >
 
