@@ -14,7 +14,7 @@ class TextEditor(TextArea):
             'style_',
             "margin: 0px; width: 725px; height: 360px;"
         )
-        self.editor = kwargs.pop('editor', 'tinymce')
+        self.editor = kwargs.pop('editor', 'summernote')
 
     def __call__(self, field, **kwargs):
         c = kwargs.pop('class', '') or kwargs.pop('class_', '')
