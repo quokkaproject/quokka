@@ -96,6 +96,12 @@
     {% endblock %}
 
     {% if request.endpoint.endswith(('edit_view', 'create_view')) %}
+    <link rel="stylesheet" href="{{theme_static('summernote/summernote.css')}}">
+    <link href="{{theme_static('fontawesome/css/font-awesome.min.css')}}" rel="stylesheet">
+    <script src="{{ theme_static('summernote/summernote.min.js') }}"></script>
+    <script src="{{ theme_static('lepture/editor/marked.js') }}"></script>
+    <script src="{{ theme_static('lepture/editor/editor.js') }}"></script>
+    <link rel="stylesheet" href="{{theme_static('lepture/editor/editor.css')}}">
     <script>
     // CODE to load text editors
     if (document.getElementsByClassName('text_editor')[0] != undefined) {
@@ -105,22 +111,22 @@
             if (default_editor == 'markdown') {
                 load_markdown_editor();
             } else {
-                load_tinymce();
+                load_html_editor();
             }
         } else {
             if (selected_format.value == 'markdown') {
                 load_markdown_editor();
             } else {
-                load_tinymce();
+                load_html_editor();
             }
 
             selected_format.addEventListener('change', function(e){
                 if (selected_format.value == 'markdown') {
-                    destroy_tinymce();
+                    destroy_html_editor();
                     load_markdown_editor();
                 } else {
                     destroy_markdown_editor();
-                    load_tinymce();
+                    load_html_editor();
                 }
             }, false);
         }

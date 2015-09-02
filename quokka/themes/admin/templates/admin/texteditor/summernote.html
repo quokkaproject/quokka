@@ -1,0 +1,31 @@
+<script type="text/javascript">
+
+function load_html_editor(){
+   $('{{selector}}').summernote({
+      height: 300,                 // set editor height
+
+      minHeight: null,             // set minimum height of editor
+      maxHeight: null,             // set maximum height of editor
+
+      focus: true,                 // set focus to editable area after initializing summernote
+  });
+}
+
+function destroy_html_editor() {
+    $('{{selector}}').destroy();
+}
+
+/* Load LEPTURE MARKDOWN EDITOR */
+function load_markdown_editor() {
+    markdown_editor = new Editor();
+    markdown_editor.render(
+        document.getElementsByClassName('{{selector|replace('.', '')}}')[0]
+    );
+}
+
+function destroy_markdown_editor() {
+    markdown_editor.codemirror.toTextArea();
+    $(".editor-statusbar").remove();
+    $(".editor-toolbar").remove();
+}
+</script>
