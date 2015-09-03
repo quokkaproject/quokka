@@ -2,6 +2,7 @@
 [![Travis CI](http://img.shields.io/travis/quokkaproject/quokka.svg)](https://travis-ci.org/quokkaproject/quokka)
 [![Coverage Status](http://img.shields.io/coveralls/quokkaproject/quokka.svg)](https://coveralls.io/r/quokkaproject/quokka)
 [![Code Health](https://landscape.io/github/quokkaproject/quokka/development/landscape.svg?style=flat)](https://landscape.io/github/quokkaproject/quokka/development)
+[![Requirements Status](https://requires.io/github/quokkaproject/quokka/requirements.svg?branch=development)](https://requires.io/github/quokkaproject/quokka/requirements/?branch=development)
 
 [![Stories in Ready](https://badge.waffle.io/quokkaproject/quokka.png?label=ready&title=Ready)](http://waffle.io/quokkaproject/quokka)
 [![Join Slack Chat](https://img.shields.io/badge/JOIN_SLACK-CHAT-green.svg)](https://quokkaslack.herokuapp.com/)
@@ -27,7 +28,7 @@ Quokka project
 
 Quokka is a flexible content management platform powered by Python, Flask and MongoDB.
 
-You can use Quokka CMS to publish a blog, a web portal, intranet, document management system and you can install existing quokka-modules such as quokka-cart to create an e-commerce app or you can easily create a new quokka-module to fit your needs. 
+You can use Quokka CMS to publish a blog, a web portal, intranet, document management system and you can install existing quokka-modules such as quokka-cart to create an e-commerce app or you can easily create a new quokka-module to fit your needs.
 
 #### Quokka Dashboard (based in Flask-Admin)
 
@@ -106,11 +107,11 @@ You can install everything you need in your local computer or if preferred use a
 
 * O.S Requirements (for media conversions) you may need the following requirements on your operating system
 
-    1. Ubuntu/Debian  
+    1. Ubuntu/Debian
         ```bash
         sudo apt-get install libtiff5-dev libjpeg8-dev zlib1g-dev libfreetype6-dev
         ```
-    2. Alpine Linux  
+    2. Alpine Linux
         ```bash
         apk add gcc python py-pip libjpeg zlib zlib-dev tiff freetype git py-pillow python-dev musl-dev
         ```
@@ -135,7 +136,7 @@ pip install -r requirements.txt
         P4$$W0Rd
         ```
 
-    4. Populate with sample data (optional if you want sample data)  
+    4. Populate with sample data (optional if you want sample data)
         ```bash
         $ python manage.py populate
 
@@ -245,7 +246,7 @@ You can host a Quokka website in any VPS or cloud which supports Python and Flas
 - PythonAnywhere can run Quokka with Mongo hosted at MongoLab
 - DigitalOcean is a good option for a VPS
 - Jelastic Cloud has the easiest Quokka deployment - http://docs.jelastic.com/ru/quokka-cms
-- OpenShift [one click deploy](https://openshift.redhat.com/app/console/application_type/custom?cartridges%5B%5D=python-2.7&cartridges%5B%5D=mongodb-2.4&initial_git_url=https://github.com/quokkaproject/quokka.git&name=quokka&initial_git_branch=master) 
+- OpenShift [one click deploy](https://openshift.redhat.com/app/console/application_type/custom?cartridges%5B%5D=python-2.7&cartridges%5B%5D=mongodb-2.4&initial_git_url=https://github.com/quokkaproject/quokka.git&name=quokka&initial_git_branch=master)
 
 
 ![python](docs/python_powered.png)

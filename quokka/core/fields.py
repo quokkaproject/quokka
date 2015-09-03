@@ -66,8 +66,8 @@ def _delete(self):
 def _create(self):
     def inner(*args, **kwargs):
         instance = self._instance
-        Item = instance._fields[self._name].field.document_type_obj
-        item = Item(**kwargs)
+        item_cls = instance._fields[self._name].field.document_type_obj
+        item = item_cls(**kwargs)
         self.append(item)
         instance.save()
         return item

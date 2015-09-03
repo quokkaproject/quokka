@@ -19,10 +19,11 @@ class QuokkaConfig(Config):
         This data is cached as a cached_property
         The TTL is fixed in 5 minutes because we can't read it from
         config itself.
-        TODO: Find a way to set the config parameter in a file
+
+        Find a way to set the config parameter in a file
         maybe in a config_setting.ini
         It takes 5 minutes for new values to be available
-        TODO: Make it possible to use REDIS as a cache
+        and Make it possible to use REDIS as a cache
         """
         try:
             from quokka.core.models import Config
