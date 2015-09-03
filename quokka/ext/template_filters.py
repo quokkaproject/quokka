@@ -12,8 +12,8 @@ from quokka_themes import Theme
 from pymongo.mongo_client import MongoClient
 
 if sys.version_info.major == 3:
-    unicode = lambda x: u'{}'.format(x)  # noqa
-    basestring = str  # noqa
+    unicode = lambda x: u'{}'.format(x)  # noqa  # flake8: noqa
+    basestring = str  # noqa  # flake8: noqa
 
 basetypes = (
     int, str, float, dict, list, tuple,

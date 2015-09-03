@@ -12,7 +12,7 @@ from quokka.core.models import SubContent, SubContentPurpose
 from quokka.modules.media.models import Image
 
 if sys.version_info.major == 3:
-    unicode = lambda x: u'{}'.format(x)  # noqa
+    unicode = lambda x: u'{}'.format(x)  # noqa  # flake8: noqa
 
 
 class ThumbWidget(ImageUploadInput):
