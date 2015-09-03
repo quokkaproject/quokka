@@ -25,7 +25,7 @@ ignore-paths:
     - .openshift
 
 requirements:
-    - requirements.txt
-    - requirements_test.txt
+    - requirements/requirements.txt
+    - requirements/test.txt
 
 #max-line-length: 120

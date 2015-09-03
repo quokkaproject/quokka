@@ -27,7 +27,7 @@ echo "$SERVER_IP  $SERVER_FQDN" >>/etc/hosts
 
 zypper ar http://download.opensuse.org/repositories/devel:/languages:/python/openSUSE_${SUSE_VERSION}/ devel_python
 zypper --no-gpg-checks refresh
-zypper in -y gcc make mongodb git-core sudo nginx python-devel libjpeg8-devel 
+zypper in -y gcc make mongodb git-core sudo nginx python-devel libjpeg8-devel
 zypper in -y python-pip python-virtualenv pcre-devel python-imaging
 
 ## Start MongoDB
@@ -48,7 +48,7 @@ cd quokka-env
 git clone https://github.com/quokkaproject/quokka
 cd quokka
 
-/home/quokka/quokka-env/bin/pip install -r requirements.txt
+/home/quokka/quokka-env/bin/pip install -r requirements/requirements.txt
 chown -R quokka:quokka /home/quokka
 
 
@@ -76,7 +76,7 @@ echo 'server {
 		 client_body_buffer_size 32K;
 		 client_max_body_size 20M;
 		 sendfile on;
-         send_timeout 300s; 
+         send_timeout 300s;
 
         location ~ ^/(static|mediafiles)/ {
             root    /home/quokka/quokka-env/quokka/quokka;

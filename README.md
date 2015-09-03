@@ -121,7 +121,7 @@ Install all needed python packages
 > activate your virtualenv if you want
 
 ```bash
-pip install -r requirements.txt
+pip install -r requirements/requirements.txt
 ```
 
 #### Create admin user, sample data and run!

@@ -68,8 +68,8 @@ for local development.
 
         $ mkvirtualenv quokkadev
         $ cd quokka/
-        $ pip install -r requirements.txt
-        $ pip install -r requirements_test.txt
+        $ pip install -r requirements/requirements.txt
+        $ pip install -r requirements/test.txt
 
  > Make sure you have MongoDB installed locally or in an accessible server
 

@@ -4,8 +4,8 @@ python:
   - "3.4"
 services: mongodb
 install:
-  - "pip install --upgrade -r requirements.txt"
-  - "pip install --upgrade -r requirements_test.txt"
+  - "pip install --upgrade -r requirements/requirements.txt"
+  - "pip install --upgrade -r requirements/test.txt"
 script: make test
 after_success:
   - coveralls
