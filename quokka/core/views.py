@@ -6,6 +6,14 @@ import hashlib
 import PyRSS2Gen as pyrss
 import sys
 
+from datetime import datetime, timedelta
+from flask import request, redirect, url_for, abort, current_app
+from flask.views import MethodView
+from quokka.utils.atom import AtomFeed
+from quokka.core.models import Channel, Content, Config
+from quokka.core.templates import render_template
+from quokka.utils import is_accessible, get_current_user
+
 # python3 support
 if sys.version_info.major == 3:
     from urllib.parse import urljoin
@@ -13,15 +21,6 @@ if sys.version_info.major == 3:
 else:
     from urlparse import urljoin
     # import StringIO
-
-from datetime import datetime, timedelta
-from flask import request, redirect, url_for, abort, current_app  # ,  Response
-from flask.views import MethodView
-from quokka.utils.atom import AtomFeed
-from quokka.core.models import Channel, Content, Config
-from quokka.core.templates import render_template
-from quokka.utils import is_accessible, get_current_user
-
 
 logger = logging.getLogger()
 
