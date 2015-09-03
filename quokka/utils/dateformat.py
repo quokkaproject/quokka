@@ -47,6 +47,6 @@ def pretty_date(time=False):  # noqa
 
 if __name__ == "__main__":
     import datetime
-    print(
+    print(  # noqa
         (pretty_date(datetime.datetime.now() - datetime.timedelta(hours=18)))
     )

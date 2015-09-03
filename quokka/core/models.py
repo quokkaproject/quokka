@@ -270,7 +270,7 @@ class Channel(Tagged, HasCustomValue, Publishable, LongSlugged,
 
     def get_canonical_url(self, *args, **kwargs):
         """
-        TODO: This method should be reviewed
+        This method should be reviewed
         Canonical URL is the preferred URL for a content
         when the content can be served by multiple URLS
         In the case of channels it will never happen
@@ -311,8 +311,8 @@ class Channel(Tagged, HasCustomValue, Publishable, LongSlugged,
         self.channel_type = self.channel_type or parent.channel_type
 
     def update_descendants_and_contents(self):
-        """TODO:
-        Detect if self.long_slug and self.mpath has changed.
+        """
+        Need to Detect if self.long_slug and self.mpath has changed.
         if so, update every descendant using get_descendatns method
         to query.
         Also update long_slug and mpath for every Content in this channel
@@ -589,7 +589,7 @@ class Content(HasCustomValue, Publishable, LongSlugged,
         self.model = "{0}.{1}".format(self.module_name, self.model_name)
 
     def save(self, *args, **kwargs):
-        # TODO: all those functions should be in a dynamic pipeline
+        # all those functions should be in a dynamic pipeline
         self.validate_slug()
         self.validate_long_slug()
         self.heritage()

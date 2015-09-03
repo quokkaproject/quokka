@@ -33,7 +33,6 @@ class CommentView(MethodView):
             comment = Comment(path=path)
             form.populate_obj(comment)
             if current_user.is_authenticated():
-                # TODO: logic to auto publish comments
                 comment.published = True
                 comment.author_name = current_user.name
                 comment.author_email = current_user.email

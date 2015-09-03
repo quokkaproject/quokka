@@ -121,16 +121,20 @@ class ContentList(MethodView):
         elif channel.sort_by:
             contents = contents.order_by(*channel.sort_by)
 
-        if current_app.config.get("PAGINATION_ENABLED", True):
-            pagination_arg = current_app.config.get("PAGINATION_ARG", "page")
-            page = request.args.get(pagination_arg, 1)
-            per_page = (
-                request.args.get('per_page') or
-                channel.per_page or
-                current_app.config.get("PAGINATION_PER_PAGE", 10)
-            )
-            contents = contents.paginate(page=int(page),
-                                         per_page=int(per_page))
+        disabled_pagination = False
+        if not current_app.config.get("PAGINATION_ENABLED", True):
+            disabled_pagination = contents.count()
+
+        pagination_arg = current_app.config.get("PAGINATION_ARG", "page")
+        page = request.args.get(pagination_arg, 1)
+        per_page = (
+            disabled_pagination or
+            request.args.get('per_page') or
+            channel.per_page or
+            current_app.config.get("PAGINATION_PER_PAGE", 10)
+        )
+        contents = contents.paginate(page=int(page),
+                                     per_page=int(per_page))
 
         themes = channel.get_themes()
         return render_template(self.get_template_names(),
@@ -225,8 +229,8 @@ class ContentDetail(MethodView):
             return abort(404)
 
         if not is_accessible(roles_accepted=content.channel.roles):
-            # TODO: access control only takes main channel roles
-            # TODOC: deal with related channels
+            # Access control only takes main channel roles
+            # Need to deal with related channels
             raise abort(403, "User has no role to view this channel content")
 
     def get_context(self, long_slug, render_content=False):
@@ -285,8 +289,8 @@ class ContentDetailPreview(ContentDetail):
 
         if (get_current_user() not in content.get_authors()) or (
                 not is_accessible(roles_accepted=['admin', 'reviewer'])):
-            # TODO: access control only takes main channel roles
-            # TODOC: deal with related channels
+            # access control only takes main channel roles
+            # need to deal with related channels
             raise abort(403, "User has no role to view this channel content")
 
 
@@ -302,13 +306,19 @@ class BaseTagView(MethodView):
         # instantiate tag like channel for a list feed
         self.tag = tag
 
-        if current_app.config.get("PAGINATION_ENABLED", True):
-            pagination_arg = current_app.config.get("PAGINATION_ARG", "page")
-            page = request.args.get(pagination_arg, 1)
-            per_page = current_app.config.get(
-                "PAGINATION_PER_PAGE", 10
-            )
-            contents = contents.paginate(page=int(page), per_page=per_page)
+        disabled_pagination = False
+        if not current_app.config.get("PAGINATION_ENABLED", True):
+            disabled_pagination = contents.count()
+
+        pagination_arg = current_app.config.get("PAGINATION_ARG", "page")
+        page = request.args.get(pagination_arg, 1)
+        per_page = (
+            disabled_pagination or
+            request.args.get('per_page') or
+            current_app.config.get("TAGS_PAGINATION_PER_PAGE") or
+            current_app.config.get("PAGINATION_PER_PAGE", 10)
+        )
+        contents = contents.paginate(page=int(page), per_page=per_page)
 
         return contents
 

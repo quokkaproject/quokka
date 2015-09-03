@@ -8,4 +8,4 @@ celery = create_celery_app()
 
 @celery.task
 def media_task():
-    print("Doing something async...")
+    print("Doing something async...")  # noqa

@@ -62,7 +62,7 @@ class TestAbbreviate(unittest.TestCase):
         expected = 'Fulano dos Santos'
         self.assertEquals(abbreviate(name), expected)
 
-    def test_should_not_abbreviate_next_surname_if_pretty_is_True(self):
+    def test_should_not_abbreviate_next_surname_if_pretty_is_true(self):
         name = 'Álvaro Fernandes de Abreu Justen'
         expected = 'Álvaro F. de Abreu Justen'
         self.assertEquals(abbreviate(name, pretty=True), expected)

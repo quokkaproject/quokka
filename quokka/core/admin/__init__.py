@@ -100,7 +100,7 @@ def configure_admin(app, admin):  # noqa
             )
         except Exception as e:
             logger.info(e)
-            # TODO: check blueprint endpoisnt colision
+            #  need to check blueprint endpoisnt colision
 
     # register all themes in file manager
     for k, theme in app.theme_manager.themes.items():

@@ -22,10 +22,6 @@ def get_site_url():
 
 
 def get_setting_value(key, default=None):
-    """
-    # TODO: it is not reading setting from db on models
-    """
-
     try:
         return current_app.config.get(key, default)
     except RuntimeError:
