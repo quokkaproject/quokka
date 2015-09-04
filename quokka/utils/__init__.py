@@ -3,12 +3,16 @@ import logging
 logger = logging.getLogger()
 
 
-def lazy_str_setting(key, default=None):
+def lazy_setting(key, default=None):
     from speaklater import make_lazy_string
     from flask import current_app
     return make_lazy_string(
         lambda: current_app.config.get(key, default)
     )
+
+
+def lazy_str_setting(key, default=None):
+    return str(lazy_setting(key, default))
 
 
 def get_current_user():
@@ -17,7 +21,7 @@ def get_current_user():
     try:
         return User.objects.get(id=current_user.id)
     except Exception as e:
-        logger.warning("No user found: {}".format(e))
+        logger.warning("No user found: %s", str(e))
         return current_user
 
 

@@ -7,7 +7,7 @@ from quokka.core.tests import BaseTestCase
 from ..models import User, Role
 
 if sys.version_info.major == 3:
-    unicode = lambda x: u'{}'.format(x)
+    unicode = lambda x: u'{}'.format(x)  # flake8: noqa
 
 
 def eval_b(x):

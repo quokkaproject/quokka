@@ -47,7 +47,7 @@ cd quokka-env
 git clone https://github.com/quokkaproject/quokka
 
 cd quokka
-/home/quokka/quokka-env/bin/pip install -r requirements.txt
+/home/quokka/quokka-env/bin/pip install -r requirements/requirements.txt
 
 
 ## Populating with sample data
@@ -62,7 +62,7 @@ pip install --upgrade uwsgi
 # Prepare folders for uwsgi
 mkdir -p /etc/uwsgi && mkdir -p /var/log/uwsgi
 
- 
+
 echo 'server {
         listen          YOUR_SERVER_IP:80;
         server_name     YOUR_SERVER_FQDN;
@@ -72,7 +72,7 @@ echo 'server {
 		 client_body_buffer_size 32K;
 		 client_max_body_size 20M;
 		 sendfile on;
-         send_timeout 300s; 
+         send_timeout 300s;
 
         location ~ ^/(static|mediafiles)/ {
             root    /home/quokka/quokka-env/quokka/quokka;
@@ -82,7 +82,7 @@ echo 'server {
         }
 
         location / {
-            uwsgi_pass      unix:/home/quokka/quokka-env/quokka/etc/quokka.socket;
+            uwsgi_pass      unix:/home/quokka/quokka-env/quokka/etc/logs/quokka.socket;
             include         /etc/nginx/uwsgi_params;
             uwsgi_param     UWSGI_SCHEME $scheme;
             uwsgi_param     SERVER_SOFTWARE    nginx/$nginx_version;

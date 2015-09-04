@@ -14,7 +14,7 @@ class TextEditor(TextArea):
             'style_',
             "margin: 0px; width: 725px; height: 360px;"
         )
-        self.editor = kwargs.pop('editor', 'tinymce')
+        self.editor = kwargs.pop('editor', 'texteditor')
 
     def __call__(self, field, **kwargs):
         c = kwargs.pop('class', '') or kwargs.pop('class_', '')
@@ -26,7 +26,7 @@ class TextEditor(TextArea):
         html = super(TextEditor, self).__call__(field, **kwargs)
         html += render_template(
             'admin/texteditor/%s.html' % self.editor,
-            theme=current_app.config.get('ADMIN_THEME', 'cosmo'),
+            theme=current_app.config.get('ADMIN_THEME', 'admin'),
             selector='.' + self.css_cls
         )
         return html
@@ -43,7 +43,7 @@ class PrepopulatedText(TextInput):
         if self.master:
             html += render_template(
                 'admin/custom/prepopulated.html',
-                theme=current_app.config.get('ADMIN_THEME', 'cosmo'),
+                theme=current_app.config.get('ADMIN_THEME', 'admin'),
                 master=self.master,
                 slave=slave
             )

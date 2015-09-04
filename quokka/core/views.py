@@ -6,6 +6,14 @@ import hashlib
 import PyRSS2Gen as pyrss
 import sys
 
+from datetime import datetime, timedelta
+from flask import request, redirect, url_for, abort, current_app
+from flask.views import MethodView
+from quokka.utils.atom import AtomFeed
+from quokka.core.models import Channel, Content, Config
+from quokka.core.templates import render_template
+from quokka.utils import is_accessible, get_current_user
+
 # python3 support
 if sys.version_info.major == 3:
     from urllib.parse import urljoin
@@ -13,15 +21,6 @@ if sys.version_info.major == 3:
 else:
     from urlparse import urljoin
     # import StringIO
-
-from datetime import datetime, timedelta
-from flask import request, redirect, url_for, abort, current_app  # ,  Response
-from flask.views import MethodView
-from quokka.utils.atom import AtomFeed
-from quokka.core.models import Channel, Content, Config
-from quokka.core.templates import render_template
-from quokka.utils import is_accessible, get_current_user
-
 
 logger = logging.getLogger()
 
@@ -69,8 +68,10 @@ class ContentList(MethodView):
         if not is_accessible(roles_accepted=channel.roles):
             raise abort(403, "User has no role to view this channel content")
 
-        # if channel.is_homepage and request.path != "/":
-        #     return redirect("/")
+        if channel.is_homepage and request.path != channel.get_absolute_url():
+            return redirect(channel.get_absolute_url())
+
+        published_channels = Channel.objects(published=True).values_list('id')
 
         if channel.redirect_url:
             return redirect(channel.redirect_url)
@@ -86,7 +87,8 @@ class ContentList(MethodView):
         filters = {
             'published': True,
             'available_at__lte': now,
-            'show_on_channel': True
+            'show_on_channel': True,
+            'channel__in': published_channels
         }
 
         if not channel.is_homepage:
@@ -119,22 +121,20 @@ class ContentList(MethodView):
         elif channel.sort_by:
             contents = contents.order_by(*channel.sort_by)
 
-        if current_app.config.get("PAGINATION_ENABLED", True):
-            pagination_arg = current_app.config.get("PAGINATION_ARG", "page")
-            page = request.args.get(pagination_arg, 1)
-            per_page = (
-                request.args.get('per_page') or
-                channel.per_page or
-                current_app.config.get("PAGINATION_PER_PAGE", 10)
-            )
-            contents = contents.paginate(page=int(page),
-                                         per_page=int(per_page))
+        disabled_pagination = False
+        if not current_app.config.get("PAGINATION_ENABLED", True):
+            disabled_pagination = contents.count()
 
-        # this can be overkill! try another solution
-        # to filter out content in unpublished channels
-        # when homepage and also in blocks
-        # contents = [content for content in contents
-        #             if content.channel.published]
+        pagination_arg = current_app.config.get("PAGINATION_ARG", "page")
+        page = request.args.get(pagination_arg, 1)
+        per_page = (
+            disabled_pagination or
+            request.args.get('per_page') or
+            channel.per_page or
+            current_app.config.get("PAGINATION_PER_PAGE", 10)
+        )
+        contents = contents.paginate(page=int(page),
+                                     per_page=int(per_page))
 
         themes = channel.get_themes()
         return render_template(self.get_template_names(),
@@ -216,8 +216,24 @@ class ContentDetail(MethodView):
 
         return names
 
-    def get_context(self, long_slug, render_content=False):
+    def get_filters(self):
         now = datetime.now()
+        filters = {
+            'published': True,
+            'available_at__lte': now
+        }
+        return filters
+
+    def check_if_is_accessible(self, content):
+        if not content.channel.published:
+            return abort(404)
+
+        if not is_accessible(roles_accepted=content.channel.roles):
+            # Access control only takes main channel roles
+            # Need to deal with related channels
+            raise abort(403, "User has no role to view this channel content")
+
+    def get_context(self, long_slug, render_content=False):
         homepage = Channel.objects.get(is_homepage=True)
 
         if long_slug.startswith(homepage.slug) and \
@@ -226,10 +242,7 @@ class ContentDetail(MethodView):
             slug = long_slug.split('/')[-1]
             return redirect(url_for('detail', long_slug=slug))
 
-        filters = {
-            'published': True,
-            'available_at__lte': now
-        }
+        filters = self.get_filters()
 
         try:
             content = Content.objects.get(
@@ -243,13 +256,7 @@ class ContentDetail(MethodView):
                 **filters
             )
 
-        if not content.channel.published:
-            return abort(404)
-
-        if not is_accessible(roles_accepted=content.channel.roles):
-            # TODO: access control only takes main channel roles
-            # TODOC: deal with related channels
-            raise abort(403, "User has no role to view this channel content")
+        self.check_if_is_accessible(content=content)
 
         self.content = content
 
@@ -272,6 +279,21 @@ class ContentDetail(MethodView):
         )
 
 
+class ContentDetailPreview(ContentDetail):
+    def get_filters(self):
+        return {}
+
+    def check_if_is_accessible(self, content):
+        if not content.channel.published:
+            return abort(404)
+
+        if (get_current_user() not in content.get_authors()) or (
+                not is_accessible(roles_accepted=['admin', 'reviewer'])):
+            # access control only takes main channel roles
+            # need to deal with related channels
+            raise abort(403, "User has no role to view this channel content")
+
+
 class BaseTagView(MethodView):
     def get_contents(self, tag):
         now = datetime.now()
@@ -284,13 +306,19 @@ class BaseTagView(MethodView):
         # instantiate tag like channel for a list feed
         self.tag = tag
 
-        if current_app.config.get("PAGINATION_ENABLED", True):
-            pagination_arg = current_app.config.get("PAGINATION_ARG", "page")
-            page = request.args.get(pagination_arg, 1)
-            per_page = current_app.config.get(
-                "PAGINATION_PER_PAGE", 10
-            )
-            contents = contents.paginate(page=int(page), per_page=per_page)
+        disabled_pagination = False
+        if not current_app.config.get("PAGINATION_ENABLED", True):
+            disabled_pagination = contents.count()
+
+        pagination_arg = current_app.config.get("PAGINATION_ARG", "page")
+        page = request.args.get(pagination_arg, 1)
+        per_page = (
+            disabled_pagination or
+            request.args.get('per_page') or
+            current_app.config.get("TAGS_PAGINATION_PER_PAGE") or
+            current_app.config.get("PAGINATION_PER_PAGE", 10)
+        )
+        contents = contents.paginate(page=int(page), per_page=per_page)
 
         return contents
 
@@ -379,14 +407,14 @@ class BaseFeed(MethodView):
 
         # set rss.pubDate to the newest post in the collection
         # back 10 years in the past
-        rss_pubDate = datetime.today() - timedelta(days=365 * 10)
+        rss_pubdate = datetime.today() - timedelta(days=365 * 10)
 
         for content in contents:
             if not content.channel.include_in_rss:
                 continue
 
-            if content.created_at > rss_pubDate:
-                rss_pubDate = content.created_at
+            if content.created_at > rss_pubdate:
+                rss_pubdate = content.created_at
 
             if content.created_by:
                 author = content.created_by.name
@@ -408,7 +436,7 @@ class BaseFeed(MethodView):
             )
 
         # set the new published date after iterating the contents
-        rss.pubDate = rss_pubDate
+        rss.pubDate = rss_pubdate
 
         return rss.to_xml(encoding=conf.get('RSS_ENCODING', 'utf-8'))
 

@@ -7,9 +7,13 @@ build:
         name: quokka virtual env
         install_wheel: false
     - script:
+        name: install main requirements
+        code: |
+          pip install -r requirements/requirements.txt
+    - script:
         name: install test requirements
         code: |
-          pip install -r requirements_test.txt
+          pip install -r requirements/test.txt
     - script:
         name: Run Tests
         code: |
@@ -19,3 +23,8 @@ build:
         code: |
           echo "python version $(python --version) running"
           echo "pip version $(pip --version) running"
+  after-steps:
+    - slack-notifier:
+        url: $SLACK_URL
+        channel: wercker
+        username: wercker

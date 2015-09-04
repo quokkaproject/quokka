@@ -1,6 +1,6 @@
 .PHONY: run
 run:
-	python manage.py runserver
+	python manage.py runserver --reloader --debug
 
 .PHONY: shell
 shell:
@@ -8,7 +8,7 @@ shell:
 
 .PHONY: test
 test: pep8
-	python runtests.py	
+	QUOKKA_MODE=test py.test --cov quokka
 
 .PHONY: install
 install:

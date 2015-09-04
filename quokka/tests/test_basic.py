@@ -7,7 +7,8 @@ from quokka.core.admin import create_admin
 class BasicTestCase(TestCase):
 
     def setUp(self):
-        self.db = self.app.extensions.get('mongoengine')
+        self.db = list(self.app.extensions.get('mongoengine').keys())[0]
+        self.db.connection.drop_database('quokka_test')
         from quokka.utils.populate import Populate
         Populate(self.db)()
 
@@ -21,7 +22,7 @@ class BasicTestCase(TestCase):
         return self.app.get('/accounts/logout', follow_redirects=True)
 
     def get_config(self, key):
-        return self.app.config.get(key)
+        return self.app.config.store.get(key)
 
     def create_app(self):
         self.admin = create_admin()
@@ -35,15 +36,15 @@ class BasicTestCase(TestCase):
 
     def test_db_is_connected_in_the_test_database(self):
         self.assertTrue(
-            self.db.connection.port == self.get_config('MONGODB_PORT')
+            self.db.connection.PORT == self.get_config('MONGODB_PORT')
         )
         self.assertTrue(
-            self.db.connection.host == self.get_config('MONGODB_HOST')
+            self.db.connection.HOST == self.get_config('MONGODB_HOST')
         )
 
     def test_has_posts(self):
         from quokka.modules.posts.models import Post
-        self.assertTrue(Post.objects.count() == 6)
+        self.assertTrue(Post.objects.count() in [5, 6])
 
     def test_blog_has_only_one_post(self):
         from quokka.modules.posts.models import Post

@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-import json
 import logging
 import datetime
 import random
@@ -14,7 +13,9 @@ from quokka.core.fields import MultipleObjectsReturned
 from quokka.modules.accounts.models import User
 from quokka.utils.text import slugify
 from quokka.utils import get_current_user_for_models
-
+from quokka.utils.shorturl import ShorterURL
+from quokka.utils.settings import get_setting_value, get_site_url
+from .base_models.custom_values import HasCustomValue
 from .admin.utils import _l
 
 logger = logging.getLogger()
@@ -27,7 +28,7 @@ logger = logging.getLogger()
 class ContentFormat(object):
     content_format = db.StringField(
         choices=TEXT_FORMATS,
-        default="html"  # TODO: Find a way to set default form settings
+        default=get_setting_value('DEFAULT_TEXT_FORMAT', 'html')
     )
 
 
@@ -121,79 +122,6 @@ class Tagged(object):
     tags = db.ListField(db.StringField(max_length=50))
 
 
-def default_formatter(value):
-    return value
-
-
-class CustomValue(db.EmbeddedDocument):
-
-    FORMATS = (
-        ('json', "json"),
-        ('text', "text"),
-        ('int', "int"),
-        ('float', "float"),
-    )
-
-    DEFAULT_FORMATTER = default_formatter
-
-    FORMATTERS = {
-        'json': json.loads,
-        'text': DEFAULT_FORMATTER,
-        'int': int,
-        'float': float
-    }
-
-    REVERSE_FORMATTERS = {
-        'json': lambda val: val if isinstance(val, str) else json.dumps(val),
-        'text': DEFAULT_FORMATTER,
-        'int': DEFAULT_FORMATTER,
-        'float': DEFAULT_FORMATTER
-    }
-
-    name = db.StringField(max_length=50, required=True)
-    rawvalue = db.StringField(verbose_name=_l("Value"),
-                              required=True)
-    formatter = db.StringField(choices=FORMATS, default="text", required=True)
-
-    @property
-    def value(self):
-        return self.FORMATTERS.get(self.formatter,
-                                   self.DEFAULT_FORMATTER)(self.rawvalue)
-
-    @value.setter
-    def value(self, value):
-        self.rawvalue = self.REVERSE_FORMATTERS.get(self.formatter,
-                                                    self.STR_FORMATTER)(value)
-
-    def clean(self):
-        try:
-            self.value
-        except Exception as e:
-            # raise base exception because Flask-Admin can't handle the output
-            # for some specific Exceptions of Mongoengine
-            raise Exception(e.message)
-        super(CustomValue, self).clean()
-
-    def __unicode__(self):
-        return u"{s.name} -> {s.value}".format(s=self)
-
-
-class HasCustomValue(object):
-    values = db.ListField(db.EmbeddedDocumentField(CustomValue))
-
-    def get_values_tuple(self):
-        return [(value.name, value.value, value.formatter)
-                for value in self.values]
-
-    def clean(self):
-        current_names = [value.name for value in self.values]
-        for name in current_names:
-            if current_names.count(name) > 1:
-                raise Exception(_l("%(name)s already exists",
-                                   name=name))
-        super(HasCustomValue, self).clean()
-
-
 class Ordered(object):
     order = db.IntField(required=True, default=1)
 
@@ -252,7 +180,7 @@ class Channel(Tagged, HasCustomValue, Publishable, LongSlugged,
     sort_by = db.ListField(db.StringField(), default=[])
 
     meta = {
-        'ordering': ['order', 'title']
+        'ordering': ['order', 'title'],
     }
 
     def get_text(self):
@@ -336,12 +264,25 @@ class Channel(Tagged, HasCustomValue, Publishable, LongSlugged,
         return self.long_slug
 
     def get_absolute_url(self, *args, **kwargs):
+        if self.is_homepage:
+            return "/"
         return "/{0}/".format(self.long_slug)
 
     def get_canonical_url(self, *args, **kwargs):
+        """
+        This method should be reviewed
+        Canonical URL is the preferred URL for a content
+        when the content can be served by multiple URLS
+        In the case of channels it will never happen
+        until we implement the channel alias feature
+        """
         if self.is_homepage:
             return "/"
         return self.get_absolute_url()
+
+    def get_http_url(self):
+        site_url = Config.get('site', 'site_domain', request.url_root)
+        return u"{}{}".format(site_url, self.get_absolute_url())
 
     def clean(self):
         homepage = Channel.objects(is_homepage=True)
@@ -370,8 +311,8 @@ class Channel(Tagged, HasCustomValue, Publishable, LongSlugged,
         self.channel_type = self.channel_type or parent.channel_type
 
     def update_descendants_and_contents(self):
-        """TODO:
-        Detect if self.long_slug and self.mpath has changed.
+        """
+        Need to Detect if self.long_slug and self.mpath has changed.
         if so, update every descendant using get_descendatns method
         to query.
         Also update long_slug and mpath for every Content in this channel
@@ -385,6 +326,8 @@ class Channel(Tagged, HasCustomValue, Publishable, LongSlugged,
         self.validate_long_slug()
         self.heritage()
         self.update_descendants_and_contents()
+        if not self.channel_type:
+            self.channel_type = ChannelType.objects.first()
         super(Channel, self).save(*args, **kwargs)
 
 
@@ -435,22 +378,10 @@ class Config(HasCustomValue, ContentFormat, Publishable, db.DynamicDocument):
                 ret = None
 
         if not ret and group == 'settings' and name is not None:
-            ret = current_app.config.get(name)
+            # get direct from store to avoid infinite loop
+            ret = current_app.config.store.get(name)
 
         return ret or default
-
-    def save(self, *args, **kwargs):
-        super(Config, self).save(*args, **kwargs)
-
-        # Try to update the config for the running app
-        # AFAIK Flask apps are not thread safe
-        # TODO: do it in a signal
-        try:
-            if self.group == 'settings':
-                _settings = {i.name: i.value for i in self.values}
-                current_app.config.update(_settings)
-        except:
-            logger.warning("Cant update app settings")
 
     def __unicode__(self):
         return self.group
@@ -517,6 +448,14 @@ class License(db.EmbeddedDocument):
     identifier = db.StringField(max_length=255, choices=LICENSES)
 
 
+class ShortenedURL(db.EmbeddedDocument):
+    original = db.StringField(max_length=255)
+    short = db.StringField(max_length=255)
+
+    def __str__(self):
+        return self.short
+
+
 ###############################################################
 # Base Content for every new content to extend. inheritance=True
 ###############################################################
@@ -533,11 +472,12 @@ class Content(HasCustomValue, Publishable, LongSlugged,
     model = db.StringField()
     comments_enabled = db.BooleanField(default=True)
     license = db.EmbeddedDocumentField(License)
+    shortened_url = db.EmbeddedDocumentField(ShortenedURL)
 
     meta = {
         'allow_inheritance': True,
         'indexes': ['-created_at', 'slug'],
-        'ordering': ['-created_at']
+        'ordering': ['-created_at'],
     }
 
     @classmethod
@@ -565,7 +505,7 @@ class Content(HasCustomValue, Publishable, LongSlugged,
                     path = self.contents.get(identifier=item).content.thumb
                 return url_for('media', filename=path)
             except Exception as e:
-                logger.warning(str(e))
+                logger.warning('get_main_image_url:' + str(e))
 
         return default
 
@@ -580,8 +520,10 @@ class Content(HasCustomValue, Publishable, LongSlugged,
         return list(set(themes))
 
     def get_http_url(self):
-        site_url = Config.get('site', 'site_domain', request.url_root)
-        return u"{}{}".format(site_url, self.get_absolute_url())
+        site_url = get_site_url()
+        absolute_url = self.get_absolute_url()
+        absolute_url = absolute_url[1:]
+        return u"{}{}".format(site_url, absolute_url)
 
     def get_absolute_url(self, endpoint='detail'):
         if self.channel.is_homepage:
@@ -630,6 +572,10 @@ class Content(HasCustomValue, Publishable, LongSlugged,
         return self.title
 
     @property
+    def short_url(self):
+        return self.shortened_url.short if self.shortened_url else ''
+
+    @property
     def model_name(self):
         return self.__class__.__name__.lower()
 
@@ -643,16 +589,27 @@ class Content(HasCustomValue, Publishable, LongSlugged,
         self.model = "{0}.{1}".format(self.module_name, self.model_name)
 
     def save(self, *args, **kwargs):
-        # TODO: all those functions should be in a dynamic pipeline
+        # all those functions should be in a dynamic pipeline
         self.validate_slug()
         self.validate_long_slug()
         self.heritage()
         self.populate_related_mpath()
         self.populate_channel_roles()
+        self.populate_shorter_url()
         super(Content, self).save(*args, **kwargs)
 
     def pre_render(self, render_function, *args, **kwargs):
         return render_function(*args, **kwargs)
+
+    def populate_shorter_url(self):
+        if not self.published or not get_setting_value('SHORTENER_ENABLED'):
+            return
+
+        url = self.get_http_url()
+        if not self.shortened_url or url != self.shortened_url.original:
+            shortener = ShorterURL()
+            self.shortened_url = ShortenedURL(original=url,
+                                              short=shortener.short(url))
 
 
 class Link(Content):

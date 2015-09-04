@@ -3,7 +3,7 @@ mongo:
     ports:
       - "27017:27017"
     volumes:
-      - etc/mongodata:/data/db
+      - ./etc/mongodata:/data/db
 
 # elastic:
 #     image: catholabs/elastic-with-marvel
@@ -29,26 +29,7 @@ web:
     environment:
         - QUOKKA_MONGODB_HOST=mongo
         - WAIT_COMMAND=$(nc -zv mongo 27017)
-        - WAIT_START_CMD=python manage.py runserver --host 0.0.0.0 --reload --debug
+        - WAIT_START_CMD=python manage.py runserver --host 0.0.0.0 --reloader --debug
         - WAIT_SLEEP=3
         - WAIT_LOOPS=50
     mem_limit: 1000000000
-
-shell:
-    image: quokka/quokkadev
-    working_dir: /quokka
-    volumes:
-        - .:/quokka
-    links:
-        - mongo:mongo
-        # - elastic:elastic
-        - web:web
-    mem_limit: 1000000000
-    command: /bin/bash
-    stdin_open: true
-    tty: true
-    privileged: true
-    environment:
-        - RECSYS_ENV=docker
-        - C_FORCE_ROOT=1
-        - QUOKKA_MONGODB_HOST=mongo

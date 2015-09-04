@@ -46,6 +46,8 @@ tagged {% for tag in content.tags%}<a class="post-category post-category-design"
 {% macro render_grid(contents) %}
    {% for content in contents %}
        {{render_grid_item(content)}}
+   {% else%}
+       {{channel.get_text()|safe}}
    {% endfor %}
 {% endmacro %}
 
@@ -127,6 +129,8 @@ tagged {% for tag in content.tags%}<a class="post-category post-category-design"
 {% macro render_list(contents) %}
    {% for content in contents %}
        {{render_list_item(content)}}
+   {% else%}
+       {{channel.get_text()|safe}}
    {% endfor %}
 {% endmacro %}
 

@@ -3,7 +3,7 @@
      {% if Config.get('site', 'sidebar_color') %}
      style="background-color: Config.get('site', 'sidebar_color');"
      {% else %}
-     style="background-image: url('{{Config.get('site', 'sidebar_image', Config.get('site', 'sidebar_image', 'http://lorempixel.com/500/800/animals'))}}')"
+     style="background-image: url('{{Config.get('site', 'sidebar_image', theme_static('img/bg.jpg'))}}')"
      {% endif %}
     >
 
@@ -13,7 +13,7 @@
                     <h1 class="brand-main"><a href="/"><img src="{{ Config.get('site', 'site_logo', theme_static('img/logo.png')) }}" alt="{{Config.get('site', 'site_name')}}"></a></h1>
                     <p class="tagline">{{Config.get('site', 'site_tagline', '<b>The Happiest CMS in the World!</b>')|safe}}</p>
 
-                    {% for title, link in Config.get('site', 'menu_items', []) %}
+                    {% for title, link in Config.get('site', 'menu_items', []) or [] %}
                         <p class="links"><a href="{{ link }}">{{ title }}</a></p>
                     {% endfor %}
 
@@ -28,7 +28,7 @@
                     </div>
 
                     <p class="social">
-                      {% for title, link in Config.get('site', 'social_items', []) %}
+                      {% for title, link in Config.get('site', 'social_items', []) or [] %}
                       <a href="{{ link }}">
                           <i class="fa fa-{{ title }} fa-3x"></i>
                         </a>

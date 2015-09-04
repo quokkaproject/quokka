@@ -8,21 +8,24 @@ pylint:
     - protected-access
     - unused-variable
     - super-on-old-class
-    
+
 pep8:
   disable:
     - E1002
-    
+
 ignore-paths:
     - docs
-    - logs
     - quokka/static
+    - quokka/babel
     - quokka/templates
+    - quokka/mediafiles
+    - quokka/translations
     - quokka/themes
-    - quokka/fixtures
+    - etc
+    - .openshift
 
 requirements:
-    - requirements.txt
-    - requirements_test.txt
-    
+    - requirements/requirements.txt
+    - requirements/test.txt
+
 #max-line-length: 120

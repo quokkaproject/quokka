@@ -39,16 +39,20 @@ def get_authors(*args, **kwargs):
             **kwargs
         )
     )
-    if current_app.config.get("AUTHORS_PAGINATION_ENABLED", True):
-        # FIXME: Error when above is False
-        pagination_arg = current_app.config.get("PAGINATION_ARG", "page")
-        page = request.args.get(pagination_arg, 1)
-        per_page = (
-            request.args.get('per_page') or
-            current_app.config.get("AUTHORS_PAGINATION_PER_PAGE", 20)
-        )
-        authors = authors.paginate(page=int(page),
-                                   per_page=int(per_page))
+
+    disabled_pagination = False
+    if not current_app.config.get("AUTHORS_PAGINATION_ENABLED", True):
+        disabled_pagination = authors.count()
+
+    pagination_arg = current_app.config.get("PAGINATION_ARG", "page")
+    page = request.args.get(pagination_arg, 1)
+    per_page = (
+        disabled_pagination or
+        request.args.get('per_page') or
+        current_app.config.get("AUTHORS_PAGINATION_PER_PAGE", 20)
+    )
+    authors = authors.paginate(page=int(page),
+                               per_page=int(per_page))
     return authors
 
 

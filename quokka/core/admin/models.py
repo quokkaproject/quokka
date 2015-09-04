@@ -21,8 +21,8 @@ from quokka.core.templates import render_template
 from quokka.core.widgets import PrepopulatedText
 from quokka.core.admin.fields import ContentImageField
 from quokka.utils.upload import dated_path, lazy_media_path
-from quokka.utils import lazy_str_setting, is_accessible
-
+from quokka.utils import is_accessible
+from quokka.utils.settings import get_setting_value
 from .fields import ThumbField
 
 from .utils import _, _l, _n
@@ -63,12 +63,12 @@ def format_datetime(self, request, obj, fieldname, *args, **kwargs):
 
 
 def view_on_site(self, request, obj, fieldname, *args, **kwargs):
-    endpoint = kwargs.pop('endpoint', 'detail')
+    endpoint = kwargs.pop('endpoint', 'detail' if obj.published else 'preview')
     return html.a(
         href=obj.get_absolute_url(endpoint),
         target='_blank',
     )(html.i(class_="icon icon-eye-open", style="margin-right: 5px;")(),
-      _l('View on site'))
+      _l('View on site') if obj.published else _l('Preview on site'))
 
 
 def format_ul(self, request, obj, fieldname, *args, **kwars):
@@ -79,6 +79,14 @@ def format_ul(self, request, obj, fieldname, *args, **kwars):
     placeholder = _args.get('placeholder', u"{i}")
     lis = [html.li(placeholder.format(item=item)) for item in field]
     return ul(*lis)
+
+
+def format_link(self, request, obj, fieldname, *args, **kwars):
+    value = getattr(obj, fieldname)
+    return html.a(href=value, title=value, target='_blank')(
+        html.i(class_="icon  icon-resize-small",
+               style="margin-right: 5px;")()
+    )
 
 
 def format_status(self, request, obj, fieldname, *args, **kwargs):
@@ -125,7 +133,8 @@ class ModelAdmin(ThemeMixin, Roled, ModelView):
         'view_on_site': view_on_site,
         'ul': format_ul,
         'status': format_status,
-        'get_url': get_url
+        'get_url': get_url,
+        'link': format_link
     }
     column_formatters_args = {}
 
@@ -137,45 +146,6 @@ class ModelAdmin(ThemeMixin, Roled, ModelView):
             return self.model.objects.get(id=i)
         except self.model.DoesNotExist:
             flash(_("Item not found %(i)s", i=i), "error")
-
-    @action(
-        'toggle_publish',
-        _l('Publish/Unpublish'),
-        _l('Publish/Unpublish?')
-    )
-    def action_toggle_publish(self, ids):
-        for i in ids:
-            instance = self.get_instance(i)
-            instance.published = not instance.published
-            instance.save()
-        count = len(ids)
-        flash(_n('Item successfully published/Unpublished.',
-                 '%(count)s items were successfully published/Unpublished.',
-                 count,
-                 count=count))
-
-    @action(
-        'clone_item',
-        _l('Create a copy'),
-        _l('Are you sure you want a copy?')
-    )
-    def action_clone_item(self, ids):
-        if len(ids) > 1:
-            flash(
-                _("You can select only one item for this action"),
-                'error'
-            )
-            return
-
-        instance = self.get_instance(ids[0])
-        new = instance.from_json(instance.to_json())
-        new.id = None
-        new.published = False
-        new.last_updated_by = User.objects.get(id=current_user.id)
-        new.updated_at = datetime.datetime.now()
-        new.slug = "{0}-{1}".format(new.slug, random.getrandbits(32))
-        new.save()
-        return redirect(url_for('.edit_view', id=new.id))
 
     @action('export_to_json', _l('Export as json'))
     def export_to_json(self, ids):
@@ -209,6 +179,49 @@ class ModelAdmin(ThemeMixin, Roled, ModelView):
         )
 
 
+class PublishActions(object):
+    @action(
+        'toggle_publish',
+        _l('Publish/Unpublish'),
+        _l('Publish/Unpublish?')
+    )
+    def action_toggle_publish(self, ids):
+        for i in ids:
+            instance = self.get_instance(i)
+            instance.published = not instance.published
+            instance.save()
+        count = len(ids)
+        flash(_n('Item successfully published/Unpublished.',
+                 '%(count)s items were successfully published/Unpublished.',
+                 count,
+                 count=count))
+
+
+class ContentActions(object):
+    @action(
+        'clone_item',
+        _l('Create a copy'),
+        _l('Are you sure you want a copy?')
+    )
+    def action_clone_item(self, ids):
+        if len(ids) > 1:
+            flash(
+                _("You can select only one item for this action"),
+                'error'
+            )
+            return
+
+        instance = self.get_instance(ids[0])
+        new = instance.from_json(instance.to_json())
+        new.id = None
+        new.published = False
+        new.last_updated_by = User.objects.get(id=current_user.id)
+        new.updated_at = datetime.datetime.now()
+        new.slug = "{0}-{1}".format(new.slug, random.getrandbits(32))
+        new.save()
+        return redirect(url_for('.edit_view', id=new.id))
+
+
 class BaseIndexView(Roled, ThemeMixin, AdminIndexView):
     pass
 
@@ -217,7 +230,7 @@ class BaseView(Roled, ThemeMixin, AdminBaseView):
     pass
 
 
-class BaseContentAdmin(ModelAdmin):
+class BaseContentAdmin(ContentActions, PublishActions, ModelAdmin):
     """
     All attributes added here for example
     more info in admin source
@@ -234,13 +247,16 @@ class BaseContentAdmin(ModelAdmin):
     # edit_template = 'admin/custom/edit.html'
     # create_template = 'admin/custom/create.html'
 
-    column_list = ('title', 'slug', 'channel', 'published', 'created_at',
-                   'available_at', 'view_on_site')
+    column_list = (
+        'title', 'slug', 'channel', 'published', 'created_at',
+        'available_at', 'view_on_site'
+    )
 
     column_formatters = {
         'view_on_site': ModelAdmin.formatters.get('view_on_site'),
         'created_at': ModelAdmin.formatters.get('datetime'),
-        'available_at': ModelAdmin.formatters.get('datetime')
+        'available_at': ModelAdmin.formatters.get('datetime'),
+        'short_url': ModelAdmin.formatters.get('link')
     }
 
     # column_type_formatters = {}
@@ -299,8 +315,8 @@ class BaseContentAdmin(ModelAdmin):
         'add_image': ContentImageField(
             'Add new image',
             base_path=lazy_media_path(),
-            thumbnail_size=lazy_str_setting('MEDIA_IMAGE_THUMB_SIZE',
-                                            default=(100, 100, True)),
+            thumbnail_size=get_setting_value('MEDIA_IMAGE_THUMB_SIZE',
+                                             default=(100, 100, True)),
             endpoint="media",
             namegen=dated_path,
             permission=0o777,
@@ -309,11 +325,16 @@ class BaseContentAdmin(ModelAdmin):
     }
 
     # action_disallowed_list
-
     # page_size = 20
     # form_ajax_refs = {
     #     'main_image': {"fields": ('title',)}
     # }
+
+    def get_list_columns(self):
+        column_list = super(BaseContentAdmin, self).get_list_columns()
+        if get_setting_value('SHORTENER_ENABLED'):
+            column_list += [('short_url', 'Short URL')]
+        return column_list
 
     def after_model_change(self, form, model, is_created):
         if not hasattr(form, 'add_image'):

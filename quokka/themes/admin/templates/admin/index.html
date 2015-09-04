@@ -1,0 +1,88 @@
+{% extends theme('admin/master.html') %}
+
+{% block body %}
+    <div class="row">
+
+
+        <div class="well span8">
+            <h1>{{ admin_view.admin.name }}</h1>
+            <h3>{{_gettext('Latest Posts')}}:</h3>
+            <ul>
+                {% for post in get_contents(model='posts.post', limit=5) %}
+                    <li style="margin-bottom: 5px">
+                        {{ post.channel.title }} | {{ post.title }}
+                        | <i class={% if post.published %} "icon-ok-circle" {% else %} "icon-ban-circle" {% endif %}></i>
+                        <a class="btn btn-success btn-small" href="{{ url_for('post.edit_view', id=post.id)}}">
+                        <i class="icon-edit"></i> {{_gettext('Edit')}}</a>
+                          <a class="btn btn-primary btn-small" target="_blank" href="{{ post.get_absolute_url(endpoint='detail' if post.published else 'preview') }}">
+                          <i class="icon-globe"></i> {{_gettext('View') if post.published else _gettext('Preview')}}</a>
+                    </li>
+                {% else %}
+                    <li>{{ _gettext("There is no content yet!") }}<br><a class="btn btn-primary" href="{{ url_for('post.create_view') }}"><i class="icon-pencil"></i> {{_gettext('Create a new post')}}</a></li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <div class="well span3">
+            <h3>{{_gettext('Latest Comments')}}:</h3>
+            <ul>
+                {% for comment in get_comments(limit=3)  %}
+                    <li>
+                        {{ comment.author_name }} {{ _gettext('says') }}:
+                        <br><small>{{ comment.body[:140] }}</small>
+                        <br> <i class={% if comment.published %} "icon-ok-circle" {% else %} "icon-ban-circle" {% endif %}></i>
+                        <a  href="{{ url_for('comment.edit_view', id=comment.id)}}">
+                        <i class="icon-edit"></i> </a>
+                        <a target="_blank" href="{{ comment.get_canonical_url() }}">
+                        <i class="icon-globe"></i></a>
+                    </li>
+                {% else %}
+                    {{ _gettext("No comments yet!") }}
+                    <small>{{ _gettext("Internal comment system is enabled, if you want to change it click in config button and change from 'internal' to 'disqus' in comments configuration and set your disqus_script.") }}</small>
+                {% endfor %}
+            </ul>
+        </div>
+
+    </div>
+
+    <div class="row">
+    {% for endpoint, icon, text in config.get('ADMIN_ICONS', [])%}
+        <div class="span1">
+            <a href="{{ url_for(endpoint) }}" class="btn btn-primary">
+                <i class="icon-{{icon}} icon-white"></i>
+                <span><strong>{{_gettext(text)}}</strong></span>
+            </a>
+        </div>
+    {% endfor %}
+
+    </div>
+
+    <div class="row">
+    <div class="span1" style="margin-top: 30px;">
+    <form id="swatcher_form" action="{{url_for('accounts.set_swatch')}}" method="POST">
+        <input type="hidden" value="{{csrf_token()}}" name="csrf_token" id="csrf_token" />
+        <label>{{_gettext('Theme')}}</label>
+        <select id="swatch" name="swatch" onchange="$('#swatcher_form').submit();">
+            {% for swatch in (
+               'amelia',
+               'cerulean',
+               'cosmo',
+               'cyborg',
+               'default',
+               'flatly',
+               'journal',
+               'readable',
+               'simplex',
+               'slate',
+               'spacelab',
+               'spruce',
+               'superhero',
+               'united'
+            ) %}
+            <option id="{{swatch}}" value="{{swatch}}" {%if swatch == current_user.swatch %}selected{%endif%}>{{swatch}}</option>
+            {% endfor %}
+        </select>
+    </form>
+    </div>
+    </div>
+{% endblock %}

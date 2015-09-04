@@ -1,9 +1,0 @@
-{% from theme('_helpers.html') import render_grid, render_pagination with context %}
-{% extends theme("base.html") %}
-
-{% block content %}
-    {{render_grid(contents.items)}}
-    <div>
-     {{render_pagination(contents, channel.get_absolute_url())}}
-    </div>
-{% endblock %}

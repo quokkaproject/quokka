@@ -1,0 +1,12 @@
+{
+    "identifier":   "admin",
+    "application":  "quokka",
+    "name":         "Quokka bootstrap2 admin theme",
+    "description":  "Cosmo theme for quokka CMS.",
+    "author":       "Bruno Cezar Rocha",
+    "website":      "http://www.quokkaproject.org",
+    "license":      "WTF",
+    "preview":      "preview.png",
+    "doctype":      "html5",
+    "version":      "1.1.0"
+}

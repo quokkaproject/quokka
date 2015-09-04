@@ -1,0 +1,29 @@
+{% extends 'admin/master.html' %}
+{% import 'admin/lib.html' as lib with context %}
+
+{% block head %}
+    {{ super() }}
+    <link href="{{ theme_static('admin/css/bootstrap2/rediscli.css', v='1.0.0') }}" rel="stylesheet">
+{% endblock %}
+
+{% block body %}
+<div class="console">
+  <div class="console-container">
+  </div>
+  <div class="console-line">
+    <form action="#">
+      <input type="text"></input>
+    </form>
+  </div>
+</div>
+{% endblock %}
+
+{% block tail %}
+  {{ super() }}
+  <script src="{{ theme_static('admin/js/rediscli.js', v='1.0.0') }}"></script>
+  <script language="javascript">
+    $(function() {
+      var redisCli = new RedisCli({{ url_for('.execute_view')|tojson }});
+    });
+  </script>
+{% endblock %}

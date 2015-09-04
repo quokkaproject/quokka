@@ -69,28 +69,8 @@
                    "formatter": "text"
                },
                {
-                   "name": "sidebar_image",
-                   "rawvalue": "http://lorempixel.com/g/500/800/animals",
-                   "formatter": "text"
-               },
-               {
-                   "name": "admin_logo",
-                   "rawvalue": "",
-                   "formatter": "text"
-               },
-               {
-                   "name": "site_domain",
-                   "rawvalue": "",
-                   "formatter": "text"
-               },
-               {
                    "name": "google-analytics",
                    "rawvalue": "UA-65278590-1",
-                   "formatter": "text"
-               },
-               {
-                   "name": "google-site-verification",
-                   "rawvalue": "",
                    "formatter": "text"
                },
                {
@@ -186,7 +166,7 @@
             "title": "Home",
             "slug": "home",
             "description": "Home page",
-            "show_in_menu": true,
+            "show_in_menu": false,
             "is_homepage": true,
             "include_in_rss": true,
             "published": true,
@@ -395,6 +375,7 @@
                 "link" : "http://creativecommons.com",
                 "identifier" : "creative_commons_by_nc_nd"
             },
+            "content_format": "html",
             "body": "<p>Throughout Python's 20-plus year history, its quality has been in the hands of the volunteers around the world openly contributing to it. Thanks to Coverity, those volunteers have been pointed to many quality and security issues via Coverity Scan, a service which finds defects in C/C++ and Java projects at no cost.</p> <p> As the CPython project includes over 370,000 lines of C code*, accounting for 42% of the codebase, a lot of it lies outside of the analysis tools our community has created to work with Python code. Since 2006, Coverity's scans of that code have found nearly 1,000 defects, 860 of which our contributors have fixed.</p> <p> In an industry where the standard defect density is a rate of 1 per 1,000 lines of code, CPython has attained a rate of 0.005 defects per 1,000 lines, and \"introduces a new level of quality for open source software,\" said Coverity.</p> <p> \"Python is the model citizen of good code quality practices, and we applaud their contributors and maintainers for their commitment to quality,\" said Jennifer Johnson, chief marketing officer for Coverity.</p> <p> The PSF and the rest of the community join Coverity in applauding all of those who have contributed their time and effort to make CPython a better project, along with the countless others who contribute to a powerful landscape of Python interpreters.</p>"
         },
         {
@@ -409,6 +390,7 @@
                 "link" : "http://creativecommons.com",
                 "identifier" : "creative_commons_by_nc_nd"
             },
+            "content_format": "html",
             "body": "<div><p>We are discovering better ways of building communities by connecting people.</p><p>Through this endeavor we have come to value:</p><ul><li><strong>Trust</strong> - which must be respected and never put at risk;</li><li><strong>Dialog</strong> - is the way to establish a truly trustful relationship;</li><li><strong>Personal Contact</strong> - the richest experience, not matched by any media or technology;</li><li><strong>Transparency</strong> - the mean to maintain a sustainable community;</li><li><strong>Diversity</strong> - people have many interests, but if you need a label, label yourself as a human;</li><li><strong>Self-organization</strong> - leaders come and go, but there should be no owners;</li> <li><strong>Example</strong> - that's how you teach, live and learn;</li> <li><strong>Consistency</strong> - things take time, intensity is not always the answer;</li><li><strong>Give, give, give!</strong> - you'll be impressed by how fast things will come back;</li><li><strong>Do it!</strong> - as simple as you can, just what is essential to pass it forward.</li></ul><p>Together, these elements build the foundation of a <em>Small Act</em> capable of transforming people's lives.</p></div>"
         },
         {
@@ -422,6 +404,7 @@
                 "link" : "http://creativecommons.com",
                 "identifier" : "creative_commons_by_nc_nd"
             },
+            "content_format": "html",
             "body": "<p>Quokka provides a \"full-stack\" Flask application plus a bunch of selected extensions to provide all the needed CMS admin features and a flexible-easy way to extend the platform with <strong>quokka-modules</strong> built following the Flask <strong>Blueprints</strong> pattern.</p> <p align=\"center\"><a href=\"https://raw.github.com/pythonhub/quokka/master/docs/logo.png\" target=\"_blank\"><img src=\"https://raw.github.com/pythonhub/quokka/master/docs/logo.png\" alt=\"quokka cms\" style=\"max-width:100%;\"></a></p>"
         },
         {
@@ -454,11 +437,11 @@
         },
         {
             "title" : "Try Quokka CMS! write a post.",
-            "summary" : "Use default credentials to access http://demo.quokkaproject.org/admin \r\nuser: admin@example.com\r\npass: admin",
+            "summary" : "Use default credentials to access /admin \r\nuser: admin@example.com\r\npass: admin",
             "slug" : "try-quokka-cms",
             "channel": "blog",
             "tags": [ "quokka" ],
-            "body" : "## You can try Quokka ADMIN\r\n\r\nCreate some posts\r\n\r\n> Use default credentials to access http://demo.quokkaproject.org/admin \r\n\r\n- user: admin@example.com\r\n- password: admin",
+            "body" : "## You can try Quokka ADMIN\r\n\r\nCreate some posts\r\n\r\n> Use default credentials to access [/admin](/admin) \r\n\r\n- user: admin@example.com\r\n- password: admin",
             "license" : {
                 "title" : "Creative Commons",
                 "link" : "http://creativecommons.com",

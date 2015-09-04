@@ -1,0 +1,142 @@
+{% import theme('admin/layout.html') as layout with context -%}
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>{% block title %}{% if admin_view.category %}{{ admin_view.category }} - {% endif %}{{ admin_view.name }} - {{ admin_view.admin.name }}{% endblock %}</title>
+    {% block head_meta %}
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="">
+        <meta name="author" content="">
+    {% endblock %}
+    {% block head_css %}
+        <link href="{{ theme_static('bootstrap/bootstrap2/swatch/{}/bootstrap.min.css'.format(current_user.swatch), v='2.3.2') }}" rel="stylesheet">
+        <link href="{{ theme_static('bootstrap/bootstrap2/css/bootstrap-responsive.min.css', v='2.3.2') }}" rel="stylesheet">
+        <link href="{{ theme_static('admin/css/bootstrap2/admin.css', v='1.1.1') }}" rel="stylesheet">
+        <link href="{{ theme_static('admin/css/bootstrap2/quokka_admin.css', v='1.1.1') }}" rel="stylesheet">
+        <style>
+        body {
+            padding-top: 4px;
+        }
+        </style>
+    {% endblock %}
+    {% block head %}
+    {% endblock %}
+    {% block head_tail %}
+    {% endblock %}
+  </head>
+  <body>
+    {% block page_body %}
+    <div class="container">
+      <div class="navbar nav">
+        <div class="navbar-inner">
+          <div class="container">
+              <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </a>
+              {% block brand %}
+              <span class="brand"><img src="{{Config.get('site', 'admin_logo', theme_static('img/logo.png'))}}" alt="{{ admin_view.admin.name }}" height="20" style="height: 20px;"/></span>
+              {% endblock %}
+              <div class="nav-collapse collapse">
+                  {% block main_menu %}
+                  <ul class="nav">
+                    <!-- <li class="divider-vertical"></li> -->
+                    {{ layout.menu() }}
+                  </ul>
+                  {% endblock %}
+                  {% block menu_links %}
+                  <ul class="nav pull-right">
+                    {{ layout.menu_links() }}
+                  </ul>
+                  {% endblock %}
+
+                   {% block access_control %}
+                   <ul class="nav pull-right">
+                  		<!-- <li class="divider-vertical"></li> -->
+                  		<li class="dropdown">
+                  		<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                  		<img src="{{current_user.email | gravatar(size=20) }}" /> {{current_user.display_name}}
+                  		<b class="caret"></b>
+                  		</a>
+                  		<ul class="dropdown-menu">
+                  		    <li><a href="/"><i class="icon-globe"></i> Return to site</a></li>
+                  		    <li><a href="{{url_for_security('change_password')}}"><i class="icon-user"></i> Change password</a></li>
+                  		    <li><a href="{{url_for_security('logout')}}"><i class="icon-off"></i> Logout</a></li>
+                  		</ul>
+                  		</li>
+                   </ul>
+            	    {% endblock %}
+              </div>
+          </div>
+        </div>
+      </div>
+
+      {% block messages %}
+      {{ layout.messages() }}
+      {% endblock %}
+
+      {% set render_ctx = h.resolve_ctx() %}
+
+      {% block body %}{% endblock %}
+    </div>
+    {% endblock %}
+
+    {% block tail_js %}
+
+    <script src="{{ theme_static('vendor/jquery.min.js', v='2.1.4') }}" type="text/javascript"></script>
+    <script src="{{ theme_static('bootstrap/bootstrap2/js/bootstrap.min.js', v='2.3.2') }}" type="text/javascript"></script>
+    <script src="{{ theme_static('vendor/moment.min.js', v='2.9.0') }}" type="text/javascript"></script>
+    <script src="{{ theme_static('vendor/select2/select2.min.js', v='3.5.2') }}" type="text/javascript"></script>
+    <script src="{{ theme_static('admin/custom.js') }}"></script>
+
+    {% endblock %}
+
+    {% block tail %}
+    {% endblock %}
+
+    {% if request.endpoint.endswith(('edit_view', 'create_view')) %}
+    <link rel="stylesheet" href="{{theme_static('summernote/summernote.css')}}">
+    <link href="{{theme_static('fontawesome/css/font-awesome.min.css')}}" rel="stylesheet">
+    <script src="{{ theme_static('summernote/summernote.min.js') }}"></script>
+
+    <link rel="stylesheet" href="{{theme_static('markdown/css/bootstrap-markdown.min.css')}}">
+
+    {% for filename in ['bootstrap-markdown', 'hotkeys', 'marked.min', 'to-markdown']%}
+        <script src="{{ theme_static('markdown/js/%s.js' % filename) }}"></script>
+    {% endfor %}
+
+    <script>
+    // CODE to load text editors
+    if (document.getElementsByClassName('text_editor')[0] != undefined) {
+        var default_editor = '{{Config.get("settings", "DEFAULT_TEXT_FORMAT", "html")}}';
+        var selected_format = document.getElementById('content_format');
+        if (selected_format == null) {
+            if (default_editor == 'markdown') {
+                load_markdown_editor();
+            } else {
+                load_html_editor();
+            }
+        } else {
+            if (selected_format.value == 'markdown') {
+                load_markdown_editor();
+            } else {
+                load_html_editor();
+            }
+
+            selected_format.addEventListener('change', function(e){
+                if (selected_format.value == 'markdown') {
+                    destroy_html_editor();
+                    load_markdown_editor();
+                } else {
+                    destroy_markdown_editor();
+                    load_html_editor();
+                }
+            }, false);
+        }
+    }
+    </script>
+    {% endif %}
+
+  </body>
+</html>

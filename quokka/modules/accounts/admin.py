@@ -2,9 +2,9 @@
 from wtforms.fields import TextField
 from wtforms.widgets import PasswordInput
 from quokka import admin
-from quokka.core.admin import _, _l
 from quokka.core.admin.models import ModelAdmin
 from .models import Role, User, Connection
+from quokka.utils.translation import _l
 
 
 class UserAdmin(ModelAdmin):
@@ -16,7 +16,7 @@ class UserAdmin(ModelAdmin):
                     'confirmed_at',
                     'last_login_at', 'current_login_at', 'last_login_ip',
                     'current_login_ip', 'login_count', 'tagline',
-                    'bio', 'links')
+                    'bio', 'links', 'values')
 
     form_extra_fields = {
         "newpassword": TextField(widget=PasswordInput())
@@ -31,9 +31,14 @@ class UserAdmin(ModelAdmin):
 
 class RoleAdmin(ModelAdmin):
     roles_accepted = ('admin',)
-    column_list = ('name', 'description')
+    column_list = ('name', 'description', 'values')
 
 
-admin.register(User, UserAdmin, category=_("Accounts"), name=_l("User"))
-admin.register(Role, RoleAdmin, category=_("Accounts"), name=_l("Roles"))
-admin.register(Connection, category=_("Accounts"), name=_l("Connection"))
+class ConnectionAdmin(ModelAdmin):
+    roles_accepted = ('admin',)
+
+
+admin.register(User, UserAdmin, category=_l("Accounts"), name=_l("User"))
+admin.register(Role, RoleAdmin, category=_l("Accounts"), name=_l("Roles"))
+admin.register(Connection, ConnectionAdmin,
+               category=_l("Accounts"), name=_l("Connection"))

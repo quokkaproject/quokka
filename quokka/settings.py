@@ -122,14 +122,6 @@ FILE_ADMIN = [
 ]
 
 """
-This is for Flask-Collect extension
-you can install blueprints with static files and run
-python manage.py collectstatic to copy to main static folder
-"""
-COLLECT_STATIC_ROOT = STATIC_ROOT
-
-
-"""
 Activates Flask-Weasyprint extension
 so that Posts can be rendered to PDF just by
 changing the extension from .html to .pdf
@@ -160,7 +152,9 @@ DEBUG_TB_PANELS = (
     'flask.ext.mongoengine.panels.MongoDebugPanel',
     'flask_debugtoolbar.panels.logger.LoggingPanel',
     'flask_debugtoolbar.panels.profiler.ProfilerDebugPanel',
+    'flask_debugtoolbar.panels.config_vars.ConfigVarsDebugPanel',
 )
+
 
 """
 By default DEBUG_TOOLBAR is disabled
@@ -205,25 +199,23 @@ SECURITY_PASSWORD_HASH = 'pbkdf2_sha512'  # noqa
 SECURITY_URL_PREFIX = '/accounts'
 SECURITY_PASSWORD_SALT = '6e95b1ed-a8c3-4da0-8bac-6fcb11c39ab4'  # noqa
 SECURITY_EMAIL_SENDER = 'reply@localhost'
-SECURITY_REGISTERABLE = True
+SECURITY_REGISTERABLE = False
 SECURITY_CHANGEABLE = True
 SECURITY_RECOVERABLE = True
 SECURITY_TRACKABLE = True
 
+# Configurations below should be changes in local_settings
+# when email system got setted up
 SECURITY_SEND_REGISTER_EMAIL = False
 SECURITY_LOGIN_WITHOUT_CONFIRMATION = True
+SECURITY_SEND_PASSWORD_CHANGE_EMAIL = False
+SECURITY_SEND_PASSWORD_RESET_NOTICE_EMAIL = False
 
-"""
-Dealer can versionate static files if you are under a repo
-in most cases you dont need to change this config
-in templates you can do
-<script src="{{ url_for('static', filename='xxx.js')}}?version={{revision}}" >
-:revision: is the latest commit in the repository for this file.
-"""
-DEALER_PARAMS = dict(
-    backends=('git', 'mercurial', 'simple', 'null')
-)
-
+"Recaptcha for user register form"
+SECURITY_RECAPTCHA_ENABLED = False
+# RECAPTCHA_DATA_ATTRS = {'theme': 'dark'}
+# RECAPTCHA_PUBLIC_KEY = ''
+# RECAPTCHA_PRIVATE_KEY = ''
 
 """
 Internationalization for Flask-Admin
@@ -255,7 +247,26 @@ MEDIA_VIDEO_ALLOWED_EXTENSIONS = ('avi', 'mp4', 'mpeg')
 MEDIA_FILE_ALLOWED_EXTENSIONS = ('pdf', 'txt', 'doc', 'docx', 'xls', 'xmlsx')
 
 # default admin THEME
-ADMIN_THEME = 'cosmo'
+ADMIN_THEME = 'admin'
+"""
+https://bootswatch.com/2/ themes available:
+amelia cerulean cosmo cyborg default flatly
+journal readable simplex slate spacelab
+spruce superhero united
+"""
+ADMIN_SWATCH = 'default'
+
+ADMIN_ICONS = [
+    ('post.create_view', 'pencil', 'Write'),
+    ('post.index_view', 'th-list', 'Posts'),
+    ('config.index_view', 'cog', 'Config'),
+    ('user.index_view', 'user', 'Users'),
+    ('image.index_view', 'picture', 'Images'),
+    ('image.create_view', 'arrow-up', 'Upload'),
+    ('channel.index_view', 'th-list', 'Channels')
+]
+
+# front end theme
 DEFAULT_THEME = 'pure'
 
 # default content extension for url buildind
@@ -263,3 +274,19 @@ CONTENT_EXTENSION = "html"
 
 SENTRY_ENABLED = False
 SENTRY_DSN = ""
+
+# html or markdown
+DEFAULT_TEXT_FORMAT = "html"
+
+"Shortner urls configuration"
+SHORTENER_ENABLED = False
+
+"Note: if you enable shortener you have to define a SERVER_NAME"
+# SERVER_NAME = 'localhost'
+
+"Config shorter information"
+SHORTENER_SETTINGS = {"name": "BitlyShortener",
+                      "bitly_api_key": "R_7d84f09c68be4c749cac2a56ace2e73f",
+                      "bitly_token":
+                      "9964d1f9c8c8b4215f7690449f0980c4fe1a6906",
+                      "bitly_login": "quokkabitly"}

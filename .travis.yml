@@ -4,12 +4,10 @@ python:
   - "3.4"
 services: mongodb
 install:
-  - "pip install codecov"
-  - "pip install --upgrade -r requirements.txt"
-  - "pip install -r requirements_test.txt"
+  - "pip install --upgrade -r requirements/requirements.txt"
+  - "pip install --upgrade -r requirements/test.txt"
 script: make test
 after_success:
   - coveralls
-  - codecov
 notifications:
   slack: quokkaproject:pjF8y81mqwXxQRtf5sGz5zqr

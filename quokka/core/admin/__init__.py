@@ -14,7 +14,7 @@ from .views import (IndexView, InspectorView, LinkAdmin, ConfigAdmin,
                     SubContentPurposeAdmin, ChannelTypeAdmin,
                     ContentTemplateTypeAdmin, ChannelAdmin)
 
-from .utils import _, _l, _n
+from quokka.utils.translation import _l, _n
 
 '''
 _n is here only for backwards compatibility, to be imported by 3rd party
@@ -27,10 +27,10 @@ logger = logging.getLogger()
 
 class QuokkaAdmin(Admin):
     def register(self, model, view=None, *args, **kwargs):
-        View = view or ModelAdmin
-        self.add_view(View(model, *args, **kwargs))
+        _view = view or ModelAdmin
+        self.add_view(_view(model, *args, **kwargs))
         # try:
-        #     self.add_view(View(model, *args, **kwargs))
+        #     self.add_view(_view(model, *args, **kwargs))
         # except Exception as e:
         #     logger.warning(
         #         "admin.register({0}, {1}, {2}, {3}) error: {4}".format(
@@ -44,7 +44,7 @@ def create_admin(app=None):
     return QuokkaAdmin(app, index_view=index_view)
 
 
-def configure_admin(app, admin):
+def configure_admin(app, admin):  # noqa
 
     custom_index = app.config.get('ADMIN_INDEX_VIEW')
     if custom_index:
@@ -53,7 +53,7 @@ def configure_admin(app, admin):
             del admin._views[0]
         admin._views.insert(0, admin.index_view)
 
-    ADMIN = app.config.get(
+    admin_config = app.config.get(
         'ADMIN',
         {
             'name': 'Quokka Admin',
@@ -61,7 +61,7 @@ def configure_admin(app, admin):
         }
     )
 
-    for k, v in list(ADMIN.items()):
+    for k, v in list(admin_config.items()):
         setattr(admin, k, v)
 
     babel = app.extensions.get('babel')
@@ -91,8 +91,8 @@ def configure_admin(app, admin):
                 FileAdmin(
                     entry['path'],
                     entry['url'],
-                    name=entry['name'],
-                    category=entry['category'],
+                    name=_l(entry['name']),
+                    category=_l(entry['category']),
                     endpoint=entry['endpoint'],
                     roles_accepted=entry.get('roles_accepted'),
                     editable_extensions=entry.get('editable_extensions')
@@ -100,7 +100,7 @@ def configure_admin(app, admin):
             )
         except Exception as e:
             logger.info(e)
-            # TODO: check blueprint endpoisnt colision
+            #  need to check blueprint endpoisnt colision
 
     # register all themes in file manager
     for k, theme in app.theme_manager.themes.items():
@@ -119,7 +119,7 @@ def configure_admin(app, admin):
                     "/_themes/{0}/".format(theme.identifier),
                     name="{0}: {1} static files".format(suffix,
                                                         theme.identifier),
-                    category="Files",
+                    category=_l("Files"),
                     endpoint="{0}_static_files".format(theme.identifier),
                     roles_accepted=('admin', "editor"),
                     editable_extensions=app.config.get(
@@ -132,7 +132,7 @@ def configure_admin(app, admin):
                     "/theme_template_files/{0}/".format(theme.identifier),
                     name="{0}: {1} template files".format(suffix,
                                                           theme.identifier),
-                    category="Files",
+                    category=_l("Files"),
                     endpoint="{0}_template_files".format(theme.identifier),
                     roles_accepted=('admin', "editor"),
                     editable_extensions=app.config.get(
@@ -143,7 +143,7 @@ def configure_admin(app, admin):
             pass
 
     # adding views
-    admin.add_view(InspectorView(category=_("Settings"),
+    admin.add_view(InspectorView(category=_l("Settings"),
                                  name=_l("Inspector")))
 
     # adding extra views
@@ -151,7 +151,7 @@ def configure_admin(app, admin):
     for view in extra_views:
         admin.add_view(
             import_string(view['module'])(
-                category=_(view.get('category')),
+                category=_l(view.get('category')),
                 name=_l(view.get('name'))
             )
         )
@@ -160,25 +160,25 @@ def configure_admin(app, admin):
     admin.register(
         Link,
         LinkAdmin,
-        category=_("Content"),
+        category=_l("Content"),
         name=_l("Link")
     )
     admin.register(Config,
                    ConfigAdmin,
-                   category=_("Settings"),
+                   category=_l("Settings"),
                    name=_l("Config"))
     admin.register(SubContentPurpose,
                    SubContentPurposeAdmin,
-                   category=_("Settings"),
+                   category=_l("Settings"),
                    name=_l("Sub content purposes"))
     admin.register(ChannelType, ChannelTypeAdmin,
-                   category=_("Settings"), name=_l("Channel type"))
+                   category=_l("Settings"), name=_l("Channel type"))
     admin.register(ContentTemplateType,
                    ContentTemplateTypeAdmin,
-                   category=_("Settings"),
+                   category=_l("Settings"),
                    name=_l("Template type"))
     admin.register(Channel, ChannelAdmin,
-                   category=_("Content"), name=_l("Channel"))
+                   category=_l("Content"), name=_l("Channel"))
 
     # avoid registering twice
     if admin.app is None:

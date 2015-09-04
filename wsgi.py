@@ -6,12 +6,12 @@ from werkzeug.wsgi import DispatcherMiddleware
 from quokka import create_app, create_api
 from quokka.utils.paas import activate
 
-# If running on PAAS such as OpenShift or heroku may require venv activation
-activate()
-
 application = DispatcherMiddleware(create_app(), {
     '/api': create_api()
 })
+
+application = app = activate(application)
+
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Run Quokka App for WSGI")

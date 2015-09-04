@@ -3,13 +3,16 @@
 
 from random import randint
 from quokka.core.db import db
+from quokka.core.base_models.custom_values import HasCustomValue
 from quokka.utils.text import abbreviate, slugify
 from flask.ext.security import UserMixin, RoleMixin
 from flask.ext.security.utils import encrypt_password
+from .utils import ThemeChanger
 
 
 # Auth
-class Role(db.Document, RoleMixin):
+class Role(db.Document, ThemeChanger, HasCustomValue, RoleMixin):
+
     name = db.StringField(max_length=80, unique=True)
     description = db.StringField(max_length=255)
 
@@ -32,7 +35,7 @@ class UserLink(db.EmbeddedDocument):
     order = db.IntField(default=0)
 
 
-class User(db.DynamicDocument, UserMixin):
+class User(db.DynamicDocument, ThemeChanger, HasCustomValue, UserMixin):
     name = db.StringField(max_length=255)
     email = db.EmailField(max_length=255, unique=True)
     password = db.StringField(max_length=255)
@@ -76,6 +79,7 @@ class User(db.DynamicDocument, UserMixin):
         # for item in ['@', '.', '-', '+']:
         #     username = username.replace(item, '_')
         # return username
+        name = name or ''
         username = slugify(name)
         if cls.objects.filter(username=username).count():
             username = "{}{}".format(username, randint(1, 1000))
@@ -92,8 +96,8 @@ class User(db.DynamicDocument, UserMixin):
                    *args, **kwargs):
 
         username = username or cls.generate_username(name)
-        if "links" in kwargs:
-            kwargs["links"] = [UserLink(**link) for link in kwargs['links']]
+        if 'links' in kwargs:
+            kwargs['links'] = [UserLink(**link) for link in kwargs['links']]
 
         return cls.objects.create(
             name=name,

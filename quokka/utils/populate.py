@@ -4,7 +4,8 @@ import json
 import uuid
 
 from quokka.core.models import Channel, ChannelType, SubContentPurpose, \
-    Config, CustomValue, License
+    Config, License
+from quokka.core.base_models.custom_values import CustomValue
 from quokka.modules.accounts.models import User, Role
 from quokka.modules.posts.models import Post
 
@@ -23,8 +24,17 @@ class Populate(object):
         self.purposes = {}
         self.custom_values = {}
         self.load_fixtures()
+        self.baseurl = self.kwargs.get('baseurl', None)
+        self.app = self.kwargs.get('app', None)
 
     def __call__(self, *args, **kwargs):
+        if self.baseurl and self.app:
+            with self.app.test_request_context(base_url=self.baseurl):
+                self.pipeline()
+        else:
+            self.pipeline()
+
+    def pipeline(self):
         self.load_existing_users()
         self.create_users()
         self.create_configs()
@@ -263,7 +273,7 @@ class Populate(object):
         try:
             post = Post.objects.get(slug=data.get('slug'))
             logger.info("Post get: %s", post.title)
-        except Exception:
+        except:
             post = Post.objects.create(**data)
             logger.info("Post created: %s", post.title)
 

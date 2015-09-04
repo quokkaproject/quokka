@@ -1,0 +1,39 @@
+<script type="text/javascript">
+
+function load_html_editor(){
+   $('{{selector}}').summernote({
+      height: 300,                 // set editor height
+
+      minHeight: null,             // set minimum height of editor
+      maxHeight: null,             // set maximum height of editor
+
+      focus: true,                 // set focus to editable area after initializing summernote
+  });
+}
+
+function destroy_html_editor() {
+    $('{{selector}}').destroy();
+}
+
+function load_markdown_editor() {
+   $('{{selector}}').markdown({
+      savable:false,
+      hideable:false,
+      iconlibrary:'fa',
+      width: 800,
+      resize: 'both',
+      footer: 'Quokka CMS',
+      fullscreen: {enable:true, icons:'pen'}
+   });
+
+  $('.md-header').show();
+  $('.md-footer').show();
+  // $('.md-fullscreen-controls').show();
+}
+
+function destroy_markdown_editor() {
+  $('.md-header').hide();
+  $('.md-footer').hide();
+  // $('.md-fullscreen-controls').hide();
+}
+</script>

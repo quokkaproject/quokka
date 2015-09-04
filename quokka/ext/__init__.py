@@ -1,23 +1,13 @@
 # coding: utf-8
 from flask.ext.mail import Mail
-from flask.ext.security import Security as _Security
-from flask.ext.security import MongoEngineUserDatastore
 
-from dealer.contrib.flask import Dealer
 from quokka.core.db import db
 from quokka.core.cache import cache
 from quokka.core.admin import configure_admin
-from quokka.core.templates import render_template
-from quokka.modules.accounts.models import Role, User
 
 from . import (generic, babel, blueprints, error_handlers, context_processors,
                template_filters, before_request, views, themes, fixtures,
-               oauthlib, weasyprint)
-
-
-class Security(_Security):
-    def render_template(self, *args, **kwargs):
-        return render_template(*args, **kwargs)
+               oauthlib, weasyprint, security)
 
 
 def configure_extensions(app, admin):
@@ -25,7 +15,6 @@ def configure_extensions(app, admin):
     babel.configure(app)
     generic.configure(app)
     Mail(app)
-    Dealer(app)
     error_handlers.configure(app)
     db.init_app(app)
 
@@ -34,7 +23,7 @@ def configure_extensions(app, admin):
     context_processors.configure(app)
     template_filters.configure(app)
 
-    app.security = Security(app, MongoEngineUserDatastore(db, User, Role))
+    security.configure(app, db)
 
     fixtures.configure(app, db)
     blueprints.load_from_packages(app)
@@ -61,4 +50,10 @@ def configure_extensions(app, admin):
         from .sentry import configure
         configure(app)
 
+    return app
+
+
+def configure_extensions_min(app, admin):
+    db.init_app(app)
+    security.init_app(app, db)
     return app
