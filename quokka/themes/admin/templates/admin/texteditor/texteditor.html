@@ -15,17 +15,25 @@ function destroy_html_editor() {
     $('{{selector}}').destroy();
 }
 
-/* Load LEPTURE MARKDOWN EDITOR */
 function load_markdown_editor() {
-    markdown_editor = new Editor();
-    markdown_editor.render(
-        document.getElementsByClassName('{{selector|replace('.', '')}}')[0]
-    );
+   $('{{selector}}').markdown({
+      savable:false,
+      hideable:false,
+      iconlibrary:'fa',
+      width: 800,
+      resize: 'both',
+      footer: 'Quokka CMS',
+      fullscreen: {enable:true, icons:'pen'}
+   });
+
+  $('.md-header').show();
+  $('.md-footer').show();
+  // $('.md-fullscreen-controls').show();
 }
 
 function destroy_markdown_editor() {
-    markdown_editor.codemirror.toTextArea();
-    $(".editor-statusbar").remove();
-    $(".editor-toolbar").remove();
+  $('.md-header').hide();
+  $('.md-footer').hide();
+  // $('.md-fullscreen-controls').hide();
 }
 </script>

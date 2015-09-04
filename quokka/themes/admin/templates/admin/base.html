@@ -99,9 +99,13 @@
     <link rel="stylesheet" href="{{theme_static('summernote/summernote.css')}}">
     <link href="{{theme_static('fontawesome/css/font-awesome.min.css')}}" rel="stylesheet">
     <script src="{{ theme_static('summernote/summernote.min.js') }}"></script>
-    <script src="{{ theme_static('lepture/editor/marked.js') }}"></script>
-    <script src="{{ theme_static('lepture/editor/editor.js') }}"></script>
-    <link rel="stylesheet" href="{{theme_static('lepture/editor/editor.css')}}">
+
+    <link rel="stylesheet" href="{{theme_static('markdown/css/bootstrap-markdown.min.css')}}">
+
+    {% for filename in ['bootstrap-markdown', 'hotkeys', 'marked.min', 'to-markdown']%}
+        <script src="{{ theme_static('markdown/js/%s.js' % filename) }}"></script>
+    {% endfor %}
+
     <script>
     // CODE to load text editors
     if (document.getElementsByClassName('text_editor')[0] != undefined) {

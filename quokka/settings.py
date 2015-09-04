@@ -254,7 +254,7 @@ amelia cerulean cosmo cyborg default flatly
 journal readable simplex slate spacelab
 spruce superhero united
 """
-ADMIN_SWATCH = 'flatly'
+ADMIN_SWATCH = 'default'
 
 ADMIN_ICONS = [
     ('post.create_view', 'pencil', 'Write'),
