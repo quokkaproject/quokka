@@ -25,7 +25,7 @@
                             </a>
                             <h3><a class="post-title" href="{{url_for('authors.author', author_id=author.username)}}">{{ author.display_name }}</a></h3>
                                 <p class="post-meta">
-                                  {{author.tagline|truncate(255)|safe()}}
+                                  {{author.summary|striptags|safe()}}
                                 </p>
                                 <p class="post-meta">
                                     <ul>
@@ -39,7 +39,7 @@
                 {% endfor %}
 </div>
 
-        
+
 
                 {{render_pagination(authors, request.path)}}
                 {% include theme('footer.html') %}
