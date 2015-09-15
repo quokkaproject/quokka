@@ -4,7 +4,7 @@
 {%block title%} {{author.display_name}} | {{Config.get('site', 'site_name', 'Quokka site')}} {% endblock %}
 
 {% block seo_meta %}
-<meta name="description" content="{{author.bio or author.tagline}}">
+<meta name="description" content="{{author.summary|striptags}}">
 {% endblock %}
 
 {% block meta %}
