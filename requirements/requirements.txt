@@ -11,7 +11,7 @@ Flask-Gravatar==0.4.2
 Flask-Mistune==0.1.1
 quokka-flask-mongoengine==0.7.4
 Flask-OAuthlib==0.9.1
-quokka-flask-security==1.7.4
+quokka-flask-security==1.7.4dev2
 Pillow==2.9.0
 PyRSS2Gen==1.1
 requests==2.7.0
