@@ -13,7 +13,7 @@ tagged {% for tag in content.tags%}<a class="post-category post-category-design"
        {%if content.has_multiple_authors %}
            {% for author in content.get_authors()|sort(attribute="display_name") %}
                 {{render_author_avatar(author, size=144 / content.get_authors()|length)}}
-           {% endfor %} 
+           {% endfor %}
        {%else%}
           {% if content.created_by.email %}
               {{render_author_avatar(content.created_by)}}
@@ -33,8 +33,8 @@ tagged {% for tag in content.tags%}<a class="post-category post-category-design"
       {% endwith %}
       <p>
 
-          {{content.get_summary()|truncate(255)|safe()}} 
-      
+          {{content.get_summary()|truncate(255)|safe()}}
+
       </p>
   </div>
   <div class="post-meta">
@@ -96,7 +96,7 @@ tagged {% for tag in content.tags%}<a class="post-category post-category-design"
        {%if content.has_multiple_authors %}
            {% for author in content.get_authors()|sort(attribute="display_name") %}
                 {{render_author_avatar(author, size=144 / content.get_authors()|length)}}
-           {% endfor %} 
+           {% endfor %}
        {%else%}
           {% if content.created_by.email %}
               {{render_author_avatar(content.created_by)}}
@@ -116,8 +116,8 @@ tagged {% for tag in content.tags%}<a class="post-category post-category-design"
       {% endwith %}
       <p>
 
-          {{content.get_summary()|truncate(255)|safe()}} 
-      
+          {{content.get_summary()|truncate(255)|safe()}}
+
       </p>
   </div>
   <div class="post-meta">
@@ -285,12 +285,12 @@ tagged {% for tag in content.tags%}<a class="post-category post-category-design"
 
 
 {% macro load_page_content(content, truncate=None, sidebar=True, link_in_title=False, breadcrumbs=True, license=True, share=True, rec=True, comments=True, footer=True, container_css="") %}
-        
+
         {%if sidebar %}
         <div class="sidebar sidebar-article pure-u">
         <header class="header-article">
             <hgroup>
-              <a href="/" class="back-home"><img src="{{ Config.get('site', 'site_logo_internal', theme_static('img/logo_black.png')) }}" alt="{{Config.get('site', 'site_name')}}"></a>
+              <a href="/" class="back-home"><img class="internal-logo" src="{{ Config.get('site', 'site_logo_internal', theme_static('img/logo_black.png')) }}" alt="{{Config.get('site', 'site_name')}}"></a>
 
                  {% if content.has_multiple_authors %}
                   {%for author in content.get_authors()|sort(attribute="display_name")%}
@@ -316,8 +316,8 @@ tagged {% for tag in content.tags%}<a class="post-category post-category-design"
                     <h1>{{ content.title }}</h1>
                     {%else%}
                     <h3><a class="post-title" href="{{content.get_absolute_url()}}">{{ content.title }}</a></h3>
-                    {% endif %}      
-                    {% if breadcrumbs %}               
+                    {% endif %}
+                    {% if breadcrumbs %}
                     <p class="post-meta">
                     {{load_breadcrumbs()}}
                     </p>

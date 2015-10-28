@@ -17,24 +17,28 @@
 
                 {% for author in authors.items %}
                     <section class="post  pure-u-1-2 author-block">
-                        <header class="post-header">
-                            <a href="{{url_for('authors.author', author_id=author.username)}}" title="See posts by {{ author.display_name }}">
-                                {% if author.email %}
-                                    <img class="avatar" alt="{{ author.display_name }}" src="{{ author.get_gravatar_email() | gravatar(size=120) }}">
-                                {% endif %}
-                            </a>
-                            <h3><a class="post-title" href="{{url_for('authors.author', author_id=author.username)}}">{{ author.display_name }}</a></h3>
-                                <p class="post-meta">
-                                  {{author.summary|striptags|safe()}}
-                                </p>
-                                <p class="post-meta">
-                                    <ul>
-                                        {% for content in get_author_contents(author).items %}
-                                         <li> <a href="{{ content.get_absolute_url() }}"><small>{{ content.title }}</small></a> </li>
-                                        {% endfor %}
-                                    </ul>
-                                </p>
-                        </header>
+                    {% if author.email %}
+                    <figure>
+                        <a href="{{url_for('authors.author', author_id=author.username)}}"><img class="author_avatar" alt="{{ author.display_name }}" src="{{ author.get_gravatar_email() | gravatar(size=200) }}">
+                        </a>
+                        <figcaption><a class="post-title" href="{{url_for('authors.author', author_id=author.username)}}">{{ author.display_name }}</a>
+                        </figcaption>
+                    </figure>
+                     {{author.get_value('position')}}
+                     <p class="post-meta">
+                        {{author.tagline|striptags|safe()}}
+                     </p>
+                    {% endif %}
+                    <ul class="author-social author-social-grid">
+                      {% for link in author.links %}
+                        <li>
+                          <a target="_blank" href="{{link.link}}">
+                            <i class="fa fa-lg fa-fw fa-{{link.css_class or 'globe'}}"></i>
+                            <strong>{{link.title}}</strong>
+                          </a>
+                        </li>
+                      {% endfor %}
+                    </ul>
                     </section>
                 {% endfor %}
 </div>

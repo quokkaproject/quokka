@@ -2,7 +2,7 @@
    {% with has_children = node.get_children(show_in_menu=True).count() %}
     <li style="{{style}}" class="{%if allow_hover %}pure-menu-allow-hover{%endif%} pure-menu-item {%if request.path.startswith(node.get_absolute_url()) %}pure-menu-selected{% endif %} {%if has_children%}pure-menu-has-children{%endif%}">
         <a href="{{ node.get_absolute_url() }}" class="pure-menu-link">{{node.title}}</a>
-        {{build_main_nodes(parent=node)}}    
+        {{build_main_nodes(parent=node)}}
     </li>
     {% endwith %}
 {% endmacro %}
@@ -23,7 +23,31 @@
      {% endif %}
 {% endmacro %}
 
+{% macro render_small_author(author, size=30, multiple=False) %}
+    <a target="_blank" href="{{url_for('authors.author', author_id=author.username)}}">
+      {{ author.display_name }}
+    </a>
+    {% if multiple %}
+    ,
+    {% endif %}
+{% endmacro%}
+
 {% macro build_nodes(nodes)%}
+<div class="topbar" style="background-image: url('{{Config.get('site', 'sidebar_image', theme_static('img/bg.jpg'))}}')">
+<a href="/" class="back-home"><img class="internal-logo" src="{{ Config.get('site', 'logo_internal', theme_static('img/logo_black.png')) }}" alt="{{Config.get('site', 'site_name')}}"></a>
+{% if content %}
+     <small>Published in {{ content.created_at.strftime('%H:%M of %m/%d/%Y') }} by
+     {% if content.has_multiple_authors %}
+      {%for author in content.get_authors()|sort(attribute="display_name")%}
+         {{render_small_author(author, size=30 / content.get_authors()|length, multiple=True)}}
+      {% endfor %}
+     {% else %}
+     {{render_small_author(content.created_by)}}
+     {%endif%}
+     </small>
+{% endif %}
+
+</div>
 <nav class="pure-menu pure-menu-horizontal">
    {{build_main_nodes(nodes=nodes)}}
 </nav>
