@@ -61,7 +61,9 @@
                   		</a>
                   		<ul class="dropdown-menu">
                   		    <li><a href="/"><i class="icon-globe"></i> Return to site</a></li>
+                          {% if security.changeable %}
                   		    <li><a href="{{url_for_security('change_password')}}"><i class="icon-user"></i> Change password</a></li>
+                          {% endif %}
                   		    <li><a href="{{url_for_security('logout')}}"><i class="icon-off"></i> Logout</a></li>
                   		</ul>
                   		</li>

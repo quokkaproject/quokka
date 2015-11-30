@@ -5,6 +5,7 @@
 
 
         <div class="well span8">
+            {%if config.get('ADMIN_HEADER') %}{{config.get('ADMIN_HEADER')|safe}}{% endif %}
             <h1>{{ admin_view.admin.name }}</h1>
             <h3>{{_gettext('Latest Posts')}}:</h3>
             <ul>

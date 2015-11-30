@@ -48,3 +48,12 @@ def configure(app):
     @app.errorhandler(500)
     def server_error_page(error):
         return render_template("errors/server_error.html"), 500
+
+    # URLBUILD Error Handlers
+    def admin_icons_error_handler(error, endpoint, values):
+        "when some of default dashboard button is deactivated, avoids error"
+        if endpoint in [item[0] for item in app.config.get('ADMIN_ICONS', [])]:
+            return '/admin'
+        raise error
+
+    app.url_build_error_handlers.append(admin_icons_error_handler)
