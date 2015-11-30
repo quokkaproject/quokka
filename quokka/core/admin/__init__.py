@@ -15,6 +15,8 @@ from .views import (IndexView, InspectorView, LinkAdmin, ConfigAdmin,
                     ContentTemplateTypeAdmin, ChannelAdmin)
 
 from quokka.utils.translation import _l, _n
+from quokka.utils.settings import get_setting_value
+
 
 '''
 _n is here only for backwards compatibility, to be imported by 3rd party
@@ -28,7 +30,10 @@ logger = logging.getLogger()
 class QuokkaAdmin(Admin):
     def register(self, model, view=None, *args, **kwargs):
         _view = view or ModelAdmin
-        self.add_view(_view(model, *args, **kwargs))
+        admin_view_exclude = get_setting_value('ADMIN_VIEW_EXCLUDE', [])
+        identifier = '.'.join((model.__module__, model.__name__))
+        if identifier not in admin_view_exclude:
+            self.add_view(_view(model, *args, **kwargs))
         # try:
         #     self.add_view(_view(model, *args, **kwargs))
         # except Exception as e:
