@@ -59,7 +59,7 @@ def configure(app):
         if endpoint not in icons_endpoints:
             exc_type, exc_value, tb = sys.exc_info()
             if exc_value is error:
-                raise exc_type, exc_value, tb
+                raise exc_type, exc_value, tb  # noqa
             else:
                 raise error
         # admin home, instead of raising BuildError.
