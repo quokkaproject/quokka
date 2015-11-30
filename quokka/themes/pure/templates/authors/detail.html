@@ -4,7 +4,7 @@
 {%block title%} {{author.display_name}} | {{Config.get('site', 'site_name', 'Quokka site')}} {% endblock %}
 
 {% block seo_meta %}
-<meta name="description" content="{{author.bio or author.tagline}}">
+<meta name="description" content="{{author.summary|striptags}}">
 {% endblock %}
 
 {% block meta %}
@@ -14,7 +14,7 @@
     <meta property="og:title" content="{{ author.display_name }}" />
     <meta property="og:site_name" content="{{ Config.get('site', 'site_name') }}" />
     <meta property="og:url" content="{{url_for('authors.author', author_id=author.id)}}" />
-    <meta property="og:description" content="{{ author.bio|truncate(255)|striptags }}" />
+    <meta property="og:description" content="{{ author.summary|striptags }}" />
     <meta property="og:image" content="{{ author.get_gravatar_email() | gravatar(size=64) }}" />
 {% endblock meta %}
 

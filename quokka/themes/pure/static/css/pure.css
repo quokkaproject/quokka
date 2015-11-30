@@ -426,6 +426,23 @@ pre {
     opacity:1;
 }
 
+.author-social-grid {
+max-width: 100%;
+width: 100%;
+text-align: center;
+display: inline;
+padding: 0;
+}
+
+.author-social-grid li {
+    padding-bottom: 0;
+}
+
+
+.author-social-grid li a {
+    padding-left: 0;
+}
+
 .recaptchafield {
   margin-left: 120px;
 }

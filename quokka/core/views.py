@@ -58,6 +58,7 @@ class ContentList(MethodView):
         return names
 
     def get(self, long_slug):
+        # !!! filter available_until
         now = datetime.now()
         path = long_slug.split('/')
         mpath = ",".join(path)
@@ -225,7 +226,7 @@ class ContentDetail(MethodView):
         return filters
 
     def check_if_is_accessible(self, content):
-        if not content.channel.published:
+        if not content.channel.is_available:
             return abort(404)
 
         if not is_accessible(roles_accepted=content.channel.roles):

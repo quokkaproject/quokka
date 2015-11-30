@@ -61,6 +61,10 @@ class User(db.DynamicDocument, ThemeChanger, HasCustomValue, UserMixin):
     links = db.ListField(db.EmbeddedDocumentField(UserLink))
     gravatar_email = db.EmailField(max_length=255)
 
+    @property
+    def summary(self):
+        return (self.bio or self.tagline or '')[:255]
+
     def get_gravatar_email(self):
         return self.gravatar_email or self.email
 

@@ -176,18 +176,18 @@ pip install -r requirements/requirements.txt
 
     2. You can create a new admin user to login and start posting
     ```bash
-    docker-compose run shell python manage.py accounts_createsuperuser
+    docker-compose run web python manage.py accounts_createsuperuser
     ```
 
     3. Or populate with sample data (optional)
     ```bash
-    docker-compose run shell python manage.py populate
+    docker-compose run web python manage.py populate
     ```
     > credentials for /admin will be email: admin@example.com passwd: admin
 
     4. You enter Quokka Shell (in a separate console) or run any other command in place of **shell*
     ```bash
-    docker-compose run shell python manage.py shell
+    docker-compose run web python manage.py shell
     ```
 
 * ### Run standalone containers

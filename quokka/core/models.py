@@ -55,6 +55,16 @@ class Owned(object):
 class Publishable(Dated, Owned):
     published = db.BooleanField(default=False)
 
+    @property
+    def is_available(self):
+        now = datetime.datetime.now()
+        return (
+            self.published and
+            self.available_at <= now and
+            (self.available_until is None or
+             self.available_until >= now)
+        )
+
     def save(self, *args, **kwargs):
         self.updated_at = datetime.datetime.now()
 

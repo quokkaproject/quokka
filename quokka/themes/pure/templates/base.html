@@ -23,6 +23,7 @@
       <link rel="alternate" type="application/atom+xml" title="{{ channel.title|title }} Posts (Atom 0.3)" href="{{url_for('atom_list', long_slug=channel.long_slug)}}">
       <link rel="alternate" type="application/rss+xml" title="{{ channel.title|title }} Posts (RSS 2.0)" href="{{ url_for('rss_list', long_slug=channel.long_slug) }}">
     {% endif %}
+    <link rel="icon" type="image/x-icon" href="{{theme_static('favicon.ico')}}" />
     <link rel="shortcut icon" href="{{theme_static('favicon.ico')}}">
 
     <title>{%block title%}{{Config.get('site', 'site_name', 'The Happiest CMS in the World')}}{% endblock %}</title>
