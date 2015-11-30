@@ -16,7 +16,7 @@ install:
 
 .PHONY: pep8
 pep8:
-	@flake8 quokka --ignore=F403,E901 --exclude=migrations
+	@flake8 quokka --ignore=F403 --exclude=migrations
 
 .PHONY: sdist
 sdist: test

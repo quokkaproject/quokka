@@ -1,5 +1,4 @@
 # coding: utf-8
-import sys
 from quokka.core.templates import render_template
 
 
@@ -53,16 +52,8 @@ def configure(app):
     # URLBUILD Error Handlers
     def admin_icons_error_handler(error, endpoint, values):
         "when some of default dashboard button is deactivated, avoids error"
-        icons_endpoints = [
-            item[0] for item in app.config.get('ADMIN_ICONS', [])
-        ]
-        if endpoint not in icons_endpoints:
-            exc_type, exc_value, tb = sys.exc_info()
-            if exc_value is error:
-                raise exc_type, exc_value, tb  # noqa
-            else:
-                raise error
-        # admin home, instead of raising BuildError.
-        return '/admin'
+        if endpoint in [item[0] for item in app.config.get('ADMIN_ICONS', [])]:
+            return '/admin'
+        raise error
 
     app.url_build_error_handlers.append(admin_icons_error_handler)
