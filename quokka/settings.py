@@ -284,6 +284,26 @@ SHORTENER_ENABLED = False
 "Note: if you enable shortener you have to define a SERVER_NAME"
 # SERVER_NAME = 'localhost'
 
+"Redirect aliases is enabled?"
+ALIASES_ENABLED = True
+
+"""
+ALIASES_MAP
+keys are long_slug
+    keys should always start with /
+    & end with / or extension.
+{
+    "/team/": {
+        "alias_type": "endpoint|long_slug|url|string",
+        "to": "authors|/articles/science.html|http://t.co|'<b>Hello</b>'",
+        "published": True,
+        "available_at": "",
+        "available_until: "",
+    }
+}
+"""
+ALIASES_MAP = {}
+
 "Config shorter information"
 SHORTENER_SETTINGS = {"name": "BitlyShortener",
                       "bitly_api_key": "R_7d84f09c68be4c749cac2a56ace2e73f",
