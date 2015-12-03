@@ -4,6 +4,7 @@
 from flask import redirect, request, url_for
 from flask.views import MethodView
 from quokka.utils import get_current_user
+from flask.ext.security.utils import url_for_security
 from flask.ext.security import current_user
 from flask.ext.mongoengine.wtf import model_form
 from quokka.core.templates import render_template
