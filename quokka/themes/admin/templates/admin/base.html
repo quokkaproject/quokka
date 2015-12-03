@@ -116,13 +116,13 @@
         if (selected_format == null) {
             if (default_editor == 'markdown') {
                 load_markdown_editor();
-            } else {
+            } else if (default_editor == 'html') {
                 load_html_editor();
             }
         } else {
             if (selected_format.value == 'markdown') {
                 load_markdown_editor();
-            } else {
+            } else if (selected_format.value == 'html') {
                 load_html_editor();
             }
 
@@ -130,9 +130,12 @@
                 if (selected_format.value == 'markdown') {
                     destroy_html_editor();
                     load_markdown_editor();
-                } else {
+                } else if (selected_format.value == 'html') {
                     destroy_markdown_editor();
                     load_html_editor();
+                } else {
+                    destroy_markdown_editor();
+                    destroy_html_editor()
                 }
             }, false);
         }

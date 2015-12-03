@@ -8,7 +8,7 @@ shell:
 
 .PHONY: test
 test: pep8
-	QUOKKA_MODE=test py.test --cov quokka
+	QUOKKA_MODE=test py.test --cov=quokka quokka/
 
 .PHONY: install
 install:
