@@ -1,0 +1,33 @@
+{% from theme("security/_macros.html") import render_field_with_errors, render_field, render_button %}
+{% extends theme("base.html") %}
+
+{% block content %}
+<div class="pure-g-r" id="layout">
+    {% include theme('sidebar.html') %}
+    <div class="pure-u-1">
+        <div class="content">
+            <!-- A wrapper for all the blog posts -->
+            <div class="posts">
+              <h1>Edit Profile</h1>
+                <form  action="{{ url_for('accounts.profile_edit') }}" method="POST" name="change_password_form" class="pure-form pure-form-aligned" role="form">
+                <fieldset>
+                 {% for field in form %}
+
+                  {% if field.type in ['CSRFTokenField', 'HiddenField'] %}
+                    {{ field() }}
+                  {%elif field.type == 'FieldList' %}
+                      {{field()}}
+                  {% else %}
+                      {{ render_field_with_errors(field,  class="form-control") }}
+                  {% endif %}
+
+                  {% endfor %}
+
+                  <input type='submit' class="pure-button pure-button-primary">
+                </fieldset>
+              </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

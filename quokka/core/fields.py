@@ -120,6 +120,10 @@ class FilteredList(BaseList):
 
 
 class ListField(fields.ListField):
+
+    validators = []  # should be removed when flask.mongoengine updates
+    filters = []  # should be removed ""
+
     def __get__(self, *args, **kwargs):
         value = super(ListField, self).__get__(*args, **kwargs)
         inject(value)

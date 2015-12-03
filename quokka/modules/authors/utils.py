@@ -35,7 +35,7 @@ def get_author_contents(author):
 def get_authors(*args, **kwargs):
     authors = User.objects.filter(
         roles__in=Role.objects.filter(
-            name__in=['admin', 'author'],
+            name__in=['author'],
             **kwargs
         )
     )

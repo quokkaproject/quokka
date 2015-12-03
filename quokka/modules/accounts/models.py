@@ -59,7 +59,15 @@ class User(db.DynamicDocument, ThemeChanger, HasCustomValue, UserMixin):
     tagline = db.StringField(max_length=255)
     bio = db.StringField()
     links = db.ListField(db.EmbeddedDocumentField(UserLink))
+
+    use_avatar_from = db.StringField(
+        choices=(("gravatar", "gravatar"), ("url", "url"), ("file", "file")),
+        default='gravatar'
+    )
     gravatar_email = db.EmailField(max_length=255)
+    avatar_file_path = db.StringField()
+    avatar_url = db.StringField(max_length=255)
+    # facebook image should be get from connections
 
     @property
     def summary(self):
