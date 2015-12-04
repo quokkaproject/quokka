@@ -3,17 +3,17 @@ import json
 import random
 import datetime
 
-from flask.ext.admin.contrib.mongoengine import ModelView
-from flask.ext.admin.contrib.fileadmin import FileAdmin as _FileAdmin
-from flask.ext.admin.babel import gettext, ngettext
-from flask.ext.admin import AdminIndexView
-from flask.ext.admin import BaseView as AdminBaseView
-from flask.ext.admin.actions import action
-from flask.ext.admin import helpers as h
-from flask.ext.security import current_user
-from flask.ext.security.utils import url_for_security
 from flask import redirect, flash, url_for, Response, current_app
 
+from flask_admin.contrib.mongoengine import ModelView
+from flask_admin.contrib.fileadmin import FileAdmin as _FileAdmin
+from flask_admin.babel import gettext, ngettext
+from flask_admin import AdminIndexView
+from flask_admin import BaseView as AdminBaseView
+from flask_admin.actions import action
+from flask_admin import helpers as h
+from flask_security import current_user
+from flask_security.utils import url_for_security
 from flask.ext.htmlbuilder import html
 
 from quokka.modules.accounts.models import User
