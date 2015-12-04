@@ -3,20 +3,22 @@
 
 import logging
 from werkzeug.utils import import_string
+
 from flask import request, session
 from flask.ext.admin import Admin
 
-from ..models import (Link, Config, SubContentPurpose, ChannelType,
-                      ContentTemplateType, Channel)
+from quokka.core.models.subcontent import SubContentPurpose
+from quokka.core.models.config import Config
+from quokka.core.models.channel import Channel, ChannelType
+from quokka.core.models.content import Link, ContentTemplateType
+
+from quokka.utils.translation import _l, _n
+from quokka.utils.settings import get_setting_value
 
 from .models import ModelAdmin, FileAdmin, BaseIndexView
 from .views import (IndexView, InspectorView, LinkAdmin, ConfigAdmin,
                     SubContentPurposeAdmin, ChannelTypeAdmin,
                     ContentTemplateTypeAdmin, ChannelAdmin)
-
-from quokka.utils.translation import _l, _n
-from quokka.utils.settings import get_setting_value
-
 
 '''
 _n is here only for backwards compatibility, to be imported by 3rd party
