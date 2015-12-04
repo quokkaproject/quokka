@@ -30,20 +30,14 @@ logger = logging.getLogger()
 
 
 class QuokkaAdmin(Admin):
+    registered = []
     def register(self, model, view=None, *args, **kwargs):
         _view = view or ModelAdmin
         admin_view_exclude = get_setting_value('ADMIN_VIEW_EXCLUDE', [])
         identifier = '.'.join((model.__module__, model.__name__))
-        if identifier not in admin_view_exclude:
+        if identifier not in admin_view_exclude and not identifier in self.registered:
             self.add_view(_view(model, *args, **kwargs))
-        # try:
-        #     self.add_view(_view(model, *args, **kwargs))
-        # except Exception as e:
-        #     logger.warning(
-        #         "admin.register({0}, {1}, {2}, {3}) error: {4}".format(
-        #             model, view, args, kwargs, e.message
-        #         )
-        #     )
+            self.registered.append(identifier)
 
 
 def create_admin(app=None):
