@@ -34,6 +34,7 @@ def load_from_folder(app):
         if not os.path.exists(os.path.join(path, fname, 'DISABLED')) and  \
                 os.path.isdir(os.path.join(path, fname)) and \
                 os.path.exists(os.path.join(path, fname, '__init__.py')):
+                # TODO: CHANGE TO main.py
 
             # register blueprint object
             module_name = ".".join([base_module_name, fname])
