@@ -86,7 +86,7 @@ class Content(HasCustomValue, Publishable, LongSlugged,
                     path = self.contents.get(identifier=item).content.path
                 else:
                     path = self.contents.get(identifier=item).content.thumb
-                return url_for('media', filename=path)
+                return url_for('quokka.core.media', filename=path)
             except Exception as e:
                 logger.warning('get_main_image_url:' + str(e))
 

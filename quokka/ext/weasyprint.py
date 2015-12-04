@@ -31,6 +31,7 @@ def configure(app):
     if app.config.get('ENABLE_TO_PDF', False) and not import_error:
 
         def render_to_pdf(long_slug):
-            return render_pdf(url_for('detail', long_slug=long_slug))
+            return render_pdf(url_for('quokka.core.detail', long_slug=long_slug))
 
-        app.add_url_rule('/<path:long_slug>.pdf', view_func=render_to_pdf)
+        app.add_quokka_url_rule('/<path:long_slug>.pdf',
+                                view_func=render_to_pdf)

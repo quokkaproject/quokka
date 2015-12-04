@@ -58,7 +58,10 @@ class ProfileEditView(MethodView):
         if not current_user.is_authenticated():
             nex = kwargs.get(
                 'next',
-                request.values.get('next', url_for('accounts.profile_edit'))
+                request.values.get(
+                    'next',
+                    url_for('quokka.modules.accounts.profile_edit')
+                )
             )
             return redirect(url_for_security('login', next=nex))
 
@@ -69,4 +72,13 @@ class ProfileEditView(MethodView):
         )
 
     def post(self):
-        return redirect(url_for('accounts.profile_edit'))
+        form = self.form(request.form)
+        if form.validate():
+            user = get_current_user()
+            form.populate_obj(user)
+            user.save()
+            flash('Profile saved!', 'alert')
+            return redirect(url_for('quokka.modules.accounts.profile_edit'))
+        else:
+            flash('Error ocurred!', 'alert error')  # form errors
+            return render_template('accounts/profile_edit.html', form=form)

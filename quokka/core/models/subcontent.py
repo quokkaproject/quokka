@@ -37,7 +37,7 @@ class SubContent(Publishable, Ordered, db.EmbeddedDocument):
     @property
     def thumb(self):
         try:
-            return url_for('media', filename=self.content.thumb)
+            return url_for('quokka.core.media', filename=self.content.thumb)
             # return self.content.thumb
         except Exception as e:
             logger.warning(str(e))

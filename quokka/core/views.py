@@ -243,7 +243,7 @@ class ContentDetail(MethodView):
                 len(long_slug.split('/')) < 3 and \
                 not render_content:
             slug = long_slug.split('/')[-1]
-            return redirect(url_for('detail', long_slug=slug))
+            return redirect(url_for('quokka.core.detail', long_slug=slug))
 
         filters = self.get_filters()
 
