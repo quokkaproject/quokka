@@ -3,9 +3,11 @@ import logging
 import json
 import uuid
 
-from quokka.core.models import Channel, ChannelType, SubContentPurpose, \
-    Config, License
-from quokka.core.base_models.custom_values import CustomValue
+from quokka.core.models.subcontent import SubContentPurpose
+from quokka.core.models.channel import Channel, ChannelType
+from quokka.core.models.config import Config
+from quokka.core.models.content import License
+from quokka.core.models.custom_values import CustomValue
 from quokka.modules.accounts.models import User, Role
 from quokka.modules.posts.models import Post
 

@@ -10,7 +10,7 @@ from quokka.core.views import (
     TagList
 )
 from quokka.core.views import TagAtom, FeedAtom, TagRss, FeedRss
-from quokka.core.models import Channel
+from quokka.core.models.channel import Channel
 
 
 @roles_accepted('admin', 'developer')

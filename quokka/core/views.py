@@ -10,7 +10,9 @@ from datetime import datetime, timedelta
 from flask import request, redirect, url_for, abort, current_app
 from flask.views import MethodView
 from quokka.utils.atom import AtomFeed
-from quokka.core.models import Channel, Content, Config
+from quokka.core.models.channel import Channel
+from quokka.core.models.config import Config
+from quokka.core.models.content import Content
 from quokka.core.templates import render_template
 from quokka.utils import is_accessible, get_current_user
 

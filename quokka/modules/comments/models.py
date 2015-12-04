@@ -1,7 +1,7 @@
 # coding: utf-8
 import uuid
 from quokka.core.db import db
-from quokka.core.models import Publishable
+from quokka.core.models.signature import Publishable
 from quokka.utils.settings import get_setting_value
 
 

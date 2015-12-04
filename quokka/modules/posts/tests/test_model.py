@@ -2,7 +2,7 @@
 import sys
 
 from quokka.core.tests import BaseTestCase
-from quokka.core.models import Channel
+from quokka.core.models.channel import Channel
 
 from ..models import Post
 

@@ -2,7 +2,8 @@
 import logging
 
 from quokka.core.db import db
-from quokka.core.models import Content, Channel
+from quokka.core.models.channel import Channel
+from quokka.core.models.content import Content
 from flask.ext.admin import form
 from .controller import MediaController
 

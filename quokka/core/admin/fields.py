@@ -8,7 +8,7 @@ from flask.ext.admin import form
 from flask.ext.admin.form.upload import ImageUploadInput
 from flask.ext.admin._compat import urljoin
 
-from quokka.core.models import SubContent, SubContentPurpose
+from quokka.core.models.subcontent import SubContent, SubContentPurpose
 from quokka.modules.media.models import Image
 
 if sys.version_info.major == 3:

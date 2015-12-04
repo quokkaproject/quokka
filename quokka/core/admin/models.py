@@ -23,9 +23,9 @@ from quokka.core.admin.fields import ContentImageField
 from quokka.utils.upload import dated_path, lazy_media_path
 from quokka.utils import is_accessible
 from quokka.utils.settings import get_setting_value
-from .fields import ThumbField
 
-from .utils import _, _l, _n
+from quokka.core.admin.fields import ThumbField
+from quokka.core.admin.utils import _, _l, _n
 
 
 class ThemeMixin(object):

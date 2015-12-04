@@ -2,9 +2,7 @@
 import os
 import importlib
 import random
-import logging
-from .commands_collector import CommandsCollector
-logger = logging.getLogger()
+from quokka.ext.commands_collector import CommandsCollector
 
 
 def load_from_packages(app):
@@ -43,11 +41,12 @@ def load_from_folder(app):
             blueprint = getattr(mods[fname], object_name)
 
             if blueprint.name not in app.blueprints:
+                app.logger.info("registering blueprint: %s" % blueprint.name)
                 app.register_blueprint(blueprint)
             else:
                 blueprint.name += str(random.getrandbits(8))
                 app.register_blueprint(blueprint)
-                logger.warning(
+                app.logger.warning(
                     "CONFLICT:%s already registered, using %s",
                     fname,
                     blueprint.name
@@ -56,10 +55,12 @@ def load_from_folder(app):
             # register admin
             try:
                 importlib.import_module(".".join([module_name, 'admin']))
-            except ImportError:
-                logger.info("%s module does not define admin", fname)
+            except ImportError as e:
+                app.logger.info(
+                    "%s module does not define admin or error: %s", fname, e
+                )
 
-    logger.info("%s modules loaded", mods.keys())
+    app.logger.info("%s modules loaded", mods.keys())
 
 
 def blueprint_commands(app):

@@ -1,6 +1,6 @@
 # coding: utf-8
 from quokka.utils.populate import Populate
-from quokka.core.models import Quokka
+from quokka.core.models.config import Quokka
 
 
 def configure(app, db):

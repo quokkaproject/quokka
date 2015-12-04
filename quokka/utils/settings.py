@@ -1,3 +1,4 @@
+import quokka.core.models as m
 from flask import current_app, request
 from quokka.core.db import db
 from quokka.core.app import QuokkaApp
@@ -10,9 +11,8 @@ def create_app_min(config=None, test=False):
 
 
 def get_site_url():
-    from quokka.core.models import Config
     try:
-        from_site_config = Config.get('site', 'site_domain', None)
+        from_site_config = m.config.Config.get('site', 'site_domain', None)
         from_settings = get_setting_value('SERVER_NAME', None)
         if from_settings and not from_settings.startswith('http'):
             from_settings = 'http://%s/' % from_settings

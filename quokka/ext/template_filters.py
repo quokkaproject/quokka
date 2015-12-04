@@ -7,7 +7,7 @@ import sys
 from flask import Blueprint
 from werkzeug.routing import Rule
 from quokka.core.app import QuokkaModule
-from quokka.core.models import Content
+from quokka.core.models.content import Content
 from quokka_themes import Theme
 from pymongo.mongo_client import MongoClient
 

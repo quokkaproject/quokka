@@ -2,11 +2,13 @@
 # -*- coding: utf-8 -*-
 
 from random import randint
+from flask import flash
 from quokka.core.db import db
-from quokka.core.base_models.custom_values import HasCustomValue
+from quokka.core.models.custom_values import HasCustomValue
 from quokka.utils.text import abbreviate, slugify
 from flask.ext.security import UserMixin, RoleMixin
 from flask.ext.security.utils import encrypt_password
+from flask_gravatar import Gravatar
 from .utils import ThemeChanger
 
 

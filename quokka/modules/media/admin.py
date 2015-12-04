@@ -6,7 +6,7 @@ from jinja2 import Markup
 
 from quokka import admin
 from quokka.utils.settings import get_setting_value
-from quokka.core.models import Channel
+from quokka.core.models.channel import Channel
 from quokka.core.admin.models import ModelAdmin
 from quokka.core.admin.fields import ImageUploadField
 from quokka.utils.upload import dated_path, lazy_media_path

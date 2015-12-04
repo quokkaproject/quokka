@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 from quokka.core.db import db
-from quokka.core.models import Content
+from quokka.core.models.content import Content
 
 
 class Post(Content):
