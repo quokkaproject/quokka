@@ -20,7 +20,9 @@ class SwatchView(MethodView):
     """
 
     def post(self):
-        current_user.set_swatch(request.form.get('swatch'))
+        swatch = request.form.get('swatch')
+        current_user.set_swatch(swatch)
+        flash('Theme successfully changed to %s' % swatch, 'alert')
         return redirect(url_for('admin.index'))
 
 
