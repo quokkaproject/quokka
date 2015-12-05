@@ -1,10 +1,14 @@
 # coding: utf-8
 import logging
 
+from flask import url_for
+from jinja2 import Markup
+from flask_admin import form
+
 from quokka.core.db import db
 from quokka.core.models.channel import Channel
 from quokka.core.models.content import Content
-from flask.ext.admin import form
+
 from .controller import MediaController
 
 logger = logging.getLogger()
@@ -21,6 +25,15 @@ class Media(MediaController, Content):
     meta = {
         'allow_inheritance': True
     }
+
+    @property
+    def full_path(self):
+        return Markup(
+            "<a target='_blank' href='{full}'>{path}</a>".format(
+                full=url_for('quokka.core.media', filename=self.path),
+                path=self.path
+            )
+        )
 
     @classmethod
     def get_default_channel(cls):

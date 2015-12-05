@@ -19,7 +19,7 @@ from quokka.utils.translation import _l
 
 class MediaAdmin(ModelAdmin):
     roles_accepted = ('admin', 'editor', 'author')
-    column_list = ('title', 'path', 'published')
+    column_list = ('title', 'full_path', 'published')
     form_columns = ['title', 'slug', 'path', 'channel', 'content_format',
                     'summary', 'comments_enabled', 'published']
 
@@ -91,7 +91,7 @@ class AudioAdmin(FileAdmin):
 
 class ImageAdmin(MediaAdmin):
     roles_accepted = ('admin', 'editor', 'author')
-    column_list = ('title', 'path', 'thumb', 'published')
+    column_list = ('title', 'full_path', 'thumb', 'published')
     form_columns = ['title', 'slug', 'path', 'channel', 'content_format',
                     'comments_enabled', 'summary', 'published']
 
@@ -101,7 +101,7 @@ class ImageAdmin(MediaAdmin):
 
         return Markup(
             '<img src="%s" width="100">' % url_for(
-                'media',
+                'quokka.core.media',
                 filename=form.thumbgen_filename(model.path)
             )
         )
