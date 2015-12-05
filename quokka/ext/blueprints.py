@@ -1,7 +1,6 @@
 # coding: utf-8
 import os
 import importlib
-import random
 from quokka.ext.commands_collector import CommandsCollector
 
 
