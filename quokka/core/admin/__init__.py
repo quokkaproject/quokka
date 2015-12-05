@@ -31,11 +31,13 @@ logger = logging.getLogger()
 
 class QuokkaAdmin(Admin):
     registered = []
+
     def register(self, model, view=None, *args, **kwargs):
         _view = view or ModelAdmin
         admin_view_exclude = get_setting_value('ADMIN_VIEW_EXCLUDE', [])
         identifier = '.'.join((model.__module__, model.__name__))
-        if identifier not in admin_view_exclude and not identifier in self.registered:
+        if (identifier not in admin_view_exclude) and (
+                identifier not in self.registered):
             self.add_view(_view(model, *args, **kwargs))
             self.registered.append(identifier)
 

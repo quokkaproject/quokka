@@ -3,7 +3,7 @@
 {%- endmacro %}
 
 {% macro render_tag_area(content)%}
-tagged {% for tag in content.tags%}<a class="post-category post-category-design" href="{{url_for('tag', tag=tag)}}">{{tag}}</a> {% endfor %}
+tagged {% for tag in content.tags%}<a class="post-category post-category-design" href="{{url_for('quokka.core.tag', tag=tag)}}">{{tag}}</a> {% endfor %}
 {% endmacro %}
 
 {% macro render_grid_item(content) %}
@@ -22,7 +22,7 @@ tagged {% for tag in content.tags%}<a class="post-category post-category-design"
      {% endif %}
       <h6><a class="post-title" href="{{ content.get_absolute_url() }}">{{ content.title }}</a></h6>
       <p class="post-meta">
-          By {% for author in content.get_authors()%}<a href="{{url_for('authors.author', author_id=author.username)}}" class="post-author">{{ author.display_name }}</a> &middot;  {%endfor%} under <a href="{{ content.channel.get_absolute_url() }}">{{ content.channel.title }}</a> &middot; {{ content.created_at.strftime('%H:%M of %m/%d/%Y') }}
+          By {% for author in content.get_authors()%}<a href="{{url_for('quokka.modules.authors.author', author_id=author.username)}}" class="post-author">{{ author.display_name }}</a> &middot;  {%endfor%} under <a href="{{ content.channel.get_absolute_url() }}">{{ content.channel.title }}</a> &middot; {{ content.created_at.strftime('%H:%M of %m/%d/%Y') }}
       </p>
   </header>
   <div class="post-description">
@@ -53,7 +53,7 @@ tagged {% for tag in content.tags%}<a class="post-category post-category-design"
 
 
 {% macro render_author_avatar(author, size=70, css="post-avatar avatar") %}
-<a href="{{url_for('authors.author', author_id=author.username)}}" title="See posts by {{ author.display_name }}">
+<a href="{{url_for('quokka.modules.authors.author', author_id=author.username)}}" title="See posts by {{ author.display_name }}">
     <img class="{{css}}" alt="{{ author.display_name }}" height="{{size}}" width="{{size}}" src="{{ author.get_gravatar_email() | gravatar(size=size) }}">
 </a>
 {% endmacro %}
@@ -76,7 +76,7 @@ tagged {% for tag in content.tags%}<a class="post-category post-category-design"
     </li>
   {%else%}
      <li>
-      <a target="_blank" href="{{url_for('authors.author', author_id=author.username)}}">
+      <a target="_blank" href="{{url_for('quokka.modules.authors.author', author_id=author.username)}}">
         <i class="fa fa-lg fa-fw fa-globe"></i>
         <strong>Author`s Page</strong>
       </a>
@@ -105,7 +105,7 @@ tagged {% for tag in content.tags%}<a class="post-category post-category-design"
      {% endif %}
       <h3><a class="post-title" href="{{ content.get_absolute_url() }}">{{ content.title }}</a></h3>
       <p class="post-meta">
-          By {% for author in content.get_authors()%}<a href="{{url_for('authors.author', author_id=author.username)}}" class="post-author">{{ author.display_name }}</a> &middot;  {%endfor%} under <a href="{{ content.channel.get_absolute_url() }}">{{ content.channel.title }}</a> &middot; {{ content.created_at.strftime('%H:%M of %m/%d/%Y') }}
+          By {% for author in content.get_authors()%}<a href="{{url_for('quokka.modules.authors.author', author_id=author.username)}}" class="post-author">{{ author.display_name }}</a> &middot;  {%endfor%} under <a href="{{ content.channel.get_absolute_url() }}">{{ content.channel.title }}</a> &middot; {{ content.created_at.strftime('%H:%M of %m/%d/%Y') }}
       </p>
   </header>
   <div class="post-description">
@@ -173,7 +173,7 @@ tagged {% for tag in content.tags%}<a class="post-category post-category-design"
          src="http://i.creativecommons.org/l/by-nc-nd/4.0/88x31.png"/></a><br/>
          <a xmlns:dct="http://purl.org/dc/terms/" property="dct:title"
       href="{{content.get_absolute_url()}}">"{{ content.title }}"</a> by <a
-      xmlns:cc="http://creativecommons.org/ns#" href="{{url_for('authors.author', author_id=content.created_by.username)}}"
+      xmlns:cc="http://creativecommons.org/ns#" href="{{url_for('quokka.modules.authors.author', author_id=content.created_by.username)}}"
       property="cc:attributionName" rel="cc:attributionURL">"{{ content.created_by.display_name }}"</a> is licensed under
   <a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/4.0/">Creative Commons -
       Attribution Non Commercial No Derivatives 4.0 Internacional</a>.
@@ -223,7 +223,7 @@ tagged {% for tag in content.tags%}<a class="post-category post-category-design"
 {% macro load_tags_area(content) %}
  <div>
   {% for tag in content.tags %}
-      <a href="{{url_for('tag', tag=tag)}}">{{tag}}</a>
+      <a href="{{url_for('quokka.core.tag', tag=tag)}}">{{tag}}</a>
   {% endfor %}
  </div>
 {% endmacro %}
@@ -235,7 +235,7 @@ tagged {% for tag in content.tags%}<a class="post-category post-category-design"
                 // Comment
             </p>
         {% if Config.get('comments', 'system') == 'internal' %}
-            <div id="comment-area" data-system="internal" data-path="{{url_for('comments.comment', path=content.long_slug)}}"></div>
+            <div id="comment-area" data-system="internal" data-path="{{url_for('quokka.modules.comments.comment', path=content.long_slug)}}"></div>
         {% elif Config.get('comments', 'system') == 'custom'%}
             {{Config.get('comments', 'custom_script', '')|safe()}}
         {% elif Config.get('comments', 'system') == 'disqus'%}
@@ -324,7 +324,7 @@ tagged {% for tag in content.tags%}<a class="post-category post-category-design"
                     {% endif %}
                     <p class="post-meta">
                         // Tags {% for tag in content.tags %}
-                            <a class="post-category" href="{{url_for('tag', tag=tag)}}">{{ tag }}</a>
+                            <a class="post-category" href="{{url_for('quokka.core.tag', tag=tag)}}">{{ tag }}</a>
                         {% endfor %}
                     </p>
                 </header>

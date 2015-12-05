@@ -116,7 +116,7 @@ class ImageAdmin(MediaAdmin):
             base_path=lazy_media_path(),
             thumbnail_size=get_setting_value('MEDIA_IMAGE_THUMB_SIZE',
                                              default=(200, 200, True)),
-            endpoint="media",
+            endpoint="quokka.core.media",
             namegen=dated_path,
             permission=0o777,
             allowed_extensions="MEDIA_IMAGE_ALLOWED_EXTENSIONS",

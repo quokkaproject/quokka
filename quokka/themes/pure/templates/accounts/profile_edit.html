@@ -9,7 +9,7 @@
             <!-- A wrapper for all the blog posts -->
             <div class="posts">
               <h1>Edit Profile</h1>
-                <form  action="{{ url_for('accounts.profile_edit') }}" method="POST" name="change_password_form" class="pure-form pure-form-aligned" role="form">
+                <form  action="{{ url_for('quokka.modules.accounts.profile_edit') }}" method="POST" name="change_password_form" class="pure-form pure-form-aligned" role="form">
                 <fieldset>
                  {% for field in form %}
 

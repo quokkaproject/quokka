@@ -13,7 +13,7 @@
     <meta property="og:type" content="article" />
     <meta property="og:title" content="{{ author.display_name }}" />
     <meta property="og:site_name" content="{{ Config.get('site', 'site_name') }}" />
-    <meta property="og:url" content="{{url_for('authors.author', author_id=author.id)}}" />
+    <meta property="og:url" content="{{url_for('quokka.modules.authors.author', author_id=author.id)}}" />
     <meta property="og:description" content="{{ author.summary|striptags }}" />
     <meta property="og:image" content="{{ author.get_gravatar_email() | gravatar(size=64) }}" />
 {% endblock meta %}
@@ -26,7 +26,7 @@
               <a href="/" class="back-home"><img src="{{ Config.get('site', 'site_logo_internal', theme_static('img/logo_black.png')) }}" alt="{{Config.get('site', 'site_name')}}"></a>
                 {{render_author_sidebar(author)}}
                 <p class="about-author">{{ author.bio }}</p>
-                <a href="{{url_for('authors.authors')}}" class="back-home">&larr;Authors</a>
+                <a href="{{url_for('quokka.modules.authors.authors')}}" class="back-home">&larr;Authors</a>
             </hgroup>
         </header>
         </div>

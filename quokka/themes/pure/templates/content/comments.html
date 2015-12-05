@@ -10,7 +10,7 @@
             <!-- A wrapper for all the comments -->
             <div class="comments">
               {% if not Config.get('comments', 'requires_login') or current_user.is_authenticated() %}
-                <form role="form" class="pure-form pure-form-aligned" action="{{url_for('comments.comment', path=path)}}" method="post" id="comment-form">
+                <form role="form" class="pure-form pure-form-aligned" action="{{url_for('quokka.modules.comments.comment', path=path)}}" method="post" id="comment-form">
                 <fieldset>
                   {% for field in form %}
                   {% if field.type in ['CSRFTokenField', 'HiddenField'] %}

@@ -64,7 +64,10 @@ def format_datetime(self, request, obj, fieldname, *args, **kwargs):
 
 def view_on_site(self, request, obj, fieldname, *args, **kwargs):
     available = obj.is_available
-    endpoint = kwargs.pop('endpoint', 'detail' if available else 'preview')
+    endpoint = kwargs.pop(
+        'endpoint',
+        'quokka.core.detail' if available else 'quokka.core.preview'
+    )
     return html.a(
         href=obj.get_absolute_url(endpoint),
         target='_blank',

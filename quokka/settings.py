@@ -70,6 +70,8 @@ Blueprints are quokka-modules, you don't need to install
 just develop or download and drop in your modules folder
 by default it is in /modules, you can change if needed
 """
+
+BLUEPRINTS_MODULE_NAME = 'main'
 BLUEPRINTS_PATH = 'modules'
 BLUEPRINTS_OBJECT_NAME = 'module'
 
@@ -275,7 +277,7 @@ CONTENT_EXTENSION = "html"
 SENTRY_ENABLED = False
 SENTRY_DSN = ""
 
-# html or markdown
+# html or markdown or plaintext
 DEFAULT_TEXT_FORMAT = "html"
 
 "Shortner urls configuration"

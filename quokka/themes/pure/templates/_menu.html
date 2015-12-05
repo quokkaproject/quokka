@@ -24,7 +24,7 @@
 {% endmacro %}
 
 {% macro render_small_author(author, size=30, multiple=False) %}
-    <a target="_blank" href="{{url_for('authors.author', author_id=author.username)}}">
+    <a target="_blank" href="{{url_for('quokka.modules.authors.author', author_id=author.username)}}">
       {{ author.display_name }}
     </a>
     {% if multiple %}

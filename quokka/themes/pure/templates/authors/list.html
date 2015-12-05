@@ -19,9 +19,9 @@
                     <section class="post  pure-u-1-2 author-block">
                     {% if author.email %}
                     <figure>
-                        <a href="{{url_for('authors.author', author_id=author.username)}}"><img class="author_avatar" alt="{{ author.display_name }}" src="{{ author.get_gravatar_email() | gravatar(size=200) }}">
+                        <a href="{{url_for('quokka.modules.authors.author', author_id=author.username)}}"><img class="author_avatar" alt="{{ author.display_name }}" src="{{ author.get_gravatar_email() | gravatar(size=200) }}">
                         </a>
-                        <figcaption><a class="post-title" href="{{url_for('authors.author', author_id=author.username)}}">{{ author.display_name }}</a>
+                        <figcaption><a class="post-title" href="{{url_for('quokka.modules.authors.author', author_id=author.username)}}">{{ author.display_name }}</a>
                         </figcaption>
                     </figure>
                      {{author.get_value('position')}}

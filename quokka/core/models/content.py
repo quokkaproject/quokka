@@ -108,7 +108,7 @@ class Content(HasCustomValue, Publishable, LongSlugged,
         absolute_url = absolute_url[1:]
         return u"{}{}".format(site_url, absolute_url)
 
-    def get_absolute_url(self, endpoint='detail'):
+    def get_absolute_url(self, endpoint='quokka.core.detail'):
         if self.channel.is_homepage:
             long_slug = self.slug
         else:
