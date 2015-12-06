@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 import os
 from werkzeug import secure_filename
-from flask import redirect, request, url_for, flash
+from flask import redirect, request, url_for, flash, current_app
 from flask.views import MethodView
 from quokka.utils import get_current_user
 from quokka.utils.upload import lazy_media_path
@@ -48,10 +48,9 @@ class ProfileEditView(MethodView):
             'tagline',
             'bio',
             'use_avatar_from',
-            'avatar_file_path',
             'gravatar_email',
             'avatar_url',
-            'links',
+            # 'links',  # fix multifields
         ]
     )
 
@@ -68,9 +67,14 @@ class ProfileEditView(MethodView):
             return redirect(url_for_security('login', next=nex))
 
     def get(self):
+        user = get_current_user()
+        context = {}
+        for link in user.links:
+            context[link.icon] = link.link
         return self.needs_login() or render_template(
             'accounts/profile_edit.html',
-            form=self.form(instance=get_current_user())
+            form=self.form(instance=user),
+            **context
         )
 
     def post(self):
@@ -90,9 +94,41 @@ class ProfileEditView(MethodView):
                 avatar.save(path)
             form.populate_obj(user)
             user.avatar_file_path = avatar_file_path
+            if avatar:
+                user.use_avatar_from = 'upload'
+            user.username = User.generate_username(
+                user.username or user.name, user=user
+            )
+
+            self.update_user_links(request.form, user)
+
             user.save()
             flash('Profile saved!', 'alert')
-            return redirect(url_for('quokka.modules.accounts.profile_edit'))
+            return redirect(
+                request.args.get('next') or
+                url_for('quokka.modules.accounts.profile_edit')
+            )
         else:
             flash('Error ocurred!', 'alert error')  # form errors
             return render_template('accounts/profile_edit.html', form=form)
+
+    @staticmethod
+    def update_user_links(form, user):
+        for item in ['facebook', 'twitter', 'github', 'globe']:
+            data = form.get(item)
+            try:
+                if data:
+                    user.links.update(
+                        {'link': data}, icon=item
+                    ) or user.links.create(
+                        icon=item,
+                        css_class=item,
+                        title=item,
+                        link=data
+                    )
+                else:
+                    user.links.delete(icon=item)
+            except Exception as e:
+                current_app.logger.error(
+                    'Error updating user links: %s' % e
+                )
