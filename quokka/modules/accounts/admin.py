@@ -17,7 +17,9 @@ class UserAdmin(ModelAdmin):
                     'confirmed_at',
                     'last_login_at', 'current_login_at', 'last_login_ip',
                     'current_login_ip', 'login_count', 'tagline',
-                    'gravatar_email', 'bio', 'links', 'values')
+                    'gravatar_email', 'use_avatar_from',
+                    'avatar_file_path', 'avatar_url',
+                    'bio', 'links', 'values')
 
     form_extra_fields = {
         "newpassword": TextField(widget=PasswordInput())
