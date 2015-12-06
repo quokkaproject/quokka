@@ -56,7 +56,8 @@ class ProfileEditView(MethodView):
         ]
     )
 
-    def needs_login(self, **kwargs):
+    @staticmethod
+    def needs_login(**kwargs):
         if not current_user.is_authenticated():
             nex = kwargs.get(
                 'next',

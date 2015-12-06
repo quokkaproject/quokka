@@ -31,6 +31,38 @@
                     "order" : 0
                 }
             ]
+        },
+        {
+            "name" : "author",
+            "email" : "author@example.com",
+            "gravatar_email": "rochacbruno+quokka@gmail.com",
+            "password" : "author",
+            "roles" : [ "author" ],
+            "bio": "Quokka Example Author",
+            "tagline": "It is nice to write in Quokka CMS!",
+            "links": [
+                {
+                    "title" : "facebook",
+                    "link" : "http://facebook.com/quokkaproject",
+                    "icon" : "facebook",
+                    "css_class" : "facebook",
+                    "order" : 0
+                },
+                {
+                    "title" : "github",
+                    "link" : "http://github.com/quokkaproject",
+                    "icon" : "github",
+                    "css_class" : "github",
+                    "order" : 0
+                },
+                {
+                    "title" : "twitter",
+                    "link" : "http://twitter.com/quokkaproject",
+                    "icon" : "twitter",
+                    "css_class" : "twitter",
+                    "order" : 0
+                }
+            ]
         }
     ],
     "configs": [

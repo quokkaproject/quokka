@@ -21,15 +21,18 @@ class ThumbWidget(ImageUploadInput):
                      ' <img %(image)s>'
                      '</div>')
 
-    def get_url(self, field):
-        if field.thumbnail_size:
-            filename = field.thumbnail_fn(field.data)
-        else:
-            filename = field.data
-
-        if field.url_relative_path:
-            filename = urljoin(field.url_relative_path, filename)
-
+    @staticmethod
+    def get_url(field):
+        '''
+        This meethod is not used, but is here for compatibility
+        '''
+        # if field.thumbnail_size:
+        #     filename = field.thumbnail_fn(field.data)
+        # else:
+        #     filename = field.data
+        #
+        # if field.url_relative_path:
+        #     filename = urljoin(field.url_relative_path, filename)
         return field.data
 
 

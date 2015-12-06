@@ -219,7 +219,8 @@ class ContentDetail(MethodView):
 
         return names
 
-    def get_filters(self):
+    @staticmethod
+    def get_filters():
         now = datetime.now()
         filters = {
             'published': True,
@@ -227,7 +228,8 @@ class ContentDetail(MethodView):
         }
         return filters
 
-    def check_if_is_accessible(self, content):
+    @staticmethod
+    def check_if_is_accessible(content):
         if not content.channel.is_available:
             return abort(404)
 
@@ -283,10 +285,13 @@ class ContentDetail(MethodView):
 
 
 class ContentDetailPreview(ContentDetail):
-    def get_filters(self):
+
+    @staticmethod
+    def get_filters():
         return {}
 
-    def check_if_is_accessible(self, content):
+    @staticmethod
+    def check_if_is_accessible(content):
         if not content.channel.published:
             return abort(404)
 
@@ -357,7 +362,8 @@ def cdata(data):
 
 class BaseFeed(MethodView):
 
-    def make_external_url(self, url):
+    @staticmethod
+    def make_external_url(url):
         return urljoin(request.url_root, url)
 
     def make_atom(self, feed_name, contents):

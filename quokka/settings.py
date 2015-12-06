@@ -95,15 +95,6 @@ DEFAULT_EDITABLE_EXTENSIONS = (
 
 FILE_ADMIN = [
     {
-        "name": "Template files",
-        "category": "Files",
-        "path": os.path.join(PROJECT_ROOT, 'templates'),
-        "url": "/template_files/",  # create nginx rule
-        "endpoint": "template_files",
-        "roles_accepted": ("admin", "editor"),
-        "editable_extensions": DEFAULT_EDITABLE_EXTENSIONS
-    },
-    {
         "name": "Static files",
         "category": "Files",
         "path": STATIC_ROOT,
@@ -312,3 +303,16 @@ SHORTENER_SETTINGS = {"name": "BitlyShortener",
                       "bitly_token":
                       "9964d1f9c8c8b4215f7690449f0980c4fe1a6906",
                       "bitly_login": "quokkabitly"}
+
+
+"""
+Some HTTP proxies do not support arbitrary HTTP methods or newer HTTP methods
+(such as PATCH).
+In that case it’s possible to “proxy” HTTP methods through another HTTP method
+in total violation of the protocol.
+
+The way this works is by letting the client do an HTTP POST request and
+set the X-HTTP-Method-Override header and set the value to the intended
+HTTP method (such as PATCH).
+"""
+HTTP_PROXY_METHOD_OVERRIDE = False

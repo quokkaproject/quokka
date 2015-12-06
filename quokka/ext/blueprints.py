@@ -4,8 +4,8 @@ import importlib
 from quokka.ext.commands_collector import CommandsCollector
 
 
-def load_from_packages(app):
-    pass
+# def load_from_packages(app):
+#     pass
 
 
 def load_from_folder(app):

@@ -20,7 +20,8 @@ class ListView(MethodView):
 
 class DetailView(MethodView):
 
-    def get_context(self, slug):
+    @staticmethod
+    def get_context(slug):
         media = Media.objects.get_or_404(slug=slug)
 
         context = {

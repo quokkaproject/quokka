@@ -162,7 +162,7 @@ class Channel(Tagged, HasCustomValue, Publishable, LongSlugged,
 
     def get_http_url(self):
         site_url = Config.get('site', 'site_domain', request.url_root)
-        return u"{}{}".format(site_url, self.get_absolute_url())
+        return u"{0}{1}".format(site_url, self.get_absolute_url())
 
     def clean(self):
         homepage = Channel.objects(is_homepage=True)

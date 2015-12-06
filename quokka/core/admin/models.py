@@ -39,7 +39,7 @@ class ThemeMixin(object):
         kwargs['h'] = h
         # Contribute extra arguments
         kwargs.update(self._template_args)
-        theme = current_app.config.get('ADMIN_THEME', None)
+        theme = current_app.config.get('ADMIN_THEME')
         return render_template(template, theme=theme, **kwargs)
 
 
@@ -49,7 +49,7 @@ class Roled(object):
         roles_accepted = getattr(self, 'roles_accepted', None)
         return is_accessible(roles_accepted=roles_accepted, user=current_user)
 
-    def _handle_view(self, name, *args, **kwargs):
+    def _handle_view(self, *args, **kwargs):
         if not current_user.is_authenticated():
             return redirect(url_for_security('login', next="/admin"))
         if not self.is_accessible():
@@ -107,7 +107,7 @@ def format_status(self, request, obj, fieldname, *args, **kwargs):
 def get_url(self, request, obj, fieldname, *args, **kwargs):
     column_formatters_args = getattr(self, 'column_formatters_args', {})
     _args = column_formatters_args.get('get_url', {}).get(fieldname, {})
-    attribute = _args.get('attribute', None)
+    attribute = _args.get('attribute')
     method = _args.get('method', 'get_absolute_url')
     text = getattr(obj, fieldname, '')
     if attribute:

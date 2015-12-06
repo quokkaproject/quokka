@@ -17,10 +17,12 @@ def configure(app, db):
         populate.create_purposes()
         populate.create_channel_types()
         populate.create_base_channels()
+        populate.role("admin")
+        populate.role("author")
         try:
             with app.app_context():
                 user_data, user_obj = populate.create_initial_superuser()
                 populate.create_initial_post(user_data, user_obj)
-        except:
-            app.logger.warning("Could not create initial user and post")
+        except Exception as e:
+            app.logger.warning("Cant create initial user and post: %s" % e)
         Quokka.objects.create(slug="is_installed")

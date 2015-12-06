@@ -1,7 +1,10 @@
+import logging
 import quokka.core.models as m
 from flask import current_app, request
 from quokka.core.db import db
 from quokka.core.app import QuokkaApp
+
+logger = logging.getLogger()
 
 
 def create_app_min(config=None, test=False):
@@ -24,8 +27,8 @@ def get_site_url():
 def get_setting_value(key, default=None):
     try:
         return current_app.config.get(key, default)
-    except RuntimeError:
-        pass
+    except RuntimeError as e:
+        logger.warning('current_app is inaccessible: %s' % e)
 
     try:
         app = create_app_min()

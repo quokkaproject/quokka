@@ -17,21 +17,14 @@ def configure_extensions(app, admin):
     Mail(app)
     error_handlers.configure(app)
     db.init_app(app)
-
-    themes.configure(app, db)  # Themes should be configured after db
-
+    themes.configure(app)
     context_processors.configure(app)
     template_filters.configure(app)
-
     security.configure(app, db)
-
     fixtures.configure(app, db)
-    blueprints.load_from_packages(app)
+    # blueprints.load_from_packages(app)
     blueprints.load_from_folder(app)
-
-    # enable .pdf support for posts
     weasyprint.configure(app)
-
     configure_admin(app, admin)
 
     if app.config.get('DEBUG_TOOLBAR_ENABLED'):
@@ -39,11 +32,10 @@ def configure_extensions(app, admin):
             from flask_debugtoolbar import DebugToolbarExtension
             DebugToolbarExtension(app)
         except:
-            pass
+            app.logger.info('flask_debugtoolbar is not installed')
 
     before_request.configure(app)
     views.configure(app)
-
     oauthlib.configure(app)
 
     if app.config.get('SENTRY_ENABLED', False):
@@ -53,7 +45,7 @@ def configure_extensions(app, admin):
     return app
 
 
-def configure_extensions_min(app, admin):
+def configure_extensions_min(app, *args, **kwargs):
     db.init_app(app)
     security.init_app(app, db)
     return app

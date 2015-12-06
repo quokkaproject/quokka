@@ -37,7 +37,7 @@ class Owned(object):
     last_updated_by = db.ReferenceField(User)
     authors = db.ListField(db.ReferenceField(User))
 
-    def get_authors(self, sortedf=None):
+    def get_authors(self):
         return set(self.authors + [self.created_by])
 
     @property
