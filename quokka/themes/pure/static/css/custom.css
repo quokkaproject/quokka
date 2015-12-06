@@ -227,6 +227,10 @@ nav.pure-menu {
   border-radius: 120px;
 }
 
+
+.small_author_avatar {
+  border-radius: 60px;
+}
 /* menu home page */
 nav.pure-menu .pure-menu-children {
   background-color: #ddd;
