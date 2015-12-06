@@ -77,7 +77,11 @@ class ContentList(MethodView):
         published_channels = Channel.objects(published=True).values_list('id')
 
         if channel.redirect_url:
-            return redirect(channel.redirect_url)
+            url_protos = ('http://', 'mailto:', '/', 'ftp://')
+            if channel.redirect_url.startswith(url_protos):
+                return redirect(channel.redirect_url)
+            else:
+                return redirect(url_for(channel.redirect_url))
 
         if channel.render_content:
             return ContentDetail().get(
