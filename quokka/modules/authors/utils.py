@@ -38,7 +38,7 @@ def get_authors(*args, **kwargs):
             name__in=['author'],
             **kwargs
         )
-    )
+    ).order_by(current_app.config.get("AUTHORS_ORDER", "name"))
 
     disabled_pagination = False
     if not current_app.config.get("AUTHORS_PAGINATION_ENABLED", True):
