@@ -11,13 +11,12 @@ __license__ = "MIT License"
 __copyright__ = "Copyright 2014, Quokka Project"
 
 
-try:
-    from .core.admin import create_admin
-    from .core.app import QuokkaApp
-    # from .core.middleware import HTTPMethodOverrideMiddleware
-    admin = create_admin()
-except:
-    pass
+from quokka.core.admin import create_admin
+from quokka.core.app import QuokkaApp
+from quokka.core.middleware import HTTPMethodOverrideMiddleware
+from quokka.ext import configure_extensions
+
+admin = create_admin()
 
 
 def create_app_base(config=None, test=False, admin_instance=None, **settings):
@@ -32,9 +31,10 @@ def create_app(config=None, test=False, admin_instance=None, **settings):
     app = create_app_base(
         config=config, test=test, admin_instance=admin_instance, **settings
     )
-    from .ext import configure_extensions
+
     configure_extensions(app, admin_instance or admin)
-    # app.wsgi_app = HTTPMethodOverrideMiddleware(app.wsgi_app)
+    if app.config.get("HTTP_PROXY_METHOD_OVERRIDE"):
+        app.wsgi_app = HTTPMethodOverrideMiddleware(app.wsgi_app)
     return app
 
 

@@ -36,7 +36,8 @@ def get_current_user_for_models():
         if not user.is_authenticated():
             return None
         return user
-    except:
+    except Exception as e:
+        logger.info('Cant access is_authenticated method: %s' % e)
         return None
 
 
@@ -45,9 +46,7 @@ def is_accessible(roles_accepted=None, user=None):
     if user.has_role('admin'):
         return True
     if roles_accepted:
-        accessible = any(
-            [user.has_role(role) for role in roles_accepted]
-        )
+        accessible = any(user.has_role(role) for role in roles_accepted)
         return accessible
     return True
 

@@ -3,8 +3,9 @@ from wtforms.fields import TextField
 from wtforms.widgets import PasswordInput
 from quokka import admin
 from quokka.core.admin.models import ModelAdmin
-from .models import Role, User, Connection
 from quokka.utils.translation import _l
+
+from .models import Role, User, Connection
 
 
 class UserAdmin(ModelAdmin):

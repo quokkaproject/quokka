@@ -1,13 +1,18 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
+import logging
 from random import randint
+from flask import url_for
 from quokka.core.db import db
-from quokka.core.base_models.custom_values import HasCustomValue
+from quokka.core.models.custom_values import HasCustomValue
 from quokka.utils.text import abbreviate, slugify
 from flask.ext.security import UserMixin, RoleMixin
 from flask.ext.security.utils import encrypt_password
+from flask_gravatar import Gravatar
 from .utils import ThemeChanger
+
+
+logger = logging.getLogger()
 
 
 # Auth
@@ -61,13 +66,40 @@ class User(db.DynamicDocument, ThemeChanger, HasCustomValue, UserMixin):
     links = db.ListField(db.EmbeddedDocumentField(UserLink))
 
     use_avatar_from = db.StringField(
-        choices=(("gravatar", "gravatar"), ("url", "url"), ("file", "file")),
+        choices=(
+            ("gravatar", "gravatar"),
+            ("url", "url"),
+            ("file", "file"),
+            ("facebook", "facebook")
+        ),
         default='gravatar'
     )
     gravatar_email = db.EmailField(max_length=255)
     avatar_file_path = db.StringField()
     avatar_url = db.StringField(max_length=255)
-    # facebook image should be get from connections
+
+    def get_avatar_url(self, *args, **kwargs):
+        if self.use_avatar_from == 'url':
+            return self.avatar_url
+        elif self.use_avatar_from == 'file':
+            return url_for(
+                'quokka.core.media', filename=self.avatar_file_path
+            )
+        elif self.use_avatar_from == 'facebook':
+            try:
+                return Connection.objects(
+                    provider_id='facebook',
+                    user_id=self.id,
+                ).first().image_url
+            except Exception as e:
+                logger.warning(
+                    '%s use_avatar_from is set to facebook but: Error: %s' % (
+                        self.display_name, str(e)
+                    )
+                )
+        return Gravatar()(
+            self.get_gravatar_email(), *args, **kwargs
+        )
 
     @property
     def summary(self):
@@ -79,22 +111,14 @@ class User(db.DynamicDocument, ThemeChanger, HasCustomValue, UserMixin):
     def clean(self, *args, **kwargs):
         if not self.username:
             self.username = User.generate_username(self.name)
-
-        try:
-            super(User, self).clean(*args, **kwargs)
-        except:
-            pass
+        super(User, self).clean(*args, **kwargs)
 
     @classmethod
     def generate_username(cls, name):
-        # username = email.lower()
-        # for item in ['@', '.', '-', '+']:
-        #     username = username.replace(item, '_')
-        # return username
         name = name or ''
         username = slugify(name)
         if cls.objects.filter(username=username).count():
-            username = "{}{}".format(username, randint(1, 1000))
+            username = "{0}{1}".format(username, randint(1, 1000))
         return username
 
     def set_password(self, password, save=False):

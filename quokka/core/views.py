@@ -10,7 +10,9 @@ from datetime import datetime, timedelta
 from flask import request, redirect, url_for, abort, current_app
 from flask.views import MethodView
 from quokka.utils.atom import AtomFeed
-from quokka.core.models import Channel, Content, Config
+from quokka.core.models.channel import Channel
+from quokka.core.models.config import Config
+from quokka.core.models.content import Content
 from quokka.core.templates import render_template
 from quokka.utils import is_accessible, get_current_user
 
@@ -217,7 +219,8 @@ class ContentDetail(MethodView):
 
         return names
 
-    def get_filters(self):
+    @staticmethod
+    def get_filters():
         now = datetime.now()
         filters = {
             'published': True,
@@ -225,7 +228,8 @@ class ContentDetail(MethodView):
         }
         return filters
 
-    def check_if_is_accessible(self, content):
+    @staticmethod
+    def check_if_is_accessible(content):
         if not content.channel.is_available:
             return abort(404)
 
@@ -241,7 +245,7 @@ class ContentDetail(MethodView):
                 len(long_slug.split('/')) < 3 and \
                 not render_content:
             slug = long_slug.split('/')[-1]
-            return redirect(url_for('detail', long_slug=slug))
+            return redirect(url_for('quokka.core.detail', long_slug=slug))
 
         filters = self.get_filters()
 
@@ -281,10 +285,13 @@ class ContentDetail(MethodView):
 
 
 class ContentDetailPreview(ContentDetail):
-    def get_filters(self):
+
+    @staticmethod
+    def get_filters():
         return {}
 
-    def check_if_is_accessible(self, content):
+    @staticmethod
+    def check_if_is_accessible(content):
         if not content.channel.published:
             return abort(404)
 
@@ -355,7 +362,8 @@ def cdata(data):
 
 class BaseFeed(MethodView):
 
-    def make_external_url(self, url):
+    @staticmethod
+    def make_external_url(url):
         return urljoin(request.url_root, url)
 
     def make_atom(self, feed_name, contents):

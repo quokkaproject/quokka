@@ -42,7 +42,7 @@ def configure(app):
     }
     """
 
-    app.add_url_rule(
+    app.add_quokka_url_rule(
         '/accounts/oauth/login/<provider>/',
         'oauth_login',
         oauth_login
@@ -66,7 +66,7 @@ def configure(app):
 
         setattr(app, provider_name, oauth_app)
 
-        app.add_url_rule(
+        app.add_quokka_url_rule(
             '/accounts/oauth/authorized/{0}/'.format(provider),
             '{0}_authorized'.format(provider),
             oauth_app.authorized_handler(make_oauth_handler(provider))

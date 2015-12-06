@@ -3,17 +3,17 @@ import json
 import random
 import datetime
 
-from flask.ext.admin.contrib.mongoengine import ModelView
-from flask.ext.admin.contrib.fileadmin import FileAdmin as _FileAdmin
-from flask.ext.admin.babel import gettext, ngettext
-from flask.ext.admin import AdminIndexView
-from flask.ext.admin import BaseView as AdminBaseView
-from flask.ext.admin.actions import action
-from flask.ext.admin import helpers as h
-from flask.ext.security import current_user
-from flask.ext.security.utils import url_for_security
 from flask import redirect, flash, url_for, Response, current_app
 
+from flask_admin.contrib.mongoengine import ModelView
+from flask_admin.contrib.fileadmin import FileAdmin as _FileAdmin
+from flask_admin.babel import gettext, ngettext
+from flask_admin import AdminIndexView
+from flask_admin import BaseView as AdminBaseView
+from flask_admin.actions import action
+from flask_admin import helpers as h
+from flask_security import current_user
+from flask_security.utils import url_for_security
 from flask.ext.htmlbuilder import html
 
 from quokka.modules.accounts.models import User
@@ -23,9 +23,9 @@ from quokka.core.admin.fields import ContentImageField
 from quokka.utils.upload import dated_path, lazy_media_path
 from quokka.utils import is_accessible
 from quokka.utils.settings import get_setting_value
-from .fields import ThumbField
 
-from .utils import _, _l, _n
+from quokka.core.admin.fields import ThumbField
+from quokka.core.admin.utils import _, _l, _n
 
 
 class ThemeMixin(object):
@@ -39,7 +39,7 @@ class ThemeMixin(object):
         kwargs['h'] = h
         # Contribute extra arguments
         kwargs.update(self._template_args)
-        theme = current_app.config.get('ADMIN_THEME', None)
+        theme = current_app.config.get('ADMIN_THEME')
         return render_template(template, theme=theme, **kwargs)
 
 
@@ -49,7 +49,7 @@ class Roled(object):
         roles_accepted = getattr(self, 'roles_accepted', None)
         return is_accessible(roles_accepted=roles_accepted, user=current_user)
 
-    def _handle_view(self, name, *args, **kwargs):
+    def _handle_view(self, *args, **kwargs):
         if not current_user.is_authenticated():
             return redirect(url_for_security('login', next="/admin"))
         if not self.is_accessible():
@@ -64,7 +64,10 @@ def format_datetime(self, request, obj, fieldname, *args, **kwargs):
 
 def view_on_site(self, request, obj, fieldname, *args, **kwargs):
     available = obj.is_available
-    endpoint = kwargs.pop('endpoint', 'detail' if available else 'preview')
+    endpoint = kwargs.pop(
+        'endpoint',
+        'quokka.core.detail' if available else 'quokka.core.preview'
+    )
     return html.a(
         href=obj.get_absolute_url(endpoint),
         target='_blank',
@@ -104,7 +107,7 @@ def format_status(self, request, obj, fieldname, *args, **kwargs):
 def get_url(self, request, obj, fieldname, *args, **kwargs):
     column_formatters_args = getattr(self, 'column_formatters_args', {})
     _args = column_formatters_args.get('get_url', {}).get(fieldname, {})
-    attribute = _args.get('attribute', None)
+    attribute = _args.get('attribute')
     method = _args.get('method', 'get_absolute_url')
     text = getattr(obj, fieldname, '')
     if attribute:

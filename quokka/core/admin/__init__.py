@@ -1,22 +1,22 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*
-
-import logging
 from werkzeug.utils import import_string
+
 from flask import request, session
 from flask.ext.admin import Admin
 
-from ..models import (Link, Config, SubContentPurpose, ChannelType,
-                      ContentTemplateType, Channel)
+from quokka.core.models.subcontent import SubContentPurpose
+from quokka.core.models.config import Config
+from quokka.core.models.channel import Channel, ChannelType
+from quokka.core.models.content import Link, ContentTemplateType
+
+from quokka.utils.translation import _l, _n
+from quokka.utils.settings import get_setting_value
 
 from .models import ModelAdmin, FileAdmin, BaseIndexView
 from .views import (IndexView, InspectorView, LinkAdmin, ConfigAdmin,
                     SubContentPurposeAdmin, ChannelTypeAdmin,
                     ContentTemplateTypeAdmin, ChannelAdmin)
-
-from quokka.utils.translation import _l, _n
-from quokka.utils.settings import get_setting_value
-
 
 '''
 _n is here only for backwards compatibility, to be imported by 3rd party
@@ -24,24 +24,18 @@ modules. The below _n below is to avoid pep8 error
 '''
 _n  # noqa
 
-logger = logging.getLogger()
-
 
 class QuokkaAdmin(Admin):
+    registered = []
+
     def register(self, model, view=None, *args, **kwargs):
         _view = view or ModelAdmin
         admin_view_exclude = get_setting_value('ADMIN_VIEW_EXCLUDE', [])
         identifier = '.'.join((model.__module__, model.__name__))
-        if identifier not in admin_view_exclude:
+        if (identifier not in admin_view_exclude) and (
+                identifier not in self.registered):
             self.add_view(_view(model, *args, **kwargs))
-        # try:
-        #     self.add_view(_view(model, *args, **kwargs))
-        # except Exception as e:
-        #     logger.warning(
-        #         "admin.register({0}, {1}, {2}, {3}) error: {4}".format(
-        #             model, view, args, kwargs, e.message
-        #         )
-        #     )
+            self.registered.append(identifier)
 
 
 def create_admin(app=None):
@@ -87,8 +81,8 @@ def configure_admin(app, admin):  # noqa
                 return session.get('lang', 'en')
 
             admin.locale_selector(get_locale)
-        except:
-            pass  # Exception: Can not add locale_selector second time.
+        except Exception as e:
+            app.logger.info('Cannot add locale_selector. %s' % e)
 
     for entry in app.config.get('FILE_ADMIN', []):
         try:
@@ -104,8 +98,7 @@ def configure_admin(app, admin):  # noqa
                 )
             )
         except Exception as e:
-            logger.info(e)
-            #  need to check blueprint endpoisnt colision
+            app.logger.info(e)
 
     # register all themes in file manager
     for k, theme in app.theme_manager.themes.items():
@@ -144,8 +137,12 @@ def configure_admin(app, admin):  # noqa
                         'DEFAULT_EDITABLE_EXTENSIONS')
                 )
             )
-        except:
-            pass
+        except Exception as e:
+            app.logger.warning(
+                'Error registering %s folder to file admin %s' % (
+                    theme.identifier, e
+                )
+            )
 
     # adding views
     admin.add_view(InspectorView(category=_l("Settings"),

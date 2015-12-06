@@ -4,7 +4,7 @@
     <div class="row">
 
 
-        <div class="well span8">
+        <div class="well span11">
             {%if config.get('ADMIN_HEADER') %}{{config.get('ADMIN_HEADER')|safe}}{% endif %}
             <h1>{{ admin_view.admin.name }}</h1>
             <h3>{{_gettext('Latest Posts')}}:</h3>
@@ -15,7 +15,7 @@
                         | <i class={% if post.published %} "icon-ok-circle" {% else %} "icon-ban-circle" {% endif %}></i>
                         <a class="btn btn-success btn-small" href="{{ url_for('post.edit_view', id=post.id)}}">
                         <i class="icon-edit"></i> {{_gettext('Edit')}}</a>
-                          <a class="btn btn-primary btn-small" target="_blank" href="{{ post.get_absolute_url(endpoint='detail' if post.published else 'preview') }}">
+                          <a class="btn btn-primary btn-small" target="_blank" href="{{ post.get_absolute_url(endpoint='quokka.core.detail' if post.published else 'quokka.core.preview') }}">
                           <i class="icon-globe"></i> {{_gettext('View') if post.published else _gettext('Preview')}}</a>
                     </li>
                 {% else %}
@@ -24,25 +24,25 @@
             </ul>
         </div>
 
-        <div class="well span3">
-            <h3>{{_gettext('Latest Comments')}}:</h3>
-            <ul>
-                {% for comment in get_comments(limit=3)  %}
-                    <li>
-                        {{ comment.author_name }} {{ _gettext('says') }}:
-                        <br><small>{{ comment.body[:140] }}</small>
-                        <br> <i class={% if comment.published %} "icon-ok-circle" {% else %} "icon-ban-circle" {% endif %}></i>
-                        <a  href="{{ url_for('comment.edit_view', id=comment.id)}}">
-                        <i class="icon-edit"></i> </a>
-                        <a target="_blank" href="{{ comment.get_canonical_url() }}">
-                        <i class="icon-globe"></i></a>
-                    </li>
-                {% else %}
-                    {{ _gettext("No comments yet!") }}
-                    <small>{{ _gettext("Internal comment system is enabled, if you want to change it click in config button and change from 'internal' to 'disqus' in comments configuration and set your disqus_script.") }}</small>
-                {% endfor %}
-            </ul>
-        </div>
+{#        <div class="well span3">#}
+{#            <h3>{{_gettext('Latest Comments')}}:</h3>#}
+{#            <ul>#}
+{#                {% for comment in get_comments(limit=3)  %}#}
+{#                    <li>#}
+{#                        {{ comment.author_name }} {{ _gettext('says') }}:#}
+{#                        <br><small>{{ comment.body[:140] }}</small>#}
+{#                        <br> <i class={% if comment.published %} "icon-ok-circle" {% else %} "icon-ban-circle" {% endif %}></i>#}
+{#                        <a  href="{{ url_for('comment.edit_view', id=comment.id)}}">#}
+{#                        <i class="icon-edit"></i> </a>#}
+{#                        <a target="_blank" href="{{ comment.get_canonical_url() }}">#}
+{#                        <i class="icon-globe"></i></a>#}
+{#                    </li>#}
+{#                {% else %}#}
+{#                    {{ _gettext("No comments yet!") }}#}
+{#                    <small>{{ _gettext("Internal comment system is enabled, if you want to change it click in config button and change from 'internal' to 'disqus' in comments configuration and set your disqus_script.") }}</small>#}
+{#                {% endfor %}#}
+{#            </ul>#}
+{#        </div>#}
 
     </div>
 
@@ -60,7 +60,7 @@
 
     <div class="row">
     <div class="span1" style="margin-top: 30px;">
-    <form id="swatcher_form" action="{{url_for('accounts.set_swatch')}}" method="POST">
+    <form id="swatcher_form" action="{{url_for('quokka.modules.accounts.set_swatch')}}" method="POST">
         <input type="hidden" value="{{csrf_token()}}" name="csrf_token" id="csrf_token" />
         <label>{{_gettext('Theme')}}</label>
         <select id="swatch" name="swatch" onchange="$('#swatcher_form').submit();">

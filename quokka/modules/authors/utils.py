@@ -2,7 +2,7 @@
 
 import datetime
 from flask import current_app, request
-from quokka.core.models import Content
+from quokka.core.models.content import Content
 from quokka.modules.accounts.models import User, Role
 
 

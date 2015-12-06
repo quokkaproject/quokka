@@ -76,6 +76,19 @@ class HasCustomValue(object):
         except:
             return default
 
+    def add_value(self, name, value, formatter='text'):
+        """
+        Another implementation
+        data = {"name": name, "rawvalue": value, "formatter": formatter}
+        self.values.update(data, name=name) or self.values.create(**data)
+        """
+        custom_value = CustomValue(
+            name=name,
+            value=value,
+            formatter=formatter
+        )
+        self.values.append(custom_value)
+
     def clean(self):
         current_names = [value.name for value in self.values]
         for name in current_names:

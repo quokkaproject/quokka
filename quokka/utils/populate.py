@@ -3,9 +3,11 @@ import logging
 import json
 import uuid
 
-from quokka.core.models import Channel, ChannelType, SubContentPurpose, \
-    Config, License
-from quokka.core.base_models.custom_values import CustomValue
+from quokka.core.models.subcontent import SubContentPurpose
+from quokka.core.models.channel import Channel, ChannelType
+from quokka.core.models.config import Config
+from quokka.core.models.content import License
+from quokka.core.models.custom_values import CustomValue
 from quokka.modules.accounts.models import User, Role
 from quokka.modules.posts.models import Post
 
@@ -24,8 +26,8 @@ class Populate(object):
         self.purposes = {}
         self.custom_values = {}
         self.load_fixtures()
-        self.baseurl = self.kwargs.get('baseurl', None)
-        self.app = self.kwargs.get('app', None)
+        self.baseurl = self.kwargs.get('baseurl')
+        self.app = self.kwargs.get('app')
 
     def __call__(self, *args, **kwargs):
         if self.baseurl and self.app:
@@ -120,7 +122,8 @@ class Populate(object):
         for data in self.users_data:
             self.create_user(data)
 
-    def create_config(self, data):
+    @staticmethod
+    def create_config(data):
         try:
             return Config.objects.get(group=data.get('group'))
         except:
@@ -257,13 +260,13 @@ class Populate(object):
             "content_format": "markdown"
         }
         post_data['channel'] = self.channels.get("home")
-        post_data["created_by"] = user_obj or User.objects.first()
+        post_data["created_by"] = user_obj or self.users.get('author')
         post = self.create_post(post_data)
         return post
 
     def create_post(self, data):
         if not data.get('created_by'):
-            data['created_by'] = self.users.get('admin')
+            data['created_by'] = self.users.get('author')
         data['last_updated_by'] = data['created_by']
         data['published'] = True
 

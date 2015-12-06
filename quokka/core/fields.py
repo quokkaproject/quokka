@@ -9,7 +9,8 @@ class MultipleObjectsReturned(Exception):
 
 
 def match_all(i, kwargs):
-    return all([getattr(i, k) == v for k, v in kwargs.items()])
+    # use generator expression?
+    return all(getattr(i, k) == v for k, v in kwargs.items())
 
 
 def getinstance(_instance):

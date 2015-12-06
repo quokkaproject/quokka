@@ -64,7 +64,7 @@ class BasicTestCase(TestCase):
         self.assertTrue(Post.objects(**only_blog_filter).count() == 3)
 
     def test_has_default_theme(self):
-        from quokka.core.models import Config
+        from quokka.core.models.config import Config
         self.assertTrue(Config.get('settings', 'DEFAULT_THEME') == 'pure')
 
     def test_app_has_admin(self):
