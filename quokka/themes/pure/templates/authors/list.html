@@ -24,7 +24,7 @@
                         <figcaption><a class="post-title" href="{{url_for('quokka.modules.authors.author', author_id=author.username)}}">{{ author.display_name }}</a>
                         </figcaption>
                     </figure>
-                     {{author.get_value('position')}}
+                     {{author.get_value('position') or ''}}
                      <p class="post-meta">
                         {{author.tagline|striptags|safe()}}
                      </p>
