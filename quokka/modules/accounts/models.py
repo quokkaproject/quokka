@@ -39,6 +39,9 @@ class UserLink(db.EmbeddedDocument):
     css_class = db.StringField(max_length=50)
     order = db.IntField(default=0)
 
+    def __unicode__(self):
+        return u"{0} - {1}".format(self.title, self.link)
+
 
 class User(db.DynamicDocument, ThemeChanger, HasCustomValue, UserMixin):
     name = db.StringField(max_length=255)
