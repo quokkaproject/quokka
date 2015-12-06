@@ -72,7 +72,7 @@ class User(db.DynamicDocument, ThemeChanger, HasCustomValue, UserMixin):
         choices=(
             ("gravatar", "gravatar"),
             ("url", "url"),
-            ("file", "file"),
+            ("upload", "upload"),
             ("facebook", "facebook")
         ),
         default='gravatar'
@@ -84,7 +84,7 @@ class User(db.DynamicDocument, ThemeChanger, HasCustomValue, UserMixin):
     def get_avatar_url(self, *args, **kwargs):
         if self.use_avatar_from == 'url':
             return self.avatar_url
-        elif self.use_avatar_from == 'file':
+        elif self.use_avatar_from == 'upload':
             return url_for(
                 'quokka.core.media', filename=self.avatar_file_path
             )
@@ -117,10 +117,13 @@ class User(db.DynamicDocument, ThemeChanger, HasCustomValue, UserMixin):
         super(User, self).clean(*args, **kwargs)
 
     @classmethod
-    def generate_username(cls, name):
+    def generate_username(cls, name, user=None):
         name = name or ''
         username = slugify(name)
-        if cls.objects.filter(username=username).count():
+        filters = {"username": username}
+        if user:
+            filters["id__ne"] = user.id
+        if cls.objects.filter(**filters).count():
             username = "{0}{1}".format(username, randint(1, 1000))
         return username
 
