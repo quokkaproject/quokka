@@ -15,7 +15,7 @@
     <meta property="og:site_name" content="{{ Config.get('site', 'site_name') }}" />
     <meta property="og:url" content="{{url_for('quokka.modules.authors.author', author_id=author.id)}}" />
     <meta property="og:description" content="{{ author.summary|striptags }}" />
-    <meta property="og:image" content="{{ author.get_gravatar_email() | gravatar(size=64) }}" />
+    <meta property="og:image" content="{{ author.get_avatar_url(size=64) }}" />
 {% endblock meta %}
 
 {% block content %}

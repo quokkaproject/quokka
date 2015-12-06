@@ -1,17 +1,16 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
+import os
+from werkzeug import secure_filename
 from flask import redirect, request, url_for, flash
 from flask.views import MethodView
 from quokka.utils import get_current_user
+from quokka.utils.upload import lazy_media_path
 from flask.ext.security.utils import url_for_security
 from flask.ext.security import current_user
 from flask.ext.mongoengine.wtf import model_form
 from quokka.core.templates import render_template
 from .models import User
-
-# from quokka.core.admin.fields import ImageUploadField
-# from quokka.utils.upload import dated_path, lazy_media_path
 
 
 class SwatchView(MethodView):
@@ -78,7 +77,19 @@ class ProfileEditView(MethodView):
         form = self.form(request.form)
         if form.validate():
             user = get_current_user()
+            avatar_file_path = user.avatar_file_path
+            avatar = request.files.get('avatar')
+            if avatar:
+                filename = secure_filename(avatar.filename)
+                avatar_file_path = os.path.join(
+                    'avatars', str(user.id), filename
+                )
+                path = os.path.join(lazy_media_path(), avatar_file_path)
+                if not os.path.exists(os.path.dirname(path)):
+                    os.makedirs(os.path.dirname(path), 0o777)
+                avatar.save(path)
             form.populate_obj(user)
+            user.avatar_file_path = avatar_file_path
             user.save()
             flash('Profile saved!', 'alert')
             return redirect(url_for('quokka.modules.accounts.profile_edit'))

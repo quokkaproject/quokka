@@ -9,8 +9,14 @@
             <!-- A wrapper for all the blog posts -->
             <div class="posts">
               <h1>Edit Profile</h1>
-                <form  action="{{ url_for('quokka.modules.accounts.profile_edit') }}" method="POST" name="change_password_form" class="pure-form pure-form-aligned" role="form">
+                <form  action="{{ url_for('quokka.modules.accounts.profile_edit') }}" method="POST" enctype="multipart/form-data" name="change_password_form" class="pure-form pure-form-aligned" role="form">
                 <fieldset>
+
+                  <label> Imagem:<br />
+                     <input type="file" name="avatar" id="avatar" />
+                  </label>
+                 <img src="{{ current_user.get_avatar_url(size=200) }}" width="200" />
+
                  {% for field in form %}
 
                   {% if field.type in ['CSRFTokenField', 'HiddenField'] %}

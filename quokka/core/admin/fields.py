@@ -6,7 +6,6 @@ from werkzeug.datastructures import FileStorage
 from flask import current_app
 from flask.ext.admin import form
 from flask.ext.admin.form.upload import ImageUploadInput
-from flask.ext.admin._compat import urljoin
 
 from quokka.core.models.subcontent import SubContent, SubContentPurpose
 from quokka.modules.media.models import Image
