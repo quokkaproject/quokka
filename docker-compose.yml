@@ -5,15 +5,6 @@ mongo:
     volumes:
       - ./etc/mongodata:/data/db
 
-# elastic:
-#     image: catholabs/elastic-with-marvel
-#     command: elasticsearch
-#     volumes:
-#        - etc/elasticdata:/usr/share/elasticsearch/data
-#     ports:
-#        - "9200:9200"
-#     mem_limit: 1000000000
-
 web:
     restart: always
     image: quokka/quokkadev
@@ -24,7 +15,6 @@ web:
         - .:/quokka
     links:
         - mongo:mongo
-        # - elastic:elastic
     command: sh etc/docker_wait_to_start.sh
     environment:
         - QUOKKA_MONGODB_HOST=mongo
