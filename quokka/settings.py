@@ -40,10 +40,13 @@ CACHE_TYPE = "simple"
 
 """
 Not needed by flask, but those root folders are used
-by FLask-Admin file manager
+by FLask-Admin file manager and Media module
 """
 PROJECT_ROOT = os.path.abspath(os.path.dirname(__file__))
+
+# If you need different folder to save media files
 MEDIA_ROOT = os.path.join(PROJECT_ROOT, 'mediafiles')
+
 STATIC_ROOT = os.path.join(PROJECT_ROOT, 'static')
 ROOT_DIR = os.path.abspath(os.path.join(PROJECT_ROOT, '..'))
 
@@ -56,7 +59,7 @@ POPULATE_FILEPATH = os.path.join(
 Files on MAP_STATIC_ROOT will be served from /static/
 example: /static/favicon.ico will be served by site.com/favicon.ico
 """
-MAP_STATIC_ROOT = ('/robots.txt', '/sitemap.xml', '/favicon.ico')
+MAP_STATIC_ROOT = ('/robots.txt', '/favicon.ico')
 
 
 """
@@ -71,8 +74,8 @@ just develop or download and drop in your modules folder
 by default it is in /modules, you can change if needed
 """
 
-BLUEPRINTS_MODULE_NAME = 'main'
 BLUEPRINTS_PATH = 'modules'
+BLUEPRINTS_MODULE_NAME = 'main'
 BLUEPRINTS_OBJECT_NAME = 'module'
 
 """
@@ -238,6 +241,13 @@ MEDIA_IMAGE_ALLOWED_EXTENSIONS = ('jpg', 'jpeg', 'png', 'tiff', 'gif', 'bmp')
 MEDIA_AUDIO_ALLOWED_EXTENSIONS = ('mp3', 'wmv', 'ogg')
 MEDIA_VIDEO_ALLOWED_EXTENSIONS = ('avi', 'mp4', 'mpeg')
 MEDIA_FILE_ALLOWED_EXTENSIONS = ('pdf', 'txt', 'doc', 'docx', 'xls', 'xmlsx')
+
+"""
+Quokka-Themes checks `THEME_PATHS` configuration variable to find
+directories that contain themes. The theme's identifier in info.json
+must match the name of its directory.
+"""
+# THEME_PATHS = '/etc/themes/'
 
 # default admin THEME
 ADMIN_THEME = 'admin'
