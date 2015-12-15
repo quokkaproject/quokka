@@ -24,6 +24,7 @@ LOGGER_LEVEL = 'DEBUG'
 LOGGER_FORMAT = '%(asctime)s %(name)-12s %(levelname)-8s %(message)s'
 LOGGER_DATE_FORMAT = '%d.%m %H:%M:%S'
 
+DEBUG = False
 if os.environ['OPENSHIFT_APP_NAME'] == 'quokkadevelopment':
     DEBUG_TOOLBAR_ENABLED = True
     DEBUG = True
@@ -33,7 +34,6 @@ SHORTENER_ENABLED = True
 
 MAP_STATIC_ROOT = (
     '/robots.txt',
-    '/sitemap.xml',
     '/favicon.ico',
     '/vaddy-c603c78bbeba8d9.html'
 )
@@ -51,3 +51,11 @@ ADMIN_HEADER = (
     "</li>"
     "</ul>"
 )
+
+OPBEAT = {
+    'ORGANIZATION_ID': '87883697e9f64e85b1a8170ff664890a',
+    'APP_ID': 'd924873719',
+    'SECRET_TOKEN': 'a0fee12cdb9eca36320b42d2d50f57ceea260dc5',
+    'INCLUDE_PATHS': ['quokka'],
+    'DEBUG': DEBUG,
+}

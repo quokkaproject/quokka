@@ -326,3 +326,28 @@ set the X-HTTP-Method-Override header and set the value to the intended
 HTTP method (such as PATCH).
 """
 HTTP_PROXY_METHOD_OVERRIDE = False
+
+
+"""
+https://opbeat.com is application monitoring tool
+you can enable it but you need to install requirements/dev.txt
+https://opbeat.com/docs/articles/get-started-with-flask/
+
+OPBEAT = {
+    'ORGANIZATION_ID': '<ORGANIZATION-ID>',
+    'APP_ID': '<APP-ID>',
+    'SECRET_TOKEN': '<SECRET-TOKEN>',
+    'INCLUDE_PATHS': ['quokka'],
+    'DEBUG': True,
+    'LOGGING': False
+}
+
+Notify Opbeat when a release has completed
+$   curl https://intake.opbeat.com/api/v1/
+    organizations/<ORGANIZATION-ID>/apps/<APP-ID>/releases/ \
+    -H "Authorization: Bearer <SECRET-TOKEN>" \
+    -d rev=`git log -n 1 --pretty=format:%H` \
+    -d branch=`git rev-parse --abbrev-ref HEAD` \
+    -d status=completed
+"""
+# OPBEAT = None

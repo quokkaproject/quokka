@@ -7,7 +7,7 @@ from quokka.core.admin import configure_admin
 
 from . import (generic, babel, blueprints, error_handlers, context_processors,
                template_filters, before_request, views, themes, fixtures,
-               oauthlib, weasyprint, security)
+               oauthlib, weasyprint, security, development)
 
 
 def configure_extensions(app, admin):
@@ -26,22 +26,10 @@ def configure_extensions(app, admin):
     blueprints.load_from_folder(app)
     weasyprint.configure(app)
     configure_admin(app, admin)
-
-    if app.config.get('DEBUG_TOOLBAR_ENABLED'):
-        try:
-            from flask_debugtoolbar import DebugToolbarExtension
-            DebugToolbarExtension(app)
-        except:
-            app.logger.info('flask_debugtoolbar is not installed')
-
+    development.configure(app, admin)
     before_request.configure(app)
     views.configure(app)
     oauthlib.configure(app)
-
-    if app.config.get('SENTRY_ENABLED', False):
-        from .sentry import configure
-        configure(app)
-
     return app
 
 
