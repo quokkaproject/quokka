@@ -53,23 +53,23 @@ def is_accessible(roles_accepted=None, user=None):
 
 def parse_conf_data(data):
     """
-    $int $bool $float $json (for lists and dicts)
+    @int @bool @float @json (for lists and dicts)
     strings does not need converters
 
     export QUOKKA_DEFAULT_THEME='material'
-    export QUOKKA_DEBUG='$bool True'
-    export QUOKKA_DEBUG_TOOLBAR_ENABLED='$bool False'
-    export QUOKKA_PAGINATION_PER_PAGE='$int 20'
-    export QUOKKA_MONGODB_SETTINGS='$json {"DB": "quokka_db", "HOST": "mongo"}'
-    export QUOKKA_ALLOWED_EXTENSIONS='$json ["jpg", "png"]'
+    export QUOKKA_DEBUG='@bool True'
+    export QUOKKA_DEBUG_TOOLBAR_ENABLED='@bool False'
+    export QUOKKA_PAGINATION_PER_PAGE='@int 20'
+    export QUOKKA_MONGODB_SETTINGS='@json {"DB": "quokka_db", "HOST": "mongo"}'
+    export QUOKKA_ALLOWED_EXTENSIONS='@json ["jpg", "png"]'
     """
     import json
-    true_values = ('t', 'true', 'enabled', '1', 'on')
+    true_values = ('t', 'true', 'enabled', '1', 'on', 'yes')
     converters = {
-        '$int': int,
-        '$float': float,
-        '$bool': lambda value: True if value.lower() in true_values else False,
-        '$json': json.loads
+        '@int': int,
+        '@float': float,
+        '@bool': lambda value: True if value.lower() in true_values else False,
+        '@json': json.loads
     }
     if data.startswith(tuple(converters.keys())):
         parts = data.partition(' ')
