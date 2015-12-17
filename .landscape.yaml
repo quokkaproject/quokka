@@ -3,7 +3,6 @@ python-targets:
     - 3
 
 uses:
-    - celery
     - flask
 
 pylint:
