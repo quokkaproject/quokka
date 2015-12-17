@@ -1,10 +1,10 @@
 # coding: utf-8
 
-import logging
-import collections
-import hashlib
-import PyRSS2Gen as pyrss
 import sys
+import logging
+import hashlib
+import collections
+import PyRSS2Gen as pyrss
 
 from datetime import datetime, timedelta
 from flask import request, redirect, url_for, abort, current_app
@@ -19,10 +19,8 @@ from quokka.utils import is_accessible, get_current_user
 # python3 support
 if sys.version_info.major == 3:
     from urllib.parse import urljoin
-    # from io import StringIO
 else:
     from urlparse import urljoin
-    # import StringIO
 
 logger = logging.getLogger()
 
@@ -568,31 +566,25 @@ class SiteMap(MethodView):
             'published': True,
             'available_at__lte': now,
         }
-
         contents = Content.objects().filter(**filters)
         return contents
 
-    def sitemap_render(self, contents):
-        tmpl = """
-        <?xml version="1.0" encoding="UTF-8"?><!-- generator="quokka" -->
-        <!-- generated-on="12 de February de 2013 1:41 PM" -->
-        <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-        """
-        for content in contents:
-            tmpl += """
-            <url>
-                <loc>{0}</loc>
-                <lastmod>{1}</lastmod>
-                <changefreq>daily</changefreq>
-                <priority>0.2</priority>
-            </url>
-            """.format(
-                self.make_external_url(content.get_absolute_url()),
-                content.created_at
-            )
-        tmpl += "</urlset>"
-        return tmpl
+    def get_channels(self):
+        now = datetime.now()
+        filters = {
+            'published': True,
+            'available_at__lte': now,
+        }
+        channels = Channel.objects().filter(**filters)
+        return channels
 
     def get(self):
-        contents = self.get_contents()
-        return self.sitemap_render(contents)
+        """
+        Fixme: Should include extra paths, fixed paths
+        config based paths, static paths
+        """
+        return render_template(
+            'sitemap.xml',
+            contents=self.get_contents(),
+            channels=self.get_channels()
+        )
