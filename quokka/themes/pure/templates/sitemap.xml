@@ -1,7 +1,7 @@
 {%- macro render_item(item) -%}
 <url>
     <loc>{{item.get_http_url()|safe}}</loc>
-    <lastmod>{{item.available_at.strftime("%Y-%m-%d %H:%M:%S")}}</lastmod>
+    <lastmod>{{item.available_at.isoformat()}}</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.2</priority>
 </url>
