@@ -2,7 +2,6 @@
 # -*- coding: utf-8 -*-
 
 import logging
-from flask import request
 from flask.ext.mistune import markdown
 
 from quokka.core.db import db
@@ -10,9 +9,8 @@ from quokka.core.models.custom_values import HasCustomValue
 from quokka.core.models.signature import (
     Tagged, Publishable, LongSlugged, ContentFormat, TemplateType
 )
-from quokka.core.models.config import Config
 from quokka.core.admin.utils import _l
-
+from quokka.utils.settings import get_site_url
 logger = logging.getLogger()
 
 
@@ -161,8 +159,10 @@ class Channel(Tagged, HasCustomValue, Publishable, LongSlugged,
         return self.get_absolute_url()
 
     def get_http_url(self):
-        site_url = Config.get('site', 'site_domain', request.url_root)
-        return u"{0}{1}".format(site_url, self.get_absolute_url())
+        site_url = get_site_url()
+        absolute_url = self.get_absolute_url()
+        absolute_url = absolute_url[1:]
+        return u"{0}{1}".format(site_url, absolute_url)
 
     def clean(self):
         homepage = Channel.objects(is_homepage=True)

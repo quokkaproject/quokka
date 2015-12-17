@@ -1,6 +1,5 @@
 # coding: utf-8
-from flask.ext.mail import Mail
-
+from flask_mail import Mail
 from quokka.core.db import db
 from quokka.core.cache import cache
 from quokka.core.admin import configure_admin
