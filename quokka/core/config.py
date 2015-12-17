@@ -46,30 +46,6 @@ class QuokkaConfig(Config):
     def __getitem__(self, key):
         return self.get_from_db(key) or dict.__getitem__(self, key)
 
-    # def __iter__(self):
-    #     return iter(self.store)
-
-    # def __len__(self):
-    #     return len(self.store)
-
-    # def __repr__(self):
-    #     return self.store.__repr__()
-
-    # def __unicode__(self):
-    #     return unicode(repr(self.store))
-
-    # def __call__(self, *args, **kwargs):
-    #     return self.store.get(*args, **kwargs)
-
-    # def __contains__(self, item):
-    #     return item in self.store
-
-    # def keys(self):
-    #     return self.store.keys()
-
-    # def values(self):
-    #     return self.store.values()
-
     def get(self, key, default=None):
         return self.get_from_db(key) or self.store.get(key) or default
 
