@@ -1,9 +1,9 @@
-python-targets:
-    - 2
-    - 3
+# python-targets:
+#     - 2
+#     - 3
 
-uses:
-    - flask
+# uses:
+#     - flask
 
 pylint:
   disable:
