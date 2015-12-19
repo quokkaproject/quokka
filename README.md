@@ -49,7 +49,13 @@ User 'admin@example.com' and passwd 'admin' to login in to /admin
 
 # Get Quokka
 
-##  Get Quokka Master and enter in to its root directory
+
+# Using Docker
+
+The easiest way to run Quokka for development or production is using quokkaCMS + Gunicorn + Supervisor under a Docker Container. You can see the instructions in the following repository: https://github.com/quokkaproject/docker-gunicorn-supervisor
+
+
+##  Get Quokka to run locally for development or deployment
 
 ```bash
 git clone https://github.com/quokkaproject/quokka --branch master --single-branch
@@ -58,11 +64,7 @@ cd quokka
 
 > if you are cloning to contribute to the project just clone it without the "--branch=master --single-branch" part
 
-## Run Quokka
-
-You have 2 options **RUN LOCAL** or **RUN IN DOCKER**
-
-### RUN LOCAL
+### Run Quokka
 
 Install needed packages in your local computer
 
@@ -94,6 +96,8 @@ You can install everything you need in your local computer or if preferred use a
         MONGODB_USERNAME = None
         MONGODB_PASSWORD = None
         =============================================================
+        
+        # You can also use envvars `export QUOKKA_MONGO_DB="yourdbname"` 
         ```
 
     3. If you have Docker installed you can simply run the official Mongo image
@@ -117,7 +121,8 @@ You can install everything you need in your local computer or if preferred use a
 
 #### Python requirements
 Install all needed python packages
-> activate your virtualenv if you want
+
+> If you have a virtualenv, activate it! `source env/bin/activate` or `workon env`
 
 ```bash
 pip install -r requirements/requirements.txt
@@ -135,7 +140,7 @@ pip install -r requirements/requirements.txt
         P4$$W0Rd
         ```
 
-    4. Populate with sample data (optional if you want sample data)
+    4. Populate with sample data (optional if you want sample data for testing)
         ```bash
         $ python manage.py populate
 
@@ -148,68 +153,7 @@ pip install -r requirements/requirements.txt
         ```
         - Site on [http://localhost:5000](http://localhost:5000)
         - Admin on [http://localhost:5000/admin](http://localhost:5000/admin)
-
-
-### RUN IN DOCKER
-
-- Run pre built docker images with everything pre-installed
-- You will need docker and docker compose installed in your machine
-- Once in Docker all data is stored behind quokka/etc folder
-
-
-#### Install Docker and docker-compose
-
-- **Docker** - https://docs.docker.com/installation/
-- **Docker-Compose** - https://docs.docker.com/compose/install/
-
-
-> Ensure that local port 27017(mongo) is not being used on your computer
-
-* ### Run with docker-compose
-
-    1. Easiest way is just running the following command in quokka root folder
-    ```bash
-    docker-compose up
-    ```
-
-    > use -d on above to leave it as a daemon
-
-    2. You can create a new admin user to login and start posting
-    ```bash
-    docker-compose run web python manage.py accounts_createsuperuser
-    ```
-
-    3. Or populate with sample data (optional)
-    ```bash
-    docker-compose run web python manage.py populate
-    ```
-    > credentials for /admin will be email: admin@example.com passwd: admin
-
-    4. You enter Quokka Shell (in a separate console) or run any other command in place of **shell*
-    ```bash
-    docker-compose run web python manage.py shell
-    ```
-
-* ### Run standalone containers
-> (each in separate shells or use -d option)
-
-    1. run mongo container
-    ```bash
-    docker run -v $PWD/etc/mongodata:/data/db -p 27017:27017 --name mongo mongo
-    ```
-
-    2. run quokka web app container
-    ```bash
-    docker run -e "QUOKKA_MONGODB_HOST=mongo" -p 5000:5000 --link mongo:mongo -v $PWD:/quokka --workdir /quokka -t -i quokka/quokkadev python manage.py runserver --host 0.0.0.0
-
-    ```
-
-    3. run quokka shell if needed
-    ```bash
-    docker run -e "QUOKKA_MONGODB_HOST=mongo" -p 5000:5000 --link mongo:mongo -v $PWD:/quokka --workdir /quokka -t -i quokka/quokkadev python manage.py shell
-
-    ```
-
+        
 
 ## Deployment
 

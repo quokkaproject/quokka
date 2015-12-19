@@ -5,7 +5,7 @@ import uuid
 
 from quokka.core.models.subcontent import SubContentPurpose
 from quokka.core.models.channel import Channel, ChannelType
-from quokka.core.models.config import Config
+from quokka.core.models.config import Config, Quokka
 from quokka.core.models.content import License
 from quokka.core.models.custom_values import CustomValue
 from quokka.modules.accounts.models import User, Role
@@ -233,32 +233,32 @@ class Populate(object):
             self.create_purpose(purpose)
 
     def create_initial_post(self, user_data=None, user_obj=None):
-        post_data = {
-            "title": "Try Quokka CMS! write a post.",
-            "summary": (
+        post_data = dict(
+            title="Try Quokka CMS! write a post.",
+            summary=(
                 "Use default credentials to access "
                 "/admin \r\n"
                 "user: {user[email]} \r\n"
                 "pass: {user[password]} \r\n"
             ).format(user=user_data),
-            "slug": "try-quokka-cms",
-            "tags": ["quokka"],
-            "body": (
-                "## You can try Quokka ADMIN\r\n\r\n"
-                "Create some posts\r\n\r\n"
-                "> Use default credentials to access "
-                "[/admin](/admin) \r\n\r\n"
-                "- user: {user[email]}\r\n"
-                "- password: {user[password]}\r\n"
-                "> ATTENTION! Copy the credentials and delete this post"
+            slug="try-quokka-cms",
+            tags=["quokka"],
+            body=(
+                 "## You can try Quokka ADMIN\r\n\r\n"
+                 "Create some posts\r\n\r\n"
+                 "> Use default credentials to access "
+                 "[/admin](/admin) \r\n\r\n"
+                 "- user: {user[email]}\r\n"
+                 "- password: {user[password]}\r\n"
+                 "> ATTENTION! Copy the credentials and delete this post"
             ).format(user=user_data),
-            "license": {
-                "title": "Creative Commons",
-                "link": "http://creativecommons.com",
-                "identifier": "creative_commons_by_nc_nd"
-            },
-            "content_format": "markdown"
-        }
+            license=dict(
+                title="Creative Commons",
+                link="http://creativecommons.com",
+                identifier="creative_commons_by_nc_nd"
+            ),
+            content_format="markdown"
+        )
         post_data['channel'] = self.channels.get("home")
         post_data["created_by"] = user_obj or self.users.get('author')
         post = self.create_post(post_data)
@@ -301,3 +301,33 @@ class Populate(object):
             except:
                 self.create_channels()
                 self.create_post(data)
+
+    def reset(self):
+        Post.objects(
+            slug__in=[item['slug'] for item in self.json_data.get('posts')]
+        ).delete()
+
+        SubContentPurpose.objects(
+            identifier__in=[
+                item['identifier'] for item in self.json_data.get('purposes')
+            ]
+        ).delete()
+
+        base_channels = Channel.objects(parent=None)
+        second_level = Channel.objects(parent__in=base_channels)
+        third_level = Channel.objects(parent__in=second_level)
+
+        third_level.delete()
+        second_level.delete()
+        base_channels.delete()
+
+        Config.objects(
+            group__in=[item['group'] for item in self.json_data.get('configs')]
+        ).delete()
+
+        User.objects(
+            email__in=[item['email'] for item in self.json_data.get('users')]
+        ).delete()
+
+        if self.kwargs.get('first_install'):
+            Quokka.objects.delete()
