@@ -1,6 +1,7 @@
 # coding: utf-8
 from quokka.utils.populate import Populate
 from quokka.core.models.config import Quokka
+from quokka.core.models.config import Config
 
 
 def configure(app, db):
@@ -31,7 +32,8 @@ def configure(app, db):
             except Exception as e:
                 app.logger.warning("Cant create initial user and post: %s" % e)
         except Exception as e:
-            app.logger.error("Error loading fixtures: %s" % e)
+            app.logger.error("Error loading fixtures, try again - %s" % e)
             populate.reset()
+            Config.objects.delete()
         else:
             Quokka.objects.create(slug="is_installed")

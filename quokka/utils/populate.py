@@ -313,17 +313,14 @@ class Populate(object):
             ]
         ).delete()
 
-        base_channels = Channel.objects(parent=None)
-        second_level = Channel.objects(parent__in=base_channels)
-        third_level = Channel.objects(parent__in=second_level)
-
-        third_level.delete()
-        second_level.delete()
-        base_channels.delete()
-
-        Config.objects(
-            group__in=[item['group'] for item in self.json_data.get('configs')]
-        ).delete()
+        for channel in Channel.objects(
+                slug__in=[
+                    item['slug'] for item in self.json_data.get('channels')]):
+            for subchannel in channel.get_children():
+                for subsubchannel in subchannel.get_children():
+                    subsubchannel.delete()
+                subchannel.delete()
+            channel.delete()
 
         User.objects(
             email__in=[item['email'] for item in self.json_data.get('users')]
