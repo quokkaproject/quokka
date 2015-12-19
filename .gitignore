@@ -57,3 +57,4 @@ etc/mongodata/*.ns
 etc/mongodata/*.lock
 etc/mongodata/*.bson
 *.log
+*.pid
