@@ -73,6 +73,19 @@ def populate(filename, baseurl=None):
 
 
 @core_cmd.command()
+@click.option(
+    '-f',
+    '--filename',
+    help='Fixtures JSON path',
+    default='./etc/fixtures/initial_data.json')
+@click.option('-b', '--baseurl', help='base url to use', default=None)
+def populate_reset(filename, baseurl=None):
+    """De-Populate the database with sample data"""
+    from quokka.utils.populate import Populate
+    Populate(db, filepath=filename, baseurl=baseurl, app=app).reset()
+
+
+@core_cmd.command()
 def showconfig():
     """Print all config variables"""
     from pprint import pprint
