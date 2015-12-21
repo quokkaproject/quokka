@@ -502,7 +502,7 @@ class Content(HasCustomValue, Publishable, LongSlugged,
 
     def get_main_image_url(self, thumb=False,
                            default=None, identifier='mainimage'):
-        """
+        """method returns the path (url) of the main image
         """
         if not isinstance(identifier, (list, tuple)):
             identifier = [identifier]
@@ -518,6 +518,15 @@ class Content(HasCustomValue, Publishable, LongSlugged,
                 logger.warning('get_main_image_url:' + str(e))
 
         return default
+
+    def get_main_image_http(self, thumb=False,
+                            default=None, identifier='mainimage'):
+        """method returns the path of the main image with http
+        """
+        site_url = get_site_url()
+        image_url = self.get_main_image_url(
+            thumb=thumb, default=default, identifier=identifier)
+        return u"{}{}".format(site_url, image_url)
 
     def get_uid(self):
         return str(self.id)
