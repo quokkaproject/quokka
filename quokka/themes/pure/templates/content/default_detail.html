@@ -34,7 +34,7 @@
     <meta property="og:site_name" content="{{ Config.get('site', 'site_name') }}" />
     <meta property="og:url" content="{{ content.get_http_url() }}" />
     <meta property="og:description" content="{{ content.get_summary()|truncate(255)|striptags }}" />
-    <meta property="og:image" content="{{ content.get_main_image_url(default=Config.get('site', 'site_logo', theme_static('img/logo.png'))) }}" />
+    <meta property="og:image" content="{{ content.get_main_image_http(default=Config.get('site', 'site_logo', theme_static('img/logo.png'))) }}" />
 {% endblock meta %}
 
 {% block content %}
