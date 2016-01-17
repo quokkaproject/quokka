@@ -1,16 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-VERSION = (0, 2, 0)
-
-__version__ = ".".join(map(str, VERSION))
-__status__ = "Alpha"
-__description__ = "Flexible & modular CMS powered by Flask and MongoDB"
-__author__ = "Bruno Rocha <rochacbruno@gmail.com>"
-__email__ = "quokka-developers@googlegroups.com"
-__license__ = "MIT License"
-__copyright__ = "Copyright 2014, Quokka Project"
-
-
 from quokka.core.admin import create_admin
 from quokka.core.app import QuokkaApp
 from quokka.core.middleware import HTTPMethodOverrideMiddleware
