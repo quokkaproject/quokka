@@ -30,7 +30,7 @@ mongoengine==0.10.1  # rq.filter:<0.10.2
 pymongo==2.9.2  # rq.filter: <3
 
 # There is a compatibility break in Flask-Login 0.3
-Flask-Login==0.2.11 # rq.filter: <0.3
+Flask-Login==0.2.11  # rq.filter: <0.3
 
 # Mistune 0.7.1 broke base64; inline images
-mistune==0.7.1
+mistune==0.6  # rq.filter: <0.7
