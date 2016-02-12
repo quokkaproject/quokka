@@ -7,7 +7,7 @@ pytest-flask==0.10.0
 Flask-Testing==0.4.2
 
 # style check
-flake8==2.5.2
+flake8==2.5.2  # rq.filter:<2.5.3
 pep8-naming==0.3.3
 flake8-debugger==1.4.0
 flake8-print==2.0.1
