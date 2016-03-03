@@ -1,10 +1,10 @@
 [![Flask Registered](https://img.shields.io/badge/flask-registered-green.svg?style=flat)](https://github.com/pocoo/metaflask)
-[![Travis CI](http://img.shields.io/travis/quokkaproject/quokka.svg)](https://travis-ci.org/quokkaproject/quokka)
-[![Coverage Status](http://img.shields.io/coveralls/quokkaproject/quokka.svg)](https://coveralls.io/r/quokkaproject/quokka)
-[![Code Health](https://landscape.io/github/quokkaproject/quokka/development/landscape.svg?style=flat)](https://landscape.io/github/quokkaproject/quokka/development)
-[![Requirements Status](https://requires.io/github/quokkaproject/quokka/requirements.svg?branch=development)](https://requires.io/github/quokkaproject/quokka/requirements/?branch=development)
+[![Travis CI](http://img.shields.io/travis/rochacbruno/quokka.svg)](https://travis-ci.org/rochacbruno/quokka)
+[![Coverage Status](http://img.shields.io/coveralls/rochacbruno/quokka.svg)](https://coveralls.io/r/rochacbruno/quokka)
+[![Code Health](https://landscape.io/github/rochacbruno/quokka/development/landscape.svg?style=flat)](https://landscape.io/github/rochacbruno/quokka/development)
+[![Requirements Status](https://requires.io/github/rochacbruno/quokka/requirements.svg?branch=development)](https://requires.io/github/rochacbruno/quokka/requirements/?branch=development)
 
-[![Stories in Ready](https://badge.waffle.io/quokkaproject/quokka.png?label=ready&title=Ready)](http://waffle.io/quokkaproject/quokka)
+[![Stories in Ready](https://badge.waffle.io/rochacbruno/quokka.png?label=ready&title=Ready)](http://waffle.io/rochacbruno/quokka)
 [![Join Slack Chat](https://img.shields.io/badge/JOIN_SLACK-CHAT-green.svg)](https://quokkaslack.herokuapp.com/)
 [![Slack](http://quokkaslack.herokuapp.com/badge.svg)](https://quokkaproject.slack.com/messages/)
 
@@ -13,7 +13,7 @@
 <a target="_blank" href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&amp;business=rochacbruno%40gmail%2ecom&amp;lc=BR&amp;item_name=quokkaproject&amp;no_note=0&amp;currency_code=USD&amp;bn=PP%2dDonationsBF%3abtn_donate_SM%2egif%3aNonHostedGuest"><img alt='Donate with Paypal' src='http://www.paypalobjects.com/en_US/i/btn/btn_donate_SM.gif' /></a>
 
 [![wercker status](https://app.wercker.com/status/e9cbc4497ee946083aa19fbd3f756c91/m "wercker status")](https://app.wercker.com/project/bykey/e9cbc4497ee946083aa19fbd3f756c91)
-[![Launch on OpenShift](http://launch-shifter.rhcloud.com/button.svg)](https://openshift.redhat.com/app/console/application_type/custom?cartridges%5B%5D=python-2.7&cartridges%5B%5D=mongodb-2.4&initial_git_url=https://github.com/quokkaproject/quokka.git&name=quokka&initial_git_branch=master)
+[![Launch on OpenShift](http://launch-shifter.rhcloud.com/button.svg)](https://openshift.redhat.com/app/console/application_type/custom?cartridges%5B%5D=python-2.7&cartridges%5B%5D=mongodb-2.4&initial_git_url=https://github.com/rochacbruno/quokka.git&name=quokka&initial_git_branch=master)
 
 Quokka project
 ===============================================
@@ -58,7 +58,7 @@ The easiest way to run Quokka for development or production is using quokkaCMS +
 ##  Get Quokka to run locally for development or deployment
 
 ```bash
-git clone https://github.com/quokkaproject/quokka --branch master --single-branch
+git clone https://github.com/rochacbruno/quokka --branch master --single-branch
 cd quokka
 ```
 
@@ -167,18 +167,18 @@ http://quokkaproject.org/documentation
 > If you want to help writing the docs please go to https://github.com/quokkaproject/quokkaproject.github.io
 
 
-Also there is a [Wiki](https://github.com/quokkaproject/quokka/wiki)
+Also there is a [Wiki](https://github.com/rochacbruno/quokka/wiki)
 ===============================================
 
 > NOTE: the content from wiki will be moved to /documentation
 
-* [About & Features](https://github.com/quokkaproject/quokka/wiki/about)
-* [Installing and running](https://github.com/quokkaproject/quokka/wiki/installation)
-* [Requirements](https://github.com/quokkaproject/quokka/wiki/requirements)
-* [Extending & Installing modules](https://github.com/quokkaproject/quokka/wiki/plugins)
-* [Admin interface](https://github.com/quokkaproject/quokka/wiki/screencast)
-* [Project tree](https://github.com/quokkaproject/quokka/wiki/project-tree)
-* [Team & Committers](https://github.com/quokkaproject/quokka/graphs/contributors)
+* [About & Features](https://github.com/rochacbruno/quokka/wiki/about)
+* [Installing and running](https://github.com/rochacbruno/quokka/wiki/installation)
+* [Requirements](https://github.com/rochacbruno/quokka/wiki/requirements)
+* [Extending & Installing modules](https://github.com/rochacbruno/quokka/wiki/plugins)
+* [Admin interface](https://github.com/rochacbruno/quokka/wiki/screencast)
+* [Project tree](https://github.com/rochacbruno/quokka/wiki/project-tree)
+* [Team & Committers](https://github.com/rochacbruno/quokka/graphs/contributors)
 
 
 Hosting
@@ -189,7 +189,7 @@ You can host a Quokka website in any VPS or cloud which supports Python and Flas
 - PythonAnywhere can run Quokka with Mongo hosted at MongoLab
 - DigitalOcean is a good option for a VPS
 - Jelastic Cloud has the easiest Quokka deployment - http://docs.jelastic.com/ru/quokka-cms
-- OpenShift [one click deploy](https://openshift.redhat.com/app/console/application_type/custom?cartridges%5B%5D=python-2.7&cartridges%5B%5D=mongodb-2.4&initial_git_url=https://github.com/quokkaproject/quokka.git&name=quokka&initial_git_branch=master)
+- OpenShift [one click deploy](https://openshift.redhat.com/app/console/application_type/custom?cartridges%5B%5D=python-2.7&cartridges%5B%5D=mongodb-2.4&initial_git_url=https://github.com/rochacbruno/quokka.git&name=quokka&initial_git_branch=master)
 
 
 ![python](docs/python_powered.png)
