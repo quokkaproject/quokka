@@ -2,7 +2,7 @@
 
 from flask import current_app, flash
 from flask.ext.admin.actions import action
-from quokka.core.models import Content
+from quokka.core.models.content import Content
 from quokka.utils.routing import expose
 from quokka.core.widgets import TextEditor, PrepopulatedText
 from .utils import _, _l

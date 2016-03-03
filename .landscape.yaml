@@ -1,3 +1,10 @@
+# python-targets:
+#     - 2
+#     - 3
+
+# uses:
+#     - flask
+
 pylint:
   disable:
     - bare-except
@@ -28,4 +35,9 @@ requirements:
     - requirements/requirements.txt
     - requirements/test.txt
 
-#max-line-length: 120
+
+# doc-warnings: yes
+# test-warnings: no
+# strictness: veryhigh
+# max-line-length: 120
+# autodetect: yes

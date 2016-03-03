@@ -2,9 +2,9 @@
 import sys
 
 from . import BaseTestCase
-
-from ..models import Channel, Config
-from ..base_models.custom_values import CustomValue
+from quokka.core.models.channel import Channel
+from quokka.core.models.config import Config
+from quokka.core.models.custom_values import CustomValue
 
 if sys.version_info.major == 3:
     unicode = lambda x: u'{}'.format(x)  # flake8: noqa  # noqa

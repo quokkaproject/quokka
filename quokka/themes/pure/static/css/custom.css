@@ -227,6 +227,10 @@ nav.pure-menu {
   border-radius: 120px;
 }
 
+
+.small_author_avatar {
+  border-radius: 60px;
+}
 /* menu home page */
 nav.pure-menu .pure-menu-children {
   background-color: #ddd;
@@ -275,4 +279,16 @@ nav.pure-menu .pure-menu-list .pure-menu-link {
 
 .post-header h1 {
   color: #005DA4;
+}
+
+.flashes li {
+  background-color: green;
+  color: white;
+  font-weight: bold;
+  padding: 5px;
+}
+
+.flashes .error{
+  background-color: red;
+  font-weight: bold;
 }

@@ -1,0 +1,63 @@
+{% from theme("security/_macros.html") import render_field_with_errors, render_field, render_button %}
+{% extends theme("base.html") %}
+
+{% block content %}
+<div class="pure-g-r" id="layout">
+    {% include theme('sidebar.html') %}
+    <div class="pure-u-1">
+        <div class="content">
+            <!-- A wrapper for all the blog posts -->
+            <div class="posts">
+              <h1>Edit Profile</h1>
+                <form  action="{{ url_for('quokka.modules.accounts.profile_edit', **request.args) }}" method="POST" enctype="multipart/form-data" name="change_password_form" class="pure-form pure-form-aligned" role="form">
+                <fieldset>
+                   <legend>Personal data:</legend>
+                   <div class="pure-control-group">
+                   <label for="avatar">Avatar</label>
+                   <input type="file" name="avatar" id="avatar" />
+                       <img class="small_author_avatar" src="{{ current_user.get_avatar_url(size=100) }}" width="100" />
+                   </div>
+
+                  {% for field in form %}
+                  {% if field.type in ['CSRFTokenField', 'HiddenField'] %}
+                    {{ field() }}
+                  {% elif field.type == 'FieldList' %}
+                      {{field()}}
+                  {% else %}
+                      {{ render_field_with_errors(field,  class="form-control") }}
+                  {% endif %}
+                  {% endfor %}
+
+                </fieldset>
+                <fieldset>
+                    <legend>Personal links:</legend>
+                   <div class="pure-control-group">
+                     <label for="facebook">Facebook</label>
+                      <input type="text" name="facebook" id="facebook" value="{{facebook}}" />
+                   </div>
+
+                    <div class="pure-control-group">
+                     <label for="twitter">Twitter</label>
+                      <input type="text" name="twitter" id="twitter" value="{{twitter}}" />
+                   </div>
+
+                    <div class="pure-control-group">
+                     <label for="github">Github</label>
+                      <input type="text" name="github" id="github" value="{{github}}" />
+                   </div>
+
+                    <div class="pure-control-group">
+                     <label for="globe">Site</label>
+                      <input type="text" name="globe" id="globe" value="{{globe}}" />
+                   </div>
+                </fieldset>
+
+                <fieldset>
+                  <input type='submit' class="pure-button pure-button-primary">
+                </fieldset>
+              </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

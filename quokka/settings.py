@@ -40,10 +40,13 @@ CACHE_TYPE = "simple"
 
 """
 Not needed by flask, but those root folders are used
-by FLask-Admin file manager
+by FLask-Admin file manager and Media module
 """
 PROJECT_ROOT = os.path.abspath(os.path.dirname(__file__))
+
+# If you need different folder to save media files
 MEDIA_ROOT = os.path.join(PROJECT_ROOT, 'mediafiles')
+
 STATIC_ROOT = os.path.join(PROJECT_ROOT, 'static')
 ROOT_DIR = os.path.abspath(os.path.join(PROJECT_ROOT, '..'))
 
@@ -56,7 +59,7 @@ POPULATE_FILEPATH = os.path.join(
 Files on MAP_STATIC_ROOT will be served from /static/
 example: /static/favicon.ico will be served by site.com/favicon.ico
 """
-MAP_STATIC_ROOT = ('/robots.txt', '/sitemap.xml', '/favicon.ico')
+MAP_STATIC_ROOT = ('/robots.txt', '/favicon.ico')
 
 
 """
@@ -70,7 +73,9 @@ Blueprints are quokka-modules, you don't need to install
 just develop or download and drop in your modules folder
 by default it is in /modules, you can change if needed
 """
+
 BLUEPRINTS_PATH = 'modules'
+BLUEPRINTS_MODULE_NAME = 'main'
 BLUEPRINTS_OBJECT_NAME = 'module'
 
 """
@@ -92,15 +97,6 @@ DEFAULT_EDITABLE_EXTENSIONS = (
 )
 
 FILE_ADMIN = [
-    {
-        "name": "Template files",
-        "category": "Files",
-        "path": os.path.join(PROJECT_ROOT, 'templates'),
-        "url": "/template_files/",  # create nginx rule
-        "endpoint": "template_files",
-        "roles_accepted": ("admin", "editor"),
-        "editable_extensions": DEFAULT_EDITABLE_EXTENSIONS
-    },
     {
         "name": "Static files",
         "category": "Files",
@@ -246,6 +242,13 @@ MEDIA_AUDIO_ALLOWED_EXTENSIONS = ('mp3', 'wmv', 'ogg')
 MEDIA_VIDEO_ALLOWED_EXTENSIONS = ('avi', 'mp4', 'mpeg')
 MEDIA_FILE_ALLOWED_EXTENSIONS = ('pdf', 'txt', 'doc', 'docx', 'xls', 'xmlsx')
 
+"""
+Quokka-Themes checks `THEME_PATHS` configuration variable to find
+directories that contain themes. The theme's identifier in info.json
+must match the name of its directory.
+"""
+# THEME_PATHS = '/etc/themes/'
+
 # default admin THEME
 ADMIN_THEME = 'admin'
 """
@@ -275,7 +278,7 @@ CONTENT_EXTENSION = "html"
 SENTRY_ENABLED = False
 SENTRY_DSN = ""
 
-# html or markdown
+# html or markdown or plaintext
 DEFAULT_TEXT_FORMAT = "html"
 
 "Shortner urls configuration"
@@ -284,9 +287,67 @@ SHORTENER_ENABLED = False
 "Note: if you enable shortener you have to define a SERVER_NAME"
 # SERVER_NAME = 'localhost'
 
+"Redirect aliases is enabled?"
+ALIASES_ENABLED = True
+
+"""
+ALIASES_MAP
+keys are long_slug
+    keys should always start with /
+    & end with / or extension.
+{
+    "/team/": {
+        "alias_type": "endpoint|long_slug|url|string",
+        "to": "authors|/articles/science.html|http://t.co|'<b>Hello</b>'",
+        "published": True,
+        "available_at": "",
+        "available_until: "",
+    }
+}
+"""
+ALIASES_MAP = {}
+
 "Config shorter information"
 SHORTENER_SETTINGS = {"name": "BitlyShortener",
                       "bitly_api_key": "R_7d84f09c68be4c749cac2a56ace2e73f",
                       "bitly_token":
                       "9964d1f9c8c8b4215f7690449f0980c4fe1a6906",
                       "bitly_login": "quokkabitly"}
+
+
+"""
+Some HTTP proxies do not support arbitrary HTTP methods or newer HTTP methods
+(such as PATCH).
+In that case it’s possible to “proxy” HTTP methods through another HTTP method
+in total violation of the protocol.
+
+The way this works is by letting the client do an HTTP POST request and
+set the X-HTTP-Method-Override header and set the value to the intended
+HTTP method (such as PATCH).
+"""
+HTTP_PROXY_METHOD_OVERRIDE = False
+
+
+"""
+https://opbeat.com is application monitoring tool
+you can enable it but you need to install requirements/dev.txt
+https://opbeat.com/docs/articles/get-started-with-flask/
+
+OPBEAT = {
+    'ORGANIZATION_ID': '<ORGANIZATION-ID>',
+    'APP_ID': '<APP-ID>',
+    'SECRET_TOKEN': '<SECRET-TOKEN>',
+    'INCLUDE_PATHS': ['quokka'],
+    'DEBUG': True,
+    'LOGGING': False
+}
+
+Notify Opbeat when a release has completed
+$   curl https://intake.opbeat.com/api/v1/
+    organizations/<ORGANIZATION-ID>/apps/<APP-ID>/releases/ \
+    -H "Authorization: Bearer <SECRET-TOKEN>" \
+    -d rev=`git log -n 1 --pretty=format:%H` \
+    -d branch=`git rev-parse --abbrev-ref HEAD` \
+    -d status=completed
+"""
+# OPBEAT = None

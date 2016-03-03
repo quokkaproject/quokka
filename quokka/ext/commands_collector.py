@@ -16,7 +16,7 @@ class CommandsCollector(click.MultiCommand):
         self.base_module_name = base_module_name
         self.modules_path = modules_path
 
-    def list_commands(self, ctx):
+    def list_commands(self, *args, **kwargs):
         commands = []
         for _path, _dir, _ in os.walk(self.modules_path):
             if 'commands' not in _dir:
@@ -25,7 +25,7 @@ class CommandsCollector(click.MultiCommand):
                 if filename.endswith('.py') and filename != '__init__.py':
                     cmd = filename[:-3]
                     _, module_name = os.path.split(_path)
-                    commands.append('{}_{}'.format(module_name, cmd))
+                    commands.append('{0}_{1}'.format(module_name, cmd))
         commands.sort()
         return commands
 
@@ -39,7 +39,7 @@ class CommandsCollector(click.MultiCommand):
             module_name, command_name = splitted
             if not all([module_name, command_name]):
                 return
-            module = '{}.{}.commands.{}'.format(
+            module = '{0}.{1}.commands.{2}'.format(
                 self.base_module_name,
                 module_name,
                 command_name)

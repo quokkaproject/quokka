@@ -1,7 +1,9 @@
 # coding: utf-8
 
 import datetime
-from quokka.core.models import Channel, Config, Content, Link
+from quokka.core.models.channel import Channel
+from quokka.core.models.config import Config
+from quokka.core.models.content import Content, Link
 
 
 def configure(app):

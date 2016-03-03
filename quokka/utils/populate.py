@@ -3,9 +3,11 @@ import logging
 import json
 import uuid
 
-from quokka.core.models import Channel, ChannelType, SubContentPurpose, \
-    Config, License
-from quokka.core.base_models.custom_values import CustomValue
+from quokka.core.models.subcontent import SubContentPurpose
+from quokka.core.models.channel import Channel, ChannelType
+from quokka.core.models.config import Config, Quokka
+from quokka.core.models.content import License
+from quokka.core.models.custom_values import CustomValue
 from quokka.modules.accounts.models import User, Role
 from quokka.modules.posts.models import Post
 
@@ -24,8 +26,8 @@ class Populate(object):
         self.purposes = {}
         self.custom_values = {}
         self.load_fixtures()
-        self.baseurl = self.kwargs.get('baseurl', None)
-        self.app = self.kwargs.get('app', None)
+        self.baseurl = self.kwargs.get('baseurl')
+        self.app = self.kwargs.get('app')
 
     def __call__(self, *args, **kwargs):
         if self.baseurl and self.app:
@@ -120,7 +122,8 @@ class Populate(object):
         for data in self.users_data:
             self.create_user(data)
 
-    def create_config(self, data):
+    @staticmethod
+    def create_config(data):
         try:
             return Config.objects.get(group=data.get('group'))
         except:
@@ -230,40 +233,40 @@ class Populate(object):
             self.create_purpose(purpose)
 
     def create_initial_post(self, user_data=None, user_obj=None):
-        post_data = {
-            "title": "Try Quokka CMS! write a post.",
-            "summary": (
+        post_data = dict(
+            title="Try Quokka CMS! write a post.",
+            summary=(
                 "Use default credentials to access "
                 "/admin \r\n"
                 "user: {user[email]} \r\n"
                 "pass: {user[password]} \r\n"
             ).format(user=user_data),
-            "slug": "try-quokka-cms",
-            "tags": ["quokka"],
-            "body": (
-                "## You can try Quokka ADMIN\r\n\r\n"
-                "Create some posts\r\n\r\n"
-                "> Use default credentials to access "
-                "[/admin](/admin) \r\n\r\n"
-                "- user: {user[email]}\r\n"
-                "- password: {user[password]}\r\n"
-                "> ATTENTION! Copy the credentials and delete this post"
+            slug="try-quokka-cms",
+            tags=["quokka"],
+            body=(
+                 "## You can try Quokka ADMIN\r\n\r\n"
+                 "Create some posts\r\n\r\n"
+                 "> Use default credentials to access "
+                 "[/admin](/admin) \r\n\r\n"
+                 "- user: {user[email]}\r\n"
+                 "- password: {user[password]}\r\n"
+                 "> ATTENTION! Copy the credentials and delete this post"
             ).format(user=user_data),
-            "license": {
-                "title": "Creative Commons",
-                "link": "http://creativecommons.com",
-                "identifier": "creative_commons_by_nc_nd"
-            },
-            "content_format": "markdown"
-        }
+            license=dict(
+                title="Creative Commons",
+                link="http://creativecommons.com",
+                identifier="creative_commons_by_nc_nd"
+            ),
+            content_format="markdown"
+        )
         post_data['channel'] = self.channels.get("home")
-        post_data["created_by"] = user_obj or User.objects.first()
+        post_data["created_by"] = user_obj or self.users.get('author')
         post = self.create_post(post_data)
         return post
 
     def create_post(self, data):
         if not data.get('created_by'):
-            data['created_by'] = self.users.get('admin')
+            data['created_by'] = self.users.get('author')
         data['last_updated_by'] = data['created_by']
         data['published'] = True
 
@@ -298,3 +301,30 @@ class Populate(object):
             except:
                 self.create_channels()
                 self.create_post(data)
+
+    def reset(self):
+        Post.objects(
+            slug__in=[item['slug'] for item in self.json_data.get('posts')]
+        ).delete()
+
+        SubContentPurpose.objects(
+            identifier__in=[
+                item['identifier'] for item in self.json_data.get('purposes')
+            ]
+        ).delete()
+
+        for channel in Channel.objects(
+                slug__in=[
+                    item['slug'] for item in self.json_data.get('channels')]):
+            for subchannel in channel.get_children():
+                for subsubchannel in subchannel.get_children():
+                    subsubchannel.delete()
+                subchannel.delete()
+            channel.delete()
+
+        User.objects(
+            email__in=[item['email'] for item in self.json_data.get('users')]
+        ).delete()
+
+        if self.kwargs.get('first_install'):
+            Quokka.objects.delete()

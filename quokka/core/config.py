@@ -1,7 +1,11 @@
 import os
+import logging
+import quokka.core.models as m
 from flask.config import Config
 from quokka.utils import parse_conf_data
 from cached_property import cached_property_ttl, cached_property
+
+logger = logging.getLogger()
 
 
 class QuokkaConfig(Config):
@@ -26,12 +30,14 @@ class QuokkaConfig(Config):
         and Make it possible to use REDIS as a cache
         """
         try:
-            from quokka.core.models import Config
             return {
                 item.name: item.value
-                for item in Config.objects.get(group='settings').values
+                for item in m.config.Config.objects.get(
+                    group='settings'
+                ).values
             }
-        except:
+        except Exception as e:
+            logger.warning('Error reading all settings from db: %s' % e)
             return {}
 
     def get_from_db(self, key, default=None):
@@ -39,30 +45,6 @@ class QuokkaConfig(Config):
 
     def __getitem__(self, key):
         return self.get_from_db(key) or dict.__getitem__(self, key)
-
-    # def __iter__(self):
-    #     return iter(self.store)
-
-    # def __len__(self):
-    #     return len(self.store)
-
-    # def __repr__(self):
-    #     return self.store.__repr__()
-
-    # def __unicode__(self):
-    #     return unicode(repr(self.store))
-
-    # def __call__(self, *args, **kwargs):
-    #     return self.store.get(*args, **kwargs)
-
-    # def __contains__(self, item):
-    #     return item in self.store
-
-    # def keys(self):
-    #     return self.store.keys()
-
-    # def values(self):
-    #     return self.store.values()
 
     def get(self, key, default=None):
         return self.get_from_db(key) or self.store.get(key) or default

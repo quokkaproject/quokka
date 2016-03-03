@@ -2,7 +2,7 @@
 
 import datetime
 from flask import current_app, request
-from quokka.core.models import Content
+from quokka.core.models.content import Content
 from quokka.modules.accounts.models import User, Role
 
 
@@ -35,10 +35,10 @@ def get_author_contents(author):
 def get_authors(*args, **kwargs):
     authors = User.objects.filter(
         roles__in=Role.objects.filter(
-            name__in=['admin', 'author'],
+            name__in=['author'],
             **kwargs
         )
-    )
+    ).order_by(current_app.config.get("AUTHORS_ORDER", "name"))
 
     disabled_pagination = False
     if not current_app.config.get("AUTHORS_PAGINATION_ENABLED", True):

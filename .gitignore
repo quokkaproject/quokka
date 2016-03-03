@@ -56,4 +56,5 @@ etc/mongodata/*.0
 etc/mongodata/*.ns
 etc/mongodata/*.lock
 etc/mongodata/*.bson
-etc/logs/*.log
+*.log
+*.pid

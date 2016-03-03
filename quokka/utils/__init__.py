@@ -36,7 +36,8 @@ def get_current_user_for_models():
         if not user.is_authenticated():
             return None
         return user
-    except:
+    except Exception as e:
+        logger.info('Cant access is_authenticated method: %s' % e)
         return None
 
 
@@ -45,32 +46,30 @@ def is_accessible(roles_accepted=None, user=None):
     if user.has_role('admin'):
         return True
     if roles_accepted:
-        accessible = any(
-            [user.has_role(role) for role in roles_accepted]
-        )
+        accessible = any(user.has_role(role) for role in roles_accepted)
         return accessible
     return True
 
 
 def parse_conf_data(data):
     """
-    $int $bool $float $json (for lists and dicts)
+    @int @bool @float @json (for lists and dicts)
     strings does not need converters
 
     export QUOKKA_DEFAULT_THEME='material'
-    export QUOKKA_DEBUG='$bool True'
-    export QUOKKA_DEBUG_TOOLBAR_ENABLED='$bool False'
-    export QUOKKA_PAGINATION_PER_PAGE='$int 20'
-    export QUOKKA_MONGODB_SETTINGS='$json {"DB": "quokka_db", "HOST": "mongo"}'
-    export QUOKKA_ALLOWED_EXTENSIONS='$json ["jpg", "png"]'
+    export QUOKKA_DEBUG='@bool True'
+    export QUOKKA_DEBUG_TOOLBAR_ENABLED='@bool False'
+    export QUOKKA_PAGINATION_PER_PAGE='@int 20'
+    export QUOKKA_MONGODB_SETTINGS='@json {"DB": "quokka_db", "HOST": "mongo"}'
+    export QUOKKA_ALLOWED_EXTENSIONS='@json ["jpg", "png"]'
     """
     import json
-    true_values = ('t', 'true', 'enabled', '1', 'on')
+    true_values = ('t', 'true', 'enabled', '1', 'on', 'yes')
     converters = {
-        '$int': int,
-        '$float': float,
-        '$bool': lambda value: True if value.lower() in true_values else False,
-        '$json': json.loads
+        '@int': int,
+        '@float': float,
+        '@bool': lambda value: True if value.lower() in true_values else False,
+        '@json': json.loads
     }
     if data.startswith(tuple(converters.keys())):
         parts = data.partition(' ')

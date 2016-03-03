@@ -56,7 +56,7 @@
                   		<!-- <li class="divider-vertical"></li> -->
                   		<li class="dropdown">
                   		<a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                  		<img src="{{current_user.email | gravatar(size=20) }}" /> {{current_user.display_name}}
+                  		<img src="{{current_user.get_avatar_url(size=20) }}" width="20"/> {{current_user.display_name}}
                   		<b class="caret"></b>
                   		</a>
                   		<ul class="dropdown-menu">
@@ -64,6 +64,7 @@
                           {% if security.changeable %}
                   		    <li><a href="{{url_for_security('change_password')}}"><i class="icon-user"></i> Change password</a></li>
                           {% endif %}
+                            <li><a href="{{url_for('quokka.modules.accounts.profile_edit', next=url_for('admin.index'))}}"><i class="icon-user"></i> Edit Profile</a></li>
                   		    <li><a href="{{url_for_security('logout')}}"><i class="icon-off"></i> Logout</a></li>
                   		</ul>
                   		</li>
@@ -116,13 +117,13 @@
         if (selected_format == null) {
             if (default_editor == 'markdown') {
                 load_markdown_editor();
-            } else {
+            } else if (default_editor == 'html') {
                 load_html_editor();
             }
         } else {
             if (selected_format.value == 'markdown') {
                 load_markdown_editor();
-            } else {
+            } else if (selected_format.value == 'html') {
                 load_html_editor();
             }
 
@@ -130,9 +131,12 @@
                 if (selected_format.value == 'markdown') {
                     destroy_html_editor();
                     load_markdown_editor();
-                } else {
+                } else if (selected_format.value == 'html') {
                     destroy_markdown_editor();
                     load_html_editor();
+                } else {
+                    destroy_markdown_editor();
+                    destroy_html_editor()
                 }
             }, false);
         }

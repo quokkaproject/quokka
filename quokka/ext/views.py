@@ -9,8 +9,8 @@ from quokka.core.views import (
     ContentList,
     TagList
 )
-from quokka.core.views import TagAtom, FeedAtom, TagRss, FeedRss
-from quokka.core.models import Channel
+from quokka.core.views import TagAtom, FeedAtom, TagRss, FeedRss, SiteMap
+from quokka.core.models.channel import Channel
 
 
 @roles_accepted('admin', 'developer')
@@ -40,47 +40,52 @@ def static_from_root():
 
 
 def configure(app):
-    app.add_url_rule('/mediafiles/<path:filename>', view_func=media)
-    app.add_url_rule('/template_files/<path:filename>',
-                     view_func=template_files)
-    app.add_url_rule('/theme_template_files/<identifier>/<path:filename>',
-                     view_func=theme_template_files)
+    app.add_quokka_url_rule('/sitemap.xml',
+                            view_func=SiteMap.as_view('sitemap'))
+    app.add_quokka_url_rule('/mediafiles/<path:filename>', view_func=media)
+    app.add_quokka_url_rule('/template_files/<path:filename>',
+                            view_func=template_files)
+    app.add_quokka_url_rule(
+        '/theme_template_files/<identifier>/<path:filename>',
+        view_func=theme_template_files
+    )
     for filepath in app.config.get('MAP_STATIC_ROOT', []):
-        app.add_url_rule(filepath, view_func=static_from_root)
+        app.add_quokka_url_rule(filepath, view_func=static_from_root)
 
     # Match content detail, .html added to distinguish from channels
     # better way? how?
     content_extension = app.config.get("CONTENT_EXTENSION", "html")
-    app.add_url_rule('/<path:long_slug>.{0}'.format(content_extension),
-                     view_func=ContentDetail.as_view('detail'))
+    app.add_quokka_url_rule('/<path:long_slug>.{0}'.format(content_extension),
+                            view_func=ContentDetail.as_view('detail'))
 
     # Draft preview
-    app.add_url_rule('/<path:long_slug>.preview',
-                     view_func=ContentDetailPreview.as_view('preview'))
+    app.add_quokka_url_rule('/<path:long_slug>.preview',
+                            view_func=ContentDetailPreview.as_view('preview'))
 
     # Atom Feed
-    app.add_url_rule(
+    app.add_quokka_url_rule(
         '/<path:long_slug>.atom',
         view_func=FeedAtom.as_view('atom_list')
     )
-    app.add_url_rule(
+    app.add_quokka_url_rule(
         '/tag/<tag>.atom', view_func=TagAtom.as_view('atom_tag')
     )
 
     # RSS Feed
-    app.add_url_rule(
+    app.add_quokka_url_rule(
         '/<path:long_slug>.xml', view_func=FeedRss.as_view('rss_list')
     )
-    app.add_url_rule('/tag/<tag>.xml', view_func=TagRss.as_view('rss_tag'))
+    app.add_quokka_url_rule('/tag/<tag>.xml',
+                            view_func=TagRss.as_view('rss_tag'))
 
     # Tag list
-    app.add_url_rule('/tag/<tag>/', view_func=TagList.as_view('tag'))
+    app.add_quokka_url_rule('/tag/<tag>/', view_func=TagList.as_view('tag'))
 
     # Match channels by its long_slug mpath
-    app.add_url_rule('/<path:long_slug>/',
-                     view_func=ContentList.as_view('list'))
+    app.add_quokka_url_rule('/<path:long_slug>/',
+                            view_func=ContentList.as_view('list'))
     # Home page
-    app.add_url_rule(
+    app.add_quokka_url_rule(
         '/',
         view_func=ContentList.as_view('home'),
         defaults={"long_slug": Channel.get_homepage('long_slug') or "home"}

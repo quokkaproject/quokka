@@ -16,7 +16,8 @@ class CommentView(MethodView):
         only=['author_name', 'author_email', 'body']
     )
 
-    def render_context(self, path, form):
+    @staticmethod
+    def render_context(path, form):
         comments = Comment.objects(path=path, published=True)
         return render_template('content/comments.html',
                                comments=comments,

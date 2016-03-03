@@ -47,3 +47,8 @@
     */
     #no-more-tables td:before { content: attr(data-title); }
 }
+
+
+.controls .md-editor>textarea {
+    background: none;
+}

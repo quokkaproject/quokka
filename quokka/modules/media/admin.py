@@ -6,7 +6,7 @@ from jinja2 import Markup
 
 from quokka import admin
 from quokka.utils.settings import get_setting_value
-from quokka.core.models import Channel
+from quokka.core.models.channel import Channel
 from quokka.core.admin.models import ModelAdmin
 from quokka.core.admin.fields import ImageUploadField
 from quokka.utils.upload import dated_path, lazy_media_path
@@ -19,7 +19,7 @@ from quokka.utils.translation import _l
 
 class MediaAdmin(ModelAdmin):
     roles_accepted = ('admin', 'editor', 'author')
-    column_list = ('title', 'path', 'published')
+    column_list = ('title', 'full_path', 'published')
     form_columns = ['title', 'slug', 'path', 'channel', 'content_format',
                     'summary', 'comments_enabled', 'published']
 
@@ -91,17 +91,18 @@ class AudioAdmin(FileAdmin):
 
 class ImageAdmin(MediaAdmin):
     roles_accepted = ('admin', 'editor', 'author')
-    column_list = ('title', 'path', 'thumb', 'published')
+    column_list = ('title', 'full_path', 'thumb', 'published')
     form_columns = ['title', 'slug', 'path', 'channel', 'content_format',
                     'comments_enabled', 'summary', 'published']
 
-    def _list_thumbnail(self, context, model, name):
+    @staticmethod
+    def _list_thumbnail(context, model, name):
         if not model.path:
             return ''
 
         return Markup(
             '<img src="%s" width="100">' % url_for(
-                'media',
+                'quokka.core.media',
                 filename=form.thumbgen_filename(model.path)
             )
         )
@@ -116,7 +117,7 @@ class ImageAdmin(MediaAdmin):
             base_path=lazy_media_path(),
             thumbnail_size=get_setting_value('MEDIA_IMAGE_THUMB_SIZE',
                                              default=(200, 200, True)),
-            endpoint="media",
+            endpoint="quokka.core.media",
             namegen=dated_path,
             permission=0o777,
             allowed_extensions="MEDIA_IMAGE_ALLOWED_EXTENSIONS",
