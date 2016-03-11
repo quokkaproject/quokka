@@ -279,7 +279,7 @@ SENTRY_ENABLED = False
 SENTRY_DSN = ""
 
 # html or markdown or plaintext
-DEFAULT_TEXT_FORMAT = "html"
+DEFAULT_TEXT_FORMAT = "markdown"
 
 "Shortner urls configuration"
 SHORTENER_ENABLED = False
