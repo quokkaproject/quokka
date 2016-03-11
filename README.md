@@ -1,6 +1,6 @@
 [![Flask Registered](https://img.shields.io/badge/flask-registered-green.svg?style=flat)](https://github.com/pocoo/metaflask)
 [![Travis CI](http://img.shields.io/travis/rochacbruno/quokka.svg)](https://travis-ci.org/rochacbruno/quokka)
-[![Coverage Status](http://img.shields.io/coveralls/rochacbruno/quokka.svg)](https://coveralls.io/r/rochacbruno/quokka)
+[![Coverage Status](https://coveralls.io/repos/github/rochacbruno/quokka/badge.svg?branch=development)](https://coveralls.io/github/rochacbruno/quokka?branch=development)
 [![Code Health](https://landscape.io/github/rochacbruno/quokka/development/landscape.svg?style=flat)](https://landscape.io/github/rochacbruno/quokka/development)
 [![Requirements Status](https://requires.io/github/rochacbruno/quokka/requirements.svg?branch=development)](https://requires.io/github/rochacbruno/quokka/requirements/?branch=development)
 
