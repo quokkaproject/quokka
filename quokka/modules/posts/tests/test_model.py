@@ -21,6 +21,7 @@ class TestPost(BaseTestCase):
             "channel": self.channel,
             "tags": ["tag1", "tag2", "tag3"],
             "published": True,
+            "content_format": "html"
         }
         self.post_dict2 = {
             "title": "This is a nice post",
