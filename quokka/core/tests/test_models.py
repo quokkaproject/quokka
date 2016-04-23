@@ -83,7 +83,7 @@ class TestConfig(BaseTestCase):
 
     def test_config_fields(self):
         self.assertEqual(self.config.group, u'test')
-        self.assertEqual(self.config.content_format, 'html')
+        self.assertEqual(self.config.content_format, 'markdown')
         self.assertFalse(self.config.published)
         self.assertTrue(self.config.values.count(), 1)
         self.assertEqual(unicode(self.config), u'test')
