@@ -279,7 +279,7 @@ SENTRY_ENABLED = False
 SENTRY_DSN = ""
 
 # html or markdown or plaintext
-DEFAULT_TEXT_FORMAT = "html"
+DEFAULT_TEXT_FORMAT = "markdown"
 
 "Shortner urls configuration"
 SHORTENER_ENABLED = False
@@ -308,7 +308,7 @@ keys are long_slug
 ALIASES_MAP = {}
 
 "Config shorter information"
-SHORTENER_SETTINGS = {"name": "BitlyShortener",
+SHORTENER_SETTINGS = {"name": "Bitly",
                       "bitly_api_key": "R_7d84f09c68be4c749cac2a56ace2e73f",
                       "bitly_token":
                       "9964d1f9c8c8b4215f7690449f0980c4fe1a6906",
