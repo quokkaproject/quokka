@@ -1,12 +1,11 @@
 [![Flask Registered](https://img.shields.io/badge/flask-registered-green.svg?style=flat)](https://github.com/pocoo/metaflask)
 [![Travis CI](http://img.shields.io/travis/rochacbruno/quokka.svg)](https://travis-ci.org/rochacbruno/quokka)
-[![Coverage Status](http://img.shields.io/coveralls/rochacbruno/quokka.svg)](https://coveralls.io/r/rochacbruno/quokka)
+[![Coverage Status](https://coveralls.io/repos/github/rochacbruno/quokka/badge.svg?branch=development)](https://coveralls.io/github/rochacbruno/quokka?branch=development)
 [![Code Health](https://landscape.io/github/rochacbruno/quokka/development/landscape.svg?style=flat)](https://landscape.io/github/rochacbruno/quokka/development)
 [![Requirements Status](https://requires.io/github/rochacbruno/quokka/requirements.svg?branch=development)](https://requires.io/github/rochacbruno/quokka/requirements/?branch=development)
 
 [![Stories in Ready](https://badge.waffle.io/rochacbruno/quokka.png?label=ready&title=Ready)](http://waffle.io/rochacbruno/quokka)
-[![Join Slack Chat](https://img.shields.io/badge/JOIN_SLACK-CHAT-green.svg)](https://quokkaslack.herokuapp.com/)
-[![Slack](http://quokkaslack.herokuapp.com/badge.svg)](https://quokkaproject.slack.com/messages/)
+[![irc #quokkaproject](https://img.shields.io/badge/IRC-%23quokkaproject-green.svg?style=flat)](http://webchat.freenode.net/?channels=%23quokkaproject&uio=d4)
 
 [![Twitter](http://img.shields.io/badge/twitter-@quokkaproject-green.svg)](http://twitter.com/quokkaproject)
 <a href="http://smallactsmanifesto.org" title="Small Acts Manifesto"><img src="http://smallactsmanifesto.org/static/images/smallacts-badge-80x15-blue.png" style="border: none;" alt="Small Acts Manifesto" /></a>
