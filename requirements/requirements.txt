@@ -1,7 +1,8 @@
 quokka-flask-admin==1.3.0
 quokka-themes==0.1.4
 #quokka-twill==1.8.0
-quokka-flask-htmlbuilder==0.10
+#quokka-flask-htmlbuilder==0.10
+https://github.com/quokkaproject/flask-htmlbuilder/archive/master.zip
 awesome-slugify==1.6.5
 blinker==1.4
 Flask==0.10.1
