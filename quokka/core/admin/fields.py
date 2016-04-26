@@ -1,4 +1,5 @@
 # coding: utf-8
+
 import random
 import sys
 
@@ -11,27 +12,18 @@ from quokka.core.models.subcontent import SubContent, SubContentPurpose
 from quokka.modules.media.models import Image
 
 if sys.version_info.major == 3:
-    unicode = lambda x: u'{}'.format(x)  # noqa  # flake8: noqa
+    unicode = str
 
 
 class ThumbWidget(ImageUploadInput):
     empty_template = ""
-    data_template = ('<div class="image-thumbnail">'
-                     ' <img %(image)s>'
-                     '</div>')
+    data_template = '<div class="image-thumbnail"> <img %(image)s></div>'
 
     @staticmethod
     def get_url(field):
         '''
         This meethod is not used, but is here for compatibility
         '''
-        # if field.thumbnail_size:
-        #     filename = field.thumbnail_fn(field.data)
-        # else:
-        #     filename = field.data
-        #
-        # if field.url_relative_path:
-        #     filename = urljoin(field.url_relative_path, filename)
         return field.data
 
 
@@ -41,7 +33,7 @@ class ThumbField(form.ImageUploadField):
 
 class ImageUploadField(form.ImageUploadField):
     def is_file_allowed(self, filename):
-        extensions = self.allowed_extensions  # noqa
+        extensions = self.allowed_extensions
         if isinstance(extensions, (str, unicode)) and extensions.isupper():
             items = current_app.config.get(extensions, extensions)
             merged_items = [
@@ -56,13 +48,6 @@ class ContentImageField(ImageUploadField):
         pass
 
     def save_contents(self, obj):
-        # field = getattr(obj, name, None)
-        # if field:
-        #     # If field should be deleted, clean it up
-        #     if self._should_delete:
-        #         self._delete_file(field)
-        #         setattr(obj, name, None)
-        #         return
 
         new_image = Image(
             title=u"Image: {0}".format(obj.title),
@@ -71,8 +56,6 @@ class ContentImageField(ImageUploadField):
             published=True
         )
         if self.data and isinstance(self.data, FileStorage):
-            # if field:
-            #     self._delete_file(field)
 
             filename = self.generate_name(new_image, self.data)
             filename = self._save_file(self.data, filename)
