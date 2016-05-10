@@ -117,6 +117,10 @@ You can install everything you need in your local computer or if preferred use a
         ```bash
         apk add gcc python py-pip libjpeg zlib zlib-dev tiff freetype git py-pillow python-dev musl-dev
         ```
+    3. RedHat & Fedora
+       ```bash
+       sudo yum install libtiff-devel libjpeg-devel zlib-devel freetype-devel python-devel
+       ```
 
 #### Python requirements
 Install all needed python packages

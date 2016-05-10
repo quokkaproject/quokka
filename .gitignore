@@ -56,5 +56,8 @@ etc/mongodata/*.0
 etc/mongodata/*.ns
 etc/mongodata/*.lock
 etc/mongodata/*.bson
+etc/mongodata/*.wt
+etc/mongodata/WiredTiger*
+etc/mongodata/*.data
 *.log
 *.pid
