@@ -1,0 +1,15 @@
+click_commands:
+  - module: quokka.core.commands
+function_commands: []
+help_text: This is the {project_name} interactive shell
+inline_commands: []
+project_name: Project
+shell:
+  auto_import:
+    display: true
+    objects: {}
+  banner:
+    enabled: true
+    message: Manage Interactive Shell! edit your `manage.yml`
+  init_script: print("Starting interactive shell!")
+  readline_enabled: true

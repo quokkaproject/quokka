@@ -4,13 +4,13 @@ quokka-themes==0.1.4
 quokka-flask-htmlbuilder==0.12
 awesome-slugify==1.6.5
 blinker==1.4
-Flask==0.10.1
+Flask==0.11.1
 Flask-BabelEx==0.9.3
 Flask-Cache==0.13.1
 Flask-Gravatar==0.4.2
 Flask-Mistune==0.1.1
 quokka-flask-mongoengine==0.7.4
-Flask-OAuthlib==0.9.2
+Flask-OAuthlib==0.9.3
 # Flask-Login broke compatibility
 flask-security==1.7.4  # rq.filter: <1.7.5
 # Pillow 3.0.0 raises --enable-zlib and --enable-jpeg error on some O.S
