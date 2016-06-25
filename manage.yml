@@ -1,15 +1,22 @@
+disabled:
+  - init
+command_sources:
+  - name: quokka.ext.blueprints.get_blueprint_commands
+    kwargs:
+      path: modules
+      root: quokka
+      app_name: quokka
 click_commands:
   - module: quokka.core.commands
-function_commands: []
-help_text: This is the {project_name} interactive shell
+help_text: |
+  This is the {project_name} interactive shell
 inline_commands: []
-project_name: Project
+project_name: Quokka CMS
 shell:
   auto_import:
     display: true
     objects: {}
   banner:
     enabled: true
-    message: Manage Interactive Shell! edit your `manage.yml`
-  init_script: print("Starting interactive shell!")
+    message: Welcome to {project_name} interactive Shell
   readline_enabled: true

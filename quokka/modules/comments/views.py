@@ -3,8 +3,8 @@
 
 from flask import request
 from flask.views import MethodView
-from flask.ext.mongoengine.wtf import model_form
-from flask.ext.security import current_user
+from flask_mongoengine.wtf import model_form
+from flask_security import current_user
 from quokka.core.templates import render_template
 from .models import Comment
 

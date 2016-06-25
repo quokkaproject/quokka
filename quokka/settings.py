@@ -145,7 +145,7 @@ DEBUG_TB_PANELS = (
     'flask_debugtoolbar.panels.headers.HeaderDebugPanel',
     'flask_debugtoolbar.panels.request_vars.RequestVarsDebugPanel',
     'flask_debugtoolbar.panels.template.TemplateDebugPanel',
-    'flask.ext.mongoengine.panels.MongoDebugPanel',
+    'flask_mongoengine.panels.MongoDebugPanel',
     'flask_debugtoolbar.panels.logger.LoggingPanel',
     'flask_debugtoolbar.panels.profiler.ProfilerDebugPanel',
     'flask_debugtoolbar.panels.config_vars.ConfigVarsDebugPanel',

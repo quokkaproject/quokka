@@ -1,7 +1,7 @@
 # coding: utf-8
 
 from flask import request, session, redirect, current_app, url_for
-from flask.ext.security.utils import login_user
+from flask_security.utils import login_user
 
 from .models import User, Connection
 

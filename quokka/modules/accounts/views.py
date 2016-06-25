@@ -6,9 +6,9 @@ from flask import redirect, request, url_for, flash, current_app
 from flask.views import MethodView
 from quokka.utils import get_current_user
 from quokka.utils.upload import lazy_media_path
-from flask.ext.security.utils import url_for_security
-from flask.ext.security import current_user
-from flask.ext.mongoengine.wtf import model_form
+from flask_security.utils import url_for_security
+from flask_security import current_user
+from flask_mongoengine.wtf import model_form
 from quokka.core.templates import render_template
 from .models import User
 

@@ -3,7 +3,7 @@
 from werkzeug.utils import import_string
 
 from flask import request, session
-from flask.ext.admin import Admin
+from flask_admin import Admin
 
 from quokka.core.models.subcontent import SubContentPurpose
 from quokka.core.models.config import Config

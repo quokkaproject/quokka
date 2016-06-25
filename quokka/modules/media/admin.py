@@ -1,7 +1,7 @@
 # coding : utf -8
 
 from flask import url_for
-from flask.ext.admin import form
+from flask_admin import form
 from jinja2 import Markup
 
 from quokka import admin
