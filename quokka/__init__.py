@@ -1,15 +1,15 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-from flask.exthook import ExtDeprecationWarning
 import warnings
+from flask.exthook import ExtDeprecationWarning
 warnings.simplefilter("ignore", category=ExtDeprecationWarning)
 # The above hack is needed because flask_mongoengine and flask_cache
 # Did not migrated from old flask.ext style
 
-from quokka.core.admin import create_admin
-from quokka.core.app import QuokkaApp
-from quokka.core.middleware import HTTPMethodOverrideMiddleware
-from quokka.ext import configure_extensions, configure_extension
+from quokka.core.admin import create_admin  # noqa
+from quokka.core.app import QuokkaApp  # noqa
+from quokka.core.middleware import HTTPMethodOverrideMiddleware  # noqa
+from quokka.ext import configure_extensions, configure_extension  # noqa
 
 admin = create_admin()
 
