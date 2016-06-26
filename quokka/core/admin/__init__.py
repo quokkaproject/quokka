@@ -2,7 +2,6 @@
 # -*- coding: utf-8 -*
 from werkzeug.utils import import_string
 
-from flask import request, session
 from flask_admin import Admin
 
 from quokka.core.models.subcontent import SubContentPurpose
@@ -62,27 +61,6 @@ def configure_admin(app, admin):  # noqa
 
     for k, v in list(admin_config.items()):
         setattr(admin, k, v)
-
-    babel = app.extensions.get('babel')
-    if babel:
-        try:
-            @babel.localeselector
-            def get_locale():
-                # use default language if set
-                if app.config.get('BABEL_DEFAULT_LOCALE'):
-                    session['lang'] = app.config.get('BABEL_DEFAULT_LOCALE')
-                else:
-                    # get best matching language
-                    if app.config.get('BABEL_LANGUAGES'):
-                        session['lang'] = request.accept_languages.best_match(
-                            app.config.get('BABEL_LANGUAGES')
-                        )
-
-                return session.get('lang', 'en')
-
-            admin.locale_selector(get_locale)
-        except Exception as e:
-            app.logger.info('Cannot add locale_selector. %s' % e)
 
     for entry in app.config.get('FILE_ADMIN', []):
         try:

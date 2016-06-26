@@ -1,18 +1,28 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
+from flask.exthook import ExtDeprecationWarning
+import warnings
+warnings.simplefilter("ignore", category=ExtDeprecationWarning)
+# The above hack is needed because flask_mongoengine and flask_cache
+# Did not migrated from old flask.ext style
+
 from quokka.core.admin import create_admin
 from quokka.core.app import QuokkaApp
 from quokka.core.middleware import HTTPMethodOverrideMiddleware
-from quokka.ext import configure_extensions
+from quokka.ext import configure_extensions, configure_extension
 
 admin = create_admin()
 
 
-def create_app_base(config=None, test=False, admin_instance=None, **settings):
+def create_app_base(config=None, test=False, admin_instance=None,
+                    ext_list=None, **settings):
     app = QuokkaApp('quokka')
     app.config.load_quokka_config(config=config, test=test, **settings)
     if test or app.config.get('TESTING'):
         app.testing = True
+    if ext_list:
+        for ext in ext_list:
+            configure_extension(ext, app=app)
     return app
 
 

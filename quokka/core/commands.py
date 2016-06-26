@@ -48,21 +48,19 @@ def check():
     help='Fixtures JSON path',
     default='./etc/fixtures/initial_data.json')
 @click.option('-b', '--baseurl', help='base url to use', default=None)
-def populate(filename, baseurl=None):
+@click.option('--reset/--no-reset', default=False)
+def populate(filename, baseurl=None, reset=False):
     """Populate the database with sample data"""
-    Populate(db, filepath=filename, baseurl=baseurl, app=app)()
-
-
-@click.command()
-@click.option(
-    '-f',
-    '--filename',
-    help='Fixtures JSON path',
-    default='./etc/fixtures/initial_data.json')
-@click.option('-b', '--baseurl', help='base url to use', default=None)
-def populate_reset(filename, baseurl=None):
-    """De-Populate the database with sample data"""
-    Populate(db, filepath=filename, baseurl=baseurl, app=app).reset()
+    populator = Populate(db, filepath=filename, baseurl=baseurl, app=app)
+    if not reset:
+        try:
+            populator()
+        except RuntimeError:
+            with app.test_request_context(
+                    base_url=baseurl or 'http://localhost:5000/'):
+                populator()
+    else:
+        populator.reset()
 
 
 @click.command()

@@ -12,6 +12,6 @@ def cli():
         click.echo('_' * 20)
         click.echo(user.display_name)
         user_data = json.loads(user.to_json())
-        del user_data['password']
+        user_data.pop('password', None)
         user_data['roles'] = user.roles
         click.echo(pprint(user_data))
