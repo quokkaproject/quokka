@@ -1,8 +1,8 @@
 # coding: utf-8
 import mongoengine
 
-from flask.ext.admin.contrib.mongoengine.ajax import QueryAjaxModelLoader
-from flask.ext.admin.model.ajax import DEFAULT_PAGE_SIZE
+from flask_admin.contrib.mongoengine.ajax import QueryAjaxModelLoader
+from flask_admin.model.ajax import DEFAULT_PAGE_SIZE
 
 
 class AjaxModelLoader(QueryAjaxModelLoader):

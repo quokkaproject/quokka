@@ -24,6 +24,39 @@ MONGODB_USERNAME = None
 MONGODB_PASSWORD = None
 
 """
+Extensions needed by default, do not change this list
+if you plan to add new extensions use EXTRA_EXTENSIONS
+"""
+CORE_EXTENSIONS = [
+    'quokka.ext.cache.configure',
+    'quokka.ext.babel.configure',
+    'quokka.ext.generic.configure',
+    'quokka.ext.mail.configure',
+    'quokka.ext.error_handlers.configure',
+    'quokka.core.db.db.init_app',
+    'quokka.ext.themes.configure',
+    'quokka.ext.context_processors.configure',
+    'quokka.ext.template_filters.configure',
+    'quokka.ext.security.configure',
+    'quokka.ext.fixtures.configure',
+    # 'quokka.ext.blueprints.load_from_packages',
+    'quokka.ext.blueprints.load_from_folder',
+    'quokka.ext.weasyprint.configure',
+    'quokka.core.admin.configure_admin',
+    'quokka.ext.development.configure',
+    'quokka.ext.before_request.configure',
+    'quokka.ext.views.configure',
+    'quokka.ext.oauthlib.configure',
+]
+
+
+"""
+Extra extension configurators can be a custom function or
+init_app
+"""
+# EXTRA_EXTENSIONS = []
+
+"""
 This should really be secret for security
 use os.random, urandom or uuid4 to generate
 in your shell
@@ -145,7 +178,7 @@ DEBUG_TB_PANELS = (
     'flask_debugtoolbar.panels.headers.HeaderDebugPanel',
     'flask_debugtoolbar.panels.request_vars.RequestVarsDebugPanel',
     'flask_debugtoolbar.panels.template.TemplateDebugPanel',
-    'flask.ext.mongoengine.panels.MongoDebugPanel',
+    'flask_mongoengine.panels.MongoDebugPanel',
     'flask_debugtoolbar.panels.logger.LoggingPanel',
     'flask_debugtoolbar.panels.profiler.ProfilerDebugPanel',
     'flask_debugtoolbar.panels.config_vars.ConfigVarsDebugPanel',
@@ -217,7 +250,9 @@ SECURITY_RECAPTCHA_ENABLED = False
 Internationalization for Flask-Admin
 if want to use in your site home page, read babel docs.
 """
-BABEL_LANGUAGES = ['en', 'pt-br']
+BABEL_LANGUAGES = [
+    'en', 'cs', 'de', 'es', 'fa', 'fr', 'pt', 'ru', 'pa', 'zh_CN', 'zh_TW'
+]
 BABEL_DEFAULT_LOCALE = 'en'
 
 
@@ -235,6 +270,9 @@ LOGGER_ENABLED = False
 LOGGER_LEVEL = 'DEBUG'
 LOGGER_FORMAT = '%(asctime)s %(name)-12s %(levelname)-8s %(message)s'
 LOGGER_DATE_FORMAT = '%d.%m %H:%M:%S'
+
+# set this ti true in development mode
+ADMIN_RAISE_ON_VIEW_EXCEPTION = False
 
 # media module
 MEDIA_IMAGE_ALLOWED_EXTENSIONS = ('jpg', 'jpeg', 'png', 'tiff', 'gif', 'bmp')

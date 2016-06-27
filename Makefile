@@ -1,16 +1,13 @@
-.PHONY: run shell test install pep8 clean
+.PHONY: run shell test pep8 clean
 
 run:
-	python manage.py runserver --reloader --debug
+	manage runserver --reloader --debug
 
 shell:
-	python manage.py shell
+	manage shell
 
 test: pep8
 	QUOKKA_MODE=test py.test --cov=quokka -l --tb=short --maxfail=1 quokka/
-
-install:
-	python setup.py develop
 
 pep8:
 	@flake8 quokka --ignore=F403 --exclude=migrations

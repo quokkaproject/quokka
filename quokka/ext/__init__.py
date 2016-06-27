@@ -1,38 +1,23 @@
 # coding: utf-8
-from flask_mail import Mail
+from inspect import getargspec
+from werkzeug.utils import import_string
 from quokka.core.db import db
-from quokka.core.cache import cache
-from quokka.core.admin import configure_admin
 
-from . import (generic, babel, blueprints, error_handlers, context_processors,
-               template_filters, before_request, views, themes, fixtures,
-               oauthlib, weasyprint, security, development)
+
+def configure_extension(name, **kwargs):
+    configurator = import_string(name)
+    args = getargspec(configurator).args
+    if 'db' in args and 'db' not in kwargs:
+        kwargs['db'] = db
+    configurator(**{key: val for key, val in kwargs.items() if key in args})
 
 
 def configure_extensions(app, admin):
-    cache.init_app(app)
-    babel.configure(app)
-    generic.configure(app)
-    Mail(app)
-    error_handlers.configure(app)
-    db.init_app(app)
-    themes.configure(app)
-    context_processors.configure(app)
-    template_filters.configure(app)
-    security.configure(app, db)
-    fixtures.configure(app, db)
-    # blueprints.load_from_packages(app)
-    blueprints.load_from_folder(app)
-    weasyprint.configure(app)
-    configure_admin(app, admin)
-    development.configure(app, admin)
-    before_request.configure(app)
-    views.configure(app)
-    oauthlib.configure(app)
-    return app
-
-
-def configure_extensions_min(app, *args, **kwargs):
-    db.init_app(app)
-    security.init_app(app, db)
+    extensions = app.config.get(
+        'CORE_EXTENSIONS', []
+    ) + app.config.get(
+        'EXTRA_EXTENSIONS', []
+    )
+    for configurator_name in extensions:
+        configure_extension(configurator_name, app=app, db=db, admin=admin)
     return app

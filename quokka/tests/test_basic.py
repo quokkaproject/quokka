@@ -1,5 +1,5 @@
 import unittest
-from flask.ext.testing import TestCase  # , Twill
+from flask_testing import TestCase  # , Twill
 from quokka import create_app
 from quokka.core.admin import create_admin
 

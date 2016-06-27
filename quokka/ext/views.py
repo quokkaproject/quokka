@@ -2,7 +2,7 @@
 
 import os
 from flask import send_from_directory, current_app, request
-from flask.ext.security import roles_accepted
+from flask_security import roles_accepted
 from quokka.core.views import (
     ContentDetail,
     ContentDetailPreview,
