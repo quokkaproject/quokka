@@ -26,7 +26,7 @@ class Populate(object):
         self.purposes = {}
         self.custom_values = {}
         self.load_fixtures()
-        self.baseurl = self.kwargs.get('baseurl')
+        self.baseurl = self.kwargs.get('baseurl', 'http://localhost:5000')
         self.app = self.kwargs.get('app')
 
     def __call__(self, *args, **kwargs):
@@ -94,10 +94,14 @@ class Populate(object):
 
     def role(self, name):
         if name not in self.roles:
-            role, created = Role.objects.get_or_create(name=name)
-            self.roles[name] = role
-            if created:
-                logger.info("Created role: %s", name)
+            if isinstance(name, Role):
+                logger.info('get existing role: %s', name)
+                self.roles[name.name] = name
+            else:
+                role, created = Role.objects.get_or_create(name=name)
+                self.roles[name] = role
+                if created:
+                    logger.info("Created role: %s", name)
         return self.roles.get(name)
 
     def load_existing_users(self):
