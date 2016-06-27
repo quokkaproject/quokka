@@ -107,7 +107,6 @@ class ImageAdmin(MediaAdmin):
     form_columns = ['title', 'slug', 'path', 'channel', 'content_format',
                     'comments_enabled', 'summary', 'published']
 
-
     column_formatters = {
         'thumb': _list_thumbnail
     }
