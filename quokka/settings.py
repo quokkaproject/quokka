@@ -271,6 +271,9 @@ LOGGER_LEVEL = 'DEBUG'
 LOGGER_FORMAT = '%(asctime)s %(name)-12s %(levelname)-8s %(message)s'
 LOGGER_DATE_FORMAT = '%d.%m %H:%M:%S'
 
+# set this ti true in development mode
+ADMIN_RAISE_ON_VIEW_EXCEPTION = False
+
 # media module
 MEDIA_IMAGE_ALLOWED_EXTENSIONS = ('jpg', 'jpeg', 'png', 'tiff', 'gif', 'bmp')
 MEDIA_AUDIO_ALLOWED_EXTENSIONS = ('mp3', 'wmv', 'ogg')
