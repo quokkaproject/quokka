@@ -61,3 +61,4 @@ etc/mongodata/WiredTiger*
 etc/mongodata/*.data
 *.log
 *.pid
+*.cache*
