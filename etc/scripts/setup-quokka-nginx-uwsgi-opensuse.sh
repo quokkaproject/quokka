@@ -53,7 +53,8 @@ chown -R quokka:quokka /home/quokka
 
 
 ## Populating with sample data
-/home/quokka/quokka-env/bin/python manage.py populate
+cd /home/quokka
+/home/quokka/quokka-env/bin/manage populate
 
 
 ## Install uWSGI
