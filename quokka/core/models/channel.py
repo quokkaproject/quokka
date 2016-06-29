@@ -56,6 +56,7 @@ class Channel(Tagged, HasCustomValue, Publishable, LongSlugged,
                                        required=False,
                                        reverse_delete_rule=db.NULLIFY)
     sort_by = db.ListField(db.StringField(), default=[])
+    link_in_menu = db.BooleanField(default=True)
 
     meta = {
         'ordering': ['order', 'title'],
