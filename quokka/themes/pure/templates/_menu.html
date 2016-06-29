@@ -1,7 +1,11 @@
 {% macro build_node(node, style="", allow_hover=True) %}
    {% with has_children = node.get_children(show_in_menu=True).count() %}
     <li style="{{style}}" class="{%if allow_hover %}pure-menu-allow-hover{%endif%} pure-menu-item {%if request.path.startswith(node.get_absolute_url()) %}pure-menu-selected{% endif %} {%if has_children%}pure-menu-has-children{%endif%}">
+        {% if node.link_in_menu %}
         <a href="{{ node.get_absolute_url() }}" class="pure-menu-link">{{node.title}}</a>
+        {% else %}
+        <a href="#" class="pure-menu-link">{{node.title}}</a>
+        {% endif %}
         {{build_main_nodes(parent=node)}}
     </li>
     {% endwith %}
