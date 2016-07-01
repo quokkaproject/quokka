@@ -11,7 +11,7 @@ Flask-Mistune==0.1.1
 flask-mongoengine==0.7.5
 Flask-OAuthlib==0.9.3
 flask-security==1.7.5
-Pillow==3.2.0
+Pillow==3.3.0
 PyRSS2Gen==1.1
 requests==2.10.0
 quokka-speaklater==1.3.1
