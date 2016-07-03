@@ -72,9 +72,15 @@ def showconfig():
 
 
 @click.command()
-@click.option('--ipython/--no-ipython', default=True)
-@click.option('--ptpython', default=False, is_flag=True)
-def shell(ipython, ptpython):
+@click.option('console', '--ipython', default=True, flag_value='ipython',
+              help='Start with ipython console')
+@click.option('console', '--ptpython', flag_value='ptpython',
+              help='Start with ptpython console')
+@click.option('console', '--bpython', flag_value='bpython',
+              help='Start with bpython console')
+@click.option('console', '--python', flag_value='python',
+              help='Start with python console')
+def shell(console):
     """Runs a Python shell with Quokka context"""
     context = {'app': app, 'db': db}
-    return create_shell(ipython, ptpython, extra_vars=context)
+    return create_shell(console, extra_vars=context)
