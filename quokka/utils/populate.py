@@ -97,12 +97,13 @@ class Populate(object):
             if isinstance(name, Role):
                 logger.info('get existing role: %s', name)
                 self.roles[name.name] = name
+                role = name
             else:
                 role, created = Role.objects.get_or_create(name=name)
                 self.roles[name] = role
                 if created:
                     logger.info("Created role: %s", name)
-        return self.roles.get(name)
+        return role
 
     def load_existing_users(self):
         users = User.objects.all()
