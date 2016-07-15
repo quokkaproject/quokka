@@ -38,6 +38,8 @@ class Owned(object):
     authors = db.ListField(db.ReferenceField(User))
 
     def get_authors(self):
+        if self.created_by is None:
+            raise db.ValidationError('The created_by is None')
         return set(self.authors + [self.created_by])
 
     @property
