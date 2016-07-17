@@ -3,7 +3,6 @@ import click
 from quokka import create_app_base
 from ..models import User, Role
 
-
 app = create_app_base(ext_list=['quokka.ext.security.configure'])
 
 
