@@ -9,18 +9,38 @@ from flask_wtf.csrf import generate_csrf
 
 
 class TestCurrentUser(TestCase):
-    def setUp(self):
-        self.db = list(self.app.extensions.get('mongoengine').keys())[0]
-        self.db.connection.drop_database('quokka_test')
-        from quokka.utils.populate import Populate
-        Populate(self.db)()
+    @classmethod
+    def setUpClass(cls):
+        '''Set up fixtures for the class.
+
+        This methods runs once for the entire class. This test case do not
+        insert or update any record on the database, so there is no problem
+        to be run only once for the class.
+
+        This way it save some time, instead of populate the test database
+        each time a test is executed.
+        '''
+        admin = create_admin()
+        app = create_app(config='quokka.test_settings',
+                         DEBUG=False,
+                         test=True,
+                         admin_instance=admin)
+
+        with app.app_context():
+            db = list(app.extensions.get('mongoengine').keys())[0]
+            db.connection.drop_database('quokka_test')
+            from quokka.utils.populate import Populate
+            Populate(db)()
+        cls.app = app
+        cls.db = db
 
     def create_app(self):
-        self.admin = create_admin()
-        return create_app(config='quokka.test_settings',
-                          DEBUG=False,
-                          test=True,
-                          admin_instance=self.admin)
+        '''Create app must be implemented.
+
+        It is mandatory for flask_testing test cases. Only returns
+        the app created in the setUpClass method.
+        '''
+        return self.app
 
     @property
     def csrf_token(self):

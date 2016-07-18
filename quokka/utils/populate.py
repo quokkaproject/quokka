@@ -266,6 +266,7 @@ class Populate(object):
         )
         post_data['channel'] = self.channels.get("home")
         post_data["created_by"] = user_obj or self.users.get('author')
+        post_data["authors"] = [self.users.get('admin')]
         post = self.create_post(post_data)
         return post
 
@@ -273,6 +274,7 @@ class Populate(object):
         if not data.get('created_by'):
             data['created_by'] = self.users.get('author')
         data['last_updated_by'] = data['created_by']
+        data["authors"] = [self.users.get('admin')]
         data['published'] = True
 
         if 'license' in data and not isinstance(data['license'], License):
