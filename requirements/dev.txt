@@ -1,4 +1,4 @@
 Flask-DebugToolbar==0.10.0
-ipython==4.2.0
+ipython==5.0.0
 ipdb==0.10.1
 #opbeat==3.3.1
