@@ -2,7 +2,8 @@
 [![Travis CI](http://img.shields.io/travis/quokkaproject/quokka.svg)](https://travis-ci.org/quokkaproject/quokka)
 [![Coverage Status](https://coveralls.io/repos/github/quokkaproject/quokka/badge.svg?branch=development)](https://coveralls.io/github/quokkaproject/quokka?branch=development)
 [![Code Health](https://landscape.io/github/quokkaproject/quokka/development/landscape.svg?style=flat)](https://landscape.io/github/quokkaproject/quokka/development)
-[![Requirements Status](https://requires.io/github/quokkaproject/quokka/requirements.svg?branch=development)](https://requires.io/github/quokkaproject/quokka/requirements/?branch=development)
+[![Updates](https://pyup.io/repos/github/quokkaproject/quokka/shield.svg)](https://pyup.io/repos/github/quokkaproject/quokka/)
+
 
 [![Stories in Ready](https://badge.waffle.io/quokkaproject/quokka.png?label=ready&title=Ready)](http://waffle.io/quokkaproject/quokka)
 [![irc #quokkaproject](https://img.shields.io/badge/IRC-%23quokkaproject-green.svg?style=flat)](http://webchat.freenode.net/?channels=%23quokkaproject&uio=d4)
