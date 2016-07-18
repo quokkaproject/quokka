@@ -35,10 +35,42 @@
         {
             "name" : "author",
             "email" : "author@example.com",
-            "gravatar_email": "rochacbruno+quokka@gmail.com",
+            "gravatar_email": "rochacbruno+quokka_author_1@gmail.com",
             "password" : "author",
             "roles" : [ "author" ],
             "bio": "Quokka Example Author",
+            "tagline": "It is nice to write in Quokka CMS!",
+            "links": [
+                {
+                    "title" : "facebook",
+                    "link" : "http://facebook.com/quokkaproject",
+                    "icon" : "facebook",
+                    "css_class" : "facebook",
+                    "order" : 0
+                },
+                {
+                    "title" : "github",
+                    "link" : "http://github.com/quokkaproject",
+                    "icon" : "github",
+                    "css_class" : "github",
+                    "order" : 0
+                },
+                {
+                    "title" : "twitter",
+                    "link" : "http://twitter.com/quokkaproject",
+                    "icon" : "twitter",
+                    "css_class" : "twitter",
+                    "order" : 0
+                }
+            ]
+        },
+        {
+            "name" : "author2",
+            "email" : "author2@example.com",
+            "gravatar_email": "rochacbruno+quokka_author_2@gmail.com",
+            "password" : "author2",
+            "roles" : [ "author" ],
+            "bio": "Other Quokka Example Author",
             "tagline": "It is nice to write in Quokka CMS!",
             "links": [
                 {
@@ -398,6 +430,7 @@
         {
             "title": "Python Reaches New Levels of Quality",
             "slug": "python-reaches-new-level-of-quality",
+            "created_by": "author",
             "summary": "Python Surpasses Standards, Reaches New Levels of Quality",
             "channel": "programming",
             "related_channels": ["blog"],
@@ -413,6 +446,7 @@
         {
             "title": "Small Acts Make Great Revolutions",
             "slug": "small-acts-make-great-revolutions",
+            "created_by": "author",
             "summary": "We are discovering better ways of building communities by connecting people.",
             "channel": "mobile",
             "related_channels": ["blog"],
@@ -428,6 +462,7 @@
         {
             "title": "Welcome to Quokka CMS",
             "slug": "welcome-to-quokka-cms",
+            "created_by": "author",
             "summary": "Quokka is a flexible content management platform powered by Python, Flask and MongoDB.",
             "channel": "home",
             "tags": [ "quokka", "python", "flask" ],
@@ -442,6 +477,7 @@
         {
             "title": "Blog Post written in markdown",
             "slug": "blog-post-written-in-markdown",
+            "created_by": "author",
             "summary": "A post in the blog using markdown content.",
             "channel": "blog",
             "tags": [ "blog" ],
@@ -458,6 +494,7 @@
             "summary" : "Flask is easy to get started with as a beginner because there is little boilerplate code for getting a simple app up and running.",
             "slug" : "why-is-flask-a-good-web-framework-choice",
             "channel": "programming",
+            "created_by": "author",
             "tags": [ "python", "flask", "web" ],
             "body" : "Flask is easy to get started with as a beginner because there is little boilerplate code for getting a simple app up and running.\r\n\r\nFor example, here's a valid \"hello world\" web application with Flask:\r\n\r\n    from flask import Flask\r\n    app = Flask(__name__)\r\n    \r\n    @app.route('/')\r\n    def hello_world():\r\n        return 'Hello World!'\r\n    \r\n    if __name__ == '__main__':\r\n        app.run()\r\n\t\r\n\t",
             "license" : {
@@ -473,6 +510,7 @@
             "slug" : "try-quokka-cms",
             "channel": "blog",
             "tags": [ "quokka" ],
+            "created_by": "author",
             "body" : "## You can try Quokka ADMIN\r\n\r\nCreate some posts\r\n\r\n> Use default credentials to access [/admin](/admin) \r\n\r\n- user: admin@example.com\r\n- password: admin",
             "license" : {
                 "title" : "Creative Commons",

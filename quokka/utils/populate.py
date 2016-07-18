@@ -103,6 +103,14 @@ class Populate(object):
                 self.roles[name] = role
                 if created:
                     logger.info("Created role: %s", name)
+        else:
+            role = self.roles.get(name)
+
+        if not isinstance(role, Role):
+            raise TypeError(
+                u"%s should be a Role and is %s" % (role, type(role))
+            )
+
         return role
 
     def load_existing_users(self):
@@ -266,15 +274,27 @@ class Populate(object):
         )
         post_data['channel'] = self.channels.get("home")
         post_data["created_by"] = user_obj or self.users.get('author')
-        post_data["authors"] = [self.users.get('admin')]
+        if self.users.get('author2'):
+            post_data["authors"] = [self.users.get('author2')]
         post = self.create_post(post_data)
         return post
 
     def create_post(self, data):
-        if not data.get('created_by'):
+        created_by = data.get('created_by')
+        if not created_by:
             data['created_by'] = self.users.get('author')
+        else:
+            if isinstance(created_by, User):
+                data['created_by'] = created_by
+            else:
+                data['created_by'] = self.users.get(created_by)
+
         data['last_updated_by'] = data['created_by']
-        data["authors"] = [self.users.get('admin')]
+
+        if data.get('authors'):
+            authors = [self.users.get(user) for user in data.get('authors')]
+            data["authors"] = [user for user in authors if user is not None]
+
         data['published'] = True
 
         if 'license' in data and not isinstance(data['license'], License):
@@ -287,8 +307,6 @@ class Populate(object):
             post = Post.objects.create(**data)
             logger.info("Post created: %s", post.title)
 
-        # post.created_by = self.users.get('admin')
-        # post.save()
         return post
 
     def create_posts(self):

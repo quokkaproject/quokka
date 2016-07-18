@@ -67,12 +67,12 @@ class BasicTestCase(TestCase):
 
     def test_posts_authors_order(self):
         from quokka.modules.posts.models import Post
-        post = Post.objects(slug="python-reaches-new-level-of-quality")[0]
+        post = Post.objects.get(slug="python-reaches-new-level-of-quality")
         authors = list(post.get_authors())
         self.assertEqual(post.created_by.name, 'author')
         self.assertTrue(len(authors) == 2)
         self.assertEqual(authors[0].name, 'author')
-        self.assertEqual(authors[1].name, 'admin')
+        self.assertEqual(authors[1].name, 'author2')
 
     def test_blog_has_only_one_post(self):
         from quokka.modules.posts.models import Post
