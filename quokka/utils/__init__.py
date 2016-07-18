@@ -33,7 +33,7 @@ def get_current_user_for_models():
     """
     user = get_current_user()
     try:
-        if not user.is_authenticated():
+        if not user.is_authenticated:
             return None
         return user
     except Exception as e:

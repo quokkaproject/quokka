@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+
 import click
 from .createuser import create_user
 

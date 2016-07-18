@@ -21,6 +21,9 @@ develop-eggs
 lib
 lib64
 
+# Pyenv
+.python-version
+
 # Installer logs
 pip-log.txt
 
