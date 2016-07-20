@@ -6,8 +6,8 @@ from flask import url_for
 from quokka.core.db import db
 from quokka.core.models.custom_values import HasCustomValue
 from quokka.utils.text import abbreviate, slugify
-from flask.ext.security import UserMixin, RoleMixin
-from flask.ext.security.utils import encrypt_password
+from flask_security import UserMixin, RoleMixin
+from flask_security.utils import encrypt_password
 from flask_gravatar import Gravatar
 from .utils import ThemeChanger
 

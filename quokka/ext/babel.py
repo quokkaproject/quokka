@@ -1,6 +1,6 @@
 # coding: utf-8
-# from flask import request, session
-from flask.ext.babelex import Babel
+from flask import request, session
+from flask_babelex import Babel
 
 babel = Babel()
 
@@ -8,16 +8,21 @@ babel = Babel()
 def configure(app):
     babel.init_app(app)
 
-    # @babel.localeselector
-    # def get_locale():
-    #     override = request.args.get('lang')
+    if babel.locale_selector_func is None:
+        @babel.localeselector
+        def get_locale():
+            override = request.args.get('lang')
+            if override:
+                session['lang'] = override
+            else:
+                # use default language if set
+                if app.config.get('BABEL_DEFAULT_LOCALE'):
+                    session['lang'] = app.config.get('BABEL_DEFAULT_LOCALE')
+                else:
+                    # get best matching language
+                    if app.config.get('BABEL_LANGUAGES'):
+                        session['lang'] = request.accept_languages.best_match(
+                            app.config.get('BABEL_LANGUAGES')
+                        )
 
-    #     if override:
-    #         session['lang'] = override
-
-    #     return session.get('lang', 'en')
-
-    # def get_locale():
-    #     return request.accept_languages.best_match(
-    #         app.config['BABEL_LANGUAGES'])
-    # babel.localeselector(get_locale)
+            return session.get('lang', 'en')

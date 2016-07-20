@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
+
 import click
-from ..models import User, Role
+from .createuser import create_user
 
 
 @click.command()
@@ -10,10 +11,4 @@ from ..models import User, Role
               confirmation_prompt=True)
 def cli(name, email, password):
     """Create a user with administrator permissions"""
-    if all([name, email, password]):
-        admin, created = Role.objects.get_or_create(name='admin')
-        user = User.createuser(name, email, password, roles=[admin])
-    else:
-        user = "Cant create the supersuser"
-
-    click.echo(user)
+    create_user(name, email, password, 'admin')

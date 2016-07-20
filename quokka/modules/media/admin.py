@@ -1,7 +1,7 @@
 # coding : utf -8
 
 from flask import url_for
-from flask.ext.admin import form
+from flask_admin import form
 from jinja2 import Markup
 
 from quokka import admin
@@ -89,23 +89,23 @@ class AudioAdmin(FileAdmin):
     }
 
 
+def _list_thumbnail(instance, context, model, name):
+    if not model.path:
+        return ''
+
+    return Markup(
+        '<img src="%s" width="100">' % url_for(
+            'quokka.core.media',
+            filename=form.thumbgen_filename(model.path)
+        )
+    )
+
+
 class ImageAdmin(MediaAdmin):
     roles_accepted = ('admin', 'editor', 'author')
     column_list = ('title', 'full_path', 'thumb', 'published')
     form_columns = ['title', 'slug', 'path', 'channel', 'content_format',
                     'comments_enabled', 'summary', 'published']
-
-    @staticmethod
-    def _list_thumbnail(context, model, name):
-        if not model.path:
-            return ''
-
-        return Markup(
-            '<img src="%s" width="100">' % url_for(
-                'quokka.core.media',
-                filename=form.thumbgen_filename(model.path)
-            )
-        )
 
     column_formatters = {
         'thumb': _list_thumbnail

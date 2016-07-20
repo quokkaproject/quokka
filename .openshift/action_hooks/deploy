@@ -15,7 +15,7 @@ cd $OPENSHIFT_REPO_DIR
 export PYTHONPATH=$PWD
 
 echo "installing requirements"
-pip install -r requirements/requirements.txt --upgrade
+pip install -r requirements/requirements.txt --upgrade --no-cache-dir
 
 echo "installing test requirements"
-pip install -r requirements/dev.txt --upgrade
+pip install -r requirements/dev.txt --upgrade --no-cache-dir

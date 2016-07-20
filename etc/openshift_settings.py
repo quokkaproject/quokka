@@ -29,7 +29,7 @@ if os.environ['OPENSHIFT_APP_NAME'] == 'quokkadevelopment':
     DEBUG_TOOLBAR_ENABLED = True
     DEBUG = True
 
-SHORTENER_ENABLED = True
+SHORTENER_ENABLED = False
 # SERVER_NAME = os.environ['OPENSHIFT_APP_DNS']
 
 MAP_STATIC_ROOT = (

@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import logging
-from flask.ext.mistune import markdown
+from flask_mistune import markdown
 
 from quokka.core.db import db
 from quokka.core.models.custom_values import HasCustomValue
@@ -56,6 +56,7 @@ class Channel(Tagged, HasCustomValue, Publishable, LongSlugged,
                                        required=False,
                                        reverse_delete_rule=db.NULLIFY)
     sort_by = db.ListField(db.StringField(), default=[])
+    link_in_menu = db.BooleanField(default=True)
 
     meta = {
         'ordering': ['order', 'title'],

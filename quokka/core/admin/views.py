@@ -1,7 +1,7 @@
 # Create customized index view class
 
 from flask import current_app, flash
-from flask.ext.admin.actions import action
+from flask_admin.actions import action
 from quokka.core.models.content import Content
 from quokka.utils.routing import expose
 from quokka.core.widgets import TextEditor, PrepopulatedText
@@ -88,7 +88,7 @@ class ChannelAdmin(ContentActions, PublishActions, ModelAdmin):
     form_columns = ['title', 'slug', 'content_format', 'description',
                     'parent', 'is_homepage', 'roles',
                     'include_in_rss', 'indexable', 'show_in_menu', 'order',
-                    'per_page', 'tags', 'sort_by',
+                    'per_page', 'tags', 'sort_by', 'link_in_menu',
                     'published', 'canonical_url', 'values', 'channel_type',
                     'inherit_parent', 'content_filters', 'available_at',
                     'available_until', 'render_content', 'redirect_url']

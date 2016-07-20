@@ -3,7 +3,6 @@ import os
 import importlib
 from quokka.ext.commands_collector import CommandsCollector
 
-
 # def load_from_packages(app):
 #     pass
 
@@ -55,12 +54,16 @@ def load_from_folder(app):
     app.logger.info("%s modules loaded", mods.keys())
 
 
-def blueprint_commands(app):
-    blueprints_path = app.config.get('BLUEPRINTS_PATH', 'modules')
-    modules_path = os.path.join(
-        app.config.get('PROJECT_ROOT', '..'),
-        blueprints_path
-    )
-    base_module_name = ".".join([app.name, blueprints_path])
+def get_blueprint_commands(path, root, app_name):
+    modules_path = os.path.join(root, path)
+    base_module_name = ".".join([app_name, path])
     cmds = CommandsCollector(modules_path, base_module_name)
     return cmds
+
+
+def blueprint_commands(app=None):
+    return get_blueprint_commands(
+        path=app.config.get('BLUEPRINTS_PATH', 'modules'),
+        root=app.config.get('PROJECT_ROOT', '..'),
+        app_name=app.name
+    )

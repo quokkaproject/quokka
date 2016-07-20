@@ -17,7 +17,7 @@ def lazy_str_setting(key, default=None):
 
 def get_current_user():
     from quokka.modules.accounts.models import User
-    from flask.ext.security import current_user
+    from flask_security import current_user
     try:
         return User.objects.get(id=current_user.id)
     except Exception as e:
@@ -33,7 +33,7 @@ def get_current_user_for_models():
     """
     user = get_current_user()
     try:
-        if not user.is_authenticated():
+        if not user.is_authenticated:
             return None
         return user
     except Exception as e:

@@ -1,16 +1,42 @@
 import unittest
-from flask.ext.testing import TestCase  # , Twill
+from flask_testing import TestCase  # , Twill
 from quokka import create_app
 from quokka.core.admin import create_admin
 
 
 class BasicTestCase(TestCase):
+    @classmethod
+    def setUpClass(cls):
+        '''Set up fixtures for the class.
 
-    def setUp(self):
-        self.db = list(self.app.extensions.get('mongoengine').keys())[0]
-        self.db.connection.drop_database('quokka_test')
-        from quokka.utils.populate import Populate
-        Populate(self.db)()
+        This methods runs once for the entire class. This test case do not
+        insert or update any record on the database, so there is no problem
+        to be run only once for the class.
+
+        This way it save some time, instead of populate the test database
+        each time a test is executed.
+        '''
+        admin = create_admin()
+        app = create_app(config='quokka.test_settings',
+                         DEBUG=False,
+                         test=True,
+                         admin_instance=admin)
+
+        with app.app_context():
+            db = list(app.extensions.get('mongoengine').keys())[0]
+            db.connection.drop_database('quokka_test')
+            from quokka.utils.populate import Populate
+            Populate(db)()
+        cls.app = app
+        cls.db = db
+
+    def create_app(self):
+        '''Create app must be implemented.
+
+        It is mandatory for flask_testing test cases. Only returns
+        the app created in the setUpClass method.
+        '''
+        return self.app
 
     def login(self, username, password):
         return self.app.post('/accounts/login', data=dict(
@@ -23,13 +49,6 @@ class BasicTestCase(TestCase):
 
     def get_config(self, key):
         return self.app.config.store.get(key)
-
-    def create_app(self):
-        self.admin = create_admin()
-        return create_app(config='quokka.test_settings',
-                          DEBUG=False,
-                          test=True,
-                          admin_instance=self.admin)
 
     def test_has_mongoengine(self):
         self.assertTrue(self.app.extensions.get('mongoengine'))
@@ -45,6 +64,15 @@ class BasicTestCase(TestCase):
     def test_has_posts(self):
         from quokka.modules.posts.models import Post
         self.assertTrue(Post.objects.count() in [5, 6])
+
+    def test_posts_authors_order(self):
+        from quokka.modules.posts.models import Post
+        post = Post.objects.get(slug="python-reaches-new-level-of-quality")
+        authors = list(post.get_authors())
+        self.assertEqual(post.created_by.name, 'author')
+        self.assertTrue(len(authors) == 2)
+        self.assertEqual(authors[0].name, 'author')
+        self.assertEqual(authors[1].name, 'author2')
 
     def test_blog_has_only_one_post(self):
         from quokka.modules.posts.models import Post

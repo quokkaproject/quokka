@@ -4,8 +4,8 @@ import sys
 
 from werkzeug.datastructures import FileStorage
 from flask import current_app
-from flask.ext.admin import form
-from flask.ext.admin.form.upload import ImageUploadInput
+from flask_admin import form
+from flask_admin.form.upload import ImageUploadInput
 
 from quokka.core.models.subcontent import SubContent, SubContentPurpose
 from quokka.modules.media.models import Image

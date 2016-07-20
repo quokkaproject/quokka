@@ -12,11 +12,7 @@ from quokka.modules.accounts.models import User
 
 app = create_app()
 
-Content.objects.delete()
-User.objects.delete()
-Config.objects.delete()
-
-for channel in Channel.objects.filter(parent__ne=None):
-    channel.delete()
-
-Channel.objects.delete()
+Content.drop_collection()
+User.drop_collection()
+Config.drop_collection()
+Channel.drop_collection()

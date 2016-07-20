@@ -8,7 +8,8 @@ def configure(app, db):
 
     try:
         is_installed = Quokka.objects.get(slug="is_installed")
-    except:
+    except Exception as e:
+        app.logger.info(u"Checking if is installed %s" % str(e))
         is_installed = False
 
     if not is_installed:

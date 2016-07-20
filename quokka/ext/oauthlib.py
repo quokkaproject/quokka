@@ -1,7 +1,7 @@
 # coding utf-8
 
 from flask import session
-from flask.ext.oauthlib.client import OAuth
+from flask_oauthlib.client import OAuth
 
 from quokka.modules.accounts.oauth import make_oauth_handler, oauth_login
 

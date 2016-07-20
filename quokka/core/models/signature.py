@@ -38,7 +38,14 @@ class Owned(object):
     authors = db.ListField(db.ReferenceField(User))
 
     def get_authors(self):
-        return set(self.authors + [self.created_by])
+        if self.created_by is None:
+            raise db.ValidationError(
+                'The created_by field is None, '
+                'a object must have been created by someone.'
+            )
+        return list(
+            [self.created_by] +
+            [author for author in self.authors if author != self.created_by])
 
     @property
     def has_multiple_authors(self):

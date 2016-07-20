@@ -4,7 +4,7 @@
 import logging
 import datetime
 from flask import url_for, redirect
-from flask.ext.mistune import markdown
+from flask_mistune import markdown
 
 from quokka.core.db import db
 from quokka.utils.shorturl import ShorterURL
