@@ -1,7 +1,7 @@
 # testing
 coveralls==1.1
 mock==2.0.0
-pytest==3.0.0
+pytest==3.0.3
 pytest-cov==2.3.1
 pytest-flask==0.10.0
 pytest-sugar==0.7.1
