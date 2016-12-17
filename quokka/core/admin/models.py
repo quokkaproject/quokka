@@ -14,7 +14,7 @@ from flask_admin.actions import action
 from flask_admin import helpers as h
 from flask_security import current_user
 from flask_security.utils import url_for_security
-from flask.ext.htmlbuilder import html
+from flask.ext.htmlbuilder.htmlbuilder import html
 
 from quokka.modules.accounts.models import User
 from quokka.core.templates import render_template
