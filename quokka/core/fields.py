@@ -20,7 +20,7 @@ def getinstance(_instance):
 def only_matches(obj, kwargs, silent=True):
     if not kwargs and silent:
         return obj
-    return filter(lambda i: match_all(i, kwargs), obj)
+    return list(filter(lambda i: match_all(i, kwargs), obj))
 
 
 def _exclude(self):
