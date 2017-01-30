@@ -1,4 +1,4 @@
-box: wercker/python
+box: python
 build:
   steps:
     - install-packages:
