@@ -43,7 +43,6 @@ You can use Quokka CMS to publish a blog, a web portal, intranet, document manag
 
 User 'admin@example.com' and passwd 'admin' to login in to /admin
 
-- **DEMO**: http://demo.quokkaproject.org  (stable - master branch)
 - Development Demo: http://development.quokkaproject.org  (unstable - development branch)
 
 
