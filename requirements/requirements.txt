@@ -8,7 +8,7 @@ Flask-BabelEx==0.9.3
 Flask-Cache==0.13.1
 Flask-Gravatar==0.4.2
 Flask-Mistune==0.1.1
-flask-mongoengine==0.8.2
+flask-mongoengine==0.9.2
 Flask-OAuthlib==0.9.3
 flask-security==1.7.5
 Pillow==4.0.0
