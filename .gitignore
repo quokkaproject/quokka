@@ -1,0 +1,67 @@
+*.py[cod]
+*.cfg
+
+# C extensions
+*.so
+
+# Packages
+.idea
+*.idea
+*.egg
+*.egg-info
+dist
+build
+eggs
+parts
+bin
+var
+sdist
+develop-eggs
+.installed.cfg
+lib
+lib64
+
+# Pyenv
+.python-version
+
+# Installer logs
+pip-log.txt
+
+# Unit test / coverage reports
+.coverage
+.tox
+nosetests.xml
+
+.email_password.txt
+.db_password.txt
+local_settings.py
+# Translations
+*.mo
+
+*.nja
+
+media/*
+
+# Mr Developer
+.mr.developer.cfg
+.project
+.pydevproject
+
+# VIM
+.ropeproject
+*.swp
+
+quokka/mediafiles
+etc/elasticdata/elasticsearch
+etc/mongodata/journal
+etc/mongodata/_tmp
+etc/mongodata/*.0
+etc/mongodata/*.ns
+etc/mongodata/*.lock
+etc/mongodata/*.bson
+etc/mongodata/*.wt
+etc/mongodata/WiredTiger*
+etc/mongodata/*.data
+*.log
+*.pid
+*.cache*
