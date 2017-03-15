@@ -5,7 +5,7 @@ pytest==3.0.6
 pytest-cov==2.4.0
 pytest-flask==0.10.0
 pytest-sugar==0.8.0
-Flask-Testing==0.6.1
+Flask-Testing==0.6.2
 
 # style check
 flake8==2.5.2  # rq.filter:<2.5.3
