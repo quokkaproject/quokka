@@ -1,3 +1,44 @@
+## Quokka is dead! Long live the Quokka!
+
+Hi,
+
+QuokkaCMS growed in to an amazing project and there are many users using the currrent version.
+
+The problem is that too many feature requests lead in to too many issues to fix and implement.
+
+The lack of contributors lead in to a slow pace development.
+
+So I decided to kill this version! and start a brand new one[1] which is going to be more simple and many things will be moved in to external plugins.
+
+So I'll need to maintain only the small core of the CMS and plugins would be maintained by community.
+
+I am also removing the MongoDB dependency (it will be optional)
+
+If you want to follow the Quokka Rewrite please take a look in to temporary repository [1] and once it is ready to release I'll archive this existing version in another branch and replace `master` branch of this repo with the new CMS.
+
+The existing codebase will be kept in another branch but will not be actively maintained, only hotfixes and community PRs will be accepted, but the evolution of the project will be focused in `quokka new generation`
+
+[1]  https://github.com/rochacbruno/quokka_ng/blob/master/README.md
+
+Suggestions please use the issues on the new repo.
+
+
+Cheers!
+
+Long live the Quokka!!!
+
+
+
+
+
+
+
+
+
+
+----------------------------------
+
+
 [![Flask Registered](https://img.shields.io/badge/flask-registered-green.svg?style=flat)](https://github.com/pocoo/metaflask)
 [![Travis CI](http://img.shields.io/travis/quokkaproject/quokka.svg)](https://travis-ci.org/quokkaproject/quokka)
 [![Coverage Status](https://coveralls.io/repos/github/quokkaproject/quokka/badge.svg?branch=development)](https://coveralls.io/github/quokkaproject/quokka?branch=development)
