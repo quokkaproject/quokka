@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        {% if title %}
+        <title>{{ title }}</title>
+        {% else %}
+        <title>MyBlog</title>
+        {% endif %}
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="//maxcdn.bootstrapcdn.com/bootswatch/3.3.2/sandstone/bootstrap.min.css" rel="stylesheet">
+        <style type="text/css">body{padding-top:70px}</style>
+        <style type="text/css">ul.nav li a, ul.nav li a:visited {color: #7BEF00 !important;}ul.nav li a:hover, ul.nav li a:active {color: #55A500 !important;}ul.nav li.active a {color: #7BEF00 !important;}</style>
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+        <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+        {% block head %}{% endblock %}
+    </head>
+    <body>
+
+        <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+            <div class="container">
+                <div class="navbar-header">
+                  <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                  </button>
+                  <a class="navbar-brand" href="{{ url_for('admin.index')}}">Admin</a>
+                </div>
+                <div id="navbar" class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav navbar-right">
+                        {% if current_user.is_authenticated %}
+                            <li><a href="{{ url_for('quokka.logout') }}">Logout</a></li>
+                        {% else %}
+                            <li><a href="{{ url_for('quokka.login') }}">Login</a></li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <div class="container">
+            {% include "flash.html" %}
+            {% block content %}{% endblock %}
+        </div>
+    </body>
+</html>
