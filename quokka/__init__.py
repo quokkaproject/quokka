@@ -6,23 +6,26 @@ warnings.simplefilter("ignore", category=ExtDeprecationWarning)
 # The above hack is needed because flask_mongoengine and flask_cache
 # Did not migrated from old flask.ext style
 
-# from quokka.admin import create_admin  # noqa
+from quokka.admin import create_admin  # noqa
 from quokka.app import QuokkaApp  # noqa
 # from quokka.core.middleware import HTTPMethodOverrideMiddleware  # noqa
-# from quokka.ext import configure_extensions, configure_extension  # noqa
+from quokka.ext import configure_extensions, configure_extension  # noqa
 
-# admin = create_admin()
+admin = create_admin()
 
 
 def create_app_base(config=None, test=False, admin_instance=None,
                     ext_list=None, **settings):
     app = QuokkaApp('quokka')
     # app.config.load_quokka_config(config=config, test=test, **settings)
+    app.config['SECRET_KEY'] = 'abcderf'
+    app.config['DEBUG'] = True
+    app.config['WTF_CSRF_ENABLED'] = True
     if test or app.config.get('TESTING'):
         app.testing = True
-    # if ext_list:
-    #     for ext in ext_list:
-    #         configure_extension(ext, app=app)
+    if ext_list:
+        for ext in ext_list:
+            configure_extension(ext, app=app)
     return app
 
 
@@ -30,7 +33,7 @@ def create_app(config=None, test=False, admin_instance=None, **settings):
     app = create_app_base(
         config=config, test=test, admin_instance=admin_instance, **settings
     )
-    # configure_extensions(app, admin_instance or admin)
+    configure_extensions(app, admin_instance or admin)
     # if app.config.get("HTTP_PROXY_METHOD_OVERRIDE"):
     #     app.wsgi_app = HTTPMethodOverrideMiddleware(app.wsgi_app)
     return app

@@ -5,3 +5,20 @@ git+https://github.com/schapman1974/tinymongo.git#egg=tinymongo
 manage
 dynaconf
 import_string
+quokka-themes
+quokka-flask-htmlbuilder
+awesome-slugify
+blinker
+Flask-BabelEx
+# Flask-Gravatar
+Flask-Mistune
+Flask-OAuthlib
+flask-security
+Pillow
+PyRSS2Gen
+requests
+#quokka-speaklater
+#cached-property
+
+# Mistune 0.7.1 broke base64; inline images
+mistune==0.6  # rq.filter: <0.7

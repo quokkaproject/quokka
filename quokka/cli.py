@@ -8,7 +8,9 @@ from pprint import pprint
 from manage.cli import create_shell, init_cli, cli
 from manage.template import default_manage_dict
 from quokka import create_app
-# from quokka.db import db
+from quokka.db import db
+from quokka.errors import DuplicateKeyError
+from quokka.ext.security import User
 # from quokka.utils.populate import Populate
 
 app = create_app()
@@ -79,6 +81,23 @@ def init(name):
         data = default_manage_dict
         data['project_name'] = name.title()
         manage_file.write(yaml.dump(data, default_flow_style=False))
+
+
+@cli.command()
+@click.option('--username', required=True)
+@click.option('--email', required=True)
+@click.option('--password', required=True)
+def adduser(username, email, password):
+    """Add new user with admin access"""
+    # TODO: improve click.options to password
+    try:
+        User.create(username, email, password)
+    except DuplicateKeyError as e:
+        click.echo(str(e).replace('_id', 'username'))
+    else:
+        # TODO: get app_url dynamically
+        app_url = 'http://localhost:5000/admin'
+        click.echo('User {0} created!!! go to: {1}'.format(username, app_url))
 
 
 def main():

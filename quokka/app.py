@@ -1,5 +1,5 @@
 from flask import Flask, Blueprint
-# from flask.helpers import _endpoint_from_view_func
+from flask.helpers import _endpoint_from_view_func
 # from quokka.config import QuokkaConfig
 
 
@@ -18,13 +18,13 @@ class QuokkaApp(Flask):
     #         root_path = self.instance_path
     #     return self.config_class(root_path, self.default_config)
 
-    # def add_quokka_url_rule(self, rule, endpoint=None,
-    #                         view_func=None, **options):
-    #     if endpoint is None:
-    #         endpoint = _endpoint_from_view_func(view_func)
-    #     if not endpoint.startswith('quokka.'):
-    #         endpoint = 'quokka.core.' + endpoint
-    #     self.add_url_rule(rule, endpoint, view_func, **options)
+    def add_quokka_url_rule(self, rule, endpoint=None,
+                            view_func=None, **options):
+        if endpoint is None:
+            endpoint = _endpoint_from_view_func(view_func)
+        if not endpoint.startswith('quokka.'):
+            endpoint = 'quokka.' + endpoint
+        self.add_url_rule(rule, endpoint, view_func, **options)
 
 
 class QuokkaModule(Blueprint):
