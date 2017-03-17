@@ -7,7 +7,7 @@ from wtforms.validators import DataRequired
 from werkzeug.security import check_password_hash, generate_password_hash
 from flask import request, redirect, url_for, flash
 from flask_login import login_user, logout_user, UserMixin
-from quokka.db import db
+from quokka.db import collection_users
 from quokka.template import render_template
 
 
@@ -36,7 +36,7 @@ class User(UserMixin):
             'password': password,
             'email': email
         }
-        db.users.insert_one(data)
+        collection_users.insert_one(data)
 
         return get_user(username)
 
@@ -51,10 +51,10 @@ class LoginForm(Form):
 def login():
     form = LoginForm()
     if request.method == 'POST' and form.validate_on_submit():
-        user = db.users.find_one({"_id": form.username.data})
+        user = collection_users.find_one({"_id": form.username.data})
         if user and User.validate_login(user['password'], form.password.data):
             user_obj = User(user['_id'])
-            login_user(user_obj)
+            login_user(user_obj, remember=True)
             flash("Logged in successfully!", category='success')
             return redirect(request.args.get("next") or url_for("admin.index"))
         flash("Wrong username or password!", category='error')
@@ -67,7 +67,7 @@ def logout():
 
 
 def get_user(username):
-    user = db.users.find_one({"_id": username})
+    user = collection_users.find_one({"_id": username})
     if not user:
         return None
     return User(user['_id'], user['email'])
@@ -78,6 +78,7 @@ def configure(app, db):
     lm.login_view = 'quokka.login'
     lm.logout_view = 'quokka.logout'
     lm.user_callback = get_user
+    # lm.localize_callback = # babel_gettext
 
     app.add_quokka_url_rule(
         '/login/', view_func=login, methods=['GET', 'POST'], endpoint='login'

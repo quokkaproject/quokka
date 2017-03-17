@@ -1,0 +1,170 @@
+# important: never change version
+# it is used by `quokka upgrade` command
+version: 1.0.0
+
+# App reads values provided under `quokka` namespace.
+# settings can be lower or upper case does not matter
+# as internally Dynaconf transform to upper case.
+quokka:
+
+  # DEBUG Mode
+  DEBUG: true
+  DEBUG_TOOLBAR_ENABLED: true
+  ADMIN_RAISE_ON_VIEW_EXCEPTION: true
+  LOGGER_ENABLED: True
+
+
+  secret_key: abcderf
+  WTF_CSRF_ENABLED: true
+
+  # Extensions here can be import path to any callable or class
+  # that callable will receive objects app, db and admin.
+  # example:
+  # def configure_my_extension(app, db, admin):
+  #    load_extension_here
+  # publish your extension to python path `pip isntall quokka_extension`
+  # add to the list `- quokka_extension.module.configure_my_extension`
+  CORE_EXTENSIONS:
+    # - quokka.ext.babel.configure
+    - quokka.admin.configure_admin
+    - flask_wtf.csrf.CSRFProtect
+    - quokka.ext.gravatar.configure
+    - flask_mistune.Mistune
+    - quokka.ext.security.configure
+    - quokka.ext.test.configure
+    - quokka.ext.error_handlers.configure
+    - quokka.ext.monitoring.configure
+    - quokka.ext.themes.configure
+
+
+  # TinyDB
+  db_system: tinydb
+  db_folder: databases
+  # Mongo
+  # db_system: mongo
+  # db_name: quokka_db
+  # db_username: admin
+  # db_password: secret
+  # db_host: myhost.com
+  # db_port: 27017
+
+  # db and collection names
+  # for pymongo you can have
+  # all db_ poiting to the same db
+  db_contents: contents
+  db_uploads: uploads
+  db_users: users
+
+  collection_contents: contents
+  collection_uploads: uploads
+  collection_users: users
+
+  # Flask-Gravatar can take avatar urls in jinja templates
+  # do: {{ current_user.email | gravatar }} or
+  # {{ 'some@server.com' | gravatar(size=50) }}
+  GRAVATAR:
+    size: 100
+    rating: g
+    default: retro
+    force_default: false
+    force_lower: false
+
+  DEFAULT_TEXT_FORMAT: markdown
+
+  ADMIN:
+    name: Quokka NG Admin
+    url: /admin
+
+  ADMIN_SWATCH: default
+
+  ADMIN_ICONS: [
+      ['post.create_view', 'pencil', 'Write'],
+      ['post.index_view', 'th-list', 'Posts'],
+      ['config.index_view', 'cog', 'Config'],
+      ['user.index_view', 'user', 'Users'],
+      ['image.index_view', 'picture', 'Images'],
+      ['image.create_view', 'arrow-up', 'Upload'],
+      ['channel.index_view', 'th-list', 'Channels']
+  ]
+
+  DEFAULT_EDITABLE_EXTENSIONS: &extensions [
+    'html', 'css', 'js', 'py', 'txt', 'md', 'cfg', 'coffee', 'html', 'json',
+    'xml', 'yaml', 'yml', 'HTML', 'CSS', 'JS', 'PY', 'TXT', 'MD', 'CFG',
+    'COFFEE', 'HTML', 'JSON', 'XML', 'YAML', 'YML'
+  ]
+
+  FILE_ADMIN:
+    - name: Static files
+      category: Files
+      path: /tmp/
+      url: /static/  # create nginx rule
+      endpoint: static_files
+      editable_extensions: *extensions
+    - name: Media files
+      category: Files
+      path: /tmp/
+      url: /mediafiles/  # Create nginx rule
+      endpoint: media_files
+      editable_extensions: *extensions
+
+
+  BABEL_LANGUAGES: [
+      'en', 'cs', 'de', 'es', 'fa', 'fr', 'pt', 'ru', 'pa', 'zh_CN', 'zh_TW'
+  ]
+  BABEL_DEFAULT_LOCALE: en
+
+  LOGGER_LEVEL: DEBUG
+  LOGGER_FORMAT: '%(asctime)s %(name)-12s %(levelname)-8s %(message)s'
+  LOGGER_DATE_FORMAT: '%d.%m %H:%M:%S'
+
+  DEBUG_TB_INTERCEPT_REDIRECTS: false
+  DEBUG_TB_PROFILER_ENABLED: true
+  DEBUG_TB_TEMPLATE_EDITOR_ENABLED: true
+  DEBUG_TB_PANELS:
+    - flask_debugtoolbar.panels.versions.VersionDebugPanel
+    - flask_debugtoolbar.panels.timer.TimerDebugPanel
+    - flask_debugtoolbar.panels.headers.HeaderDebugPanel
+    - flask_debugtoolbar.panels.request_vars.RequestVarsDebugPanel
+    - flask_debugtoolbar.panels.template.TemplateDebugPanel
+    # TODO: MIgrate mongoengine panel to tinyDB and Pymongo
+    # - flask_mongoengine.panels.MongoDebugPanel
+    - flask_debugtoolbar.panels.logger.LoggingPanel
+    - flask_debugtoolbar.panels.profiler.ProfilerDebugPanel
+    - flask_debugtoolbar.panels.config_vars.ConfigVarsDebugPanel
+
+  DEFAULT_THEME: Flex
+  # https://github.com/alexandrevicenzi/Flex
+  # http://www.pelicanthemes.com/
+  # $ quokka themes install theme-name
+  # $ quokka themes activate theme-name
+  # http://docs.getpelican.com/en/latest/themes.html
+
+  THEME_PATHS: themes
+  # content urls will end with .html
+  CONTENT_EXTENSION: html
+
+  # monitoring
+  SENTRY_ENABLED: false
+  SENTRY_DSN: ''
+
+  # https://opbeat.com is application monitoring tool
+  # you can enable it but you need to install requirements/dev.txt
+  # https://opbeat.com/docs/articles/get-started-with-flask/
+
+  # OPBEAT: {
+  #     'ORGANIZATION_ID': '<ORGANIZATION-ID>',
+  #     'APP_ID': '<APP-ID>',
+  #     'SECRET_TOKEN': '<SECRET-TOKEN>',
+  #     'INCLUDE_PATHS': ['quokka'],
+  #     'DEBUG': True,
+  #     'LOGGING': False
+  # }
+
+  # Notify Opbeat when a release has completed
+  # $   curl https://intake.opbeat.com/api/v1/
+  #     organizations/<ORGANIZATION-ID>/apps/<APP-ID>/releases/ \
+  #     -H "Authorization: Bearer <SECRET-TOKEN>" \
+  #     -d rev=`git log -n 1 --pretty=format:%H` \
+  #     -d branch=`git rev-parse --abbrev-ref HEAD` \
+  #     -d status=completed
+  # content editor allows markdown, rst and html

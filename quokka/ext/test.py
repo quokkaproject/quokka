@@ -5,7 +5,7 @@ from flask_admin.contrib.pymongo import ModelView, filters
 from flask_admin.form import Select2Widget
 from flask_admin.model.fields import InlineFieldList, InlineFormField
 from wtforms import fields, form
-from quokka.db import db
+from quokka.db import collection_users, connection
 
 
 # User admin
@@ -69,7 +69,7 @@ class TweetView(ModelView):
 
         # Contribute user_name to the models
         for item in data:
-            user = db.users.find_one(
+            user = collection_users.find_one(
                 {'_id': item['user_id']}
             )
             if user:
@@ -79,7 +79,7 @@ class TweetView(ModelView):
 
     # Contribute list of user choices to the forms
     def _feed_user_choices(self, form):
-        users = db.users.find(fields=('_id',))
+        users = collection_users.find(fields=('_id',))
         form.user_id.choices = [(str(x['_id']), x['_id']) for x in users]
         return form
 
@@ -94,14 +94,14 @@ class TweetView(ModelView):
 
 def configure(app, db, admin):
     admin.register(
-        db.users,
+        collection_users,
         UserView,
         # category='User',
         name='User'
     )
 
     admin.register(
-        db.tweets,
+        connection['tweets'].tweets,
         TweetView,
         # category='User',
         name='Tweets'

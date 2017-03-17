@@ -1,7 +1,7 @@
 # coding: utf-8
 from inspect import getargspec
 import import_string
-from quokka.db import db
+from quokka import db
 
 
 def configure_extension(name, **kwargs):
@@ -13,15 +13,14 @@ def configure_extension(name, **kwargs):
 
 
 def configure_extensions(app, admin):
+    """
+    Configure extensions provided in config file
+    """
     extensions = app.config.get(
         'CORE_EXTENSIONS', []
     ) + app.config.get(
         'EXTRA_EXTENSIONS', []
     )
-    extensions.append('quokka.admin.configure_admin')
-    extensions.append('quokka.ext.security.configure')
-    extensions.append('quokka.ext.test.configure')
-
     for configurator_name in extensions:
         configure_extension(configurator_name, app=app, db=db, admin=admin)
     return app
