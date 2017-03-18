@@ -1,20 +1,22 @@
 """
 
 """
-from flask_admin.contrib.pymongo import ModelView, filters
+from flask_admin.contrib.pymongo import filters
 from flask_admin.form import Select2Widget
 from flask_admin.model.fields import InlineFieldList, InlineFormField
-from wtforms import fields, form
+# from wtforms import fields, form
+from quokka.admin.forms import fields, Form
 from quokka.db import collection_users, connection
+from quokka.admin.views import ModelView
 
 
 # User admin
-class InnerForm(form.Form):
+class InnerForm(Form):
     username = fields.StringField('Username')
     test = fields.StringField('Test')
 
 
-class UserForm(form.Form):
+class UserForm(Form):
     username = fields.StringField('Username')
     email = fields.StringField('Email')
     password = fields.StringField('Password')
@@ -42,7 +44,7 @@ class UserView(ModelView):
 
 
 # Tweet view
-class TweetForm(form.Form):
+class TweetForm(Form):
     name = fields.StringField('Name')
     user_id = fields.SelectField('User', widget=Select2Widget())
     text = fields.StringField('Text')

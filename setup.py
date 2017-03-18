@@ -5,15 +5,28 @@
 from setuptools import setup
 
 
-with open('README.md') as readme_file:
-    # TODO: convert to rst on release
-    readme = readme_file.read()
+def parse_md_to_rst(file):
+    """Read Markdown file and convert to ReStructured Text."""
+    try:
+        from m2r import parse_from_file
+        return parse_from_file(file).replace(
+            "artwork/", ""
+        )
+    except ImportError:
+        # m2r may not be installed in user environment
+        return file.read()
+
 
 with open('HISTORY') as history_file:
     history = history_file.read()
 
+readme = parse_md_to_rst("README.md") + '\n\n' + history
+
 requirements = [
 ]
+
+with open('requirements.txt') as f:
+    requirements = f.read().splitlines()
 
 test_requirements = [
     'pytest>=2.9.2',
@@ -29,7 +42,7 @@ setup(
     long_description=readme + '\n\n' + history,
     author="Bruno Rocha",
     author_email='rochacbruno@gmail.com',
-    url='https://github.com/rochacbruno/quokka',
+    url='https://github.com/quokkaproject/quokka',
     packages=['quokka'],
     package_dir={'quokka': 'quokka'},
     entry_points={

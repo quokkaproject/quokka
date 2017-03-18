@@ -10,15 +10,15 @@ quokka-flask-htmlbuilder
 awesome-slugify
 blinker
 Flask-BabelEx
-# Flask-Gravatar
+Flask-Gravatar
 Flask-Mistune
 Flask-OAuthlib
 flask-security
 Pillow
 PyRSS2Gen
 requests
-#quokka-speaklater
-#cached-property
+mistune
 
+#cached-property
 # Mistune 0.7.1 broke base64; inline images
-mistune==0.6  # rq.filter: <0.7
+# mistune==0.6  # rq.filter: <0.7

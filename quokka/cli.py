@@ -9,7 +9,7 @@ from manage.cli import create_shell, init_cli, cli
 from manage.template import default_manage_dict
 from quokka import create_app
 from quokka.errors import DuplicateKeyError
-from quokka.ext.security import User
+from quokka.core.security import User
 # from quokka.utils.populate import Populate
 
 app = create_app()

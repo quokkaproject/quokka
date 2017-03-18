@@ -8,7 +8,7 @@ warnings.simplefilter("ignore", category=ExtDeprecationWarning)
 
 from quokka.admin import create_admin  # noqa
 from quokka.app import QuokkaApp  # noqa
-from quokka.ext import configure_extensions, configure_extension  # noqa
+from quokka.core import configure_extensions, configure_extension  # noqa
 
 admin = create_admin()
 

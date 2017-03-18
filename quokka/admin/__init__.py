@@ -8,8 +8,7 @@ from quokka.utils.translation import _l
 
 from tinymongo import TinyMongoCollection
 
-from .models import ModelAdmin, FileAdmin, BaseIndexView
-from .views import IndexView
+from .views import ModelView, FileAdmin, IndexView
 
 
 class QuokkaAdmin(Admin):
@@ -25,7 +24,7 @@ class QuokkaAdmin(Admin):
                 name=_l("Link")
             )
         """
-        _view = view or ModelAdmin
+        _view = view or ModelView
 
         if not identifier:
             if isinstance(model, TinyMongoCollection):
@@ -52,7 +51,7 @@ def configure_admin(app, admin):  # noqa
     custom_index = app.config.get('ADMIN_INDEX_VIEW')
     if custom_index:
         admin.index_view = import_string(custom_index)()
-        if isinstance(admin._views[0], BaseIndexView):  # noqa
+        if isinstance(admin._views[0], IndexView):  # noqa
             del admin._views[0]  # noqa
         admin._views.insert(0, admin.index_view)  # noqa
 
@@ -67,6 +66,14 @@ def configure_admin(app, admin):  # noqa
     for key, value in list(admin_config.items()):
         setattr(admin, key, value)
 
+    # avoid registering twice
+    if admin.app is None:
+        admin.init_app(app)
+
+    return admin
+
+
+def configure_file_admin(app, admin):
     for entry in app.config.get('FILE_ADMIN', []):
         try:
             admin.add_view(
@@ -82,6 +89,8 @@ def configure_admin(app, admin):  # noqa
         except Exception as e:
             app.logger.info(e)
 
+
+def configure_extra_views(app, admin):
     # adding extra views
     extra_views = app.config.get('ADMIN_EXTRA_VIEWS', [])
     for view in extra_views:
@@ -91,9 +100,3 @@ def configure_admin(app, admin):  # noqa
                 name=_l(view.get('name'))
             )
         )
-
-    # avoid registering twice
-    if admin.app is None:
-        admin.init_app(app)
-
-    return admin

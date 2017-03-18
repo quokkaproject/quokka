@@ -7,8 +7,11 @@ VERSION: 1.0.0
 # as internally Dynaconf transform to upper case.
 QUOKKA:
 
-  # Disable Auth if you are running only locally to generate static site
-  AUTH_ENABLED: true
+  # Enable login for admin access
+  ADMIN_REQUIRES_LOGIN: false
+
+  # Enable login for website
+  WEBSITE_REQUIRES_LOGIN: false
 
   # DEBUG Mode
   DEBUG: true
@@ -21,6 +24,21 @@ QUOKKA:
 
   WTF_CSRF_ENABLED: true
 
+  # be careful touching this list, use EXTRA_EXTENSIONS for custom extensions
+  CORE_EXTENSIONS:
+    # - quokka.core.babel.configure
+    - quokka.admin.configure_admin
+    - flask_wtf.csrf.CSRFProtect
+    - quokka.core.gravatar.configure
+    - flask_mistune.Mistune
+    - quokka.core.security.configure
+    - quokka.core.error_handlers.configure
+    - quokka.core.monitoring.configure
+    - quokka.core.themes.configure
+    - quokka.core.content.configure
+    - quokka.admin.configure_file_admin
+    - quokka.admin.configure_extra_views
+
   # Extensions here can be import path to any callable or class
   # that callable will receive objects app, db and admin.
   # example:
@@ -28,23 +46,12 @@ QUOKKA:
   #    load_extension_here
   # publish your extension to python path `pip isntall quokka_extension`
   # add to the list `- quokka_extension.module.configure_my_extension`
-  CORE_EXTENSIONS:
-    # - quokka.ext.babel.configure
-    - quokka.admin.configure_admin
-    - flask_wtf.csrf.CSRFProtect
-    - quokka.ext.gravatar.configure
-    - flask_mistune.Mistune
-    - quokka.ext.security.configure
-    - quokka.ext.test.configure
-    - quokka.ext.error_handlers.configure
-    - quokka.ext.monitoring.configure
-    - quokka.ext.themes.configure
+  EXTRA_EXTENSIONS:
+    - quokka.core.test.configure
 
-  # if true any package names quokka_plugin_ will be loaded
-  AUTO_LOAD_PLUGINS: true
+  # if true any package named quokka_ will be loaded
+  AUTO_LOAD_EXTENSIONS: true
   # else provide a list
-  PLUGINS:
-    # - 'quokka_plugin_example'
   # Plugin settings might be namespaced in dynaconf
 
   # TinyDB
@@ -106,19 +113,24 @@ QUOKKA:
   ]
 
   FILE_ADMIN:
-    - name: Static files
+    - name: Themes
       category: Files
-      path: /tmp/
-      url: /static/  # create nginx rule
-      endpoint: static_files
+      path: themes
+      url: /themesfiles/  # create nginx rule
+      endpoint: themes_files
       editable_extensions: *extensions
-    - name: Media files
+    - name: Uploads
       category: Files
-      path: /tmp/
-      url: /mediafiles/  # Create nginx rule
-      endpoint: media_files
+      path: uploads
+      url: /uploadsfiles/  # Create nginx rule
+      endpoint: uploads_files
       editable_extensions: *extensions
-
+    - name: Databases
+      category: Files
+      path: databases
+      url: /databasesfiles/  # Create nginx rule
+      endpoint: databases_files
+      editable_extensions: *extensions
 
   # All this languages will be available to translate admin panel
   # and also as language to post content
@@ -174,9 +186,8 @@ QUOKKA:
   # SENTRY_DSN: ''
 
   # https://opbeat.com is application monitoring tool
-  # you can enable it but you need to install requirements/dev.txt
+  # you can enable it but you need to install opbeat
   # https://opbeat.com/docs/articles/get-started-with-flask/
-
 
   # OPBEAT must be in .secrets.yml or QUOKKA_OPBEAT='@json {..}' env var.
   # you must install `opbeat` package to use it
