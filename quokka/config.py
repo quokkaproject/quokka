@@ -5,8 +5,17 @@ from dynaconf import LazySettings
 settings = LazySettings(
     ENVVAR_FOR_DYNACONF="QUOKKA_SETTINGS_MODULE",
     DYNACONF_NAMESPACE='QUOKKA',
-    SETTINGS_MODULE_FOR_DYNACONF='settings.yml'
+    SETTINGS_MODULE_FOR_DYNACONF='settings.yml',
+    YAML='.secrets.yml'  # extra yaml file override ^
 )
+
+# Settings load order in Dynaconf
+# 0) Load all defaults and Flask defaults
+# 1) Load all passed variables above
+# 2) Update with data in SETTINGS_MODULE_FOR_DYNACONF
+# 3) Update with data in YAML
+# 4) Update with data in rnvironmente vars `QUOKKA_`
+
 
 
 # TODO: extract this as a new extension flask_dynaconf

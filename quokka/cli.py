@@ -32,7 +32,13 @@ if app.config.get("LOGGER_ENABLED"):
 @click.option('--port', default=5000)
 def runserver(reloader, debug, host, port):
     """Run the Flask development server i.e. app.run()"""
-    app.run(use_reloader=reloader, debug=debug, host=host, port=port)
+    app.run(
+        use_reloader=reloader,
+        debug=debug,
+        host=host,
+        port=port,
+        extra_files=['settings.yml', '.secrets.yml']  # for reloader
+    )
 
 
 @cli.command()

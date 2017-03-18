@@ -65,3 +65,15 @@ etc/mongodata/*.data
 *.log
 *.pid
 *.cache*
+
+quokka/project_template/.secrets.yml
+quokka/project_template/databases/*.json
+
+quokka/project_template/themes/*
+!quokka/project_template/themes/README.md
+
+quokka/project_template/uploads/*
+!quokka/project_template/uploads/README.md
+
+quokka/project_template/static_build/*
+!quokka/project_template/static_build/README.md

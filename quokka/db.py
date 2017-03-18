@@ -9,10 +9,12 @@ elif db_system == 'mongo':
     connection = 'TODO: Load Pymongo here'
 
 
-db_contents = connection[settings.get('db_contents', 'content')]
+db_index = connection[settings.get('db_index', 'index')]
+db_contents = connection[settings.get('db_contents', 'contents')]
 db_uploads = connection[settings.get('db_uploads', 'uploads')]
 db_users = connection[settings.get('db_users', 'users')]
 
+collection_index = db_uploads[settings.get('collection_index', 'index')]
 collection_contents = db_contents[
     settings.get('collection_contents', 'contents')]
 collection_uploads = db_uploads[settings.get('collection_uploads', 'uploads')]
