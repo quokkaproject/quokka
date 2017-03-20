@@ -26,3 +26,9 @@ def configure(app):
                         )
 
             return session.get('lang', 'en')
+
+        # @babel.localeselector
+        # def get_locale():
+        #     if request.args.get('lang'):
+        #         session['lang'] = request.args.get('lang')
+        #     return session.get('lang', 'en')

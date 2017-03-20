@@ -3,18 +3,27 @@
 from quokka.db import collection_index
 from quokka.admin.views import ModelView
 from quokka.admin.forms import fields, Form
-from flask_admin.model.fields import InlineFieldList, InlineFormField
-from flask_admin.form import Select2Widget
+from flask_admin.model.fields import InlineFieldList  # , InlineFormField
+from flask_admin.form import Select2Widget, Select2TagsWidget
+# from flask_admin.helpers import get_form_data
 from wtforms import validators
+
+
+# TODO: encapsulate all fields under quokka.admin.fields
+# from wtforms_components.fields import SelectField
 
 
 class ContentForm(Form):
     """Base form for all contents"""
 
-    title = fields.StringField('Title')
+    title = fields.StringField('Title', [validators.required()])
     summary = fields.TextAreaField('Summary')
     category = fields.StringField('Category')
-    tags = fields.StringField('Tags')
+    tags = fields.StringField(
+        'Tags',
+        widget=Select2TagsWidget(),
+        # choices=lambda: []
+    )
     slug = fields.StringField('Slug')
 
     # authors = fields.StringField('authors')
@@ -54,6 +63,14 @@ class ContentView(ModelView):
         form = super(ContentView, self).create_form()
         form.content_type.choices = [('a', 'a'), ('b', 'b')]
         return form
+
+    def edit_form(self, obj):
+        form = super(ContentView, self).edit_form(obj)
+        form.content_type.choices = [('a', 'a'), ('b', 'b')]
+        return form
+
+    # def edit_form(self, obj):
+    #     return Form(get_form_data(), **obj)
 
 
 def configure(app, db, admin):

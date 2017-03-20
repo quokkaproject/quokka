@@ -26,7 +26,7 @@ QUOKKA:
 
   # be careful touching this list, use EXTRA_EXTENSIONS for custom extensions
   CORE_EXTENSIONS:
-    # - quokka.core.babel.configure
+    - quokka.core.babel.configure
     - quokka.admin.configure_admin
     - flask_wtf.csrf.CSRFProtect
     - quokka.core.gravatar.configure
@@ -38,6 +38,7 @@ QUOKKA:
     - quokka.core.content.configure
     - quokka.admin.configure_file_admin
     - quokka.admin.configure_extra_views
+    - quokka.core.security.configure_user_admin
 
   # Extensions here can be import path to any callable or class
   # that callable will receive objects app, db and admin.
@@ -46,8 +47,8 @@ QUOKKA:
   #    load_extension_here
   # publish your extension to python path `pip isntall quokka_extension`
   # add to the list `- quokka_extension.module.configure_my_extension`
-  EXTRA_EXTENSIONS:
-    - quokka.core.test.configure
+  EXTRA_EXTENSIONS: []
+    # - quokka.core.test.configure
 
   # if true any package named quokka_ will be loaded
   AUTO_LOAD_EXTENSIONS: true

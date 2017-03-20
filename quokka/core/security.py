@@ -1,14 +1,14 @@
 # coding: utf-8
 
 from flask_login import LoginManager
-from flask_wtf import FlaskForm as Form
-from wtforms import StringField, PasswordField
 from wtforms.validators import DataRequired
 from werkzeug.security import check_password_hash, generate_password_hash
 from flask import request, redirect, url_for, flash
 from flask_login import login_user, logout_user, UserMixin
 from quokka.db import collection_users
 from quokka.template import render_template
+from quokka.admin.forms import Form, fields
+from quokka.admin.views import ModelView
 
 
 class User(UserMixin):
@@ -44,8 +44,29 @@ class User(UserMixin):
 class LoginForm(Form):
     """Login form to access writing and settings pages"""
 
-    username = StringField('Username', validators=[DataRequired()])
-    password = PasswordField('Password', validators=[DataRequired()])
+    username = fields.StringField('Username', validators=[DataRequired()])
+    password = fields.PasswordField('Password', validators=[DataRequired()])
+
+
+class UserForm(Form):
+    username = fields.StringField('Username')
+    email = fields.StringField('Email')
+    password = fields.PasswordField('Password')
+
+
+class UserView(ModelView):
+    column_list = ('username', 'email')
+    column_sortable_list = ('username', 'email')
+
+    form = UserForm
+
+    page_size = 20
+    can_set_page_size = True
+
+    # Correct user_id reference before saving
+    def on_model_change(self, form, model):
+        model['_id'] = model.get('username')
+        return model
 
 
 def login():
@@ -86,4 +107,13 @@ def configure(app, db):
 
     app.add_quokka_url_rule(
         '/logout/', view_func=logout, endpoint='logout'
+    )
+
+
+def configure_user_admin(app, db, admin):
+    admin.register(
+        collection_users,
+        UserView,
+        name='Users',
+        category='Administration'
     )
