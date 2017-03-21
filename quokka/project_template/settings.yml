@@ -140,7 +140,7 @@ QUOKKA:
   ]
   # this will be the default language on admin and front end
   # admin language can also be user based
-  BABEL_DEFAULT_LOCALE: &default_locale en
+  BABEL_DEFAULT_LOCALE: &default_locale pt
 
   # Home page and categories lists all content on this languages no filter
   # should be a list e.g: ['en'] to filter only english by default

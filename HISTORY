@@ -1,0 +1,15 @@
+Changelog
+=========
+
+These are all the changes in Quokka (new generation) since the first public release.
+
+1.0.0
+-----
+
+- Ported from old code base and refactored the whole system
+- Moved from MongoDB and MongoEngine to TinyDb and TinyMongo
+- MongoDB and Pymongo is now optional
+- Changed configuration to use Dynaconf
+- Introduced `$ quokka` cli using click and manage
+- Simplified admin interface
+- By default it is now intended to deploy a generated static site

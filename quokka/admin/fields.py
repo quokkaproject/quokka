@@ -6,7 +6,43 @@ from werkzeug.datastructures import FileStorage
 from flask import current_app
 from flask_admin import form
 from flask_admin.form.upload import ImageUploadInput
-# from quokka.modules.media.models import Image
+
+
+class SmartSelect2Field(form.Select2Field):
+
+    def iter_choices(self):
+        """
+        We should update how choices are iter to make sure that value from
+        internal list or tuple should be selected.
+        """
+        if self.allow_blank:
+            yield (u'__None', self.blank_text, self.data is None)
+
+        for value, label in self.concrete_choices:
+            yield (value, label, self.coerce(value) == self.data)
+
+        # for value, label in self.concrete_choices:
+        #     yield (value, label, (self.coerce, self.data))
+
+    @property
+    def concrete_choices(self):
+        if callable(self.choices):
+            return self.choices()
+        return self.choices
+
+    @property
+    def choice_values(self):
+        return [value for value, label in self.concrete_choices]
+
+    def pre_validate(self, form):
+        if self.allow_blank and self.data is None:
+            return
+
+        values = self.choice_values
+        if (self.data is None and u'' in values) or self.data in values:
+            return True
+
+        super(SmartSelect2Field, self).pre_validate(form)
 
 
 class ThumbWidget(ImageUploadInput):

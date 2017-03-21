@@ -22,6 +22,7 @@ Pillow
 PyRSS2Gen
 requests
 mistune
+tablib
 
 #cached-property
 # Mistune 0.7.1 broke base64; inline images

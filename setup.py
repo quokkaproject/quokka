@@ -1,8 +1,17 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
+import io
+import os
 
 from setuptools import setup
+
+
+def read(*names, **kwargs):
+    """Read a file."""
+    return io.open(
+        os.path.join(os.path.dirname(__file__), *names),
+        encoding=kwargs.get('encoding', 'utf8')
+    ).read()
 
 
 def parse_md_to_rst(file):
@@ -10,11 +19,11 @@ def parse_md_to_rst(file):
     try:
         from m2r import parse_from_file
         return parse_from_file(file).replace(
-            "artwork/", ""
+            "artwork/", "http://198.27.119.65/"
         )
     except ImportError:
         # m2r may not be installed in user environment
-        return file.read()
+        return read(file)
 
 
 with open('HISTORY') as history_file:
@@ -22,8 +31,7 @@ with open('HISTORY') as history_file:
 
 readme = parse_md_to_rst("README.md") + '\n\n' + history
 
-requirements = [
-]
+requirements = []
 
 with open('requirements.txt') as f:
     requirements = f.read().splitlines()
@@ -56,17 +64,15 @@ setup(
     zip_safe=False,
     keywords='quokka',
     classifiers=[
-        'Development Status :: 2 - Pre-Alpha',
+        'Environment :: Web Environment',
         'Intended Audience :: Developers',
-        'License :: OSI Approved :: ISC License (ISCL)',
-        'Natural Language :: English',
-        "Programming Language :: Python :: 2",
-        'Programming Language :: Python :: 2.6',
-        'Programming Language :: Python :: 2.7',
+        'License :: OSI Approved :: BSD License',
+        'Operating System :: OS Independent',
+        'Programming Language :: Python',
         'Programming Language :: Python :: 3',
-        'Programming Language :: Python :: 3.3',
-        'Programming Language :: Python :: 3.4',
-        'Programming Language :: Python :: 3.5',
+        'Programming Language :: Python :: 3.6',
+        'Topic :: Internet :: WWW/HTTP :: Dynamic Content',
+        'Topic :: Software Development :: Libraries :: Python Modules',
     ],
     test_suite='tests',
     tests_require=test_requirements
