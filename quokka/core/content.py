@@ -1,44 +1,10 @@
 # coding: utf-8
 
-from quokka.db import collection_index
-from flask import current_app
-from quokka.admin.views import ModelView
-from quokka.admin.forms import fields, Form, rules
 # from flask_admin.helpers import get_form_data
-from wtforms import validators
-
-
-class BaseContentForm(Form):
-    """Base form for all contents"""
-
-    title = fields.StringField('Title', [validators.required()])
-    summary = fields.TextAreaField('Summary')
-    category = fields.Select2TagsField('Category', save_as_list=False)
-    tags = fields.Select2TagsField('Tags', save_as_list=True)
-    authors = fields.Select2TagsField('Authors', save_as_list=True)
-    date = fields.DateTimeField('Date')
-    modified = fields.HiddenField('Modified')
-
-
-class CreateContentForm(BaseContentForm):
-    content_type = fields.SmartSelect2Field(
-        'Type',
-        choices=lambda: [('a', 'a'), ('b', 'b')]
-    )
-
-
-class EditContentForm(BaseContentForm):
-    slug = fields.StringField('Slug')
-    lang = fields.SmartSelect2Field(
-        'Language',
-        choices=lambda: [
-            (lng, lng)
-            for lng in current_app.config.get('BABEL_LANGUAGES', ['en'])
-        ]
-    )
-    translations = fields.HiddenField('Translations')
-    status = fields.HiddenField('status')
-    content = fields.TextAreaField('Content')
+from quokka.admin.utils import _
+from quokka.admin.views import ModelView
+from quokka.db import collection_index
+from quokka.core.content_types import CreateForm, get_edit_form
 
 
 class ContentView(ModelView):
@@ -53,7 +19,7 @@ class ContentView(ModelView):
     page_size = 20
     can_set_page_size = True
 
-    form = BaseContentForm
+    form = CreateForm
     column_list = (
         'title',
         'category',
@@ -73,7 +39,7 @@ class ContentView(ModelView):
         'lang',
         'status'
     )
-    column_default_sort = 'date'
+    # column_default_sort = 'date'
 
     # TODO: implement scaffold_list_form in base class
     # column_editable_list = ['category', 'status', 'title']
@@ -121,19 +87,17 @@ class ContentView(ModelView):
     #     form.content_type.choices = [('a', 'a'), ('b', 'b')]
     #     return form
 
-    # def edit_form(self, obj):
-    #     form = super(ContentView, self).edit_form(obj)
-    #     form.content_type.choices = [('a', 'a'), ('b', 'b')]
-    #     return form
-
-    # def edit_form(self, obj):
-    #     return Form(get_form_data(), **obj)
+    def edit_form(self, obj):
+        # form = EditContentForm(get_form_data(), **obj)
+        # return form
+        return get_edit_form(obj)
 
 
 def configure(app, db, admin):
     admin.register(
         collection_index,
         ContentView,
-        name='Content'
+        name=_('Content'),
+        endpoint='contentview'
     )
     return 'content'

@@ -20,30 +20,10 @@
                           <i class="icon-globe"></i> {{_gettext('View') if post.published else _gettext('Preview')}}</a>
                     </li>
                 {% else %}
-                    <li>{{ _gettext("There is no content yet!") }}<br><a class="btn btn-primary" href="{{ url_for('post.create_view') }}"><i class="icon-pencil"></i> {{_gettext('Create a new post')}}</a></li>
+                    <li>{{ _gettext("There is no content yet!") }}<br><a class="btn btn-primary" href="{{ url_for('contentview.create_view') }}"><i class="icon-pencil"></i> {{_gettext('Create a new post')}}</a></li>
                 {% endfor %}
             </ul>
         </div>
-
-{#        <div class="well span3">#}
-{#            <h3>{{_gettext('Latest Comments')}}:</h3>#}
-{#            <ul>#}
-{#                {% for comment in get_comments(limit=3)  %}#}
-{#                    <li>#}
-{#                        {{ comment.author_name }} {{ _gettext('says') }}:#}
-{#                        <br><small>{{ comment.body[:140] }}</small>#}
-{#                        <br> <i class={% if comment.published %} "icon-ok-circle" {% else %} "icon-ban-circle" {% endif %}></i>#}
-{#                        <a  href="{{ url_for('comment.edit_view', id=comment.id)}}">#}
-{#                        <i class="icon-edit"></i> </a>#}
-{#                        <a target="_blank" href="{{ comment.get_canonical_url() }}">#}
-{#                        <i class="icon-globe"></i></a>#}
-{#                    </li>#}
-{#                {% else %}#}
-{#                    {{ _gettext("No comments yet!") }}#}
-{#                    <small>{{ _gettext("Internal comment system is enabled, if you want to change it click in config button and change from 'internal' to 'disqus' in comments configuration and set your disqus_script.") }}</small>#}
-{#                {% endfor %}#}
-{#            </ul>#}
-{#        </div>#}
 
     </div>
 

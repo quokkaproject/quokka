@@ -50,6 +50,20 @@ QUOKKA:
   EXTRA_EXTENSIONS: []
     # - quokka.core.test.configure
 
+  CONTENT_TYPES:
+    markdown:
+      choice_text: Markdown
+      help_text: Markdown text editor
+      content_type_class: quokka.core.content_types.MarkdownContentType
+    html:
+      choice_text: HTML
+      help_text: Rich HTML text editor
+      content_type_class: quokka.core.content_types.HTMLContentType
+    plaintext:
+      choice_text: Plain Text
+      help_text: Pure plain text in text area
+      content_type_class: quokka.core.content_types.PlainContentType
+
   # if true any package named quokka_ will be loaded
   AUTO_LOAD_EXTENSIONS: true
   # else provide a list
@@ -95,17 +109,19 @@ QUOKKA:
     name: Quokka NG Admin
     url: /admin
 
-  ADMIN_SWATCH: default
+  FLASK_ADMIN_SWATCH: default
+  FLASK_ADMIN_TEMPLATE_MODE: bootstrap3
 
-  ADMIN_ICONS: [
-      ['post.create_view', 'pencil', 'Write'],
-      ['post.index_view', 'th-list', 'Posts'],
-      ['config.index_view', 'cog', 'Config'],
-      ['user.index_view', 'user', 'Users'],
-      ['image.index_view', 'picture', 'Images'],
-      ['image.create_view', 'arrow-up', 'Upload'],
-      ['channel.index_view', 'th-list', 'Channels']
-  ]
+
+  # ADMIN_ICONS: [
+  #     ['post.create_view', 'pencil', 'Write'],
+  #     ['post.index_view', 'th-list', 'Posts'],
+  #     ['config.index_view', 'cog', 'Config'],
+  #     ['user.index_view', 'user', 'Users'],
+  #     ['image.index_view', 'picture', 'Images'],
+  #     ['image.create_view', 'arrow-up', 'Upload'],
+  #     ['channel.index_view', 'th-list', 'Channels']
+  # ]
 
   DEFAULT_EDITABLE_EXTENSIONS: &extensions [
     'html', 'css', 'js', 'py', 'txt', 'md', 'cfg', 'coffee', 'html', 'json',

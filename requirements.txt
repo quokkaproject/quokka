@@ -1,4 +1,4 @@
-Flask
+flask>=0.12
 Flask-Admin
 WTForms-Components
 # https://github.com/kvesteri/wtforms-components
@@ -6,7 +6,7 @@ pymongo==2.4.1
 git+https://github.com/schapman1974/tinymongo.git#egg=tinymongo
 tinydb-serialization
 manage
-dynaconf
+dynaconf>=0.4.3
 import_string
 quokka-themes
 quokka-flask-htmlbuilder

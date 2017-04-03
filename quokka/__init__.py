@@ -1,14 +1,16 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-import warnings
-from flask.exthook import ExtDeprecationWarning
-warnings.simplefilter("ignore", category=ExtDeprecationWarning)
-# The above hack is needed because flask_mongoengine and flask_cache
-# Did not migrated from old flask.ext style
+# import warnings
+# from flask.exthook import ExtDeprecationWarning
+# warnings.simplefilter("ignore", category=ExtDeprecationWarning)
+# # The above hack is needed because flask_mongoengine and flask_cache
+# # Did not migrated from old flask.ext style
 
 from quokka.admin import create_admin  # noqa
 from quokka.app import QuokkaApp  # noqa
 from quokka.core import configure_extensions, configure_extension  # noqa
+from quokka.core.flask_dynaconf import configure_dynaconf
+
 
 admin = create_admin()
 
@@ -19,6 +21,7 @@ def create_app_base(config=None, test=False, admin_instance=None,
     useful for testing."""
 
     app = QuokkaApp('quokka')
+    configure_dynaconf(app)
     if config:
         app.config.update(config)
 

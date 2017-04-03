@@ -11,6 +11,9 @@ from tinymongo import TinyMongoCollection
 from .views import ModelView, FileAdmin, IndexView
 
 
+from quokka.config import settings
+
+
 class QuokkaAdmin(Admin):
     """Customizable admin"""
     registered = []
@@ -42,7 +45,11 @@ class QuokkaAdmin(Admin):
 def create_admin(app=None):
     """Admin factory"""
     index_view = IndexView()
-    return QuokkaAdmin(app, index_view=index_view)
+    return QuokkaAdmin(
+        app,
+        index_view=index_view,
+        template_mode=settings.get('FLASK_ADMIN_TEMPLATE_MODE')
+    )
 
 
 def configure_admin(app, admin):  # noqa

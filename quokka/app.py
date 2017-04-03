@@ -1,16 +1,13 @@
 # coding: utf-8
 from flask import Flask, Blueprint
 from flask.helpers import _endpoint_from_view_func
-from quokka.config import DynaconfConfig
 
 
 class QuokkaApp(Flask):
     """
     Implementes customizations on Flask
-    - Config handler
+    - custom add_quokka_url_rule
     """
-
-    config_class = DynaconfConfig
 
     def add_quokka_url_rule(self, rule, endpoint=None,
                             view_func=None, **options):

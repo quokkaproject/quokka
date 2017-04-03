@@ -1,4 +1,7 @@
 # coding: utf-8
+
+# TODO: DELETE THIS FILE!!! NOT USING
+
 from flask.config import Config
 from dynaconf import LazySettings
 
@@ -17,8 +20,6 @@ settings = LazySettings(
 # 4) Update with data in rnvironmente vars `QUOKKA_`
 
 
-
-# TODO: extract this as a new extension flask_dynaconf
 class DynaconfConfig(Config):
     def get(self, key, default=None):
         """Gets config from dynaconf variables

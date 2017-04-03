@@ -17,6 +17,7 @@ from flask_admin.model.fields import (
     InlineFormField
 )
 from flask_admin.form import rules  # noqa
+from wtforms import validators  # noqa
 
 fields = _fields  # noqa
 fields.SmartSelect2Field = SmartSelect2Field
