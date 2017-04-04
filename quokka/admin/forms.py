@@ -1,6 +1,8 @@
 # coding: utf-8
 
 from wtforms import fields as _fields
+from wtforms import widgets as _widgets
+from wtforms.validators import ValidationError
 from flask_wtf import FlaskForm
 from flask_admin.babel import Translations
 from quokka.admin.wtforms_html5 import AutoAttrMeta
@@ -12,6 +14,7 @@ from flask_admin.form.fields import (
     Select2TagsField,
     JSONField
 )
+from flask_admin.form.widgets import Select2TagsWidget
 from flask_admin.model.fields import (
     InlineFieldList,
     InlineFormField
@@ -30,6 +33,10 @@ fields.InlineFieldList = InlineFieldList
 fields.InlineFormField = InlineFormField
 
 
+widgets = _widgets
+widgets.Select2TagsWidget = Select2TagsWidget
+
+
 class Form(FlaskForm):
     """Base class to customize wtforms"""
     _translations = Translations()
@@ -37,3 +44,20 @@ class Form(FlaskForm):
 
     def _get_translations(self):
         return self._translations
+
+
+class CallableValidator(object):
+    """
+    Takes a callable and validates using it
+    """
+    def __init__(self, function, message=None):
+        self.function = function
+        self.message = message
+
+    def __call__(self, form, field):
+        validation = self.function(form, field)
+        if validation is not None:
+            raise ValidationError(self.message or validation)
+
+
+validators.CallableValidator = CallableValidator

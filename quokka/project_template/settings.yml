@@ -39,6 +39,7 @@ QUOKKA:
     - quokka.admin.configure_file_admin
     - quokka.admin.configure_extra_views
     - quokka.core.security.configure_user_admin
+    - quokka.core.ajax.configure
 
   # Extensions here can be import path to any callable or class
   # that callable will receive objects app, db and admin.

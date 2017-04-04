@@ -1,6 +1,7 @@
 # coding: utf-8
 
 # from flask_admin.helpers import get_form_data
+from flask import url_for
 from quokka.admin.utils import _
 from quokka.admin.views import ModelView
 from quokka.db import collection_index
@@ -15,7 +16,13 @@ class ContentView(ModelView):
     create_modal = True
     can_export = True
     export_types = ['csv', 'json', 'yaml', 'html', 'xls']
+
     details_modal_template = 'admin/model/modals/details.html'
+    # create_template = 'admin/model/create.html'
+
+    edit_template = 'admin/quokka/edit.html'
+    # TODO: ^get edit_template from content_type
+
     page_size = 20
     can_set_page_size = True
 
@@ -86,6 +93,12 @@ class ContentView(ModelView):
     #     form = super(ContentView, self).create_form()
     #     form.content_type.choices = [('a', 'a'), ('b', 'b')]
     #     return form
+
+    # @property
+    # def extra_js(self):
+    #     return [
+    #         url_for('static', filename='js/quokka_admin.js')
+    #     ]
 
     def edit_form(self, obj):
         # form = EditContentForm(get_form_data(), **obj)
