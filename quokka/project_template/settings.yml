@@ -51,21 +51,22 @@ QUOKKA:
   EXTRA_EXTENSIONS: []
     # - quokka.core.test.configure
 
-  CONTENT_TYPES:
+  CONTENT_FORMATS:
     markdown:
       choice_text: Markdown
       help_text: Markdown text editor
-      content_type_class: quokka.core.content_types.MarkdownContentType
+      content_format_class: quokka.core.content_formats.MarkdownFormat
     html:
       choice_text: HTML
       help_text: Rich HTML text editor
-      content_type_class: quokka.core.content_types.HTMLContentType
+      content_format_class: quokka.core.content_formats.HTMLFormat
     plaintext:
       choice_text: Plain Text
       help_text: Pure plain text in text area
-      content_type_class: quokka.core.content_types.PlainContentType
+      content_format_class: quokka.core.content_formats.PlainFormat
 
   # if true any package named quokka_ will be loaded
+  # http://flask.pocoo.org/docs/0.12/cli/#cli-plugins
   AUTO_LOAD_EXTENSIONS: true
   # else provide a list
   # Plugin settings might be namespaced in dynaconf

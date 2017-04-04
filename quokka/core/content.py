@@ -1,11 +1,11 @@
 # coding: utf-8
 
 # from flask_admin.helpers import get_form_data
-from flask import url_for
 from quokka.admin.utils import _
 from quokka.admin.views import ModelView
 from quokka.db import collection_index
-from quokka.core.content_types import CreateForm, get_edit_form
+from quokka.core.content_formats import CreateForm, get_format
+from quokka.admin.forms import rules
 
 
 class ContentView(ModelView):
@@ -51,7 +51,7 @@ class ContentView(ModelView):
     # TODO: implement scaffold_list_form in base class
     # column_editable_list = ['category', 'status', 'title']
 
-    column_details_list = ['content_type']
+    column_details_list = ['content_format']
     # column_export_list = []
     # column_formatters_export
     # column_formatters = {fieldname: callable} - view, context, model, name
@@ -103,7 +103,11 @@ class ContentView(ModelView):
     def edit_form(self, obj):
         # form = EditContentForm(get_form_data(), **obj)
         # return form
-        return get_edit_form(obj)
+
+        content_format = get_format(obj)
+        self.form_edit_rules = content_format.form_edit_rules
+        self._refresh_form_rules_cache()
+        return content_format.get_edit_form(obj)
 
 
 def configure(app, db, admin):

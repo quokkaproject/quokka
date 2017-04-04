@@ -21,6 +21,25 @@ from flask_admin.model.fields import (
 )
 from flask_admin.form import rules  # noqa
 from wtforms import validators  # noqa
+# from wtforms_components import read_only  # noqa
+# from wtforms_components import ReadOnlyWidgetProxy  # noqa
+
+
+class PassiveField(object):
+    """
+    Passive field that does not populate obj values.
+    """
+    def populate_obj(self, obj, name):
+        pass
+
+
+class PassiveHiddenField(PassiveField, _fields.HiddenField):
+    pass
+
+
+class PassiveStringField(PassiveField, _fields.StringField):
+    pass
+
 
 fields = _fields  # noqa
 fields.SmartSelect2Field = SmartSelect2Field
@@ -31,10 +50,14 @@ fields.Select2TagsField = Select2TagsField
 fields.JSONField = JSONField
 fields.InlineFieldList = InlineFieldList
 fields.InlineFormField = InlineFormField
-
+fields.PassiveHiddenField = PassiveHiddenField
+fields.PassiveStringField = PassiveStringField
 
 widgets = _widgets
 widgets.Select2TagsWidget = Select2TagsWidget
+
+
+READ_ONLY = {'readonly': True}
 
 
 class Form(FlaskForm):
