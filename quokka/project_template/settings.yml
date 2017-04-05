@@ -32,7 +32,7 @@ QUOKKA:
     - quokka.core.gravatar.configure
     - flask_mistune.Mistune
     - quokka.core.security.configure
-    - quokka.core.error_handlers.configure
+    # - quokka.core.error_handlers.configure
     - quokka.core.monitoring.configure
     - quokka.core.themes.configure
     - quokka.core.content.configure

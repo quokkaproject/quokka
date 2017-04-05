@@ -148,7 +148,6 @@ class BaseEditForm(BaseForm):
 
 class BaseFormat(object):
     identifier = None
-    help_text = ''
     edit_form = BaseEditForm
     form_rules = None
 
@@ -167,6 +166,15 @@ class BaseFormat(object):
                 )
             )
         return self.form_rules
+
+    def before_save(self, form, model):
+        """optional"""
+
+    def after_save(self, form, model):
+        """optional"""
+
+    def extra_js(self):
+        return []
 
 
 # Customs
@@ -202,3 +210,12 @@ class MarkdownFormat(BaseFormat):
         rules.FieldSet(('slug', 'content_type', 'content_format')),
         rules.Field('published')
     ]
+
+    def before_save(self, form, model):
+        print('before save')
+
+    def after_save(self, form, model):
+        print('after save')
+
+    def extra_js(self):
+        return []

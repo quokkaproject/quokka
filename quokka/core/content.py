@@ -1,11 +1,13 @@
 # coding: utf-8
 
 # from flask_admin.helpers import get_form_data
+import datetime as dt
 from quokka.admin.utils import _
 from quokka.admin.views import ModelView
 from quokka.db import collection_index
 from quokka.core.content_formats import CreateForm, get_format
-from quokka.admin.forms import rules
+from quokka.utils.text import slugify
+from quokka.admin.forms import ValidationError
 
 
 class ContentView(ModelView):
@@ -105,6 +107,42 @@ class ContentView(ModelView):
         self.form_edit_rules = content_format.get_form_rules()
         self._refresh_form_rules_cache()
         return content_format.get_edit_form(obj)
+
+    def get_save_return_url(self, model, is_created):
+        if is_created:
+            return self.get_url('.edit_view', id=model['_id'])
+        return super(ContentView, self).get_save_return_url(model, is_created)
+
+    def on_model_change(self, form, model, is_created):
+        # check if exists
+
+        existent = collection_index.find_one(
+            {'title': model['title'], 'category': model['category']}
+        )
+
+        duplicate_message = u'{0} {1} "{2}/{3}" {4}'.format(
+            _('duplicate error:'),
+            model['category'],
+            model['title'],
+            _('already exists.')
+        )
+
+        if (is_created and existent) or (
+                existent and existent['_id'] != model['_id']):
+            raise ValidationError(duplicate_message)
+
+        if is_created:
+            model['date'] = dt.datetime.now()
+            model['slug'] = slugify(model['title'])
+        else:
+            get_format(model).before_save(form, model)
+
+    def after_model_change(self, form, model, is_created):
+        if is_created:
+            pass
+            # update tags, categories etc...
+        else:
+            get_format(model).after_save(form, model)
 
 
 def configure(app, db, admin):
