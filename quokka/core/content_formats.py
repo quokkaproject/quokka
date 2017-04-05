@@ -125,7 +125,7 @@ class BaseEditForm(BaseForm):
     # todo: ^populate on save
     slug = fields.StringField(_('Slug'))
     # todo: create based on category / title
-    lang = fields.SmartSelect2Field(
+    language = fields.SmartSelect2Field(
         _('Language'),
         choices=lambda: [
             (lng, lng)
@@ -134,7 +134,15 @@ class BaseEditForm(BaseForm):
     )
     translations = fields.HiddenField(_('Translations'))
     # todo: ^ create action 'add translation'
-    status = fields.HiddenField(_('Status'))
+    published = fields.BooleanField(
+        _('Status'),
+        render_kw={
+            'data-toggle': "toggle",
+            'data-on': _("Published"),
+            'data-off': _("Draft"),
+            "data-onstyle": 'success'
+        }
+    )
     # todo: ^ published | draft
 
 
@@ -142,12 +150,24 @@ class BaseFormat(object):
     identifier = None
     help_text = ''
     edit_form = BaseEditForm
+    form_rules = None
 
     def get_edit_form(self, obj):
         return self.edit_form(get_form_data(), **obj)
 
     def get_identifier(self):
         return self.identifier or self.__class__.__name__
+
+    def get_form_rules(self):
+        if self.form_rules is not None:
+            self.form_rules.append(
+                rules.Field(
+                    'csrf_token',
+                    render_field='quokka_macros.render_hidden_field'
+                )
+            )
+        return self.form_rules
+
 
 # Customs
 
@@ -174,7 +194,11 @@ class MarkdownEditForm(BaseEditForm):
 
 class MarkdownFormat(BaseFormat):
     edit_form = MarkdownEditForm
-    form_edit_rules = [
-        rules.Field('csrf_token'),
-        rules.FieldSet(('title', 'summary', 'category'))
+    form_rules = [
+        rules.FieldSet(('title', 'summary')),
+        rules.Field('content'),
+        rules.FieldSet(('category', 'authors', 'tags')),
+        rules.FieldSet(('date', 'language')),
+        rules.FieldSet(('slug', 'content_type', 'content_format')),
+        rules.Field('published')
     ]

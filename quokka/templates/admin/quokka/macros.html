@@ -1,0 +1,18 @@
+{% macro render_no_label(form, field, kwargs={}, caller=None) %}
+<div class="form-group">
+    <div class="{{ kwargs.get('column_class', 'col-md-10') }}">
+    {{ field(**kwargs)|safe }}
+    {% if caller %}
+    {{ caller(form, field, direct_error, kwargs) }}
+    {% endif %}
+    </div>
+</div>
+{% endmacro %}
+
+
+{% macro render_hidden_field(form, field, kwargs={}, caller=None) %}
+    {{ field(**kwargs)|safe }}
+    {% if caller %}
+    {{ caller(form, field, direct_error, kwargs) }}
+    {% endif %}
+{% endmacro %}

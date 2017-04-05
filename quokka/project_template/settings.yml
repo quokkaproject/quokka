@@ -111,7 +111,8 @@ QUOKKA:
     name: Quokka NG Admin
     url: /admin
 
-  FLASK_ADMIN_SWATCH: default
+  # https://bootswatch.com/
+  FLASK_ADMIN_SWATCH: sandstone
   FLASK_ADMIN_TEMPLATE_MODE: bootstrap3
 
 

@@ -101,11 +101,8 @@ class ContentView(ModelView):
     #     ]
 
     def edit_form(self, obj):
-        # form = EditContentForm(get_form_data(), **obj)
-        # return form
-
         content_format = get_format(obj)
-        self.form_edit_rules = content_format.form_edit_rules
+        self.form_edit_rules = content_format.get_form_rules()
         self._refresh_form_rules_cache()
         return content_format.get_edit_form(obj)
 
