@@ -5,7 +5,7 @@ from wtforms.validators import DataRequired
 from werkzeug.security import check_password_hash, generate_password_hash
 from flask import request, redirect, url_for, flash
 from flask_login import login_user, logout_user, UserMixin
-from quokka.db import collection_users
+from quokka import db
 from quokka.template import render_template
 from quokka.admin.forms import Form, fields
 from quokka.admin.views import ModelView
@@ -36,7 +36,7 @@ class User(UserMixin):
             'password': password,
             'email': email
         }
-        collection_users.insert_one(data)
+        db.users.insert_one(data)
 
         return get_user(username)
 
@@ -72,7 +72,7 @@ class UserView(ModelView):
 def login():
     form = LoginForm()
     if request.method == 'POST' and form.validate_on_submit():
-        user = collection_users.find_one({"_id": form.username.data})
+        user = db.users.find_one({"_id": form.username.data})
         if user and User.validate_login(user['password'], form.password.data):
             user_obj = User(user['_id'])
             login_user(user_obj, remember=True)
@@ -88,7 +88,7 @@ def logout():
 
 
 def get_user(username):
-    user = collection_users.find_one({"_id": username})
+    user = db.users.find_one({"_id": username})
     if not user:
         return None
     return User(user['_id'], user['email'])
@@ -112,7 +112,7 @@ def configure(app, db):
 
 def configure_user_admin(app, db, admin):
     admin.register(
-        collection_users,
+        db.users,
         UserView,
         name='Users',
         category='Administration'

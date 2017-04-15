@@ -4,7 +4,7 @@
 import datetime as dt
 from quokka.admin.utils import _
 from quokka.admin.views import ModelView
-from quokka.db import collection_index
+from quokka import db
 from quokka.core.content_formats import CreateForm, get_format
 from quokka.utils.text import slugify
 from quokka.admin.forms import ValidationError
@@ -116,11 +116,11 @@ class ContentView(ModelView):
     def on_model_change(self, form, model, is_created):
         # check if exists
 
-        existent = collection_index.find_one(
+        existent = db.index.find_one(
             {'title': model['title'], 'category': model['category']}
         )
 
-        duplicate_message = u'{0} {1} "{2}/{3}" {4}'.format(
+        duplicate_error_message = u'{0} "{1}/{2}" {3}'.format(
             _('duplicate error:'),
             model['category'],
             model['title'],
@@ -129,25 +129,25 @@ class ContentView(ModelView):
 
         if (is_created and existent) or (
                 existent and existent['_id'] != model['_id']):
-            raise ValidationError(duplicate_message)
+            raise ValidationError(duplicate_error_message)
 
         if is_created:
             model['date'] = dt.datetime.now()
             model['slug'] = slugify(model['title'])
         else:
-            get_format(model).before_save(form, model)
+            model['modified'] = dt.datetime.now()
+
+        get_format(model).before_save(form, model, is_created)
 
     def after_model_change(self, form, model, is_created):
-        if is_created:
-            pass
-            # update tags, categories etc...
-        else:
-            get_format(model).after_save(form, model)
+        # TODO: Spawn async process for this.
+        # update tags, categories and authors
+        get_format(model).after_save(form, model, is_created)
 
 
 def configure(app, db, admin):
     admin.register(
-        collection_index,
+        db.index,
         ContentView,
         name=_('Content'),
         endpoint='contentview'

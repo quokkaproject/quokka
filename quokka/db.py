@@ -23,12 +23,13 @@ elif db_system == 'mongo':
 
 
 db_index = connection[settings.get('db_index', 'index')]
+db_meta = connection[settings.get('db_meta', 'meta')]
 db_contents = connection[settings.get('db_contents', 'contents')]
 db_uploads = connection[settings.get('db_uploads', 'uploads')]
 db_users = connection[settings.get('db_users', 'users')]
 
-collection_index = db_index[settings.get('collection_index', 'index')]
-collection_contents = db_contents[
-    settings.get('collection_contents', 'contents')]
-collection_uploads = db_uploads[settings.get('collection_uploads', 'uploads')]
-collection_users = db_users[settings.get('collection_users', 'users')]
+index = db_index[settings.get('collection_index', 'index')]
+meta = db_meta[settings.get('collection_meta', 'meta')]
+contents = db_contents[settings.get('collection_contents', 'contents')]
+uploads = db_uploads[settings.get('collection_uploads', 'uploads')]
+users = db_users[settings.get('collection_users', 'users')]

@@ -167,10 +167,10 @@ class BaseFormat(object):
             )
         return self.form_rules
 
-    def before_save(self, form, model):
+    def before_save(self, form, model, is_created):
         """optional"""
 
-    def after_save(self, form, model):
+    def after_save(self, form, model, is_created):
         """optional"""
 
     def extra_js(self):
@@ -211,10 +211,10 @@ class MarkdownFormat(BaseFormat):
         rules.Field('published')
     ]
 
-    def before_save(self, form, model):
+    def before_save(self, form, model, is_created):
         print('before save')
 
-    def after_save(self, form, model):
+    def after_save(self, form, model, is_created):
         print('after save')
 
     def extra_js(self):
