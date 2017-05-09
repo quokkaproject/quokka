@@ -2,7 +2,7 @@
 coveralls==1.1
 mock==2.0.0
 pytest==3.0.6
-pytest-cov==2.4.0
+pytest-cov==2.5.0
 pytest-flask==0.10.0
 pytest-sugar==0.8.0
 Flask-Testing==0.6.1
