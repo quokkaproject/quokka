@@ -3,7 +3,7 @@ quokka-themes==0.1.4
 quokka-flask-htmlbuilder==0.13
 awesome-slugify==1.6.5
 blinker==1.4
-Flask==0.12
+Flask==0.12.2
 Flask-BabelEx==0.9.3
 Flask-Cache==0.13.1
 Flask-Gravatar==0.4.2
