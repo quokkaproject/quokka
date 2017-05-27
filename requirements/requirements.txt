@@ -13,7 +13,7 @@ Flask-OAuthlib==0.9.3
 flask-security==1.7.5
 Pillow==4.0.0
 PyRSS2Gen==1.1
-requests==2.13.0
+requests==2.16.0
 quokka-speaklater==1.3.1
 pyshorteners==0.6.0
 cached-property==1.3.0
