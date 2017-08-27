@@ -77,3 +77,6 @@ quokka/project_template/uploads/*
 
 quokka/project_template/static_build/*
 !quokka/project_template/static_build/README.md
+
+databases
+venv

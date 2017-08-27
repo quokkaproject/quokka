@@ -10,7 +10,6 @@ from tinymongo import TinyMongoCollection
 
 from .views import ModelView, FileAdmin, IndexView
 
-
 from quokka.config import settings
 
 

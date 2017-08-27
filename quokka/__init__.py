@@ -1,10 +1,6 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
-# import warnings
-# from flask.exthook import ExtDeprecationWarning
-# warnings.simplefilter("ignore", category=ExtDeprecationWarning)
-# # The above hack is needed because flask_mongoengine and flask_cache
-# # Did not migrated from old flask.ext style
+"""Quokka CMS!"""
+
+__version__ = '0.3.0'
 
 from quokka.admin import create_admin  # noqa
 from quokka.app import QuokkaApp  # noqa

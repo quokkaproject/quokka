@@ -13,9 +13,7 @@ def configure_extension(name, **kwargs):
 
 
 def configure_extensions(app, admin):
-    """
-    Configure extensions provided in config file
-    """
+    """Configure extensions provided in config file"""
     extensions = app.config.get(
         'CORE_EXTENSIONS', []
     ) + app.config.get(

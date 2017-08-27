@@ -1,16 +1,16 @@
 # coding: utf-8
-import logging
-import click
-import shutil
 import errno
-import yaml
+import logging
+import shutil
 from pprint import pprint
-from manage.cli import create_shell, init_cli, cli
+
+import click
+import yaml
+from manage.cli import cli, init_cli
 from manage.template import default_manage_dict
 from quokka import create_app
-from quokka.errors import DuplicateKeyError
 from quokka.core.security import User
-# from quokka.utils.populate import Populate
+from quokka.errors import DuplicateKeyError
 
 app = create_app()
 
@@ -112,4 +112,4 @@ def main():
     """
     manager = init_cli(cli)
     # TODO: implement locked: to avoid manage to run
-    return manager()
+    return manager()# from quokka.utils.populate import Populate

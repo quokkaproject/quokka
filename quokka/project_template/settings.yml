@@ -19,7 +19,7 @@ QUOKKA:
   ADMIN_RAISE_ON_VIEW_EXCEPTION: true
   LOGGER_ENABLED: True
 
-  # Secret Key must be in .secrets.yml ir QUOKKA_SECRET_KEY env var.
+  # Secret Key must be in .secrets.yml or QUOKKA_SECRET_KEY env var.
   # SECRET_KEY: abcderf
 
   WTF_CSRF_ENABLED: true
@@ -31,7 +31,7 @@ QUOKKA:
     - flask_wtf.csrf.CSRFProtect
     - quokka.core.gravatar.configure
     - flask_mistune.Mistune
-    - quokka.core.security.configure
+    # - quokka.core.security.configure
     # - quokka.core.error_handlers.configure
     - quokka.core.monitoring.configure
     - quokka.core.themes.configure
