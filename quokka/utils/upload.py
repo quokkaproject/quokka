@@ -1,4 +1,3 @@
-# coding: utf-8
 import os.path as op
 import random
 from datetime import date

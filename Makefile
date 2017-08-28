@@ -1,4 +1,4 @@
-.PHONY: test pep8 clean install build publish
+.PHONY: test pep8 clean install build publish tree
 
 test: pep8
 	QUOKKA_MODE=test py.test --cov=quokka -l --tb=short --maxfail=1 tests/
@@ -23,3 +23,6 @@ build:
 
 publish:
 	@flit publish
+
+tree:
+	@tree  -L 1 -a -I __pycache__ --dirsfirst --noreport

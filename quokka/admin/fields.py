@@ -1,11 +1,11 @@
 # coding: utf-8
-import random
-import sys
+# import random
+# import sys
 
-from flask import current_app
+# from flask import current_app
 from flask_admin import form
 from flask_admin.form.upload import ImageUploadInput
-from werkzeug.datastructures import FileStorage
+# from werkzeug.datastructures import FileStorage
 
 
 class SmartSelect2Field(form.Select2Field):

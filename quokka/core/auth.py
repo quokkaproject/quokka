@@ -1,6 +1,6 @@
 # coding: utf-8
 
-from flask import current_app, flash, redirect, request, url_for
+from flask import current_app
 from quokka.admin.views import ModelView
 from quokka.admin.forms import Form, fields
 from werkzeug.security import check_password_hash, generate_password_hash

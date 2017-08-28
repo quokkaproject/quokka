@@ -1,14 +1,18 @@
 click_commands: []
 function_commands: []
-help_text: This is the {project_name} interactive shell
 inline_commands: []
+help_text: This is the {project_name} interactive shell
 project_name: Quokka Website
 shell:
   auto_import:
     display: true
-    objects: {}
+    objects:
+      quokka.create_app:
+        as: app
   banner:
     enabled: true
-    message: Manage Interactive Shell! edit your `manage.yml`
-  init_script: print("Starting interactive shell!")
+    message: Quokka Interactive Shell!
+  init_script: |
+    print("Starting Quokka shell!")
+    app = app()
   readline_enabled: false

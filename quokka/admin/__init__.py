@@ -1,11 +1,6 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*
 import import_string
 from flask_admin import Admin
-from quokka.config import settings
-from quokka.utils.translation import _l
 from tinymongo import TinyMongoCollection
-
 from .views import FileAdmin, IndexView, ModelView
 
 
@@ -18,8 +13,8 @@ class QuokkaAdmin(Admin):
             admin.register(
                 Link,
                 LinkAdmin,
-                category=_l("Content"),
-                name=_l("Link")
+                category="Content",
+                name="Link"
             )
         """
         _view = view or ModelView
@@ -43,7 +38,7 @@ def create_admin(app=None):
     return QuokkaAdmin(
         app,
         index_view=index_view,
-        template_mode=settings.get('FLASK_ADMIN_TEMPLATE_MODE')
+        template_mode=app.config.get('FLASK_ADMIN_TEMPLATE_MODE')
     )
 
 
@@ -83,8 +78,8 @@ def configure_file_admin(app):
                 FileAdmin(
                     entry['path'],
                     entry['url'],
-                    name=_l(entry['name']),
-                    category=_l(entry['category']),
+                    name=entry['name'],
+                    category=entry['category'],
                     endpoint=entry['endpoint'],
                     editable_extensions=entry.get('editable_extensions')
                 )
@@ -99,7 +94,7 @@ def configure_extra_views(app):
     for view in extra_views:
         app.admin.add_view(
             import_string(view['module'])(
-                category=_l(view.get('category')),
-                name=_l(view.get('name'))
+                category=view.get('category'),
+                name=view.get('name')
             )
         )

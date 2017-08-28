@@ -20,7 +20,7 @@
                           <i class="icon-globe"></i> {{_gettext('View') if post.published else _gettext('Preview')}}</a>
                     </li>
                 {% else %}
-                    <li>{{ _gettext("There is no content yet!") }}<br><a class="btn btn-primary" href="{{ url_for('contentview.create_view') }}"><i class="icon-pencil"></i> {{_gettext('Create a new post')}}</a></li>
+                    <li>{{ _gettext("There is no content yet!") }}<br><a class="btn btn-primary" href="{{ url_for('quokka.core.content.admin.contentview.create_view') }}"><i class="icon-pencil"></i> {{_gettext('Create a new post')}}</a></li>
                 {% endfor %}
             </ul>
         </div>
@@ -39,7 +39,8 @@
 
     </div>
 
-    <div class="row">
+
+    <!-- <div class="row">
     <div class="span1" style="margin-top: 30px;">
     <form id="swatcher_form" action="{# url_for('quokka.modules.accounts.set_swatch') #}" method="POST">
         <input type="hidden" value="{{csrf_token()}}" name="csrf_token" id="csrf_token" />
@@ -61,10 +62,11 @@
                'superhero',
                'united'
             ) %}
-            <option id="{{swatch}}" value="{{swatch}}" {%if swatch == current_user.swatch %}selected{%endif%}>{{swatch}}</option>
+            <option id="{{swatch}}" value="{{swatch}}" {%if swatch == session.get('swatch') %}selected{%endif%}>{{swatch}}</option>
             {% endfor %}
         </select>
     </form>
-    </div>
+    </div> -->
+
     </div>
 {% endblock %}

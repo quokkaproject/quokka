@@ -54,7 +54,7 @@ class QuokkaDB:
         return collection
 
     def get_collection(self, collection):
-        col_name = self.collections[collection]
+        col_name = self.collections.get(collection, collection)
         db_name = self.get_db_name(col_name)
         return self.connection[db_name][col_name]
 

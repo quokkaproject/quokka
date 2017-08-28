@@ -1,6 +1,3 @@
-#!/usr/bin/env python
-# coding: utf-8
-
 """
 This functions created by Alvaro Justen (Turicas)
 """

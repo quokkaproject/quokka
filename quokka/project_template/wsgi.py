@@ -2,15 +2,9 @@
 
 import argparse
 from werkzeug.serving import run_simple
-from werkzeug.wsgi import DispatcherMiddleware
-from quokka import create_app, create_api
-from quokka.utils.paas import activate
+from quokka import create_app
 
-application = DispatcherMiddleware(create_app(), {
-    '/api': create_api()
-})
-
-application = app = activate(application)
+application = app = create_app()
 
 
 if __name__ == "__main__":

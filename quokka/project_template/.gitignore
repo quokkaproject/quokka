@@ -1,0 +1,12 @@
+.secrets.yml
+databases/*
+!databases/README.md
+uploads/*
+!uploads/README.md
+static_build/*
+!static_build/README.md
+venv
+*.log
+*.pid
+*.cache*
+*.py[cod]

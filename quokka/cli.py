@@ -1,28 +1,17 @@
 # coding: utf-8
 import errno
-import logging
 import shutil
+import sys
+from pathlib import Path
 from pprint import pprint
 
 import click
 import yaml
 from manage.cli import cli, init_cli
 from manage.template import default_manage_dict
-from quokka import create_app
-# from quokka.core.security import User
-from quokka.errors import DuplicateKeyError
-
-app = create_app()
-
-
-if app.config.get("LOGGER_ENABLED"):
-    logging.basicConfig(
-        level=getattr(logging, app.config.get("LOGGER_LEVEL", "DEBUG")),
-        format=app.config.get(
-            "LOGGER_FORMAT",
-            '%(asctime)s %(name)-12s %(levelname)-8s %(message)s'),
-        datefmt=app.config.get("LOGGER_DATE_FORMAT", '%d.%m %H:%M:%S')
-    )
+from quokka.core.auth import create_user
+from quokka.core.errors import DuplicateKeyError
+from . import create_app as App
 
 
 @cli.command()
@@ -32,7 +21,7 @@ if app.config.get("LOGGER_ENABLED"):
 @click.option('--port', default=5000)
 def runserver(reloader, debug, host, port):
     """Run the Flask development server i.e. app.run()"""
-    app.run(
+    App().run(
         use_reloader=reloader,
         debug=debug,
         host=host,
@@ -44,6 +33,7 @@ def runserver(reloader, debug, host, port):
 @cli.command()
 def check():
     """Prints app status"""
+    app = App()
     click.echo("Extensions.")
     pprint(app.extensions)
     click.echo("Modules.")
@@ -57,7 +47,7 @@ def showconfig():
     """click.echo all Quokka config variables"""
     from pprint import pprint
     click.echo("Config.")
-    pprint(dict(app.config))
+    pprint(dict(App().config))
 
 
 def copyfolder(src, dst):
@@ -72,37 +62,53 @@ def copyfolder(src, dst):
 
 @cli.command()
 @click.argument('name', required=True)
-def init(name):
+@click.option('--destiny', required=False, default=None)
+@click.option('--source', required=False, default=None)
+@click.option('--theme', required=False, default=None)
+@click.option('--modules', required=False, default=None)
+def init(name, destiny, source, theme, modules):
     """Initialize a new project in current folder\n
     $ quokka init mywebsite
     """
     folder_name = name.replace(' ', '_').lower()
-    destiny = './{0}'.format(folder_name)
-    copyfolder(
-        '/home/brocha/Projects/quokka_ng/quokka/project_template',
-        destiny
+
+    if destiny is None:
+        destiny = f'./{folder_name}'
+    else:
+        destiny = f'{destiny}/{folder_name}'
+
+    source = source or Path.joinpath(
+        Path(sys.modules['quokka'].__file__).parent,
+        'project_template'
     )
-    with open('{0}/manage.yml'.format(destiny), 'w') as manage_file:
+
+    copyfolder(source, destiny)
+    # TODO: fetch theme
+    # TODO: fetch and install modules
+
+    with open(f'{destiny}/manage.yml', 'w') as manage_file:
         data = default_manage_dict
         data['project_name'] = name.title()
         manage_file.write(yaml.dump(data, default_flow_style=False))
 
 
 @cli.command()
-@click.option('--username', required=True)
-@click.option('--email', required=True)
-@click.option('--password', required=True)
+@click.option('--username', required=True, prompt=True)
+@click.option('--email', required=False, default=None, prompt=True)
+@click.option('--password', required=True, prompt=True, hide_input=True,
+              confirmation_prompt=True)
 def adduser(username, email, password):
     """Add new user with admin access"""
-    # TODO: improve click.options to password
-    try:
-        User.create(username, email, password)
-    except DuplicateKeyError as e:
-        click.echo(str(e).replace('_id', 'username'))
-    else:
-        # TODO: get app_url dynamically
-        app_url = 'http://localhost:5000/admin'
-        click.echo('User {0} created!!! go to: {1}'.format(username, app_url))
+    app = App()
+    with app.app_context():
+        try:
+            create_user(username=username, password=password, email=email)
+        except DuplicateKeyError as e:
+            click.echo(str(e).replace('_id', 'username'))
+        else:
+            click.echo(
+                'User {0} created!!! go to: {1}'.format(username, '/admin')
+            )
 
 
 def main():

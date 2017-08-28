@@ -5,14 +5,13 @@ import random
 
 from flask import Response, flash, redirect, url_for
 from flask_admin.actions import action
-from quokka.admin.utils import _, _l, _n
 
 
 class PublishAction(object):
     @action(
         'toggle_publish',
-        _l('Publish/Unpublish'),
-        _l('Publish/Unpublish?')
+        'Publish/Unpublish',
+        'Publish/Unpublish?'
     )
     def action_toggle_publish(self, ids):
         for i in ids:
@@ -20,22 +19,22 @@ class PublishAction(object):
             instance.published = not instance.published
             instance.save()
         count = len(ids)
-        flash(_n('Item successfully published/Unpublished.',
-                 '%(count)s items were successfully published/Unpublished.',
-                 count,
-                 count=count))
+        flash(
+            f'{count} items were successfully published/Unpublished.',
+            'success'
+        )
 
 
 class CloneAction(object):
     @action(
         'clone_item',
-        _l('Create a copy'),
-        _l('Are you sure you want a copy?')
+        'Create a copy',
+        'Are you sure you want a copy?'
     )
     def action_clone_item(self, ids):
         if len(ids) > 1:
             flash(
-                _("You can select only one item for this action"),
+                "You can select only one item for this action",
                 'error'
             )
             return
@@ -52,7 +51,7 @@ class CloneAction(object):
 
 
 class ExportAction(object):
-    @action('export_to_json', _l('Export as json'))
+    @action('export_to_json', 'Export as json')
     def export_to_json(self, ids):
         qs = self.model.objects(id__in=ids)
 
@@ -65,7 +64,7 @@ class ExportAction(object):
             }
         )
 
-    @action('export_to_csv', _l('Export as csv'))
+    @action('export_to_csv', 'Export as csv')
     def export_to_csv(self, ids):
         qs = json.loads(self.model.objects(id__in=ids).to_json())
 

@@ -28,7 +28,8 @@ class ThemeMixin(object):
     #     # Store self as admin_view
     #     kwargs['admin_view'] = self
     #     kwargs['admin_base_template'] = self.admin.base_template
-    #     # Provide i18n support even if flask-babel is not installed or enabled.
+    #     # Provide i18n support even if flask-babel is not installed or
+    #     enabled.
     #     kwargs['_gettext'] = gettext
     #     kwargs['_ngettext'] = ngettext
     #     kwargs['h'] = h
@@ -98,6 +99,20 @@ class ModelView(CloneAction, PublishAction,
     page_size = 20
     can_set_page_size = True
 
+    def _get_endpoint(self, endpoint):
+        if not endpoint:
+            endpoint = self.__class__.__name__.lower()
+
+        endpoint = f'{self.__module__}.{endpoint}'
+
+        return endpoint
+
+    # def create_blueprint(self, *args, **kwargs):
+    #     bp = super().create_blueprint(*args, **kwargs)
+    #     bp.name = f'{self.__module__}.{bp.name}'
+    #     # print(self.__module__)
+    #     return bp
+
     # form_subdocuments = {}
     # datetime_format = "%Y-%m-%d %H:%M"
     # formatters = {
@@ -111,7 +126,8 @@ class ModelView(CloneAction, PublishAction,
     # column_formatters_args = {}
 
     # def get_datetime_format(self):
-    #     return current_app.config.get('DATETIME_FORMAT', self.datetime_format)
+    #     return current_app.config.get('DATETIME_FORMAT',
+    #                                    self.datetime_format)
 
 
 # class BaseContentView(ModelView):
@@ -154,7 +170,8 @@ class ModelView(CloneAction, PublishAction,
 #                       'created_at', 'available_at']
 #     column_searchable_list = ('title', 'summary')
 
-#     form_columns = ['title', 'slug', 'channel', 'related_channels', 'summary',
+#     form_columns = ['title', 'slug', 'channel', 'related_channels',
+#                     'summary',
 #                     'published', 'add_image', 'contents',
 #                     'show_on_channel', 'available_at', 'available_until',
 #                     'tags', 'values', 'template_type', 'license', 'authors']

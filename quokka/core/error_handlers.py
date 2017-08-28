@@ -1,5 +1,5 @@
 # coding: utf-8
-from quokka.template import render_template
+from quokka.core.template import render_template
 
 
 def configure(app):

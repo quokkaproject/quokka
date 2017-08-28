@@ -1,10 +1,8 @@
-# coding: utf-8
 import datetime as dt
 
 from flask import current_app
 from flask_admin.helpers import get_form_data
 from quokka.admin.forms import READ_ONLY, Form, fields, rules, validators
-from quokka.admin.utils import _
 from werkzeug.utils import import_string
 
 
@@ -17,7 +15,8 @@ def get_content_formats(instances=False):
           'markdown': {
               'choice_text': 'Markdown',
               'help_text': 'Markdown text editor',
-              'content_format_class': 'quokka.core.content_formats.MarkdownFormat'  # noqa
+              'content_format_class':
+                  'quokka.core.content.formats.MarkdownFormat'  # noqa
           }
         }
     )
@@ -59,18 +58,18 @@ def validate_category(form, field):
     if field.data is not None:
         items = field.data.split(',')
         if len(items) > 1:
-            return _(u'You can select only one category')
+            return 'You can select only one category'
 
 # classes
 
 
 class BaseForm(Form):
 
-    title = fields.StringField(_('Title'), [validators.required()])
+    title = fields.StringField('Title', [validators.required()])
     # todo: validade existing category/title
-    summary = fields.TextAreaField(_('Summary'))
+    summary = fields.TextAreaField('Summary')
     category = fields.Select2TagsField(
-        _('Category'),
+        'Category',
         [validators.CallableValidator(validate_category)],
         save_as_list=False,
         render_kw={'data-tags': '["hello", "world"]'},
@@ -79,7 +78,7 @@ class BaseForm(Form):
         # todo: default should come from settings
     )
     authors = fields.Select2TagsField(
-        _('Authors'),
+        'Authors',
         [validators.required()],
         save_as_list=True,
         render_kw={'data-tags': '["Bruno Rocha", "Karla Magueta"]'},
@@ -92,12 +91,12 @@ class BaseForm(Form):
 class CreateForm(BaseForm):
     """Default create form where content format is chosen"""
     content_type = fields.SelectField(
-        _('Type'),
+        'Type',
         [validators.required()],
-        choices=[('article', _('Article')), ('page', _('Page'))]
+        choices=[('article', 'Article'), ('page', 'Page')]
     )
     content_format = fields.SmartSelect2Field(
-        _('Format'),
+        'Format',
         [validators.required()],
         choices=get_content_format_choices
     )
@@ -107,38 +106,41 @@ class BaseEditForm(BaseForm):
     """Edit form with all missing fields except `content`"""
 
     content_type = fields.PassiveStringField(
-        _('Type'),
+        'Type',
         render_kw=READ_ONLY
     )
-    content_format = fields.PassiveStringField(_('Format'), render_kw=READ_ONLY)
+    content_format = fields.PassiveStringField(
+        'Format',
+        render_kw=READ_ONLY
+    )
 
-    tags = fields.Select2TagsField(_('Tags'), save_as_list=True)
+    tags = fields.Select2TagsField('Tags', save_as_list=True)
     # todo: ^ provide settings.default_tags + db_query
     date = fields.DateTimeField(
-        _('Date'),
+        'Date',
         [validators.required()],
         default=dt.datetime.now
     )
     # todo: ^default should be now
-    modified = fields.HiddenField(_('Modified'))
+    modified = fields.HiddenField('Modified')
     # todo: ^populate on save
-    slug = fields.StringField(_('Slug'))
+    slug = fields.StringField('Slug')
     # todo: create based on category / title
     language = fields.SmartSelect2Field(
-        _('Language'),
+        'Language',
         choices=lambda: [
             (lng, lng)
             for lng in current_app.config.get('BABEL_LANGUAGES', ['en'])
         ]
     )
-    translations = fields.HiddenField(_('Translations'))
+    translations = fields.HiddenField('Translations')
     # todo: ^ create action 'add translation'
     published = fields.BooleanField(
-        _('Status'),
+        'Status',
         render_kw={
             'data-toggle': "toggle",
-            'data-on': _("Published"),
-            'data-off': _("Draft"),
+            'data-on': "Published",
+            'data-off': "Draft",
             "data-onstyle": 'success'
         }
     )
@@ -180,7 +182,7 @@ class BaseFormat(object):
 
 
 class PlainEditForm(BaseEditForm):
-    content = fields.TextAreaField(_('Plain Content'))
+    content = fields.TextAreaField('Plain Content')
 
 
 class PlainFormat(BaseFormat):
@@ -188,7 +190,7 @@ class PlainFormat(BaseFormat):
 
 
 class HTMLEditForm(BaseEditForm):
-    content = fields.TextAreaField(_('HTML Content'))
+    content = fields.TextAreaField('HTML Content')
 
 
 class HTMLFormat(BaseFormat):
@@ -196,7 +198,7 @@ class HTMLFormat(BaseFormat):
 
 
 class MarkdownEditForm(BaseEditForm):
-    content = fields.TextAreaField(_('Markdown Content'))
+    content = fields.TextAreaField('Markdown Content')
 
 
 class MarkdownFormat(BaseFormat):

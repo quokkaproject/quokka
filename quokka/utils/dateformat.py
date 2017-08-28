@@ -18,35 +18,57 @@ def pretty_date(time=False):  # noqa
     second_diff = diff.seconds
     day_diff = diff.days
 
-    if day_diff < 0:
+    if day_diff < 0:  # future
         return ''
 
     if day_diff == 0:
         if second_diff < 10:
             return "just now"
         if second_diff < 60:
-            return str(second_diff) + " seconds ago"
+            return f'{second_diff} seconds ago'
         if second_diff < 120:
             return "a minute ago"
         if second_diff < 3600:
-            return str(second_diff / 60) + " minutes ago"
+            return f'{round(second_diff / 60):.0f} minutes ago'
         if second_diff < 7200:
             return "an hour ago"
         if second_diff < 86400:
-            return str(second_diff / 3600) + " hours ago"
+            return f'{round(second_diff / 3600):.0f} hours ago'
     if day_diff == 1:
         return "Yesterday"
     if day_diff < 7:
-        return str(day_diff) + " days ago"
+        return f'{day_diff} days ago'
     if day_diff < 31:
-        return str(day_diff / 7) + " weeks ago"
+        return f'{round(day_diff / 7):.0f} weeks ago'
     if day_diff < 365:
-        return str(day_diff / 30) + " months ago"
-    return str(day_diff / 365) + " years ago"
+        return f'{round(day_diff / 30):.0f} months ago'
+    return f'{round(day_diff / 365):.0f} years ago'
 
 
 if __name__ == "__main__":
-    import datetime
-    print(  # noqa
-        (pretty_date(datetime.datetime.now() - datetime.timedelta(hours=18)))
-    )
+    from datetime import timedelta, datetime
+    pp = pretty_date
+    now = datetime.now()
+
+    print(pp(now - timedelta(hours=18)))
+    print(pp(now - timedelta(minutes=18)))
+    print(pp(now - timedelta(seconds=18)))
+    print(pp(now - timedelta(seconds=58)))
+
+    print(pp(now - timedelta(days=200)))
+    print(pp(now - timedelta(days=365)))
+    print(pp(now - timedelta(days=367)))
+    print(pp(now - timedelta(days=600)))
+    print(pp(now - timedelta(days=1200)))
+    print(pp(now - timedelta(days=12000)))
+
+    print(pp(now - timedelta(days=31)))
+    print(pp(now - timedelta(days=30)))
+
+    print(pp(now - timedelta(days=20)))
+    print(pp(now - timedelta(days=8)))
+    print(pp(now - timedelta(days=7)))
+    print(pp(now - timedelta(days=4)))
+    print(pp(now - timedelta(days=1)))
+    print(pp(now + timedelta(days=1)))
+    print(pp(now - now))

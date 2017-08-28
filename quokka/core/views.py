@@ -2,12 +2,11 @@
 
 import os
 
-from flask import current_app, request, send_from_directory
+from flask import current_app, redirect, request, send_from_directory, url_for
 from flask_security import roles_accepted
 from quokka.core.views import (ContentDetail, ContentDetailPreview,
                                ContentList, TagList)
 from quokka.views import FeedAtom, FeedRss, SiteMap, TagAtom, TagRss
-
 
 # from quokka.core.models.channel import Channel
 
@@ -39,6 +38,11 @@ def static_from_root():
 
 
 def configure(app):
+
+    @app.route('/favicon.ico')
+    def favicon():
+        return redirect(url_for('static', filename='favicon.ico'), code=301)
+
     app.add_quokka_url_rule('/sitemap.xml',
                             view_func=SiteMap.as_view('sitemap'))
     app.add_quokka_url_rule('/mediafiles/<path:filename>', view_func=media)
@@ -84,8 +88,8 @@ def configure(app):
     app.add_quokka_url_rule('/<path:long_slug>/',
                             view_func=ContentList.as_view('list'))
     # Home page
-    app.add_quokka_url_rule(
-        '/',
-        view_func=ContentList.as_view('home'),
-        defaults={"long_slug": Channel.get_homepage('long_slug') or "home"}
-    )
+    # app.add_quokka_url_rule(
+    #     '/',
+    #     view_func=ContentList.as_view('home'),
+    #     defaults={"long_slug": Channel.get_homepage('long_slug') or "home"}
+    # )

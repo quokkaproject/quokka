@@ -1,13 +1,12 @@
-# coding: utf-8
-
 # from flask_admin.helpers import get_form_data
 import datetime as dt
+
 from flask import current_app
 from quokka.admin.forms import ValidationError
-from quokka.admin.utils import _
 from quokka.admin.views import ModelView
-from quokka.core.content_formats import CreateForm, get_format
 from quokka.utils.text import slugify
+
+from .formats import CreateForm, get_format
 
 
 class ContentView(ModelView):
@@ -60,19 +59,23 @@ class ContentView(ModelView):
 
     column_extra_row_actions = None
     """
-        List of row actions (instances of :class:`~flask_admin.model.template.BaseListRowAction`).
+        List of row actions (instances of :class:`~flask_admin.model.template.
+        BaseListRowAction`).
 
         Flask-Admin will generate standard per-row actions (edit, delete, etc)
         and will append custom actions from this list right after them.
 
         For example::
 
-            from flask_admin.model.template import EndpointLinkRowAction, LinkRowAction
+            from flask_admin.model.template import EndpointLinkRowAction,
+            LinkRowAction
 
             class MyModelView(BaseModelView):
                 column_extra_row_actions = [
-                    LinkRowAction('glyphicon glyphicon-off', 'http://direct.link/?id={row_id}'),
-                    EndpointLinkRowAction('glyphicon glyphicon-test', 'my_view.index_view')
+                    LinkRowAction('glyphicon glyphicon-off',
+                    'http://direct.link/?id={row_id}'),
+                    EndpointLinkRowAction('glyphicon glyphicon-test',
+                    'my_view.index_view')
                 ]
     """
 
@@ -121,10 +124,10 @@ class ContentView(ModelView):
         )
 
         duplicate_error_message = u'{0} "{1}/{2}" {3}'.format(
-            _('duplicate error:'),
+            'duplicate error:',
             model['category'],
             model['title'],
-            _('already exists.')
+            'already exists.'
         )
 
         if (is_created and existent) or (
@@ -143,13 +146,3 @@ class ContentView(ModelView):
         # TODO: Spawn async process for this.
         # update tags, categories and authors
         get_format(model).after_save(form, model, is_created)
-
-
-def configure(app):
-    app.admin.register(
-        app.db.index,
-        ContentView,
-        name=_('Content'),
-        endpoint='contentview'
-    )
-    return 'content'

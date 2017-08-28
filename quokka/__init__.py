@@ -2,10 +2,9 @@
 
 __version__ = '0.3.0'
 
-from quokka.app import QuokkaApp
+from quokka.core.app import QuokkaApp
 from quokka.core import configure_extensions, configure_extension
 from quokka.core.flask_dynaconf import configure_dynaconf
-# from quokka.core.db import configure_db
 
 
 def create_app_base(test=False, ext_list=None, **settings):
@@ -14,7 +13,6 @@ def create_app_base(test=False, ext_list=None, **settings):
 
     app = QuokkaApp('quokka')
     configure_dynaconf(app)
-    # configure_db(app)
     if settings:
         app.config.update(settings)
 

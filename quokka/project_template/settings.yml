@@ -17,7 +17,7 @@ QUOKKA:
   DEBUG: true
   DEBUG_TOOLBAR_ENABLED: true
   ADMIN_RAISE_ON_VIEW_EXCEPTION: true
-  LOGGER_ENABLED: True
+  LOGGER_ENABLED: true
 
   # Secret Key must be in .secrets.yml or QUOKKA_SECRET_KEY env var.
   # SECRET_KEY: abcderf
@@ -27,42 +27,49 @@ QUOKKA:
   # be careful touching this list, use EXTRA_EXTENSIONS for custom extensions
   CORE_EXTENSIONS:
     # Essential
+    - quokka.core.logger.configure
     - quokka.core.db.QuokkaDB
     - quokka.admin.configure_admin
     - flask_wtf.csrf.CSRFProtect
     - flask_mistune.Mistune
-    - quokka.core.security.configure
+    - quokka.core.auth.configure
     - quokka.core.error_handlers.configure
     - quokka.core.monitoring.configure
     - quokka.core.themes.configure
     - quokka.core.content.configure
     - quokka.admin.configure_file_admin
     - quokka.admin.configure_extra_views
-    - quokka.core.security.configure_user_admin
+    - quokka.core.auth.configure_user_admin
 
   # Extensions here can be import path to any callable or class
-  # that callable will receive objects app, db and admin.
+  # that callable will receive app as only argument.
   # example:
-  # def configure_my_extension(app, db, admin):
+  # def configure_my_extension(app):
+  #    app.db  # <--- db pointer
+  #    app.admin  # <--- admin pointer
   #    load_extension_here
-  # publish your extension to python path `pip isntall quokka_extension`
-  # add to the list `- quokka_extension.module.configure_my_extension`
-  EXTRA_EXTENSIONS: []
-    # - quokka.core.test.configure
+  # publish your extension to pypi and install
+  # either with `pip install quokka_extension`
+  # or `python setup.py install`
+  # or (recommended) use flit.ini
+  # take a look at `quokka create_extension --help` command
+  # add to the list below `- quokka_extension.configure`
+  EXTRA_EXTENSIONS:
+    - quokka_module_template.configure
 
   CONTENT_FORMATS:
     markdown:
       choice_text: Markdown
       help_text: Markdown text editor
-      content_format_class: quokka.core.content_formats.MarkdownFormat
+      content_format_class: quokka.core.content.formats.MarkdownFormat
     html:
       choice_text: HTML
       help_text: Rich HTML text editor
-      content_format_class: quokka.core.content_formats.HTMLFormat
+      content_format_class: quokka.core.content.formats.HTMLFormat
     plaintext:
       choice_text: Plain Text
       help_text: Pure plain text in text area
-      content_format_class: quokka.core.content_formats.PlainFormat
+      content_format_class: quokka.core.content.formats.PlainFormat
 
   # if true any package named quokka_ will be loaded
   # http://flask.pocoo.org/docs/0.12/cli/#cli-plugins
@@ -89,16 +96,6 @@ QUOKKA:
       contents: contents
       uploads: uploads
       users: users
-
-  # Flask-Gravatar can take avatar urls in jinja templates
-  # do: {{ current_user.email | gravatar }} or
-  # {{ 'some@server.com' | gravatar(size=50) }}
-  GRAVATAR:
-    size: 100
-    rating: g
-    default: retro
-    force_default: false
-    force_lower: false
 
   DEFAULT_TEXT_FORMAT: markdown
 
@@ -176,7 +173,7 @@ QUOKKA:
     - flask_debugtoolbar.panels.headers.HeaderDebugPanel
     - flask_debugtoolbar.panels.request_vars.RequestVarsDebugPanel
     - flask_debugtoolbar.panels.template.TemplateDebugPanel
-    # TODO: MIgrate mongoengine panel to tinyDB and Pymongo
+    # TODO: Migrate mongoengine panel to tinyDB and Pymongo
     # - flask_mongoengine.panels.MongoDebugPanel
     - flask_debugtoolbar.panels.logger.LoggingPanel
     - flask_debugtoolbar.panels.profiler.ProfilerDebugPanel
