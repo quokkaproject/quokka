@@ -1,6 +1,7 @@
-from flask import g
 from babel.support import LazyProxy
+from flask import g
 from flask_babelex import gettext, lazy_gettext, ngettext
+
 
 # from quokka.utils.translations import ugettext_lazy as _
 

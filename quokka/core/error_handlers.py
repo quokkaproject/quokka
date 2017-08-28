@@ -3,6 +3,10 @@ from quokka.template import render_template
 
 
 def configure(app):
+    if app.config.get('DEBUG') is True:
+        app.logger.debug('Skipping error handlers in Debug mode')
+        return
+
     @app.errorhandler(403)
     def forbidden_page(*args, **kwargs):
         """

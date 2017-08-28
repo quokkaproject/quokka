@@ -2,12 +2,12 @@
 
 # from flask_admin.helpers import get_form_data
 import datetime as dt
+from flask import current_app
+from quokka.admin.forms import ValidationError
 from quokka.admin.utils import _
 from quokka.admin.views import ModelView
-from quokka import db
 from quokka.core.content_formats import CreateForm, get_format
 from quokka.utils.text import slugify
-from quokka.admin.forms import ValidationError
 
 
 class ContentView(ModelView):
@@ -116,7 +116,7 @@ class ContentView(ModelView):
     def on_model_change(self, form, model, is_created):
         # check if exists
 
-        existent = db.index.find_one(
+        existent = current_app.db.index.find_one(
             {'title': model['title'], 'category': model['category']}
         )
 
@@ -145,9 +145,9 @@ class ContentView(ModelView):
         get_format(model).after_save(form, model, is_created)
 
 
-def configure(app, db, admin):
-    admin.register(
-        db.index,
+def configure(app):
+    app.admin.register(
+        app.db.index,
         ContentView,
         name=_('Content'),
         endpoint='contentview'

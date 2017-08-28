@@ -1,15 +1,14 @@
 # coding: utf-8
 
 import os
-from flask import send_from_directory, current_app, request
+
+from flask import current_app, request, send_from_directory
 from flask_security import roles_accepted
-from quokka.core.views import (
-    ContentDetail,
-    ContentDetailPreview,
-    ContentList,
-    TagList
-)
-from quokka.views import TagAtom, FeedAtom, TagRss, FeedRss, SiteMap
+from quokka.core.views import (ContentDetail, ContentDetailPreview,
+                               ContentList, TagList)
+from quokka.views import FeedAtom, FeedRss, SiteMap, TagAtom, TagRss
+
+
 # from quokka.core.models.channel import Channel
 
 

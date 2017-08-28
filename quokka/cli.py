@@ -9,7 +9,7 @@ import yaml
 from manage.cli import cli, init_cli
 from manage.template import default_manage_dict
 from quokka import create_app
-from quokka.core.security import User
+# from quokka.core.security import User
 from quokka.errors import DuplicateKeyError
 
 app = create_app()
@@ -112,4 +112,4 @@ def main():
     """
     manager = init_cli(cli)
     # TODO: implement locked: to avoid manage to run
-    return manager()# from quokka.utils.populate import Populate
+    return manager()  # from quokka.utils.populate import Populate

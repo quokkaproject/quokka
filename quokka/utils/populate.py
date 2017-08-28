@@ -1,14 +1,14 @@
 # coding: utf-8
-import logging
 import json
+import logging
 import uuid
 
-from quokka.core.models.subcontent import SubContentPurpose
 from quokka.core.models.channel import Channel, ChannelType
 from quokka.core.models.config import Config, Quokka
 from quokka.core.models.content import License
 from quokka.core.models.custom_values import CustomValue
-from quokka.modules.accounts.models import User, Role
+from quokka.core.models.subcontent import SubContentPurpose
+from quokka.modules.accounts.models import Role, User
 from quokka.modules.posts.models import Post
 
 logger = logging.getLogger()

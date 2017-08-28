@@ -98,16 +98,11 @@ False
 
 """
 
-from __future__ import absolute_import
-from __future__ import unicode_literals
+from __future__ import absolute_import, unicode_literals
 
 from wtforms.fields.core import UnboundField
 from wtforms.meta import DefaultMeta
-from wtforms.validators import (
-    Length,
-    NumberRange,
-)
-
+from wtforms.validators import Length, NumberRange
 
 __version__ = '0.3.0'
 __author__ = 'Brutus [DMC] <brutus.dmc@googlemail.com>'

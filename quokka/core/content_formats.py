@@ -1,12 +1,11 @@
 # coding: utf-8
 import datetime as dt
+
 from flask import current_app
-from quokka.admin.forms import (
-    Form, fields, validators, rules, READ_ONLY
-)
-from werkzeug.utils import import_string
-from quokka.admin.utils import _
 from flask_admin.helpers import get_form_data
+from quokka.admin.forms import READ_ONLY, Form, fields, rules, validators
+from quokka.admin.utils import _
+from werkzeug.utils import import_string
 
 
 # Utils

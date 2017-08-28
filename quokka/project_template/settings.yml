@@ -26,20 +26,19 @@ QUOKKA:
 
   # be careful touching this list, use EXTRA_EXTENSIONS for custom extensions
   CORE_EXTENSIONS:
-    - quokka.core.babel.configure
+    # Essential
+    - quokka.core.db.QuokkaDB
     - quokka.admin.configure_admin
     - flask_wtf.csrf.CSRFProtect
-    - quokka.core.gravatar.configure
     - flask_mistune.Mistune
-    # - quokka.core.security.configure
-    # - quokka.core.error_handlers.configure
+    - quokka.core.security.configure
+    - quokka.core.error_handlers.configure
     - quokka.core.monitoring.configure
     - quokka.core.themes.configure
     - quokka.core.content.configure
     - quokka.admin.configure_file_admin
     - quokka.admin.configure_extra_views
     - quokka.core.security.configure_user_admin
-    - quokka.core.ajax.configure
 
   # Extensions here can be import path to any callable or class
   # that callable will receive objects app, db and admin.
@@ -71,29 +70,25 @@ QUOKKA:
   # else provide a list
   # Plugin settings might be namespaced in dynaconf
 
-  # TinyDB
-  db_system: tinydb
-  db_folder: databases
-  # Mongo
-  # db_system: mongo
-  # db_name: quokka_db
-  # db_username: admin
-  # db_password: secret
-  # db_host: myhost.com
-  # db_port: 27017
+  DATABASE:
+    # TinyDB
+    system: tinydb
+    folder: databases
 
-  # db and collection names
-  # for pymongo you can have
-  # all db_ poiting to the same db
-  db_index: index
-  db_contents: contents
-  db_uploads: uploads
-  db_users: users
+    # Mongo
+    # system: mongo
+    # username: admin
+    # password: secret
+    # host: myhost.com
+    # port: 27017
 
-  collection_index: index
-  collection_contents: contents
-  collection_uploads: uploads
-  collection_users: users
+    # Database name
+    name: quokka_db
+    collections:
+      index: index
+      contents: contents
+      uploads: uploads
+      users: users
 
   # Flask-Gravatar can take avatar urls in jinja templates
   # do: {{ current_user.email | gravatar }} or

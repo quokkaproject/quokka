@@ -1,7 +1,8 @@
-import sys
-import os
-import click
 import importlib
+import os
+import sys
+
+import click
 
 
 class CommandsCollector(click.MultiCommand):

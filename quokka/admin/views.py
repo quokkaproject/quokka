@@ -1,23 +1,24 @@
 # coding: utf -8
 
-from flask import redirect, current_app
-
-from flask_admin.contrib.pymongo import ModelView as PyMongoModelView
-from flask_admin.contrib.fileadmin import FileAdmin as _FileAdmin
+from flask import current_app, redirect
 # from flask_admin.babel import gettext, ngettext
 from flask_admin import AdminIndexView
-# from flask_admin import BaseView as AdminBaseView
-
+from flask_admin.contrib.fileadmin import FileAdmin as _FileAdmin
+from flask_admin.contrib.pymongo import ModelView as PyMongoModelView
 # from flask_admin import helpers as h
 from flask_login import current_user, login_url
+from quokka.admin.actions import CloneAction, PublishAction
 # from quokka.template import render_template
 # from quokka.admin.widgets import PrepopulatedText
 # from quokka.admin.fields import ContentImageField
 # from quokka.utils.upload import dated_path, lazy_media_path
 from quokka.utils.routing import expose
+
+
+# from flask_admin import BaseView as AdminBaseView
+
 # from quokka.admin.fields import ThumbField
 
-from quokka.admin.actions import PublishAction, CloneAction
 # from quokka.admin import formatters
 
 

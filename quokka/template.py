@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from flask import session, current_app
+from flask import current_app, session
 from quokka_themes import render_theme_template
 
 

@@ -1,18 +1,15 @@
 # coding: utf-8
 from inspect import getargspec
 import import_string
-from quokka import db
 
 
 def configure_extension(name, **kwargs):
     configurator = import_string(name)
     args = getargspec(configurator).args
-    if 'db' in args and 'db' not in kwargs:
-        kwargs['db'] = db
     configurator(**{key: val for key, val in kwargs.items() if key in args})
 
 
-def configure_extensions(app, admin):
+def configure_extensions(app, admin=None):
     """Configure extensions provided in config file"""
     extensions = app.config.get(
         'CORE_EXTENSIONS', []
@@ -20,5 +17,5 @@ def configure_extensions(app, admin):
         'EXTRA_EXTENSIONS', []
     )
     for configurator_name in extensions:
-        configure_extension(configurator_name, app=app, db=db, admin=admin)
+        configure_extension(configurator_name, app=app, admin=admin)
     return app

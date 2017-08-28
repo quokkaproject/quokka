@@ -2,10 +2,10 @@
 import random
 import sys
 
-from werkzeug.datastructures import FileStorage
 from flask import current_app
 from flask_admin import form
 from flask_admin.form.upload import ImageUploadInput
+from werkzeug.datastructures import FileStorage
 
 
 class SmartSelect2Field(form.Select2Field):

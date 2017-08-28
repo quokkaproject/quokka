@@ -1,16 +1,12 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*
 import import_string
-
 from flask_admin import Admin
-
+from quokka.config import settings
 from quokka.utils.translation import _l
-
 from tinymongo import TinyMongoCollection
 
-from .views import ModelView, FileAdmin, IndexView
-
-from quokka.config import settings
+from .views import FileAdmin, IndexView, ModelView
 
 
 class QuokkaAdmin(Admin):
@@ -51,8 +47,9 @@ def create_admin(app=None):
     )
 
 
-def configure_admin(app, admin):  # noqa
+def configure_admin(app, admin=None):  # noqa
     """Configure admin extensions"""
+    admin = admin or create_admin(app)
 
     custom_index = app.config.get('ADMIN_INDEX_VIEW')
     if custom_index:
@@ -79,10 +76,10 @@ def configure_admin(app, admin):  # noqa
     return admin
 
 
-def configure_file_admin(app, admin):
+def configure_file_admin(app):
     for entry in app.config.get('FILE_ADMIN', []):
         try:
-            admin.add_view(
+            app.admin.add_view(
                 FileAdmin(
                     entry['path'],
                     entry['url'],
@@ -96,11 +93,11 @@ def configure_file_admin(app, admin):
             app.logger.info(e)
 
 
-def configure_extra_views(app, admin):
+def configure_extra_views(app):
     # adding extra views
     extra_views = app.config.get('ADMIN_EXTRA_VIEWS', [])
     for view in extra_views:
-        admin.add_view(
+        app.admin.add_view(
             import_string(view['module'])(
                 category=_l(view.get('category')),
                 name=_l(view.get('name'))

@@ -5,11 +5,11 @@
 import sys
 
 from flask import Blueprint
-from werkzeug.routing import Rule
+from pymongo.mongo_client import MongoClient
 from quokka.core.app import QuokkaModule
 from quokka.core.models.content import Content
 from quokka_themes import Theme
-from pymongo.mongo_client import MongoClient
+from werkzeug.routing import Rule
 
 if sys.version_info.major == 3:
     unicode = lambda x: u'{}'.format(x)  # noqa  # flake8: noqa

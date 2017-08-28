@@ -1,12 +1,13 @@
 # coding: utf-8
-from flask import Flask, Blueprint
+from flask import Blueprint, Flask
 from flask.helpers import _endpoint_from_view_func
 
 
 class QuokkaApp(Flask):
     """
-    Implementes customizations on Flask
+    Implements customizations on Flask
     - custom add_quokka_url_rule
+    - properties to access db and admin
     """
 
     def add_quokka_url_rule(self, rule, endpoint=None,
@@ -18,6 +19,15 @@ class QuokkaApp(Flask):
         if not endpoint.startswith('quokka.'):
             endpoint = 'quokka.' + endpoint
         self.add_url_rule(rule, endpoint, view_func, **options)
+
+    @property
+    def db(self):
+        return self.extensions['db']
+
+    @property
+    def admin(self):
+        ext = self.extensions['admin']
+        return ext[0] if isinstance(ext, list) else ext
 
 
 class QuokkaModule(Blueprint):
