@@ -66,8 +66,9 @@ etc/mongodata/*.data
 *.pid
 *.cache*
 
-quokka/project_template/.secrets.yml
+databases
 quokka/project_template/databases/*.json
+!quokka/project_template/databases/README.md
 
 quokka/project_template/themes/*
 !quokka/project_template/themes/README.md
@@ -78,5 +79,5 @@ quokka/project_template/uploads/*
 quokka/project_template/static_build/*
 !quokka/project_template/static_build/README.md
 
-databases
 venv
+old_*

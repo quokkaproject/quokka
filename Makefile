@@ -16,3 +16,6 @@ clean:
 	@find ./ -name '*.pyc' -exec rm -f {} \;
 	@find ./ -name 'Thumbs.db' -exec rm -f {} \;
 	@find ./ -name '*~' -exec rm -f {} \;
+	@rm -rf dist/
+	@rm -rf *.egg
+	@rm -rf *.egg-info
