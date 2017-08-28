@@ -1,13 +1,7 @@
-.PHONY: run shell test pep8 clean
-
-run:
-	manage runserver --reloader --debug
-
-shell:
-	manage shell
+.PHONY: test pep8 clean prepare build publish
 
 test: pep8
-	QUOKKA_MODE=test py.test --cov=quokka -l --tb=short --maxfail=1 quokka/
+	QUOKKA_MODE=test py.test --cov=quokka -l --tb=short --maxfail=1 tests/
 
 pep8:
 	@flake8 quokka --ignore=F403 --exclude=migrations
@@ -19,3 +13,13 @@ clean:
 	@rm -rf dist/
 	@rm -rf *.egg
 	@rm -rf *.egg-info
+
+prepare:
+	@pip install flit pypandoc
+	@flit install -s
+
+build:
+	@flit build
+
+publish:
+	@flit publish
