@@ -1,4 +1,4 @@
-.PHONY: test pep8 clean install build publish tree
+.PHONY: test pep8 clean install build publish tree reenv
 
 test: pep8
 	QUOKKA_MODE=test py.test --cov=quokka -l --tb=short --maxfail=1 tests/
@@ -26,3 +26,7 @@ publish:
 
 tree:
 	@tree  -L 1 -a -I __pycache__ --dirsfirst --noreport
+
+reenv:
+	@rm -rf venv
+	@python3.6 -m venv venv

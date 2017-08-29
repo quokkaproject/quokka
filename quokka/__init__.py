@@ -1,6 +1,6 @@
 """Quokka CMS!"""
 
-__version__ = '0.3.1'
+__version__ = '0.3.2'
 
 from quokka.core.app import QuokkaApp
 from quokka.core import configure_extensions, configure_extension

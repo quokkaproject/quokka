@@ -1,12 +1,11 @@
 # coding: utf -8
 
-from flask import current_app, redirect
+# from flask import current_app, redirect
 # from flask_admin.babel import gettext, ngettext
 from flask_admin import AdminIndexView
 from flask_admin.contrib.fileadmin import FileAdmin as _FileAdmin
 from flask_admin.contrib.pymongo import ModelView as PyMongoModelView
 # from flask_admin import helpers as h
-from flask_login import current_user, login_url
 from quokka.admin.actions import CloneAction, PublishAction
 # from quokka.template import render_template
 # from quokka.admin.widgets import PrepopulatedText
@@ -69,12 +68,12 @@ class ThemeMixin(object):
 
 
 class RequiresLogin(object):
-
-    def _handle_view(self, *args, **kwargs):  # noqa
-        """Admin views requires login"""
-        if current_app.config.get('ADMIN_REQUIRES_LOGIN') is True:
-            if not current_user.is_authenticated:
-                return redirect(login_url('quokka.login', next_url="/admin"))
+    """login in admin"""
+    # def _handle_view(self, *args, **kwargs):  # noqa
+    #     """Admin views requires login"""
+    #     if current_app.config.get('ADMIN_REQUIRES_LOGIN') is True:
+    #         if not current_user.is_authenticated:
+    #             return redirect(login_url('quokka.login', next_url="/admin"))
 
 
 class FileAdmin(ThemeMixin, RequiresLogin, _FileAdmin):

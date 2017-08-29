@@ -3,7 +3,6 @@
 import os
 
 from flask import current_app, redirect, request, send_from_directory, url_for
-from flask_security import roles_accepted
 from quokka.core.views import (ContentDetail, ContentDetailPreview,
                                ContentList, TagList)
 from quokka.views import FeedAtom, FeedRss, SiteMap, TagAtom, TagRss
@@ -11,14 +10,14 @@ from quokka.views import FeedAtom, FeedRss, SiteMap, TagAtom, TagRss
 # from quokka.core.models.channel import Channel
 
 
-@roles_accepted('admin', 'developer')
+# @roles_accepted('admin', 'developer')
 def template_files(filename):
     template_path = os.path.join(current_app.root_path,
                                  current_app.template_folder)
     return send_from_directory(template_path, filename)
 
 
-@roles_accepted('admin', 'developer')
+# @roles_accepted('admin', 'developer')
 def theme_template_files(identifier, filename):
     template_path = os.path.join(
         current_app.root_path,

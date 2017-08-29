@@ -54,8 +54,8 @@ QUOKKA:
   # or (recommended) use flit.ini
   # take a look at `quokka create_extension --help` command
   # add to the list below `- quokka_extension.configure`
-  EXTRA_EXTENSIONS:
-    - quokka_module_template.configure
+  # EXTRA_EXTENSIONS:
+  #   - quokka_module_template.configure
 
   CONTENT_FORMATS:
     markdown:
