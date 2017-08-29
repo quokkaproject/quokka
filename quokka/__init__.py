@@ -12,9 +12,9 @@ def create_app_base(test=False, ext_list=None, **settings):
     useful for testing."""
 
     app = QuokkaApp('quokka')
-    configure_dynaconf(app)
     if settings:
         app.config.update(settings)
+    configure_dynaconf(app)
 
     if test or app.config.get('TESTING'):
         app.testing = True

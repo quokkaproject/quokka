@@ -11,17 +11,36 @@ from manage.cli import cli, init_cli
 from manage.template import default_manage_dict
 from quokka.core.auth import create_user
 from quokka.core.errors import DuplicateKeyError
-from . import create_app as App
+from . import create_app
+from functools import wraps
+
+
+def with_app(f):
+    """Calls function passing app as first argument"""
+    @wraps(f)
+    def decorator(*args, **kwargs):
+        app = create_app(ENVMODE=kwargs.get('envmode'))
+        return f(app=app, *args, **kwargs)
+    return decorator
 
 
 @cli.command()
-@click.option('--reloader/--no-reloader', default=True)
-@click.option('--debug/--no-debug', default=True)
-@click.option('--host', default='127.0.0.1')
-@click.option('--port', default=5000)
-def runserver(reloader, debug, host, port):
+@click.option('--reloader/--no-reloader', default=None)
+@click.option('--debug/--no-debug', default=None)
+@click.option('--host', default=None)
+@click.option('--port', default=None)
+@click.option('--envmode', default=None)
+@with_app
+def runserver(app=None, reloader=None, debug=None,
+              host=None, port=None, envmode=None):
     """Run the Flask development server i.e. app.run()"""
-    App().run(
+    # app = App(ENVMODE=envmode)
+    debug = debug or app.config.get('DEBUG', False)
+    reloader = reloader or app.config.get('RELOADER', False)
+    host = host or app.config.get('HOST', '127.0.0.1')
+    port = port or app.config.get('PORT', 5000)
+
+    app.run(
         use_reloader=reloader,
         debug=debug,
         host=host,
@@ -31,9 +50,9 @@ def runserver(reloader, debug, host, port):
 
 
 @cli.command()
-def check():
+@with_app
+def check(app=None):
     """Prints app status"""
-    app = App()
     click.echo("Extensions.")
     pprint(app.extensions)
     click.echo("Modules.")
@@ -43,11 +62,12 @@ def check():
 
 
 @cli.command()
-def showconfig():
+@with_app
+def showconfig(app=None):
     """click.echo all Quokka config variables"""
     from pprint import pprint
     click.echo("Config.")
-    pprint(dict(App().config))
+    pprint(dict(app.config))
 
 
 def copyfolder(src, dst):
@@ -97,9 +117,9 @@ def init(name, destiny, source, theme, modules):
 @click.option('--email', required=False, default=None, prompt=True)
 @click.option('--password', required=True, prompt=True, hide_input=True,
               confirmation_prompt=True)
-def adduser(username, email, password):
+@with_app
+def adduser(app, username, email, password):
     """Add new user with admin access"""
-    app = App()
     with app.app_context():
         try:
             create_user(username=username, password=password, email=email)

@@ -4,7 +4,7 @@ import argparse
 from werkzeug.serving import run_simple
 from quokka import create_app
 
-application = app = create_app()
+application = app = create_app(ADMIN_REQUIRES_LOGIN=True)
 
 
 if __name__ == "__main__":

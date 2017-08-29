@@ -9,15 +9,15 @@
             <h1>{{ admin_view.admin.name }}</h1>
             <h3>{{_gettext('Latest Posts')}}:</h3>
             <ul>
-                {% for post in [] %}
-                    get_contents(model='posts.post', limit=5)
+                {% for content in contents %}
+                    <!-- get_contents(model='posts.post', limit=5) -->
                     <li style="margin-bottom: 5px">
-                        {{ post.channel.title }} | {{ post.title }}
-                        | <i class={% if post.published %} "icon-ok-circle" {% else %} "icon-ban-circle" {% endif %}></i>
-                        <a class="btn btn-success btn-small" href="{{ url_for('post.edit_view', id=post.id)}}">
+                        {{ content['category'] }} | {{ content['title'] }}
+                        | <i class={% if content['published'] %} "icon-ok-circle" {% else %} "icon-ban-circle" {% endif %}></i>
+                        <a class="btn btn-success btn-small" href="{{ url_for('quokka.core.content.admin.contentview.edit_view', id=content['_id'])}}">
                         <i class="icon-edit"></i> {{_gettext('Edit')}}</a>
-                          <a class="btn btn-primary btn-small" target="_blank" href="{{ post.get_absolute_url(endpoint='quokka.core.detail' if post.published else 'quokka.core.preview') }}">
-                          <i class="icon-globe"></i> {{_gettext('View') if post.published else _gettext('Preview')}}</a>
+                          <a class="btn btn-primary btn-small" target="_blank" href="/{{ content['slug'] }}.html">
+                          <i class="icon-globe"></i> {{_gettext('View') if content['published'] else _gettext('Preview')}}</a>
                     </li>
                 {% else %}
                     <li>{{ _gettext("There is no content yet!") }}<br><a class="btn btn-primary" href="{{ url_for('quokka.core.content.admin.contentview.create_view') }}"><i class="icon-pencil"></i> {{_gettext('Create a new post')}}</a></li>

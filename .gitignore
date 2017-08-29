@@ -79,5 +79,8 @@ quokka/project_template/uploads/*
 quokka/project_template/static_build/*
 !quokka/project_template/static_build/README.md
 
+quokka/project_template/modules/*
+!quokka/project_template/modules/README.md
+
 venv
 old_*

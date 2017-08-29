@@ -3,6 +3,8 @@ databases/*
 !databases/README.md
 uploads/*
 !uploads/README.md
+modules/*
+!modules/README.md
 static_build/*
 !static_build/README.md
 venv

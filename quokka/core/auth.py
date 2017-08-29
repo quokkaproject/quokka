@@ -52,13 +52,15 @@ def validate_login(user):
 
 
 def configure(app):
-    SimpleLogin(app, login_checker=validate_login)
+    if app.config.get('ADMIN_REQUIRES_LOGIN') is True:
+        SimpleLogin(app, login_checker=validate_login)
 
 
 def configure_user_admin(app):
-    app.admin.register(
-        app.db.users,
-        UserView,
-        name='Users',
-        category='Administration'
-    )
+    if app.config.get('ADMIN_REQUIRES_LOGIN') is True:
+        app.admin.register(
+            app.db.users,
+            UserView,
+            name='Users',
+            category='Administration'
+        )

@@ -1,6 +1,6 @@
 # coding: utf -8
 
-# from flask import current_app, redirect
+from flask import current_app, redirect, url_for
 # from flask_admin.babel import gettext, ngettext
 from flask_admin import AdminIndexView
 from flask_admin.contrib.fileadmin import FileAdmin as _FileAdmin
@@ -12,7 +12,7 @@ from quokka.admin.actions import CloneAction, PublishAction
 # from quokka.admin.fields import ContentImageField
 # from quokka.utils.upload import dated_path, lazy_media_path
 from quokka.utils.routing import expose
-
+from flask_simplelogin import is_logged_in
 
 # from flask_admin import BaseView as AdminBaseView
 
@@ -69,11 +69,13 @@ class ThemeMixin(object):
 
 class RequiresLogin(object):
     """login in admin"""
-    # def _handle_view(self, *args, **kwargs):  # noqa
-    #     """Admin views requires login"""
-    #     if current_app.config.get('ADMIN_REQUIRES_LOGIN') is True:
-    #         if not current_user.is_authenticated:
-    #             return redirect(login_url('quokka.login', next_url="/admin"))
+    def _handle_view(self, *args, **kwargs):  # noqa
+        """Admin views requires login"""
+        if current_app.config.get('ADMIN_REQUIRES_LOGIN') is True:
+            if not is_logged_in():
+                return redirect(
+                    url_for('simplelogin.login', next="/admin")
+                )
 
 
 class FileAdmin(ThemeMixin, RequiresLogin, _FileAdmin):
@@ -87,7 +89,8 @@ class IndexView(RequiresLogin, ThemeMixin, AdminIndexView):
 
     @expose('/')
     def index(self):
-        return self.render('admin/index.html')
+        contents = current_app.db.index.find()
+        return self.render('admin/index.html', contents=contents)
 
 
 class ModelView(CloneAction, PublishAction,
