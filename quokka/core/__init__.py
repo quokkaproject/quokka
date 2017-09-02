@@ -13,7 +13,6 @@ def configure_extension(name, **kwargs):
 def configure_extensions(app, admin=None):
     """Configure extensions provided in config file"""
     sys.path.insert(0, './modules')
-    print(sys.path)
     extensions = app.config.get(
         'CORE_EXTENSIONS', []
     ) + app.config.get(

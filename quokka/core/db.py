@@ -1,3 +1,6 @@
+import itertools
+from contextlib import suppress
+
 from pymongo import MongoClient
 from tinydb_serialization import SerializationMiddleware
 from tinymongo import TinyMongoClient
@@ -13,7 +16,23 @@ class QuokkaTinyMongoClient(TinyMongoClient):
         return serialization
 
 
-class QuokkaDB:
+class QuokkaDB(object):
+
+    config = {}
+    system = 'tinydb'
+    folder = 'databases'
+    username = None
+    password = None
+    host = 'localhost'
+    port = 27017
+    name = 'quokka_db'
+    collections = {
+        'index': 'index',
+        'contents': 'contents',
+        'uploads': 'uploads',
+        'users': 'users',
+    }
+
     def __init__(self, app=None):
         self.app = None
         if app is not None:
@@ -21,20 +40,14 @@ class QuokkaDB:
 
     def init_app(self, app):
         self.config = app.config.get('DATABASE', {})
-        self.system = self.config.get('system', 'tinydb')
-        self.folder = self.config.get('folder', 'databases')
-        self.username = self.config.get('username')
-        self.password = self.config.get('password')
-        self.host = self.config.get('host', 'localhost')
-        self.port = self.config.get('port', 'port')
-        self.name = self.config.get('name', 'quokka_db')
-        self.collections = {
-            'index': 'index',
-            'contents': 'contents',
-            'uploads': 'uploads',
-            'users': 'users',
-        }
-        self.collections.update(self.config.get('collections', {}))
+
+        # update atributes with config counterparts
+        for key, value in self.config.items():
+            if key.lower() != 'collections':
+                setattr(self, key.lower(), value)
+            else:
+                self.collections.update(value)
+
         self._register(app)
 
     def _register(self, app):
@@ -72,18 +85,54 @@ class QuokkaDB:
                 )
         return self._connection
 
-    @property
-    def index(self):
-        return self.get_collection('index')
+    def __dir__(self):
+        """Return existing attributes + collection names"""
+        attrs = []
+        for attr in super().__dir__():
+            if attr.endswith(('_mongo', '_tinydb')):
+                attrs.append(attr.rpartition('_')[0])
+            else:
+                attrs.append(attr)
+        return sorted(list(set(attrs)) + list(self.collections.keys()))
 
-    @property
-    def contents(self):
-        return self.get_collection('contents')
+    def __getattribute__(self, name):
+        collections = super().__getattribute__('collections')
+        get_collection = super().__getattribute__('get_collection')
+        if name in collections:
+            return get_collection(name)
 
-    @property
-    def uploads(self):
-        return self.get_collection('uploads')
+        # Try to get system specific method e.g: self.categories_mongo
+        try:
+            system = super().__getattribute__('system')
+            return super().__getattribute__(f'{name}_{system}')
+        except AttributeError:
+            return super().__getattribute__(name)
 
-    @property
-    def users(self):
-        return self.get_collection('users')
+    # [ <-- DB query helpers --> ]
+
+    def value_set(self, colname, key, filter=None,
+                  sort=True, flat=False, **kwargs):
+        """Return a set of all values in a key"""
+        if filter is not None:
+            data = self.get_collection(colname).find(filter, **kwargs)
+        else:
+            data = self.get_collection(colname).find(**kwargs)
+
+        values = [item.get(key) for item in data if item.get(key) is not None]
+
+        if flat is True:
+            values = list(itertools.chain(*values))
+
+        with suppress(TypeError):
+            values = list(set(values))
+
+        return sorted(values) if sort is True else values
+
+    def author_set(self, sort=True):
+        users = [
+            item.get('fullname', item.get('username'))
+            for item in self.users.find()
+        ]
+        authors = self.value_set('index', 'authors', flat=True)
+        values = list(set(users + authors))
+        return sorted(values) if sort is True else values

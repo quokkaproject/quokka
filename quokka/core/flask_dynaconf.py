@@ -7,7 +7,7 @@ from dynaconf.loaders import yaml_loader
 
 
 def configure_dynaconf(app):
-    settings_file = 'settings.yml'
+    settings_file = 'quokka.yml'
     initial_envmode = app.config.get('ENVMODE')
 
     # Extension is supposed to override envmode

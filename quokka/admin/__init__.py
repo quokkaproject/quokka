@@ -1,6 +1,7 @@
 import import_string
 from flask_admin import Admin
 from tinymongo import TinyMongoCollection
+
 from .views import FileAdmin, IndexView, ModelView
 
 

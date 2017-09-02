@@ -15,7 +15,7 @@ clean:
 	@rm -rf *.egg-info
 
 install:
-	@pip install flit pypandoc
+	@pip install flit pypandoc pygments
 	@flit install -s
 
 build:

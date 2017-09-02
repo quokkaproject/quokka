@@ -14,9 +14,9 @@
                     <li style="margin-bottom: 5px">
                         {{ content['category'] }} | {{ content['title'] }}
                         | <i class={% if content['published'] %} "icon-ok-circle" {% else %} "icon-ban-circle" {% endif %}></i>
-                        <a class="btn btn-success btn-small" href="{{ url_for('quokka.core.content.admin.contentview.edit_view', id=content['_id'])}}">
+                        <a class="btn btn-success btn-xs" href="{{ url_for('quokka.core.content.admin.contentview.edit_view', id=content['_id'])}}">
                         <i class="icon-edit"></i> {{_gettext('Edit')}}</a>
-                          <a class="btn btn-primary btn-small" target="_blank" href="/{{ content['slug'] }}.html">
+                          <a class="btn btn-primary btn-xs" target="_blank" href="/{{ content['slug'] }}.html">
                           <i class="icon-globe"></i> {{_gettext('View') if content['published'] else _gettext('Preview')}}</a>
                     </li>
                 {% else %}

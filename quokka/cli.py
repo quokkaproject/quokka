@@ -2,24 +2,37 @@
 import errno
 import shutil
 import sys
+from functools import wraps
 from pathlib import Path
 from pprint import pprint
 
 import click
-import yaml
+import manage
 from manage.cli import cli, init_cli
-from manage.template import default_manage_dict
-from quokka.core.auth import create_user
-from quokka.core.errors import DuplicateKeyError
+
 from . import create_app
-from functools import wraps
+from .core.auth import create_user
+from .core.errors import DuplicateKeyError
+from .utils.echo import b, blue, green, lecho, red, yellow
+from .utils.project import cookiecutter, fetch_modules, fetch_theme
+
+CWD = Path.cwd()
+QUOKKA_ROOT_FOLDER = Path(sys.modules['quokka'].__file__).parent
 
 
 def with_app(f):
     """Calls function passing app as first argument"""
     @wraps(f)
     def decorator(*args, **kwargs):
-        app = create_app(ENVMODE=kwargs.get('envmode'))
+        try:
+            app = create_app(ENVMODE=kwargs.get('envmode'))
+        except IOError as e:
+            click.echo(
+                'Quokka project not found, run `quokka init [projectname] [.]`'
+                ' to start a new project or ensure `./quokka.yml` exists. '
+                f'Error: {e}'
+            )
+            return
         return f(app=app, *args, **kwargs)
     return decorator
 
@@ -34,7 +47,6 @@ def with_app(f):
 def runserver(app=None, reloader=None, debug=None,
               host=None, port=None, envmode=None):
     """Run the Flask development server i.e. app.run()"""
-    # app = App(ENVMODE=envmode)
     debug = debug or app.config.get('DEBUG', False)
     reloader = reloader or app.config.get('RELOADER', False)
     host = host or app.config.get('HOST', '127.0.0.1')
@@ -45,7 +57,7 @@ def runserver(app=None, reloader=None, debug=None,
         debug=debug,
         host=host,
         port=port,
-        extra_files=['settings.yml', '.secrets.yml']  # for reloader
+        extra_files=['quokka.yml', '.secrets.yml']  # for reloader
     )
 
 
@@ -61,18 +73,12 @@ def check(app=None):
     return app
 
 
-@cli.command()
-@with_app
-def showconfig(app=None):
-    """click.echo all Quokka config variables"""
-    from pprint import pprint
-    click.echo("Config.")
-    pprint(dict(app.config))
-
-
 def copyfolder(src, dst):
     try:
         shutil.copytree(src, dst)
+    except FileExistsError as exc:
+        lecho('Warning', exc, red)
+        sys.exit(1)
     except OSError as exc:
         if exc.errno == errno.ENOTDIR:
             shutil.copy(src, dst)
@@ -90,26 +96,47 @@ def init(name, destiny, source, theme, modules):
     """Initialize a new project in current folder\n
     $ quokka init mywebsite
     """
-    folder_name = name.replace(' ', '_').lower()
+    destiny_folder = Path(name.replace(' ', '_').lower())
+    project_template = QUOKKA_ROOT_FOLDER / Path('project_template')
 
     if destiny is None:
-        destiny = f'./{folder_name}'
+        destiny = CWD / destiny_folder
+    elif destiny in ('.', './'):
+        destiny = CWD
     else:
-        destiny = f'{destiny}/{folder_name}'
+        destiny = Path(destiny) / destiny_folder
 
-    source = source or Path.joinpath(
-        Path(sys.modules['quokka'].__file__).parent,
-        'project_template'
+    source = source or project_template
+
+    # Copy project template from quokka root
+    copyfolder(source, destiny)
+    click.echo(
+        b('🐹 Quokka project created 🐹')
+    )
+    lecho('📝 Name', name, green)
+    lecho('📁 Location', destiny, green)
+    if source == project_template:
+        lecho('📚 Template', 'default', green)
+    else:
+        lecho('📚 Template', source, green)
+
+    # Fetch themes and extensions
+    fetch_theme(theme, destiny)
+    fetch_modules(modules, destiny)
+
+    # Rewrite the config file
+    cookiecutter(
+        destiny,
+        name=name,
+        theme=theme,
+        modules=modules,
+        source=source
     )
 
-    copyfolder(source, destiny)
-    # TODO: fetch theme
-    # TODO: fetch and install modules
-
-    with open(f'{destiny}/manage.yml', 'w') as manage_file:
-        data = default_manage_dict
-        data['project_name'] = name.title()
-        manage_file.write(yaml.dump(data, default_flow_style=False))
+    click.echo(blue(f'➡ Go to {destiny}'))
+    click.echo(blue('⚙ run `quokka runserver` to start!'))
+    click.echo(blue('📄 Check the documentation on http://quokkaproject.org'))
+    click.echo(yellow('🐹 Happy Quokka! 🐹'))
 
 
 @cli.command()
@@ -131,11 +158,15 @@ def adduser(app, username, email, password):
             )
 
 
+# TODO:
+# update - updates current project settings and assets to latest version
+
+
 def main():
     """
     Quokka CMS command line manager
-    overwrites the manage loader
+    overwrites the `manage` loader
     """
+    manage.cli.MANAGE_FILE = 'quokka.yml'
     manager = init_cli(cli)
-    # TODO: implement locked: to avoid manage to run
-    return manager()  # from quokka.utils.populate import Populate
+    return manager()

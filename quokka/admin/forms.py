@@ -14,7 +14,6 @@ from wtforms import widgets as _widgets
 from wtforms import validators  # noqa
 from wtforms.validators import ValidationError
 
-
 # from wtforms_components import read_only  # noqa
 # from wtforms_components import ReadOnlyWidgetProxy  # noqa
 

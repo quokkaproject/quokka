@@ -271,6 +271,8 @@ class AutoAttrMeta(DefaultMeta):
 
         """
         field_kw = getattr(field, 'render_kw', None)
+        if callable(field_kw):
+            field_kw = field_kw(field)
         if field_kw is not None:
             render_kw = dict(field_kw, **render_kw)
         render_kw = get_html5_kwargs(field, render_kw)

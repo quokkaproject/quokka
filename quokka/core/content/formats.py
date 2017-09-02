@@ -1,23 +1,25 @@
 import datetime as dt
+import getpass
+import json
 
 from flask import current_app
 from flask_admin.helpers import get_form_data
 from quokka.admin.forms import READ_ONLY, Form, fields, rules, validators
 from werkzeug.utils import import_string
 
-
 # Utils
+
 
 def get_content_formats(instances=False):
     content_formats = current_app.config.get(
         'CONTENT_FORMATS',
         {
-          'markdown': {
-              'choice_text': 'Markdown',
-              'help_text': 'Markdown text editor',
-              'content_format_class':
-                  'quokka.core.content.formats.MarkdownFormat'  # noqa
-          }
+            'markdown': {
+                'choice_text': 'Markdown',
+                'help_text': 'Markdown text editor',
+                'content_format_class':
+                    'quokka.core.content.formats.MarkdownFormat'
+            }
         }
     )
     if instances:
@@ -60,6 +62,31 @@ def validate_category(form, field):
         if len(items) > 1:
             return 'You can select only one category'
 
+
+def get_category_kw(field):
+    categories = current_app.db.value_set('index', 'category', sort=False)
+    categories.extend(current_app.config.get('CATEGORIES', []))
+    categories = sorted(list(set(categories)))
+    return {'data-tags': json.dumps(categories)}
+
+
+def get_default_category():
+    categories = current_app.config.get('CATEGORIES')
+    return categories[0] if categories else None
+
+
+def get_authors_kw(field):
+    authors = current_app.db.author_set(sort=False)
+    authors.extend(current_app.config.get('AUTHORS', []))
+    authors.append(getpass.getuser())
+    authors = sorted(list(set(authors)))
+    return {'data-tags': json.dumps(authors)}
+
+
+def get_default_author():
+    authors = current_app.config.get('AUTHORS')
+    return authors[0] if authors else getpass.getuser()
+
 # classes
 
 
@@ -72,19 +99,15 @@ class BaseForm(Form):
         'Category',
         [validators.CallableValidator(validate_category)],
         save_as_list=False,
-        render_kw={'data-tags': '["hello", "world"]'},
-        # todo: ^ settings.default_categories + db_query
-        default='general'
-        # todo: default should come from settings
+        render_kw=get_category_kw,
+        default=get_default_category
     )
     authors = fields.Select2TagsField(
         'Authors',
         [validators.required()],
         save_as_list=True,
-        render_kw={'data-tags': '["Bruno Rocha", "Karla Magueta"]'},
-        # todo: settings.default_authors + current + db_query
-        default=['Bruno Rocha']
-        # todo: default should be current user if auth else O.S user else ?
+        render_kw=get_authors_kw,
+        default=get_default_author
     )
 
 
@@ -125,7 +148,7 @@ class BaseEditForm(BaseForm):
     modified = fields.HiddenField('Modified')
     # todo: ^populate on save
     slug = fields.StringField('Slug')
-    # todo: create based on category / title
+    # TODO: validate slug collision
     language = fields.SmartSelect2Field(
         'Language',
         choices=lambda: [

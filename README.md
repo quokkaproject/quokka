@@ -56,13 +56,13 @@ The above command will generate your project in `myproject` folder as:
 ```bash
 .
 ├── databases        # TinyDB database files (gitignored)
+├── modules          # Custom modules to load on EXTRA_EXTENSIONS
 ├── static_build     # output static site
-├── themes           # Pelican Themes
+├── themes           # Front-end Themes (Pelican and Quokka Themes supported)
 ├── uploads          # Media uploaded via admin
 ├── .gitignore       # gitignore to exclude sensitive files
-├── manage.yml       # Controls the `quokka` cli commands and shell
+├── quokka.yml       # Project settings
 ├── .secrets.yml     # To store keys, tokens and passwords (gitignored)
-├── settings.yml     # CMS settings
 └── wsgi.py          # To deploy `gunicorn wsgi:app`
 ```
 
@@ -88,7 +88,7 @@ Set important configurations
 quokka init mywebsite --theme http://github.com/user/theme --config="auth_enabled=false"
 ```
 
-> That is optional, you have to edit `settings.yml` to tune your settings.
+> That is optional, you have to edit `quokka.yml` to tune your settings.
 
 ### Run your website
 
@@ -201,7 +201,7 @@ and also useful if you want to install plugins which support MongoDB only
 (because it relies on aggregations and gridfs)
 
 You only need a running instance
-of Mongo server and change `settings.yml:DB` on your project from:
+of Mongo server and change `quokka.yml:DB` on your project from:
 
 ```yaml
 quokka:
