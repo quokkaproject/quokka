@@ -84,3 +84,4 @@ quokka/project_template/modules/*
 
 venv
 old_*
+.envrc

@@ -150,7 +150,7 @@ QUOKKA:
 
   ## Swatch options in https://bootswatch.com/
   ## spacelab | paper | cerulean | united | more...
-  FLASK_ADMIN_SWATCH: spacelab
+  FLASK_ADMIN_SWATCH: paper
   FLASK_ADMIN_TEMPLATE_MODE: bootstrap3
 
   ADMIN_ICONS: [
@@ -222,8 +222,11 @@ QUOKKA:
 
   ## Default categories to be listed on create form
   ## all existing categories on database will also be listed
-  CATEGORIES:
-    - general
+  # CATEGORIES:
+  #   - general
+
+  ## Force a default category instead of blank
+  # DEFAULT_CATEGORY: general
 
   ## Default author names to be listed
   # AUTHORS:

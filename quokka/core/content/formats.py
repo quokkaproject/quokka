@@ -71,8 +71,7 @@ def get_category_kw(field):
 
 
 def get_default_category():
-    categories = current_app.config.get('CATEGORIES')
-    return categories[0] if categories else None
+    return current_app.config.get('DEFAULT_CATEGORY')
 
 
 def get_authors_kw(field):
@@ -93,7 +92,6 @@ def get_default_author():
 class BaseForm(Form):
 
     title = fields.StringField('Title', [validators.required()])
-    # todo: validade existing category/title
     summary = fields.TextAreaField('Summary')
     category = fields.Select2TagsField(
         'Category',
@@ -128,14 +126,14 @@ class CreateForm(BaseForm):
 class BaseEditForm(BaseForm):
     """Edit form with all missing fields except `content`"""
 
-    content_type = fields.PassiveStringField(
-        'Type',
-        render_kw=READ_ONLY
-    )
-    content_format = fields.PassiveStringField(
-        'Format',
-        render_kw=READ_ONLY
-    )
+    # content_type = fields.PassiveStringField(
+    #     'Type',
+    #     render_kw=READ_ONLY
+    # )
+    # content_format = fields.PassiveStringField(
+    #     'Format',
+    #     render_kw=READ_ONLY
+    # )
 
     tags = fields.Select2TagsField('Tags', save_as_list=True)
     # todo: ^ provide settings.default_tags + db_query
@@ -146,7 +144,6 @@ class BaseEditForm(BaseForm):
     )
     # todo: ^default should be now
     modified = fields.HiddenField('Modified')
-    # todo: ^populate on save
     slug = fields.StringField('Slug')
     # TODO: validate slug collision
     language = fields.SmartSelect2Field(
@@ -167,7 +164,6 @@ class BaseEditForm(BaseForm):
             "data-onstyle": 'success'
         }
     )
-    # todo: ^ published | draft
 
 
 class BaseFormat(object):
@@ -230,8 +226,8 @@ class MarkdownFormat(BaseFormat):
         rules.FieldSet(('title', 'summary')),
         rules.Field('content'),
         rules.FieldSet(('category', 'authors', 'tags')),
-        rules.FieldSet(('date', 'language')),
-        rules.FieldSet(('slug', 'content_type', 'content_format')),
+        rules.FieldSet(('date',)),
+        rules.FieldSet(('slug',)),
         rules.Field('published')
     ]
 

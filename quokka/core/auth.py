@@ -1,10 +1,9 @@
-# coding: utf-8
-
+import getpass
 from flask import current_app
 from quokka.admin.views import ModelView
 from quokka.admin.forms import Form, fields
 from werkzeug.security import check_password_hash, generate_password_hash
-from flask_simplelogin import SimpleLogin
+from flask_simplelogin import SimpleLogin, get_username
 
 
 def create_user(**data):
@@ -16,7 +15,8 @@ def create_user(**data):
         data.pop('password'),
         method='pbkdf2:sha256'
     )
-    current_app.db.users.insert_one(data)
+    # current_app.db.users.insert_one(data)
+    current_app.db.insert('users', data)
     return data
 
 
@@ -43,7 +43,8 @@ class UserView(ModelView):
 
 
 def validate_login(user):
-    db_user = current_app.db.users.find_one({"_id": user['username']})
+    # db_user = current_app.db.users.find_one({"_id": user['username']})
+    db_user = current_app.db.get('users', {"_id": user['username']})
     if not db_user:
         return False
     if check_password_hash(db_user['password'], user['password']):
@@ -64,3 +65,7 @@ def configure_user_admin(app):
             name='Users',
             category='Administration'
         )
+
+
+def get_current_user():
+    return get_username() or getpass.getuser()

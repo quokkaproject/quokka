@@ -4,6 +4,8 @@ import datetime as dt
 from flask import current_app
 from quokka.admin.forms import ValidationError
 from quokka.admin.views import ModelView
+from quokka.core.auth import get_current_user
+from quokka.utils.routing import get_content_url
 from quokka.utils.text import slugify
 
 from .formats import CreateForm, get_format
@@ -15,8 +17,8 @@ class ContentView(ModelView):
     details_modal = True
     can_view_details = True
     create_modal = True
-    can_export = True
-    export_types = ['csv', 'json', 'yaml', 'html', 'xls']
+    # can_export = True
+    # export_types = ['csv', 'json', 'yaml', 'html', 'xls']
 
     details_modal_template = 'admin/model/modals/details.html'
     # create_template = 'admin/model/create.html'
@@ -34,8 +36,8 @@ class ContentView(ModelView):
         'authors',
         'date',
         'modified',
-        'lang',
-        'status'
+        'language',
+        'published'
     )
 
     column_sortable_list = (
@@ -44,15 +46,26 @@ class ContentView(ModelView):
         'authors',
         'date',
         'modified',
-        'lang',
-        'status'
+        'language',
+        'published'
     )
     # column_default_sort = 'date'
 
     # TODO: implement scaffold_list_form in base class
     # column_editable_list = ['category', 'status', 'title']
 
-    column_details_list = ['content_format']
+    column_details_list = [
+        'title',
+        'category',
+        'slug',
+        'content_format',
+        'content_type',
+        'language',
+        'date',
+        'created_by',
+        'modified',
+        'modified_by'
+    ]
     # column_export_list = []
     # column_formatters_export
     # column_formatters = {fieldname: callable} - view, context, model, name
@@ -117,32 +130,34 @@ class ContentView(ModelView):
         return super(ContentView, self).get_save_return_url(model, is_created)
 
     def on_model_change(self, form, model, is_created):
-        # check if exists
-
-        existent = current_app.db.index.find_one(
-            {'title': model['title'], 'category': model['category']}
-        )
-
-        duplicate_error_message = u'{0} "{1}/{2}" {3}'.format(
-            'duplicate error:',
-            model['category'],
-            model['title'],
-            'already exists.'
-        )
+        # check if already exists a record with same slug & category
+        # TODO: if slug is not yet defined use title, else use slug
+        existent = current_app.db.get('index', {'title': model['title'],
+                                                'category': model['category']})
 
         if (is_created and existent) or (
                 existent and existent['_id'] != model['_id']):
-            raise ValidationError(duplicate_error_message)
+            raise ValidationError(f'{get_content_url(model)} already exists')
 
         if is_created:
             model['date'] = dt.datetime.now()
-            model['slug'] = slugify(model['title'])
+            model['created_by'] = get_current_user()
         else:
             model['modified'] = dt.datetime.now()
+            model['modified_by'] = get_current_user()
 
+        if not model.get('slug'):
+            model['slug'] = slugify(model['title'])
+
+        if not model.get('content_id'):
+            model['content_id'] = current_app.db.insert(
+                'contents',
+                {'content': model.pop('content', None)}
+            )
+
+        model.pop('csrf_token', None)
+        print(model)
         get_format(model).before_save(form, model, is_created)
 
     def after_model_change(self, form, model, is_created):
-        # TODO: Spawn async process for this.
-        # update tags, categories and authors
         get_format(model).after_save(form, model, is_created)

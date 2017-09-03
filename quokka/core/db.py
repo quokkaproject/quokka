@@ -71,6 +71,12 @@ class QuokkaDB(object):
         db_name = self.get_db_name(col_name)
         return self.connection[db_name][col_name]
 
+    def get_content_collection(self, content_id, page='page1'):
+        return self.connection[content_id][page]
+
+    def get_content_collection_mongo(self, content_id, page='page1'):
+        return self.get_collection('contents')
+
     @property
     def connection(self):
         if getattr(self, '_connection', None) is None:
@@ -136,3 +142,34 @@ class QuokkaDB(object):
         authors = self.value_set('index', 'authors', flat=True)
         values = list(set(users + authors))
         return sorted(values) if sort is True else values
+
+    def content_set(self, *args, **kwargs):
+        return self.index.find(*args, **kwargs)
+
+    def select(self, colname, *args, **kwargs):
+        return self.get_collection(colname).find(*args, **kwargs)
+
+    def count(self, colname, *args, **kwargs):
+        return self.get_collection(colname).find(*args, **kwargs).count()
+
+    def get(self, colname, *args, **kwargs):
+        return self.get_collection(colname).find_one(*args, **kwargs)
+
+    def insert(self, colname, *args, **kwargs):
+        return self.get_collection(colname).insert(*args, **kwargs)
+
+    def upsert_content(self, model):
+        """Insert or Update content related to model"""
+        model_content = model.pop('content', None)
+        if model_content is None:
+            # todo: check existing content and clean it
+            return
+
+        content = {
+          '_id': model['_id'],  # use the same model_id
+          'content_type': model['content_type'],
+          'content': model_content
+          # TODO: add more metadata
+        }
+        col = self.get_content_collection(model['_id'])
+        # versioning ...

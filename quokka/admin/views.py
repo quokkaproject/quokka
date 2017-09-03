@@ -89,7 +89,7 @@ class IndexView(RequiresLogin, ThemeMixin, AdminIndexView):
 
     @expose('/')
     def index(self):
-        contents = current_app.db.index.find()
+        contents = current_app.db.content_set(limit=8)
         return self.render('admin/index.html', contents=contents)
 
 
