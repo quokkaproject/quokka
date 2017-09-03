@@ -1,10 +1,12 @@
 import itertools
 from contextlib import suppress
+from copy import deepcopy
 
 from pymongo import MongoClient
 from tinydb_serialization import SerializationMiddleware
 from tinymongo import TinyMongoClient
 from tinymongo.serializers import DateTimeSerializer
+from tinymongo.tinymongo import generate_id
 
 
 class QuokkaTinyMongoClient(TinyMongoClient):
@@ -71,11 +73,11 @@ class QuokkaDB(object):
         db_name = self.get_db_name(col_name)
         return self.connection[db_name][col_name]
 
-    def get_content_collection(self, content_id, page='page1'):
-        return self.connection[content_id][page]
+    def get_content_collection(self, content_id):
+        return self.connection[content_id]['contents']
 
-    def get_content_collection_mongo(self, content_id, page='page1'):
-        return self.get_collection('contents')
+    def get_content_collection_mongo(self, content_id):
+        return self.connection[self.name]['contents']
 
     @property
     def connection(self):
@@ -115,6 +117,9 @@ class QuokkaDB(object):
             return super().__getattribute__(name)
 
     # [ <-- DB query helpers --> ]
+
+    def generate_id(self):
+        return generate_id()
 
     def value_set(self, colname, key, filter=None,
                   sort=True, flat=False, **kwargs):
@@ -158,18 +163,12 @@ class QuokkaDB(object):
     def insert(self, colname, *args, **kwargs):
         return self.get_collection(colname).insert(*args, **kwargs)
 
-    def upsert_content(self, model):
+    def push_content(self, model):
         """Insert or Update content related to model"""
-        model_content = model.pop('content', None)
-        if model_content is None:
-            # todo: check existing content and clean it
-            return
-
-        content = {
-          '_id': model['_id'],  # use the same model_id
-          'content_type': model['content_type'],
-          'content': model_content
-          # TODO: add more metadata
-        }
-        col = self.get_content_collection(model['_id'])
-        # versioning ...
+        model_to_save = deepcopy(model)
+        collection = self.get_content_collection(model['_id'])
+        new_version = model.get('version', 0) + 1
+        model['version'] = model_to_save['version'] = new_version
+        model_to_save['content_id'] = model_to_save.pop('_id')
+        collection.insert(model_to_save)
+        model.pop('content', None)

@@ -64,7 +64,8 @@ class ContentView(ModelView):
         'date',
         'created_by',
         'modified',
-        'modified_by'
+        'modified_by',
+        'version'
     ]
     # column_export_list = []
     # column_formatters_export
@@ -142,6 +143,8 @@ class ContentView(ModelView):
         if is_created:
             model['date'] = dt.datetime.now()
             model['created_by'] = get_current_user()
+            model['_id'] = current_app.db.generate_id()
+            model['version'] = 0
         else:
             model['modified'] = dt.datetime.now()
             model['modified_by'] = get_current_user()
@@ -149,14 +152,9 @@ class ContentView(ModelView):
         if not model.get('slug'):
             model['slug'] = slugify(model['title'])
 
-        if not model.get('content_id'):
-            model['content_id'] = current_app.db.insert(
-                'contents',
-                {'content': model.pop('content', None)}
-            )
-
         model.pop('csrf_token', None)
-        print(model)
+        current_app.db.push_content(model)
+
         get_format(model).before_save(form, model, is_created)
 
     def after_model_change(self, form, model, is_created):
