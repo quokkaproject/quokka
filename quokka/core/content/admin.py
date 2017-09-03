@@ -123,7 +123,9 @@ class ContentView(ModelView):
         content_format = get_format(obj)
         self.form_edit_rules = content_format.get_form_rules()
         self._refresh_form_rules_cache()
-        return content_format.get_edit_form(obj)
+        form = content_format.get_edit_form(obj)
+        form.content.data = current_app.db.pull_content(obj)
+        return form
 
     def get_save_return_url(self, model, is_created):
         if is_created:
@@ -153,7 +155,9 @@ class ContentView(ModelView):
             model['slug'] = slugify(model['title'])
 
         model.pop('csrf_token', None)
-        current_app.db.push_content(model)
+
+        if not is_created:
+            current_app.db.push_content(model)
 
         get_format(model).before_save(form, model, is_created)
 

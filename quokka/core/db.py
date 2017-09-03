@@ -165,10 +165,22 @@ class QuokkaDB(object):
 
     def push_content(self, model):
         """Insert or Update content related to model"""
+        # TODO: if no diff return
         model_to_save = deepcopy(model)
         collection = self.get_content_collection(model['_id'])
         new_version = model.get('version', 0) + 1
         model['version'] = model_to_save['version'] = new_version
         model_to_save['content_id'] = model_to_save.pop('_id')
+        print(model_to_save)
         collection.insert(model_to_save)
         model.pop('content', None)
+
+    def pull_content(self, model):
+        collection = self.get_content_collection(model['_id'])
+        record = collection.find_one({
+            'content_id': model['_id'],
+            'version': model['version']
+        })
+        print(model)
+        print(record)
+        return record['content'] if record else None
