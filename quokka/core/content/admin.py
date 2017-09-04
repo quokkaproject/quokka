@@ -124,8 +124,11 @@ class ContentView(ModelView):
         self.form_edit_rules = content_format.get_form_rules()
         self._refresh_form_rules_cache()
         form = content_format.get_edit_form(obj)
-        form.content.data = current_app.db.pull_content(obj)
         return form
+
+    def on_form_prefill(self, form, id):
+        """Fill edit form with versioned data"""
+        form.content.data = current_app.db.pull_content(id)
 
     def get_save_return_url(self, model, is_created):
         if is_created:
@@ -133,33 +136,38 @@ class ContentView(ModelView):
         return super(ContentView, self).get_save_return_url(model, is_created)
 
     def on_model_change(self, form, model, is_created):
-        # check if already exists a record with same slug & category
-        # TODO: if slug is not yet defined use title, else use slug
-        existent = current_app.db.get('index', {'title': model['title'],
+        get_format(model).before_save(form, model, is_created)
+
+        if not model.get('slug'):
+            model['slug'] = slugify(model['title'])
+
+        existent = current_app.db.get('index', {'slug': model['slug'],
                                                 'category': model['category']})
 
         if (is_created and existent) or (
                 existent and existent['_id'] != model['_id']):
             raise ValidationError(f'{get_content_url(model)} already exists')
 
-        if is_created:
-            model['date'] = dt.datetime.now()
-            model['created_by'] = get_current_user()
-            model['_id'] = current_app.db.generate_id()
-            model['version'] = 0
-        else:
-            model['modified'] = dt.datetime.now()
-            model['modified_by'] = get_current_user()
+        now = dt.datetime.now()
+        current_user = get_current_user()
 
-        if not model.get('slug'):
-            model['slug'] = slugify(model['title'])
+        if is_created:
+            model['date'] = now
+            model['created_by'] = current_user
+            model['_id'] = current_app.db.generate_id()
+            model['language'] = current_app.config.get(
+                'BABEL_DEFAULT_LOCALE', 'en'
+            )
+            model['published'] = False
+            model['modified'] = None
+            model['modified_by'] = None
+
+        model['modified'] = now
+        model['modified_by'] = current_user
 
         model.pop('csrf_token', None)
 
-        if not is_created:
-            current_app.db.push_content(model)
-
-        get_format(model).before_save(form, model, is_created)
+        current_app.db.push_content(model)
 
     def after_model_change(self, form, model, is_created):
         get_format(model).after_save(form, model, is_created)

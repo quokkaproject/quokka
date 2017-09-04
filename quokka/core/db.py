@@ -148,6 +148,9 @@ class QuokkaDB(object):
         values = list(set(users + authors))
         return sorted(values) if sort is True else values
 
+    def tag_set(self, sort=True):
+        return self.value_set('index', 'tags', flat=True, sort=sort)
+
     def content_set(self, *args, **kwargs):
         return self.index.find(*args, **kwargs)
 
@@ -165,22 +168,54 @@ class QuokkaDB(object):
 
     def push_content(self, model):
         """Insert or Update content related to model"""
-        # TODO: if no diff return
-        model_to_save = deepcopy(model)
         collection = self.get_content_collection(model['_id'])
-        new_version = model.get('version', 0) + 1
-        model['version'] = model_to_save['version'] = new_version
+        current_saved = collection.find_one({
+            'content_id': model['_id'],
+            'version': model.get('version', 0)
+        })
+
+        if is_equal(model, current_saved):
+            model.pop('content', None)
+            return
+
+        model_to_save = deepcopy(model)
+
+        if not current_saved:
+            version = 0
+        else:
+            version = model.get('version', 0) + 1
+
+        model['version'] = model_to_save['version'] = version
+
         model_to_save['content_id'] = model_to_save.pop('_id')
-        print(model_to_save)
         collection.insert(model_to_save)
         model.pop('content', None)
 
     def pull_content(self, model):
+        if not isinstance(model, dict):
+            model = self.get('index', {'_id': model})
+
+        if not model or model.get('version') == 0:
+            return
+
         collection = self.get_content_collection(model['_id'])
         record = collection.find_one({
             'content_id': model['_id'],
             'version': model['version']
         })
-        print(model)
-        print(record)
         return record['content'] if record else None
+
+
+def is_equal(model, other):
+    if not other:
+        return False
+
+    versioned_keys = [
+        'title', 'summary', 'tags', 'category', 'date',
+        'content', 'authors', 'slug', 'status', 'published'
+    ]
+    for key in versioned_keys:
+        if model.get(key) != other.get(key):
+            return False
+
+    return True

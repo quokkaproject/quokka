@@ -4,7 +4,7 @@ import json
 
 from flask import current_app
 from flask_admin.helpers import get_form_data
-from quokka.admin.forms import READ_ONLY, Form, fields, rules, validators
+from quokka.admin.forms import Form, fields, rules, validators
 from werkzeug.utils import import_string
 
 # Utils
@@ -86,6 +86,17 @@ def get_default_author():
     authors = current_app.config.get('AUTHORS')
     return authors[0] if authors else getpass.getuser()
 
+
+def get_tags_kw(field):
+    tags = current_app.db.tag_set(sort=False)
+    tags.extend(current_app.config.get('TAGS', []))
+    tags = sorted(list(set(tags)))
+    return {'data-tags': json.dumps(tags)}
+
+
+def get_default_language():
+    return current_app.config.get('BABEL_DEFAULT_LOCALE', 'en')
+
 # classes
 
 
@@ -135,14 +146,16 @@ class BaseEditForm(BaseForm):
     #     render_kw=READ_ONLY
     # )
 
-    tags = fields.Select2TagsField('Tags', save_as_list=True)
-    # todo: ^ provide settings.default_tags + db_query
+    tags = fields.Select2TagsField(
+        'Tags',
+        save_as_list=True,
+        render_kw=get_tags_kw
+    )
     date = fields.DateTimeField(
         'Date',
         [validators.required()],
         default=dt.datetime.now
     )
-    # todo: ^default should be now
     modified = fields.HiddenField('Modified')
     slug = fields.StringField('Slug')
     # TODO: validate slug collision
@@ -151,9 +164,10 @@ class BaseEditForm(BaseForm):
         choices=lambda: [
             (lng, lng)
             for lng in current_app.config.get('BABEL_LANGUAGES', ['en'])
-        ]
+        ],
+        default=get_default_language
     )
-    translations = fields.HiddenField('Translations')
+    # translations = fields.HiddenField('Translations')
     # todo: ^ create action 'add translation'
     published = fields.BooleanField(
         'Status',
@@ -169,7 +183,14 @@ class BaseEditForm(BaseForm):
 class BaseFormat(object):
     identifier = None
     edit_form = BaseEditForm
-    form_rules = None
+    form_rules = [
+        rules.FieldSet(('title', 'summary')),
+        rules.Field('content'),
+        rules.FieldSet(('category', 'authors', 'tags')),
+        rules.FieldSet(('date',)),
+        rules.FieldSet(('slug',)),
+        rules.Field('published')
+    ]
 
     def get_edit_form(self, obj):
         return self.edit_form(get_form_data(), **obj)
@@ -222,20 +243,3 @@ class MarkdownEditForm(BaseEditForm):
 
 class MarkdownFormat(BaseFormat):
     edit_form = MarkdownEditForm
-    form_rules = [
-        rules.FieldSet(('title', 'summary')),
-        rules.Field('content'),
-        rules.FieldSet(('category', 'authors', 'tags')),
-        rules.FieldSet(('date',)),
-        rules.FieldSet(('slug',)),
-        rules.Field('published')
-    ]
-
-    def before_save(self, form, model, is_created):
-        print('before save')
-
-    def after_save(self, form, model, is_created):
-        print('after save')
-
-    def extra_js(self):
-        return []

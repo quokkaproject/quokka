@@ -196,7 +196,7 @@ QUOKKA:
   ]
   ## this will be the default language on admin and front end
   ## admin language can also be user based
-  BABEL_DEFAULT_LOCALE: &default_locale pt
+  BABEL_DEFAULT_LOCALE: en
 
   ## Home page and categories lists all content on this languages no filter
   ## should be a list e.g: ['en'] to filter only english by default
@@ -228,7 +228,11 @@ QUOKKA:
   ## Force a default category instead of blank
   # DEFAULT_CATEGORY: general
 
-  ## Default author names to be listed
+  ## Default tags to be listes on edit form
+  # TAGS:
+  #   - foo
+
+  ## Default author names to be listed on edit form
   # AUTHORS:
   #   - jane Doe
 
