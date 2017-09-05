@@ -4,9 +4,27 @@
 {% block tail %}
     {{ super() }}
     <script>
-    // $(function() {
+    $(function() {
+        // TODO: Prevent the fucking select2 to submit on enter.
 
-    // });
+        // $('.form-group').on('keypress keydown keyup', function(e) {
+        //     if (e.which == 13) {
+        //         console.log('preventing form to submit with enter');
+        //         e.preventDefault();
+        //         return false;
+        //     }
+        // });
+
+        // $('input.select2-input').on('keyup', function(e) {
+        //     if(e.keyCode === 13) {
+        //         // alert('enter key event');
+        //         console.log('preventing form to submit with enter');
+        //         e.preventDefault();
+        //         e.stopImmediatePropagation();
+        //         return false;
+        //     }
+        // });
+    });
     </script>
     <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
     <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>

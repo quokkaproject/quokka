@@ -13,7 +13,6 @@ from .formats import CreateForm, get_format
 
 class ContentView(ModelView):
     """Base form for all contents"""
-    # TODO: move to base class and read from settings
     details_modal = True
     can_view_details = True
     create_modal = True
@@ -49,10 +48,10 @@ class ContentView(ModelView):
         'language',
         'published'
     )
-    # column_default_sort = 'date'
+    column_default_sort = ('date', True)
 
-    # TODO: implement scaffold_list_form in base class
-    # column_editable_list = ['category', 'status', 'title']
+    # TODO: implement scaffold_list_form in base class to enable below
+    # column_editable_list = ['category', 'published', 'title']
 
     column_details_list = [
         'title',
@@ -65,8 +64,10 @@ class ContentView(ModelView):
         'created_by',
         'modified',
         'modified_by',
-        'version'
+        'version',
+        '_isclone'
     ]
+
     # column_export_list = []
     # column_formatters_export
     # column_formatters = {fieldname: callable} - view, context, model, name
@@ -152,6 +153,7 @@ class ContentView(ModelView):
         current_user = get_current_user()
 
         if is_created:
+            # this defaults are also applied for cloning action
             model['date'] = now
             model['created_by'] = current_user
             model['_id'] = current_app.db.generate_id()

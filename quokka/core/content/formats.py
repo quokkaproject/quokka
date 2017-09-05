@@ -67,7 +67,8 @@ def get_category_kw(field):
     categories = current_app.db.value_set('index', 'category', sort=False)
     categories.extend(current_app.config.get('CATEGORIES', []))
     categories = sorted(list(set(categories)))
-    return {'data-tags': json.dumps(categories)}
+    return {'data-tags': json.dumps(categories),
+            'data-placeholder': 'One category or leave blank'}
 
 
 def get_default_category():
@@ -79,7 +80,9 @@ def get_authors_kw(field):
     authors.extend(current_app.config.get('AUTHORS', []))
     authors.append(getpass.getuser())
     authors = sorted(list(set(authors)))
-    return {'data-tags': json.dumps(authors)}
+    return {'data-tags': json.dumps(authors),
+            'data-placeholder':
+                'Enter one or more comma separated author names'}
 
 
 def get_default_author():
@@ -91,7 +94,8 @@ def get_tags_kw(field):
     tags = current_app.db.tag_set(sort=False)
     tags.extend(current_app.config.get('TAGS', []))
     tags = sorted(list(set(tags)))
-    return {'data-tags': json.dumps(tags)}
+    return {'data-tags': json.dumps(tags),
+            'data-placeholder': 'Comma separated tags'}
 
 
 def get_default_language():
@@ -102,14 +106,22 @@ def get_default_language():
 
 class BaseForm(Form):
 
-    title = fields.StringField('Title', [validators.required()])
+    title = fields.StringField(
+        'Title', [validators.required()],
+        description='TIP: `My Title` turns to`my-title.html` url'
+    )
     summary = fields.TextAreaField('Summary')
     category = fields.Select2TagsField(
         'Category',
         [validators.CallableValidator(validate_category)],
         save_as_list=False,
         render_kw=get_category_kw,
-        default=get_default_category
+        default=get_default_category,
+        description=(
+            'TIP: Leave blank and url will be `/my-title.html`<br>'
+            '`foo` url will be `/foo/my-title.html` <br>'
+            '`foo/bar` url will be `/foo/bar/my-title.html` <br>'
+        )
     )
     authors = fields.Select2TagsField(
         'Authors',
@@ -130,7 +142,9 @@ class CreateForm(BaseForm):
     content_format = fields.SmartSelect2Field(
         'Format',
         [validators.required()],
-        choices=get_content_format_choices
+        choices=get_content_format_choices,
+        # TODO: remove thsi `allow_blank` once select3 submit on enter is fix
+        allow_blank=True
     )
 
 

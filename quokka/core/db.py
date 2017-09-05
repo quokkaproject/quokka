@@ -195,7 +195,8 @@ class QuokkaDB(object):
         if not isinstance(model, dict):
             model = self.get('index', {'_id': model})
 
-        if not model or model.get('version') == 0:
+        if not model or (
+                model.get('version') == 0 and not model.get('_isclone')):
             return
 
         collection = self.get_content_collection(model['_id'])
@@ -204,6 +205,11 @@ class QuokkaDB(object):
             'version': model['version']
         })
         return record['content'] if record else None
+
+    def get_with_content(self, **kwargs):
+        model = self.get('index', kwargs)
+        model['content'] = self.pull_content(model)
+        return model
 
 
 def is_equal(model, other):

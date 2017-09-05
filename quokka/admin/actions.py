@@ -1,9 +1,9 @@
 
-import datetime
 import json
 import random
+from copy import deepcopy
 
-from flask import Response, flash, redirect, url_for
+from flask import Response, current_app, flash, redirect, url_for
 from flask_admin.actions import action
 
 
@@ -14,13 +14,19 @@ class PublishAction(object):
         'Publish/Unpublish?'
     )
     def action_toggle_publish(self, ids):
-        for i in ids:
-            instance = self.get_instance(i)
-            instance.published = not instance.published
-            instance.save()
-        count = len(ids)
+        for _id in ids:
+            model = current_app.db.get_with_content(_id=_id)
+            model['published'] = not model['published']
+            # fires the versioning and hooks
+            self._on_model_change(None, model, False)
+
+            pk = self.get_pk_value(model)
+            self.coll.update({'_id': pk}, model)
+
+            # more hooks
+            self.after_model_change(None, model, False)
         flash(
-            f'{count} items were successfully published/Unpublished.',
+            f'{len(ids)} items were successfully published/Unpublished.',
             'success'
         )
 
@@ -39,17 +45,18 @@ class CloneAction(object):
             )
             return
 
-        instance = self.get_instance(ids[0])
-        new = instance.from_json(instance.to_json())
-        new.id = None
-        new.published = False
-        new.last_updated_by = None  # User.objects.get(id=current_user.id)
-        new.updated_at = datetime.datetime.now()
-        new.slug = "{0}-{1}".format(new.slug, random.getrandbits(32))
-        new.save()
-        return redirect(url_for('.edit_view', id=new.id))
+        model = current_app.db.get_with_content(_id=ids[0])
+        clone = deepcopy(model)
+        del clone['_id']
+        clone['slug'] = f'{clone["slug"]}-{random.getrandbits(32)}'
+        clone['_isclone'] = True
+        self._on_model_change(None, clone, True)
+        self.coll.insert(clone)
+        self.after_model_change(None, clone, True)
+        return redirect(url_for('.edit_view', id=clone['_id']))
 
 
+# TODO: Serialize and activate thia action
 class ExportAction(object):
     @action('export_to_json', 'Export as json')
     def export_to_json(self, ids):

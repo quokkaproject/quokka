@@ -89,7 +89,7 @@ class IndexView(RequiresLogin, ThemeMixin, AdminIndexView):
 
     @expose('/')
     def index(self):
-        contents = current_app.db.content_set(limit=8)
+        contents = current_app.db.content_set(limit=8, sort={'date': -1})
         return self.render('admin/index.html', contents=contents)
 
 
