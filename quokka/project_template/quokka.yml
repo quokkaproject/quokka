@@ -147,22 +147,32 @@ QUOKKA:
     name: My website
     url: /admin
 
+  ## Custom message or html to include on admin top
   ADMIN_HEADER: |
       <h3> Welcome to Quokka CMS admin</h3>
+
+  ## Message to display on admin panel footer
+  # ADMIN_FOOTER:
+  #   left: "Powered by: Quokka CMS"
+  #   right: <a href="http://www.quokkaproject.org" target="_blank">quokkaproject.org</a>
+
+  ## How many contents to show in admin list
+  ADMIN_INDEX_CONTENT_LIMIT: 8
+
+  ## Sort admin index content by
+  ADMIN_INDEX_CONTENT_SORT:
+  #   - ['column', asc|-desc]
+      - ['date', -1]
 
   ## Swatch options in https://bootswatch.com/
   ## spacelab | paper | cerulean | united | more...
   FLASK_ADMIN_SWATCH: paper
   FLASK_ADMIN_TEMPLATE_MODE: bootstrap3
 
+  ## icons to add to top admin panel
   ADMIN_ICONS: [
       ['quokka.core.content.admin.contentview.create_view', 'glyphicon-file', 'New<br>content'],
       ['quokka.core.content.admin.contentview.index_view', 'glyphicon-list', 'All<br>content'],
-      # ['config.index_view', 'cog', 'Config'],
-      # ['quokka.core.auth.usersview.index_view', 'user', 'Users'],
-      # ['image.index_view', 'picture', 'Images'],
-      # ['image.create_view', 'arrow-up', 'Upload'],
-      # ['channel.index_view', 'th-list', 'Channels']
   ]
 
   # DEFAULT_EDITABLE_EXTENSIONS: &extensions [

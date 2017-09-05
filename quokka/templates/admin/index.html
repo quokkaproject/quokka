@@ -73,8 +73,8 @@
                         </div>
                     </div>
                     <div class="panel-footer">
-                        <div class="pull-left">Powered by: Quokka CMS 🐹</div>
-                        <div class="pull-right"><a href="http://www.quokkaproject.org" target="_blank">quokkaproject.org</a></div>
+                        <div class="pull-left">{{config.get('ADMIN_FOOTER', {'left': 'Powered by: Quokka CMS 🐹'}).get('left')|safe}}</div>
+                        <div class="pull-right">{{config.get('ADMIN_FOOTER', {'right': '<a href="http://www.quokkaproject.org" target="_blank">quokkaproject.org</a>'}).get('right')|safe}}</div>
                         <div class="clearfix"></div>
                     </div>
 
