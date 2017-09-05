@@ -245,6 +245,15 @@ Then when running `quokka` again it will try to connect to that Mongo Server.
 
 With that you can deploy your site on `wsgi` server or can also generate `static` website.
 
+### Running mongo in a Docker container
+
+```bash
+cd your_quokka_project_folder
+docker run -d -v $PWD/databases:/data/db -p 27017:27017 mongo
+# wait some seconds until mongo is started
+quokka runserver
+```
+
 ## Contributing to Quokka CMS Development
 
 Do you want to be part of this open-source project?

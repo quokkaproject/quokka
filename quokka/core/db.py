@@ -23,8 +23,6 @@ class QuokkaDB(object):
     config = {}
     system = 'tinydb'
     folder = 'databases'
-    username = None
-    password = None
     host = 'localhost'
     port = 27017
     name = 'quokka_db'
@@ -87,9 +85,7 @@ class QuokkaDB(object):
             elif self.system == 'mongo':
                 self._connection = MongoClient(
                     host=self.host,
-                    port=self.port,
-                    username=self.username,
-                    password=self.password
+                    port=self.port
                 )
         return self._connection
 

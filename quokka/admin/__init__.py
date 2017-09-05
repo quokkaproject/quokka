@@ -26,7 +26,7 @@ class QuokkaAdmin(Admin):
                     (view.__module__, view.__name__, model.tablename)
                 )
             else:
-                identifier = '.'.join((model.__module__, model.__name__))
+                identifier = '.'.join((model.__module__, model.name))
 
             if identifier not in self.registered:
                 self.add_view(_view(model, *args, **kwargs))

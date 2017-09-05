@@ -129,9 +129,8 @@ QUOKKA:
 
     ## Mongo
     # system: mongo
-    # username: admin
-    # password: secret
-    # host: myhost.com
+    ## If auth enabled pass user/pass in the db host URI mongo:// ...
+    # host: localhost
     # port: 27017
 
     ## Database name
@@ -148,14 +147,17 @@ QUOKKA:
     name: My website
     url: /admin
 
+  ADMIN_HEADER: |
+      <h3> Welcome to Quokka CMS admin</h3>
+
   ## Swatch options in https://bootswatch.com/
   ## spacelab | paper | cerulean | united | more...
   FLASK_ADMIN_SWATCH: paper
   FLASK_ADMIN_TEMPLATE_MODE: bootstrap3
 
   ADMIN_ICONS: [
-      ['quokka.core.content.admin.contentview.create_view', 'pencil', 'Write'],
-      ['quokka.core.content.admin.contentview.index_view', 'th-list', 'Posts'],
+      ['quokka.core.content.admin.contentview.create_view', 'glyphicon-file', 'New<br>content'],
+      ['quokka.core.content.admin.contentview.index_view', 'glyphicon-list', 'All<br>content'],
       # ['config.index_view', 'cog', 'Config'],
       # ['quokka.core.auth.usersview.index_view', 'user', 'Users'],
       # ['image.index_view', 'picture', 'Images'],
