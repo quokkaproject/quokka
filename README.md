@@ -47,9 +47,27 @@ pip install quokka
 ### Start a project
 
 ```bash
-quokka init mywebsite
-Generating new quokka project in ./mywebsite folder
+
+$ quokka init NewWebsite --theme=flex --modules=gitpages,heroku
+...
 ```
+
+```bash
+🐹 Quokka project created 🐹
+📝 Name: NewWebsite
+📁 Location: /tmp/newwebsite
+📚 Template: default
+🎨 Themes: flex theme installed
+🚚 Modules: [gitpages, heroku] installed
+🔧 Config: Config file written in /tmp/newwebsite/quokka.yml
+➡ Go to /tmp/newwebsite
+⚙ run `quokka runserver` to start!
+📄 Check the documentation on http://quokkaproject.org
+🐹 Happy Quokka! 🐹
+```
+
+> YES! it outputs emojis 🐹
+
 
 The above command will generate your project in `myproject` folder as:
 

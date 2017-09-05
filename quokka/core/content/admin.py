@@ -65,7 +65,12 @@ class ContentView(ModelView):
         'modified',
         'modified_by',
         'version',
-        '_isclone'
+        '_isclone',
+        'quokka_module',
+        'quokka_format_module',
+        'quokka_format_class',
+        'quokka_create_form_module',
+        'quokka_create_form_class'
     ]
 
     # column_export_list = []
@@ -137,6 +142,11 @@ class ContentView(ModelView):
         return super(ContentView, self).get_save_return_url(model, is_created)
 
     def on_model_change(self, form, model, is_created):
+
+        if is_created:
+            # each custom module should be identified by admin and format class
+            self.add_module_metadata(model)
+
         get_format(model).before_save(form, model, is_created)
 
         if not model.get('slug'):
@@ -173,3 +183,12 @@ class ContentView(ModelView):
 
     def after_model_change(self, form, model, is_created):
         get_format(model).after_save(form, model, is_created)
+
+    def add_module_metadata(self, model):
+        quokka_format = get_format(model)
+        form = getattr(self.__class__, 'form', self.get_form())
+        model['quokka_module'] = self.__module__
+        model['quokka_format_module'] = quokka_format.__module__
+        model['quokka_format_class'] = quokka_format.__class__.__name__
+        model['quokka_create_form_module'] = form.__module__
+        model['quokka_create_form_class'] = form.__class__.__name__
