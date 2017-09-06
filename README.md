@@ -237,8 +237,6 @@ quokka:
     name: my_database
     host: 127.0.0.1
     port: 2600
-    username: xxxx
-    password: xxxx
 ```
 
 Then when running `quokka` again it will try to connect to that Mongo Server.

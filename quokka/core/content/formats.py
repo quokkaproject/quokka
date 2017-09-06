@@ -143,7 +143,7 @@ class CreateForm(BaseForm):
         'Format',
         [validators.required()],
         choices=get_content_format_choices,
-        # TODO: remove thsi `allow_blank` once select3 submit on enter is fix
+        # TODO: remove this `allow_blank` once select2 submit on enter is fix
         allow_blank=True
     )
 

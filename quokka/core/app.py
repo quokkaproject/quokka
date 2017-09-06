@@ -27,7 +27,9 @@ class QuokkaApp(Flask):
     @property
     def admin(self):
         ext = self.extensions['admin']
-        return ext[0] if isinstance(ext, list) else ext
+        adm = ext[0] if isinstance(ext, list) else ext
+        adm.app = self  # cross reference
+        return adm
 
 
 class QuokkaModule(Blueprint):

@@ -104,9 +104,9 @@ QUOKKA:
   AUTO_LOAD_EXTENSIONS: true
 
   ## Usually the CONTENT_FORMATS have not to be changed
-  ## some extension may register a new CONTENT_FORMAT diynamically
+  ## some extension may register a new CONTENT_FORMAT dynamically
   ## however it is possible to customize the class and messages here
-  DEFAULT_CONTENT_FORMAT: markdown
+  CONTENT_FORMAT_DEFAULT: markdown
   CONTENT_FORMATS:
     markdown:
       choice_text: Markdown
@@ -170,10 +170,10 @@ QUOKKA:
   FLASK_ADMIN_TEMPLATE_MODE: bootstrap3
 
   ## icons to add to top admin panel
-  ADMIN_ICONS: [
-      ['quokka.core.content.admin.contentview.create_view', 'glyphicon-file', 'New<br>content'],
-      ['quokka.core.content.admin.contentview.index_view', 'glyphicon-list', 'All<br>content'],
-  ]
+  ## Normally added by modules using app.admin.add_icon
+  # ADMIN_ICONS: [
+  #     ['full_endpoint', 'glyphicon-<iconname>', 'Text<br>Here'],
+  # ]
 
   # DEFAULT_EDITABLE_EXTENSIONS: &extensions [
   #   'html', 'css', 'js', 'py', 'txt', 'md', 'cfg', 'coffee', 'html', 'json',

@@ -32,6 +32,15 @@ class QuokkaAdmin(Admin):
                 self.add_view(_view(model, *args, **kwargs))
                 self.registered.append(identifier)
 
+    def add_icon(self, endpoint, icon, text):
+        self.app.config.setdefault('ADMIN_ICONS', []).append(
+            [endpoint, icon, text]
+        )
+
+    def add_content_format():
+        # TODO: load cutsom content formats and types
+        raise NotImplementedError()
+
 
 def create_admin(app=None):
     """Admin factory"""
