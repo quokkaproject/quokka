@@ -1,6 +1,7 @@
 # coding: utf-8
 
 # import datetime
+from flask import Markup
 from dynaconf.loaders import yaml_loader
 
 
@@ -14,12 +15,17 @@ def configure(app):
             'DEFAULT_LANG': app.config.get('BABEL_DEFAULT_LOCALE'),
             'default_locale': app.config.get('BABEL_DEFAULT_LOCALE'),
             'PAGES': [],
+            'pages': [],
+            'articles': [],
             'categories': [],
+            # https://github.com/getpelican/pelican-plugins/tree/master/tag_cloud
+            'tag_cloud': [],
             'JINJA_EXTENSIONS': app.jinja_env.extensions,
             'USE_LESS': False,
             'SITEURL': 'http://localhost:5000',
             'THEME_STATIC_DIR': 'theme',
-            '_': lambda x: x
+            'FAVICON': 'favicon.ico',
+            'AVATAR': 'LOAD FROM UPLOADS'
         }
 
         yaml_loader.load(
@@ -34,6 +40,10 @@ def configure(app):
             filename=app.config.get('SETTINGS_MODULE')
         )
 
+        if 'SHARIFF_SERVICES' in context:
+            context['SHARIFF_SERVICES'] = Markup(context['SHARIFF_SERVICES'])
+
+        # TODO: LOAD PELICAN CONF FROM MODEL
         # with app.config.using_namespace('pelican'):
 
         #     pelican = {

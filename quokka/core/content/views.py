@@ -1,6 +1,6 @@
-from flask import render_template, current_app
+from flask import current_app, render_template
 from flask.views import MethodView
-from .models import make_model, Category
+from .models import make_model
 
 
 class DetailView(MethodView):
@@ -11,5 +11,7 @@ class DetailView(MethodView):
         return render_template(
             'article.html',
             article=article,
-            category=Category(article.category)
+            category=article.category,
+            author=article.author,
+            tags=article.tags,
         )

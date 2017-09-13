@@ -1,7 +1,7 @@
 import datetime as dt
 import getpass
 import json
-from flask_mistune import markdown
+from .parsers import markdown
 from flask import current_app, Markup
 from flask_admin.helpers import get_form_data
 from quokka.admin.forms import Form, fields, rules, validators
@@ -62,6 +62,10 @@ def validate_category(form, field):
         items = field.data.split(',')
         if len(items) > 1:
             return 'You can select only one category'
+        for item in items:
+            for denied in 'tag category author user feed admin adm'.split():
+                if item.startswith(denied):
+                    return f'You cannot use `{denied}` as a category name'
 
 
 def get_category_kw(field):
@@ -275,4 +279,4 @@ class MarkdownFormat(BaseFormat):
 
     def render_content(self, obj):
         content = super().render_content(obj)
-        return markdown(content)
+        return Markup(markdown(content))

@@ -35,6 +35,36 @@ class Orderable:
         return six.text_type(slugify(key))
 
 
+class Series(Orderable):
+    def __init__(self, name, index=1):
+        self.name = self.slug = name
+        self._index = index
+
+    @property
+    def index(self):
+        return self._index
+
+    @property
+    def next(self):
+        return []
+
+    @property
+    def previous(self):
+        return []
+
+    @property
+    def all(self):
+        return []
+
+    @property
+    def all_previous(self):
+        return []
+
+    @property
+    def all_next(self):
+        return []
+
+
 class Category:
     def __init__(self, category):
         self.category = self.slug = category
@@ -58,7 +88,9 @@ class Author:
     @property
     def url(self):
         # TODO: implement
-        return f'/authors/{self.authors}'
+        # if multiple generate authors/post_lug
+        # if single generate author/authorslug
+        return f'author/{slugify(self.authors[0])}'
 
     def __str__(self):
         return self.name
@@ -71,7 +103,7 @@ class Tag(Orderable):
     @property
     def url(self):
         # TODO: implement
-        return f'/tags/{self.name}/'
+        return f'tag/{self.name}.html'
 
     def __str__(self):
         return self.name
@@ -88,19 +120,21 @@ class Content:
 
     @property
     def locale_date(self):
+        # TODO: format according to settings
         return self.data['date']
 
     @property
     def metadata(self):
         # TODO: get metadata from database
+        # TODO: implement libratar/gravatar
         return {
-           'cover': 'foo',
+           # 'cover': 'foo',
            'author_gravatar': 'http://i.pravatar.cc/300',
-           'about_author': 'About Author',
-           'translations': ['en'],
-           'og_image': 'foo',
-           'series': 'aa',
-           'asides': 'aaa'
+           # 'about_author': 'About Author',
+           # 'translations': ['en'],
+           # 'og_image': 'foo',
+           # 'series': 'aa',
+           # 'asides': 'aaa'
         }
 
     @property
@@ -113,7 +147,13 @@ class Content:
 
     @property
     def related_posts(self):
+        # TODO: depends on CONTENT_ADD_RELATED_POSTS
         return []
+
+    @property
+    def series(self):
+        # https://github.com/getpelican/pelican-plugins/tree/master/series
+        return Series('foo')
 
     @property
     def content(self):
@@ -136,7 +176,7 @@ class Content:
         return [self.summary]
 
     def __getattr__(self, attr):
-        return self.metadata.get(attr) or self.data.get(attr)
+        return self.metadata.get(attr) or self.data.get(attr, '')
 
 
 class Article(Content):
