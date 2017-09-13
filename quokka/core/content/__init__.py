@@ -1,4 +1,9 @@
+from flask import url_for
+from quokka.core.app import QuokkaModule
 from .admin import ContentView
+from .views import DetailView
+from .models import Content
+from .utils import url_for_content, strftime
 
 
 def configure(app):
@@ -29,5 +34,25 @@ def configure(app):
 
     # Register content formats
 
-    # should return an identifier string
-    return 'content'
+    # create new Quokka Module with its views
+    module = QuokkaModule(__name__)
+    content_extension = app.config.get("CONTENT_EXTENSION", "html")
+    module.add_url_rule('/<path:slug>.{0}'.format(content_extension),
+                        view_func=DetailView.as_view('detail'))
+
+    module.add_url_rule('/<path:slug>.preview',
+                        view_func=DetailView.as_view('preview'))
+
+    # add template globals to app
+    app.add_template_global(url_for_content)
+    app.add_template_filter(strftime)
+
+    # add context processors
+    @module.context_processor
+    def theme_context():
+        return {
+            'FOO': 'BAR'
+        }
+
+    # register the module
+    app.register_module(module)

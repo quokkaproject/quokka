@@ -69,10 +69,12 @@ QUOKKA:
     - quokka.core.error_handlers.configure
     - quokka.core.monitoring.configure
     - quokka.core.themes.configure
+    - quokka.core.context_processors.configure
     - quokka.core.content.configure
     - quokka.admin.configure_file_admin
     - quokka.admin.configure_extra_views
     - quokka.core.auth.configure_user_admin
+    - quokka.core.views.configure
 
   ## The EXTRA_EXTENSIONS are for loading installed modules
   ## Extensions here can be import path to any callable or class
@@ -219,15 +221,18 @@ QUOKKA:
 
   ## [ --- FRONT END --- ]
   ## The folder where themes are located
-  THEME_PATHS: themes
+  THEME_FOLDER: themes
   ## Name of one of the themes/folders
-  DEFAULT_THEME: Flex
+  THEME_ACTIVE: pure
   ## https://github.com/alexandrevicenzi/Flex
   ## https://github.com/alexandrevicenzi/Flex/wiki/Custom-Settings
   ## http://www.pelicanthemes.com/
   ## $ quokka themes install theme-name
   ## $ quokka themes activate theme-name
   ## http://docs.getpelican.com/en/latest/themes.html
+
+  ## Media root folder (to store uploaded files)
+  MEDIA_ROOT: uploads
 
   ## content urls will end with .html
   CONTENT_EXTENSION: html
@@ -273,6 +278,24 @@ QUOKKA:
   LOGGER_FORMAT: '%(asctime)s %(name)-12s %(levelname)-8s %(message)s'
   LOGGER_DATE_FORMAT: '%d.%m %H:%M:%S'
 
+
+## NOTE: this is first level vars
+## [< --- Pelican Themes Variable binding --->]
+## Global Static variables to bound to pelican themes
+PELICAN:
+    PYGMENTS_STYLE: default
+    CSS_FILE: main.css
+
+## Theme specific variables named pelican_<themename>
+PELICAN_FLEX:
+    PYGMENTS_STYLE: default
+
+PELICAN_BOOTSTRAP3:
+    PYGMENTS_STYLE: github
+
+PELICAN_BLUEIDEA:
+    PYGMENTS_STYLE: github
+    CSS_FILE: wide.css
 
 ## [< --- MANAGE SHELL --->]
 ## The following sections controls how `quokka` command line works

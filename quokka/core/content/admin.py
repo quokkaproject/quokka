@@ -19,11 +19,11 @@ class ContentView(ModelView):
     # can_export = True
     # export_types = ['csv', 'json', 'yaml', 'html', 'xls']
 
-    details_modal_template = 'admin/model/modals/details.html'
+    # details_modal_template = 'admin/model/modals/details.html'
     # create_template = 'admin/model/create.html'
 
-    edit_template = 'admin/quokka/edit.html'
-    # TODO: ^get edit_template from content_type
+    # edit_template = 'admin/quokka/edit.html'
+    # EDIT template is taken from content_format
 
     page_size = 20
     can_set_page_size = True
@@ -77,7 +77,7 @@ class ContentView(ModelView):
     # column_formatters_export
     # column_formatters = {fieldname: callable} - view, context, model, name
 
-    column_extra_row_actions = None
+    # column_extra_row_actions = None
     """
         List of row actions (instances of :class:`~flask_admin.model.template.
         BaseListRowAction`).
@@ -127,6 +127,9 @@ class ContentView(ModelView):
 
     def edit_form(self, obj):
         content_format = get_format(obj)
+        self.edit_template = content_format.get_edit_template(
+            obj
+        ) or self.edit_template
         self.form_edit_rules = content_format.get_form_rules()
         self._refresh_form_rules_cache()
         form = content_format.get_edit_form(obj)

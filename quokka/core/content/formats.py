@@ -1,11 +1,12 @@
 import datetime as dt
 import getpass
 import json
-
-from flask import current_app
+from flask_mistune import markdown
+from flask import current_app, Markup
 from flask_admin.helpers import get_form_data
 from quokka.admin.forms import Form, fields, rules, validators
 from werkzeug.utils import import_string
+
 
 # Utils
 
@@ -172,7 +173,6 @@ class BaseEditForm(BaseForm):
     )
     modified = fields.HiddenField('Modified')
     slug = fields.StringField('Slug')
-    # TODO: validate slug collision
     language = fields.SmartSelect2Field(
         'Language',
         choices=lambda: [
@@ -209,6 +209,9 @@ class BaseFormat(object):
     def get_edit_form(self, obj):
         return self.edit_form(get_form_data(), **obj)
 
+    def get_edit_template(self, obj):
+        return 'admin/quokka/edit.html'
+
     def get_identifier(self):
         return self.identifier or self.__class__.__name__
 
@@ -230,6 +233,18 @@ class BaseFormat(object):
 
     def extra_js(self):
         return []
+
+    def render_content(self, obj):
+
+        if not isinstance(obj, dict):
+            content = obj.data
+        else:
+            content = obj
+
+        if 'content' not in content:
+            content = current_app.db.get_with_content(_id=content['_id'])
+
+        return content['content']
 
 
 # Customs
@@ -257,3 +272,7 @@ class MarkdownEditForm(BaseEditForm):
 
 class MarkdownFormat(BaseFormat):
     edit_form = MarkdownEditForm
+
+    def render_content(self, obj):
+        content = super().render_content(obj)
+        return markdown(content)

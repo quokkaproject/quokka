@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from flask import current_app, session
-from quokka_themes import render_theme_template
+from .themes import render_theme_template
 
 
 def render_template(template, theme=None, **context):
