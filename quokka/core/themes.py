@@ -36,6 +36,8 @@ class QuokkaTemplateLoader(jinja2.FileSystemLoader):
         ).replace(
             'getpelican.com', 'quokkaproject.org'
         ).replace(
+            '>pelican-', '>theme-'
+        ).replace(
             '>Pelican', '>Quokka CMS'
         ).replace(
             '>pelican', '>Quokka CMS'

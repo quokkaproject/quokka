@@ -19,6 +19,8 @@ from .utils.project import cookiecutter, fetch_modules, fetch_theme
 CWD = Path.cwd()
 QUOKKA_ROOT_FOLDER = Path(sys.modules['quokka'].__file__).parent
 
+# TODO: https://github.com/ryukinix/decorating
+
 
 def with_app(f):
     """Calls function passing app as first argument"""

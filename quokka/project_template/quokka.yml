@@ -1,9 +1,13 @@
-## This is the default `settings.yml` for your Quokka Project
+## ▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬ஜ۩۞۩ஜ▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬
+## ▓▓▓▒▒▒░░░                  QUOKKA CMS CONFIG FILE                 ░░░▒▒▒▓▓▓
+## ▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬ஜ۩۞۩ஜ▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬
+
+## This is the default `quokka.yml` for your Quokka Project
 ##
 ## The first level keys are config namespaces by default namespaces
-## `DEV:` and `QUOKKA:` are defined.
+## `DEV:` and `QUOKKA:` and `THEME*` are defined.
 ##
-## The `DEV:` are loaded only when `quokka` is called with --envmode=dev
+## The `DEV:` is loaded only when `quokka` is called with --envmode=dev
 ## it is also possible to define it via environment variable
 ## ex:  `export QUOKKA_ENVMODE=dev`
 ##
@@ -12,9 +16,140 @@
 ## exporting your settings keys as env vars prefixed with `QUOKKA_`
 ## ex: `export QUOKKA_SECRET_KEY="secret-here"
 
-## Namespaces
+## ▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬ஜ۩۞۩ஜ▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬
+## ▓▓▓▒▒▒░░░                     THEME VARIABLES                     ░░░▒▒▒▓▓▓
+## ▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬ஜ۩۞۩ஜ▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬
 
-## Dev settings override production settings
+## Location of themes
+## dont remove the &theme_folder alias
+THEME_FOLDER: &theme_folder themes
+
+## Active theme
+## pure, eevee, hyde, nest, octopress, bootstrap3, clean, Flex
+## dont remove `&theme_active` alias
+## TIP: `export QUOKKA_THEME_ACTIVE=bootstrap3` also works!
+THEME_ACTIVE: &theme_active bootstrap3
+
+## [< --- Pelican Themes Variable binding --->]
+## Global Static variables to bound to pelican themes
+## TIP: `export QUOKKA_THEME_SITENAME=FooBar` also works
+THEME:
+    ## http://pygments.org/demo/6640643/
+    PYGMENTS_STYLE: default
+    CSS_FILE: main.css
+    SITENAME: Quokka Site
+    TAGLINE: Hi This is a new quokka site
+    SITEDESCRIPTION: My new Quokka Site
+    SITETITLE: The site title
+    SITESUBTITLE: The site subtitle
+    # GOOGLE_ANALYTICS: 'code-here'
+    # GAUGES: 'code-here'
+    # PIWIK_URL: 'url-here'
+    # PIWIK_SSL_URL: 'url-here'
+    # PIWIK_SITE_ID: 'code-here'
+    DISQUS_SITENAME: quokkaproject
+    AUTHOR: Bruno Rocha
+    DISPLAY_PAGES_ON_MENU: true
+    DISPLAY_CATEGORIES_ON_MENU: true
+    # ARCHIVES_URL:
+    # MAIN_MENU: false
+    MENUITEMS: [['a', 'a']]
+    LINKS: [['a', 'a']]
+    SOCIAL:
+      - ['twitter', 'http://twitter.com/rochacbruno']
+      - ['linkedin', 'http://twitter.com/rochacbruno']
+      - ['github', 'http://twitter.com/rochacbruno']
+      - ['stackoverflow', 'http://twitter.com/rochacbruno']
+
+
+## ▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬ஜ۩۞۩ஜ▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬
+## ▓▓▓▒▒▒░░░                 THEME SPECIFIC VARIABLES                ░░░▒▒▒▓▓▓
+## ▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬ஜ۩۞۩ஜ▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬
+
+## Theme specific variables named THEME_<THEMENAME>
+## If you change to i.e: THEME_ACTIVE=eeve create a section called
+## THEME_EEVEE:
+
+## use dynaconf casting to export non string env vars e.g:
+## `export QUOKKA_THEME_BOOTSTRAP3_BOOTSTRAP_FLUID='@bool true'`
+## you can use @bool @int @float @json - see dynaconf docs
+
+THEME_BOOTSTRAP3:
+    ## See themes/bootstrap3/README.md for details
+    BOOTSTRAP_THEME: paper
+    TYPOGRIFY: true
+    DOCUTIL_CSS: true
+    USE_OPEN_GRAPH: true
+    TAG_CLOUD_MAX_ITEMS: 100
+    SHOW_SERIES: true
+    # SERIES_TEXT: 'Part %(index)s of the %(name)s series'
+    DISPLAY_SERIES_ON_SIDEBAR: true
+    SHOW_ARTICLE_AUTHOR: true
+    SHOW_ARTICLE_CATEGORY: true
+    SHOW_DATE_MODIFIED: true
+    # CUSTOM_CSS: 'path/to/css'
+    # GOOGLE_ANALYTICS_UNIVERSAL: 'code-here'
+    # GOOGLE_ANALYTICS_UNIVERSAL_PROPERTY: 'code-here'
+    USE_PAGER: false
+    BOOTSTRAP_FLUID: false
+    # SITELOGO: 'path/to/logo'
+    # SITELOGO_SIZE: 200
+    # HIDE_SITENAME: true
+    DISPLAY_BREADCRUMBS: true
+    DISPLAY_CATEGORY_IN_BREADCRUMBS: true
+    BOOTSTRAP_NAVBAR_INVERSE: false
+    DISPLAY_ARTICLE_INFO_ON_INDEX: true
+    ABOUT_ME: foo
+    AVATAR: //i.pravatar.cc/300
+    BANNER: ///lorempixel.com/1000/200/abstract/
+    BANNER_SUBTITLE: Hello World
+    BANNER_ALL_PAGES: true
+    DISPLAY_TAGS_ON_SIDEBAR: true
+    DISPLAY_CATEGORIES_ON_SIDEBAR: true
+    DISPLAY_RECENT_POSTS_ON_SIDEBAR: true
+    RECENT_POST_COUNT: 5
+    DISPLAY_ARCHIVE_ON_SIDEBAR: true
+    DISPLAY_AUTHORS_ON_SIDEBAR: true
+    HIDE_SIDEBAR: false
+    SIDEBAR_ON_LEFT: false
+    DISABLE_SIDEBAR_TITLE_ICONS: true
+    DISQUS_NO_ID: true
+    DISQUS_ID_PREFIX_SLUG: true
+    DISQUS_DISPLAY_COUNTS: true
+    ## CC-BY CC-BY-SA CC-BY-ND CC-BY-NC CC-BY-NC-SA CC-BY-NC-ND
+    # CC_LICENSE: CC-BY-NC-SA
+    # CUSTOM_LICENSE: 'Unless otherwise stated, all articles are published under the <a href="http://www.wtfpl.net/about/">WTFPL</a> license.'
+    GITHUB_USER: rochacbruno
+    # GITHUB_REPO_COUNT: true  # this may take time
+    GITHUB_SKIP_FORK: true
+    GITHUB_SHOW_USER_LINK: true
+    USE_OPEN_GRAPH: true
+    OPEN_GRAPH_FB_APP_ID: 123456
+    OPEN_GRAPH_IMAGE: ///lorempixel.com/200/200/abstract
+    TWITTER_USERNAME: rochacbruno
+    TWITTER_WIDGET_ID: 12324
+    # ADDTHIS_PROFILE: 1234
+    # ADDTHIS_DATA_TRACK_ADDRESSBAR: true
+    # ADDTHIS_FACEBOOK_LIKE: true
+    # ADDTHIS_TWEET: true
+    # ADDTHIS_GOOGLE_PLUSONE: true
+    SHARIFF: true
+    SHARIFF_THEME: white
+    SHARIFF_LANG: en
+    SHARIFF_ORIENTATION: horizontal
+    SHARIFF_TWITTER_VIA: true
+    SHARIFF_SERVICES: "[&quot;facebook&quot;,&quot;twitter&quot;,&quot;googleplus&quot;,&quot;pinterest&quot;,&quot;whatsapp&quot;,&quot;addthis&quot;]"
+    SIDEBAR_IMAGES_HEADER: 'My Images'
+    SIDEBAR_IMAGES: ["///lorempixel.com/200/200/abstract", "///lorempixel.com/200/200/abstract"]
+    # PAGES_SORT_ATTRIBUTE:
+
+## ▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬ஜ۩۞۩ஜ▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬
+## ▓▓▓▒▒▒░░░                       DEV SETTINGS                      ░░░▒▒▒▓▓▓
+## ▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬ஜ۩۞۩ஜ▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬
+## This values are loaded when --envmode=dev is passed
+## or env var QUOKKA_ENVMODE=dev
+## TIP: Export envvars with `dev` to overload this.
+## `export QUOKKA_DEV_PORT='@int 3000'`
 DEV:
   DEBUG: true
   RELOADER: true
@@ -39,7 +174,11 @@ DEV:
     - flask_debugtoolbar.panels.profiler.ProfilerDebugPanel
     - flask_debugtoolbar.panels.config_vars.ConfigVarsDebugPanel
 
-# Production Settings
+## ▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬ஜ۩۞۩ஜ▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬
+## ▓▓▓▒▒▒░░░                       MAIN SETTINGS                     ░░░▒▒▒▓▓▓
+## ▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬ஜ۩۞۩ஜ▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬
+## All values under QUOKKA: namespace are the main default settings
+
 QUOKKA:
 
   ## [ --- SECURITY --- ]
@@ -272,10 +411,11 @@ QUOKKA:
   CONTENT_ADD_RELATED_POSTS: true
 
   ## The folder where themes are located
-  THEME_FOLDER: themes
+  THEME_FOLDER: *theme_folder
   ## Name of one of the themes/folders
   ## pure, eevee, hyde, nest, octopress, bootstrap3, clean, Flex
-  THEME_ACTIVE: bootstrap3
+  ## using outer level alias here
+  THEME_ACTIVE: *theme_active
   ## https://github.com/alexandrevicenzi/Flex
   ## https://github.com/alexandrevicenzi/Flex/wiki/Custom-Settings
   ## http://www.pelicanthemes.com/
@@ -284,99 +424,9 @@ QUOKKA:
   ## http://docs.getpelican.com/en/latest/themes.html
 
 
-## NOTE: this is first level vars
-## [< --- Pelican Themes Variable binding --->]
-## Global Static variables to bound to pelican themes
-PELICAN:
-    ## http://pygments.org/demo/6640643/
-    PYGMENTS_STYLE: default
-    CSS_FILE: main.css
-    SITENAME: Quokka Site
-    TAGLINE: Hi This is a new quokka site
-    # GOOGLE_ANALYTICS: 'code-here'
-    # GAUGES: 'code-here'
-    # PIWIK_URL: 'url-here'
-    # PIWIK_SSL_URL: 'url-here'
-    # PIWIK_SITE_ID: 'code-here'
-    DISQUS_SITENAME: quokkaproject
-    AUTHOR: Bruno Rocha
-    DISPLAY_PAGES_ON_MENU: true
-    DISPLAY_CATEGORIES_ON_MENU: true
-    MENUITEMS: [['a', 'a']]
-    LINKS: [['a', 'a']]
-    SOCIAL:
-      - ['twitter', 'http://twitter.com/DaanDebie']
-      - ['linkedin', 'http://twitter.com/DaanDebie']
-      - ['github', 'http://twitter.com/DaanDebie']
-      - ['stackoverflow', 'http://twitter.com/DaanDebie']
-
-## Theme specific variables named PELICAN_<THEMENAME>
-
-PELICAN_BOOTSTRAP3:
-    ## See themes/bootstrap3/README.md for details
-    BOOTSTRAP_THEME: paper
-    USE_OPEN_GRAPH: true
-    TAG_CLOUD_MAX_ITEMS: 100
-    SHOW_SERIES: true
-    # SERIES_TEXT: 'Part %(index)s of the %(name)s series'
-    DISPLAY_SERIES_ON_SIDEBAR: true
-    SHOW_ARTICLE_AUTHOR: true
-    SHOW_ARTICLE_CATEGORY: true
-    SHOW_DATE_MODIFIED: true
-    # CUSTOM_CSS: 'path/to/css'
-    # GOOGLE_ANALYTICS_UNIVERSAL: 'code-here'
-    # GOOGLE_ANALYTICS_UNIVERSAL_PROPERTY: 'code-here'
-    USE_PAGER: false
-    BOOTSTRAP_FLUID: false
-    # SITELOGO: 'path/to/logo'
-    # SITELOGO_SIZE: 200
-    # HIDE_SITENAME: true
-    DISPLAY_BREADCRUMBS: true
-    DISPLAY_CATEGORY_IN_BREADCRUMBS: true
-    BOOTSTRAP_NAVBAR_INVERSE: false
-    DISPLAY_ARTICLE_INFO_ON_INDEX: true
-    ABOUT_ME: foo
-    AVATAR: //i.pravatar.cc/300
-    BANNER: ///lorempixel.com/1000/200/abstract/
-    BANNER_SUBTITLE: Hello World
-    BANNER_ALL_PAGES: true
-    DISPLAY_TAGS_ON_SIDEBAR: true
-    DISPLAY_CATEGORIES_ON_SIDEBAR: true
-    DISPLAY_RECENT_POSTS_ON_SIDEBAR: true
-    RECENT_POST_COUNT: 5
-    DISPLAY_ARCHIVE_ON_SIDEBAR: true
-    DISPLAY_AUTHORS_ON_SIDEBAR: true
-    HIDE_SIDEBAR: false
-    SIDEBAR_ON_LEFT: false
-    DISABLE_SIDEBAR_TITLE_ICONS: true
-    DISQUS_NO_ID: true
-    DISQUS_ID_PREFIX_SLUG: true
-    DISQUS_DISPLAY_COUNTS: true
-    ## CC-BY CC-BY-SA CC-BY-ND CC-BY-NC CC-BY-NC-SA CC-BY-NC-ND
-    # CC_LICENSE: CC-BY-NC-SA
-    # CUSTOM_LICENSE: 'Unless otherwise stated, all articles are published under the <a href="http://www.wtfpl.net/about/">WTFPL</a> license.'
-    GITHUB_USER: rochacbruno
-    # GITHUB_REPO_COUNT: true  # this may take time
-    GITHUB_SKIP_FORK: true
-    GITHUB_SHOW_USER_LINK: true
-    USE_OPEN_GRAPH: true
-    OPEN_GRAPH_FB_APP_ID: 123456
-    OPEN_GRAPH_IMAGE: ///lorempixel.com/200/200/abstract
-    TWITTER_USERNAME: rochacbruno
-    TWITTER_WIDGET_ID: 12324
-    # ADDTHIS_PROFILE: 1234
-    # ADDTHIS_DATA_TRACK_ADDRESSBAR: true
-    # ADDTHIS_FACEBOOK_LIKE: true
-    # ADDTHIS_TWEET: true
-    # ADDTHIS_GOOGLE_PLUSONE: true
-    SHARIFF: true
-    SHARIFF_THEME: white
-    SHARIFF_LANG: en
-    SHARIFF_ORIENTATION: horizontal
-    SHARIFF_TWITTER_VIA: true
-    SHARIFF_SERVICES: "[&quot;facebook&quot;,&quot;twitter&quot;,&quot;googleplus&quot;,&quot;pinterest&quot;,&quot;whatsapp&quot;,&quot;addthis&quot;]"
-    SIDEBAR_IMAGES_HEADER: 'My Images'
-    SIDEBAR_IMAGES: ["/path/to/image1.png", "/path/to/image2.png"]
+## ▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬ஜ۩۞۩ஜ▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬
+## ▓▓▓▒▒▒░░░                  MANAGE SHELL SETTINGS                  ░░░▒▒▒▓▓▓
+## ▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬ஜ۩۞۩ஜ▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬
 
 ## [< --- MANAGE SHELL --->]
 ## The following sections controls how `quokka` command line works

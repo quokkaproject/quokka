@@ -3,7 +3,7 @@
 should be loaded directly in create_app"""
 
 from dynaconf.contrib import FlaskDynaconf
-from dynaconf.loaders import yaml_loader
+from dynaconf.loaders import yaml_loader, env_loader
 
 
 def configure_dynaconf(app):
@@ -31,4 +31,12 @@ def configure_dynaconf(app):
             obj=app.config,
             namespace=envmode,
             filename=settings_file
+        )
+        # overload with envvars
+        env_loader.load_from_env(
+            identifier=envmode,
+            key=None,
+            namespace=f'quokka_{envmode}',
+            obj=app.config,
+            silent=True
         )
