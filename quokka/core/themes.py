@@ -5,15 +5,17 @@ from pathlib import Path
 
 def configure(app):
     THEME_FOLDER = Path(app.config.get('THEME_FOLDER', 'themes'))
-    THEME_ACTIVE = Path(app.config.get('THEME_ACTIVE', 'Flex'))
+    THEME_ACTIVE = Path(app.config.get('THEME_ACTIVE', 'bootstrap3'))
     THEME_TEMPLATE_FOLDER = THEME_FOLDER / THEME_ACTIVE / Path('templates')
     THEME_STATIC_FOLDER = THEME_FOLDER / THEME_ACTIVE / Path('static')
     ABS_THEME_STATIC_FOLDER = Path.cwd() / THEME_STATIC_FOLDER
+    DEFAULT_PATH = Path(app.jinja_loader.searchpath[0])
+    OVERLOAD_FOLDER = DEFAULT_PATH / f'over_{THEME_ACTIVE}' / Path('templates')
 
     my_loader = jinja2.ChoiceLoader([
         # TODO: add theme based overload for themes
         # example, replace `comments.html` for template
-        QuokkaTemplateLoader([THEME_TEMPLATE_FOLDER]),
+        QuokkaTemplateLoader([OVERLOAD_FOLDER, THEME_TEMPLATE_FOLDER]),
         app.jinja_loader
     ])
     app.jinja_loader = my_loader

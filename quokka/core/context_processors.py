@@ -22,7 +22,7 @@ def configure(app):
             'tag_cloud': [],
             'JINJA_EXTENSIONS': app.jinja_env.extensions,
             'USE_LESS': False,
-            'SITEURL': 'http://localhost:5000',
+            'SITEURL': '',
             'THEME_STATIC_DIR': 'theme',
             'FAVICON': 'favicon.ico',
             'FAVICON_IE': 'favicon.ico',
