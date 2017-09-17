@@ -1,7 +1,7 @@
 from flask import url_for
 from quokka.core.app import QuokkaModule
 from .admin import ContentView
-from .views import DetailView
+from .views import DetailView, PreviewView, ArticleListView
 from .models import Content
 from .utils import url_for_content, strftime
 
@@ -41,7 +41,13 @@ def configure(app):
                         view_func=DetailView.as_view('detail'))
 
     module.add_url_rule('/<path:slug>.preview',
-                        view_func=DetailView.as_view('preview'))
+                        view_func=PreviewView.as_view('preview'))
+
+    module.add_url_rule('/<path:category>/',
+                        view_func=ArticleListView.as_view('category'))
+
+    module.add_url_rule('/',
+                        view_func=ArticleListView.as_view('index'))
 
     # add template globals to app
     app.add_template_global(url_for_content)

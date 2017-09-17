@@ -2,6 +2,7 @@
 """This core extension cannot be loaded from settings.yml
 should be loaded directly in create_app"""
 
+from flask import Markup
 from dynaconf.contrib import FlaskDynaconf
 from dynaconf.loaders import yaml_loader, env_loader
 
@@ -40,3 +41,61 @@ def configure_dynaconf(app):
             obj=app.config,
             silent=True
         )
+
+    # configure theme options
+    app.theme_context = {
+        'JINJA_ENVIRONMENT': app.jinja_env,
+        'DEFAULT_LANG': app.config.get('BABEL_DEFAULT_LOCALE'),
+        'default_locale': app.config.get('BABEL_DEFAULT_LOCALE'),
+        'PAGES': [],
+        'pages': [],
+        'tags': [],
+        'articles': [],
+        'categories': [],
+        # https://github.com/getpelican/pelican-plugins/tree/master/tag_cloud
+        'tag_cloud': [],
+        'JINJA_EXTENSIONS': app.jinja_env.extensions,
+        'USE_LESS': False,
+        # For some themes like bootstrap3 theme SITEURL must be ''
+        'SITEURL': 'http://localhost:5000',
+        'THEME_STATIC_DIR': 'theme',
+        'FAVICON': 'favicon.ico',
+        'FAVICON_IE': 'favicon.ico',
+        'FAVICON_FILENAME': 'favicon.ico',
+        'AVATAR': 'LOAD FROM UPLOADS',
+    }
+    # load theme variables from YAML file
+    yaml_loader.load(
+        obj=app.theme_context,
+        namespace='theme',
+        filename=app.config.get('SETTINGS_MODULE')
+    )
+    # overrride with QUOKKA_THEME_ prefixed env vars if exist
+    env_loader.load_from_env(
+        identifier='theme',
+        key=None,
+        namespace='quokka_theme',
+        obj=app.theme_context,
+        silent=True
+    )
+    # load theme specific variables from YAML
+    yaml_loader.load(
+        obj=app.theme_context,
+        namespace=f'theme_{app.theme_context.get("ACTIVE")}',
+        filename=app.config.get('SETTINGS_MODULE')
+    )
+    # overrride with QUOKKA_THEME_THEMENAME prefixed env vars if exist
+    env_loader.load_from_env(
+        identifier=f'theme_{app.theme_context.get("ACTIVE")}',
+        key=None,
+        namespace=f'quokka_theme_{app.theme_context.get("ACTIVE")}',
+        obj=app.theme_context,
+        silent=True
+    )
+
+    # TODO: LOAD THEME VARS FROM MODEL
+
+    # mark strings as safe Markup
+    for k, v in app.theme_context.items():
+        if isinstance(v, str):
+            app.theme_context[k] = Markup(v)

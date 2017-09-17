@@ -20,26 +20,36 @@
 ## ▓▓▓▒▒▒░░░                     THEME VARIABLES                     ░░░▒▒▒▓▓▓
 ## ▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬ஜ۩۞۩ஜ▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬
 
-## Location of themes
-## dont remove the &theme_folder alias
-THEME_FOLDER: &theme_folder themes
-
-## Active theme
-## pure, eevee, hyde, nest, octopress, bootstrap3, clean, Flex
-## dont remove `&theme_active` alias
-## TIP: `export QUOKKA_THEME_ACTIVE=bootstrap3` also works!
-THEME_ACTIVE: &theme_active bootstrap3
-
-## [< --- Pelican Themes Variable binding --->]
 ## Global Static variables to bound to pelican themes
 ## TIP: `export QUOKKA_THEME_SITENAME=FooBar` also works
 THEME:
+    ## The folder where themes are located
+    FOLDER: themes
+    ## Name of one of the themes/folders
+    ## pure, eevee, hyde, nest, octopress, bootstrap3, clean, Flex
+    ## TIP: `export QUOKKA_THEME_ACTIVE=bootstrap3` also works!
+    ACTIVE: bootstrap3
+    ## https://github.com/alexandrevicenzi/Flex
+    ## https://github.com/alexandrevicenzi/Flex/wiki/Custom-Settings
+    ## http://www.pelicanthemes.com/
+    ## $ quokka themes install theme-name
+    ## $ quokka themes activate theme-name
+    ## http://docs.getpelican.com/en/latest/themes.html
+
+    ## If enabled quokka will overload some known themes for specific
+    ## templates e.g: overload_bootstrap3/comments.html will replace original
+    ## This feature fixes some known issues
+    OVERLOAD_ENABLED: true
+
+
     ## http://pygments.org/demo/6640643/
-    PYGMENTS_STYLE: default
+    # SITEURL: 'http://localhost:5000'
+    PYGMENTS_STYLE: native
     CSS_FILE: main.css
     SITENAME: Quokka Site
     TAGLINE: Hi This is a new quokka site
     SITEDESCRIPTION: My new Quokka Site
+    SITE_SUMMARY: The same as description
     SITETITLE: The site title
     SITESUBTITLE: The site subtitle
     # GOOGLE_ANALYTICS: 'code-here'
@@ -60,6 +70,13 @@ THEME:
       - ['linkedin', 'http://twitter.com/rochacbruno']
       - ['github', 'http://twitter.com/rochacbruno']
       - ['stackoverflow', 'http://twitter.com/rochacbruno']
+    SITE_KEYWORDS: quokka, cms, flask
+    DEFAULT_DATE_FORMAT: '%a %d %B %Y'
+    PAGE_ORDER_BY: 'title'
+    ARTICLE_ORDER_BY: [['date', -1]]
+    DEFAULT_LANG: en
+    ARTICLE_LIMIT: 8
+    PAGE_LIMIT: 8
 
 
 ## ▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬ஜ۩۞۩ஜ▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬
@@ -100,8 +117,10 @@ THEME_BOOTSTRAP3:
     BOOTSTRAP_NAVBAR_INVERSE: false
     DISPLAY_ARTICLE_INFO_ON_INDEX: true
     ABOUT_ME: foo
-    AVATAR: //i.pravatar.cc/300
-    BANNER: ///lorempixel.com/1000/200/abstract/
+    SHOW_ABOUT_ME_ON_INDEX: true
+    AVATAR: http://i.pravatar.cc/300
+    SHOW_AVATAR_ON_INDEX: true
+    BANNER: http://lorempixel.com/1000/200/abstract/
     BANNER_SUBTITLE: Hello World
     BANNER_ALL_PAGES: true
     DISPLAY_TAGS_ON_SIDEBAR: true
@@ -111,6 +130,9 @@ THEME_BOOTSTRAP3:
     DISPLAY_ARCHIVE_ON_SIDEBAR: true
     DISPLAY_AUTHORS_ON_SIDEBAR: true
     HIDE_SIDEBAR: false
+    HIDE_SIDEBAR_ON_INDEX: false
+    HIDE_SIDEBAR_ON_ARTICLE: false
+    HIDE_SIDEBAR_ON_PAGE: false
     SIDEBAR_ON_LEFT: false
     DISABLE_SIDEBAR_TITLE_ICONS: true
     DISQUS_NO_ID: true
@@ -125,7 +147,7 @@ THEME_BOOTSTRAP3:
     GITHUB_SHOW_USER_LINK: true
     USE_OPEN_GRAPH: true
     OPEN_GRAPH_FB_APP_ID: 123456
-    OPEN_GRAPH_IMAGE: ///lorempixel.com/200/200/abstract
+    OPEN_GRAPH_IMAGE: http://lorempixel.com/200/200/abstract
     TWITTER_USERNAME: rochacbruno
     TWITTER_WIDGET_ID: 12324
     # ADDTHIS_PROFILE: 1234
@@ -140,8 +162,39 @@ THEME_BOOTSTRAP3:
     SHARIFF_TWITTER_VIA: true
     SHARIFF_SERVICES: "[&quot;facebook&quot;,&quot;twitter&quot;,&quot;googleplus&quot;,&quot;pinterest&quot;,&quot;whatsapp&quot;,&quot;addthis&quot;]"
     SIDEBAR_IMAGES_HEADER: 'My Images'
-    SIDEBAR_IMAGES: ["///lorempixel.com/200/200/abstract", "///lorempixel.com/200/200/abstract"]
+    SIDEBAR_IMAGES: ["http://lorempixel.com/200/200/abstract", "http://lorempixel.com/200/200/abstract"]
     # PAGES_SORT_ATTRIBUTE:
+    DISPLAY_ARTICLE_INFO_ON_INDEX: true
+
+THEME_OCTOPRESS:
+    DISPLAY_SOCIAL_ICONS: true
+    SHOW_HEADER: true
+    FOOTER_INCLUDE: "_includes/footer.html"
+    GITHUB_USER: rochacbruno
+    # GITHUB_REPO_COUNT: true  # this may take time
+    GITHUB_SKIP_FORK: true
+    GITHUB_SHOW_USER_LINK: true
+    TWITTER_USER: rochacbruno
+    # GOOGLE_PLUS_ID:
+    GOOGLE_PLUS_ONE: true
+    FACEBOOK_LIKE: true
+    TWITTER_WIDGET_ID: 12324
+    TWITTER_TWEET_BUTTON: true
+    TWITTER_FOLLOW_BUTTON: true
+    DISPLAY_CATEGORIES: true
+    DISPLAY_TAGS: true
+    DISPLAY_FEEDS: true
+    AUTHOR_ABOUT: Foo Bar
+    HEADER_COVER: http://lorempixel.com/1200/200/abstract/
+    HEADER_COLOR: blue
+    FAVICON_FILENAME: favicon.ico
+    DISPLAY_PAGES_ON_MENU: true
+    DISPLAY_CATEGORIES_ON_MENU: true
+    DISPLAY_FEEDS_ON_MENU: true
+    # FEED_FEEDBURNER:
+    # EXTRA_HEADER: Hello
+    # ARTICLE_ASIDES: ['social_icons', 'image', 'recentpost', 'categories', 'tags', 'github', 'social', 'links', 'twitter', 'gplus', 'google_adsense']
+    DISPLAY_TAGS: false
 
 ## ▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬ஜ۩۞۩ஜ▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬
 ## ▓▓▓▒▒▒░░░                       DEV SETTINGS                      ░░░▒▒▒▓▓▓
@@ -384,7 +437,7 @@ QUOKKA:
   LOGGER_FORMAT: '%(asctime)s %(name)-12s %(levelname)-8s %(message)s'
   LOGGER_DATE_FORMAT: '%d.%m %H:%M:%S'
 
-  ## [ --- FRONT END --- ]
+  ## [ --- CONTENT MODULE SETTINGS --- ]
   ## Media root folder (to store uploaded files)
   MEDIA_ROOT: uploads
 
@@ -406,22 +459,6 @@ QUOKKA:
   ## Default author names to be listed on edit form
   # AUTHORS:
   #   - jane Doe
-
-  ## Add related posts to Content
-  CONTENT_ADD_RELATED_POSTS: true
-
-  ## The folder where themes are located
-  THEME_FOLDER: *theme_folder
-  ## Name of one of the themes/folders
-  ## pure, eevee, hyde, nest, octopress, bootstrap3, clean, Flex
-  ## using outer level alias here
-  THEME_ACTIVE: *theme_active
-  ## https://github.com/alexandrevicenzi/Flex
-  ## https://github.com/alexandrevicenzi/Flex/wiki/Custom-Settings
-  ## http://www.pelicanthemes.com/
-  ## $ quokka themes install theme-name
-  ## $ quokka themes activate theme-name
-  ## http://docs.getpelican.com/en/latest/themes.html
 
 
 ## ▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬ஜ۩۞۩ஜ▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬

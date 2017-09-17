@@ -250,6 +250,12 @@ class BaseFormat(object):
 
         return content['content']
 
+    def render(self, obj):
+        # TODO: PRE-RENDER
+        rv = self.render_content(obj)
+        # TODO: POST-RENDER
+        return rv
+
 
 # Customs
 
@@ -279,4 +285,6 @@ class MarkdownFormat(BaseFormat):
 
     def render_content(self, obj):
         content = super().render_content(obj)
-        return Markup(markdown(content))
+        if content:
+            return Markup(markdown(content))
+        return content or ''

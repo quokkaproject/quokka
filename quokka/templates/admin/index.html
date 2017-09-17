@@ -63,7 +63,7 @@
                                                 <i class={% if content['published'] %} "fa fa-check-circle glyphicon glyphicon-ok-circle icon-ok-circle" {% else %} "fa fa-minus-circle glyphicon glyphicon-minus-sign icon-minus-sign" {% endif %}></i>
                                                 <a class="btn btn-success btn-xs" href="{{ url_for('quokka.core.content.admin.contentview.edit_view', id=content['_id'])}}">
                                                 <i class="fa fa-pencil glyphicon glyphicon-pencil"></i> {{_gettext('Edit')}}</a>
-                                                <a class="btn btn-primary btn-xs" target="_blank" href="{{url_for_content(content)}}">
+                                                <a class="btn btn-primary btn-xs" target="_blank" href="/{{url_for_content(content)}}">
                                                 <i class="fa fa-eye glyphicon glyphicon-eye-open"></i> {{_gettext('View') if content['published'] else _gettext('Preview')}}</a>
                                         </td>
                                     <tr>

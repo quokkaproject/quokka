@@ -1,5 +1,4 @@
 import functools
-import six
 from .utils import url_for_content, url_for_category
 from .formats import get_format
 from quokka.utils.text import slugify
@@ -10,21 +9,21 @@ class Orderable:
     def __eq__(self, other):
         if isinstance(other, self.__class__):
             return self.slug == other.slug
-        if isinstance(other, six.text_type):
+        if isinstance(other, str):
             return self.slug == self._normalize_key(other)
         return False
 
     def __ne__(self, other):
         if isinstance(other, self.__class__):
             return self.slug != other.slug
-        if isinstance(other, six.text_type):
+        if isinstance(other, str):
             return self.slug != self._normalize_key(other)
         return True
 
     def __lt__(self, other):
         if isinstance(other, self.__class__):
             return self.slug < other.slug
-        if isinstance(other, six.text_type):
+        if isinstance(other, str):
             return self.slug < self._normalize_key(other)
         return False
 
@@ -32,7 +31,10 @@ class Orderable:
         return hash(self.slug)
 
     def _normalize_key(self, key):
-        return six.text_type(slugify(key))
+        return slugify(key)
+
+    def __html__(self):
+        return str(self)
 
 
 class Series(Orderable):
@@ -138,6 +140,30 @@ class Content:
         }
 
     @property
+    def header_cover(self):
+        return None
+
+    @property
+    def header_color(self):
+        return None
+
+    @property
+    def sidebar(self):
+        return True
+
+    @property
+    def use_schema_org(self):
+        return True
+
+    @property
+    def comments(self):
+        return 'True'
+
+    @property
+    def status(self):
+        return "draft" if not self.data.get('published') else "published"
+
+    @property
     def lang(self):
         return self.data.get('language')
 
@@ -157,7 +183,7 @@ class Content:
 
     @property
     def content(self):
-        return self.format.render_content(self.data)
+        return self.format.render(self.data)
 
     @property
     def category(self):
@@ -176,7 +202,16 @@ class Content:
         return [self.summary]
 
     def __getattr__(self, attr):
-        return self.metadata.get(attr) or self.data.get(attr, '')
+        value = self.metadata.get(attr) or self.data.get(attr)
+        if not value:
+            raise AttributeError(f'{self} do not have {attr}')
+        return value
+
+    def __str__(self):
+        return self.data['title']
+
+    def __html__(self):
+        return str(self)
 
 
 class Article(Content):

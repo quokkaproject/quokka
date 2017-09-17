@@ -32,6 +32,10 @@ def static_from_root():
 
 def configure(app):
 
+    @app.route('/<prot>://<path:destiny>')
+    def redir_to_external(prot, destiny):
+        return redirect(f"{prot}://{destiny}")
+
     @app.route('/favicon.ico')
     def favicon():
         # TODO: Dynamize
