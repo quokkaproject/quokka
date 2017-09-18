@@ -7,7 +7,7 @@ def configure(app):
     OVERLOAD_ENABLED = app.theme_context.get('OVERLOAD_ENABLED', True)
     TEMPLATES = Path('templates')
     THEME_FOLDER = Path(app.theme_context.get('FOLDER', 'themes'))
-    THEME_ACTIVE = Path(app.theme_context.get('ACTIVE', 'bootstrap3'))
+    THEME_ACTIVE = Path(app.theme_context.get('ACTIVE', 'default'))
     THEME_TEMPLATE_FOLDER = THEME_FOLDER / THEME_ACTIVE / TEMPLATES
     THEME_STATIC_FOLDER = THEME_FOLDER / THEME_ACTIVE / Path('static')
     ABS_THEME_STATIC_FOLDER = Path.cwd() / THEME_STATIC_FOLDER

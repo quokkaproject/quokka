@@ -77,6 +77,11 @@ THEME:
     DEFAULT_LANG: en
     ARTICLE_LIMIT: 8
     PAGE_LIMIT: 8
+    # todo: ^
+    DEFAULT_PAGINATION: 1
+    DEFAULT_ORPHANS: 0
+    # PAGINATION_PATTERNS:
+    #   - [0, '{name}{number}{extension}', '{name}{number}{extension}']
 
 
 ## ▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬ஜ۩۞۩ஜ▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬

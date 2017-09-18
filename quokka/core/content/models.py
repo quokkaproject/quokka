@@ -1,6 +1,7 @@
 import functools
 from .utils import url_for_content, url_for_category
 from .formats import get_format
+from .paginator import Paginator
 from quokka.utils.text import slugify
 
 
@@ -232,3 +233,12 @@ def make_model(content):
         return Page(content)
 
     return Content(content)
+
+
+def make_paginator(object_list, *args, **kwargs):
+    object_list = [
+        obj if isinstance(obj, Content) else make_model(obj)
+        for obj
+        in object_list
+    ]
+    return Paginator(object_list, *args, **kwargs)

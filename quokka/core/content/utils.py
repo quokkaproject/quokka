@@ -1,3 +1,5 @@
+from flask import current_app as app
+
 
 def url_for_content(content):
     """Return a relative URL for content dict or Content model
@@ -14,17 +16,19 @@ def url_for_content(content):
     if category:
         slug = f'{category}/{slug}'
 
+    ext = app.config.get("CONTENT_EXTENSION", "html")
+
     if published:
         # return url_for('quokka.core.content.detail', slug=slug)
-        return f'{slug}.html'
+        return f'{slug}.{ext}'
     else:
         # return url_for('quokka.core.content.preview', slug=slug)
         return f'{slug}.preview'
 
 
 def url_for_category(category):
-    # TODO: dyamize this
-    return f'{category}/'
+    ext = app.config.get("CONTENT_EXTENSION", "html")
+    return f'category/{category}.{ext}'
 
 
 def strftime(value, dtformat):
