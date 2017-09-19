@@ -62,7 +62,7 @@ def configure_dynaconf(app):
         'FAVICON': 'favicon.ico',
         'FAVICON_IE': 'favicon.ico',
         'FAVICON_FILENAME': 'favicon.ico',
-        'AVATAR': 'LOAD FROM UPLOADS'
+        # 'AVATAR': 'LOAD FROM UPLOADS'
     }
     # load theme variables from YAML file
     yaml_loader.load(

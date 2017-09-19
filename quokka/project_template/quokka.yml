@@ -72,9 +72,10 @@ THEME:
     LINKS: [['a', 'a']]
     SOCIAL:
       - ['twitter', 'http://twitter.com/rochacbruno']
-      - ['linkedin', 'http://twitter.com/rochacbruno']
-      - ['github', 'http://twitter.com/rochacbruno']
-      - ['stackoverflow', 'http://twitter.com/rochacbruno']
+      - ['facebook', 'http://facebook.com/rochacbruno']
+      - ['linkedin', 'http://linkedin.com/in/rochacbruno']
+      - ['github', 'http://github.com/rochacbruno']
+      - ['stack-overflow', 'http://stackoverflow.com/users/559935']
     SITE_KEYWORDS: quokka, cms, flask, quokkaproject
     DEFAULT_DATE_FORMAT: '%a %d %B %Y'
     PAGE_ORDER_BY: 'title'
@@ -104,13 +105,17 @@ THEME:
 ## `export QUOKKA_THEME_BOOTSTRAP3_BOOTSTRAP_FLUID='@bool true'`
 ## you can use @bool @int @float @json - see dynaconf docs
 
+## See themes/bootstrap3/README.md for details
 THEME_BOOTSTRAP3:
-    ## See themes/bootstrap3/README.md for details
-    BOOTSTRAP_THEME: paper
+    ## theme from: https://bootswatch.com/
+    ## cerulean, cosmo, cyborg, darkly, flatly, journal, lumen, paper, readable
+    ## sandstone, simplex, slate, spacelab, superhero, united, yeti
+    ## comment out to use default
+    BOOTSTRAP_THEME: cosmo
     BOOTSTRAP_FLUID: false
     TYPOGRIFY: true
     ## http://pygments.org/demo/6640643/
-    PYGMENTS_STYLE: default
+    PYGMENTS_STYLE: native
     # DOCUTIL_CSS: true
     # CUSTOM_CSS: 'path/to/css'
     # GOOGLE_ANALYTICS_UNIVERSAL: 'code-here'
@@ -124,8 +129,8 @@ THEME_BOOTSTRAP3:
     # DISPLAY_ARTICLE_INFO_ON_INDEX: true
 
     # Below values will be overwritten by /admin/author configs
-    AUTHOR: Author
-    ABOUT_ME: 'I am Author'
+    AUTHOR: <i>Author</i>
+    ABOUT_ME: <b>I</b> am Author
     SHOW_ABOUT_ME_ON_INDEX: false
     AVATAR: http://i.pravatar.cc/300
     SHOW_AVATAR_ON_INDEX: false
@@ -170,13 +175,15 @@ THEME_BOOTSTRAP3:
     DISQUS_NO_ID: true
     DISQUS_ID_PREFIX_SLUG: true
     DISQUS_DISPLAY_COUNTS: true
+
     ## CC-BY CC-BY-SA CC-BY-ND CC-BY-NC CC-BY-NC-SA CC-BY-NC-ND
     # CC_LICENSE: CC-BY-NC-SA
     # CUSTOM_LICENSE: 'Unless otherwise stated, all articles are published under the <a href="http://www.wtfpl.net/about/">WTFPL</a> license.'
-    GITHUB_USER: rochacbruno
+
+    # GITHUB_USER: rochacbruno
     # GITHUB_REPO_COUNT: true  # this may take time
-    GITHUB_SKIP_FORK: true
-    GITHUB_SHOW_USER_LINK: true
+    # GITHUB_SKIP_FORK: true
+    # GITHUB_SHOW_USER_LINK: true
 
     USE_OPEN_GRAPH: true
     OPEN_GRAPH_FB_APP_ID: 123456
