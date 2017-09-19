@@ -24,41 +24,46 @@
 ## TIP: `export QUOKKA_THEME_SITENAME=FooBar` also works
 THEME:
     ## The folder where themes are located
+    ## give the absolute path if you saved your templates in a different path
     FOLDER: themes
-    ## Name of one of the themes/folders
-    ## pure, eevee, hyde, nest, octopress, bootstrap3, clean, Flex
+
+    ## The name of the choosen theme folder
+    ##
+    ## Known Compatible themes are:
+    ##    pure, eevee, hyde, nest, octopress, bootstrap3, clean-blog, Flex
+    ## Install one of the compatible themes with:
+    ##    $ quokka themes install theme-name
+    ##    $ quokka themes activate theme-name
+    ## Or download themes from http://www.pelicanthemes.com/
+    ##    $ git clone --recursive https://github.com/getpelican/pelican-themes ~/pelican-themes
+    ##    $ cp ~/pelican-themes/<desired_theme> themes/
+    ##    note that not all those themes are compatible but you can adapt it
+    ##
     ## TIP: `export QUOKKA_THEME_ACTIVE=bootstrap3` also works!
+    ## `bootstrap3` is the recommended theme for you to customize!
     ACTIVE: bootstrap3
-    ## https://github.com/alexandrevicenzi/Flex
-    ## https://github.com/alexandrevicenzi/Flex/wiki/Custom-Settings
-    ## http://www.pelicanthemes.com/
-    ## $ quokka themes install theme-name
-    ## $ quokka themes activate theme-name
-    ## http://docs.getpelican.com/en/latest/themes.html
 
     ## If enabled quokka will overload some known themes for specific
     ## templates e.g: overload_bootstrap3/comments.html will replace original
     ## This feature fixes some known issues
     OVERLOAD_ENABLED: true
 
-
-    ## http://pygments.org/demo/6640643/
     # SITEURL: 'http://localhost:5000'
-    PYGMENTS_STYLE: native
     CSS_FILE: main.css
+
     SITENAME: Quokka Site
     TAGLINE: Hi This is a new quokka site
     SITEDESCRIPTION: My new Quokka Site
     SITE_SUMMARY: The same as description
     SITETITLE: The site title
     SITESUBTITLE: The site subtitle
+
     # GOOGLE_ANALYTICS: 'code-here'
     # GAUGES: 'code-here'
     # PIWIK_URL: 'url-here'
     # PIWIK_SSL_URL: 'url-here'
     # PIWIK_SITE_ID: 'code-here'
     DISQUS_SITENAME: quokkaproject
-    AUTHOR: Bruno Rocha
     DISPLAY_PAGES_ON_MENU: true
     DISPLAY_CATEGORIES_ON_MENU: true
     # ARCHIVES_URL:
@@ -70,15 +75,18 @@ THEME:
       - ['linkedin', 'http://twitter.com/rochacbruno']
       - ['github', 'http://twitter.com/rochacbruno']
       - ['stackoverflow', 'http://twitter.com/rochacbruno']
-    SITE_KEYWORDS: quokka, cms, flask
+    SITE_KEYWORDS: quokka, cms, flask, quokkaproject
     DEFAULT_DATE_FORMAT: '%a %d %B %Y'
     PAGE_ORDER_BY: 'title'
-    ARTICLE_ORDER_BY: [['date', -1]]
+    # ARTICLE_ORDER_BY: [['date', -1]]
     DEFAULT_LANG: en
     ARTICLE_LIMIT: 8
     PAGE_LIMIT: 8
-    # todo: ^
-    DEFAULT_PAGINATION: 1
+    # PAGINATION_ENABLED: true
+    ## use < newest - older > instead of 1, 2, 3 >
+    # USE_PAGER: false
+    ## how many items per page
+    DEFAULT_PAGINATION: 5
     DEFAULT_ORPHANS: 0
     # PAGINATION_PATTERNS:
     #   - [0, '{name}{number}{extension}', '{name}{number}{extension}']
@@ -99,47 +107,66 @@ THEME:
 THEME_BOOTSTRAP3:
     ## See themes/bootstrap3/README.md for details
     BOOTSTRAP_THEME: paper
+    BOOTSTRAP_FLUID: false
     TYPOGRIFY: true
-    DOCUTIL_CSS: true
-    USE_OPEN_GRAPH: true
-    TAG_CLOUD_MAX_ITEMS: 100
-    SHOW_SERIES: true
-    # SERIES_TEXT: 'Part %(index)s of the %(name)s series'
-    DISPLAY_SERIES_ON_SIDEBAR: true
-    SHOW_ARTICLE_AUTHOR: true
-    SHOW_ARTICLE_CATEGORY: true
-    SHOW_DATE_MODIFIED: true
+    ## http://pygments.org/demo/6640643/
+    PYGMENTS_STYLE: default
+    # DOCUTIL_CSS: true
     # CUSTOM_CSS: 'path/to/css'
     # GOOGLE_ANALYTICS_UNIVERSAL: 'code-here'
     # GOOGLE_ANALYTICS_UNIVERSAL_PROPERTY: 'code-here'
-    USE_PAGER: false
-    BOOTSTRAP_FLUID: false
     # SITELOGO: 'path/to/logo'
     # SITELOGO_SIZE: 200
     # HIDE_SITENAME: true
-    DISPLAY_BREADCRUMBS: true
-    DISPLAY_CATEGORY_IN_BREADCRUMBS: true
-    BOOTSTRAP_NAVBAR_INVERSE: false
-    DISPLAY_ARTICLE_INFO_ON_INDEX: true
-    ABOUT_ME: foo
-    SHOW_ABOUT_ME_ON_INDEX: true
+    # DISPLAY_BREADCRUMBS: true
+    # DISPLAY_CATEGORY_IN_BREADCRUMBS: true
+    # BOOTSTRAP_NAVBAR_INVERSE: false
+    # DISPLAY_ARTICLE_INFO_ON_INDEX: true
+
+    # Below values will be overwritten by /admin/author configs
+    AUTHOR: Author
+    ABOUT_ME: 'I am Author'
+    SHOW_ABOUT_ME_ON_INDEX: false
     AVATAR: http://i.pravatar.cc/300
-    SHOW_AVATAR_ON_INDEX: true
+    SHOW_AVATAR_ON_INDEX: false
+
+    ## article info section
+    # DISPLAY_ARTICLE_INFO_ON_INDEX: true
+    # SHOW_ARTICLE_AUTHOR: true
+    SHOW_ARTICLE_CATEGORY: true
+    # SHOW_DATE_MODIFIED: true
+    # SHOW_SERIES: true
+    # SERIES_TEXT: 'Part %(index)s of the %(name)s series'
+
+    # If Article has banner and banner_subtitle metadata it will be overwritten
     BANNER: http://lorempixel.com/1000/200/abstract/
     BANNER_SUBTITLE: Hello World
-    BANNER_ALL_PAGES: true
+    # BANNER_ALL_PAGES: true
+
     DISPLAY_TAGS_ON_SIDEBAR: true
+    TAG_CLOUD_MAX_ITEMS: 100
+
     DISPLAY_CATEGORIES_ON_SIDEBAR: true
+
     DISPLAY_RECENT_POSTS_ON_SIDEBAR: true
     RECENT_POST_COUNT: 5
-    DISPLAY_ARCHIVE_ON_SIDEBAR: true
-    DISPLAY_AUTHORS_ON_SIDEBAR: true
+
+    DISPLAY_SERIES_ON_SIDEBAR: true
+
+    # DISPLAY_ARCHIVE_ON_SIDEBAR: true
+    # DISPLAY_AUTHORS_ON_SIDEBAR: true
+
     HIDE_SIDEBAR: false
     HIDE_SIDEBAR_ON_INDEX: false
     HIDE_SIDEBAR_ON_ARTICLE: false
     HIDE_SIDEBAR_ON_PAGE: false
+
     SIDEBAR_ON_LEFT: false
+    SIDEBAR_ON_LEFT_ON_INDEX: false
+    SIDEBAR_ON_LEFT_ON_ARTICLE: true
+    SIDEBAR_ON_LEFT_ON_PAGE: true
     DISABLE_SIDEBAR_TITLE_ICONS: true
+
     DISQUS_NO_ID: true
     DISQUS_ID_PREFIX_SLUG: true
     DISQUS_DISPLAY_COUNTS: true
@@ -150,6 +177,7 @@ THEME_BOOTSTRAP3:
     # GITHUB_REPO_COUNT: true  # this may take time
     GITHUB_SKIP_FORK: true
     GITHUB_SHOW_USER_LINK: true
+
     USE_OPEN_GRAPH: true
     OPEN_GRAPH_FB_APP_ID: 123456
     OPEN_GRAPH_IMAGE: http://lorempixel.com/200/200/abstract
@@ -160,46 +188,47 @@ THEME_BOOTSTRAP3:
     # ADDTHIS_FACEBOOK_LIKE: true
     # ADDTHIS_TWEET: true
     # ADDTHIS_GOOGLE_PLUSONE: true
+
+    ## shariff is the social sharing buttons
     SHARIFF: true
     SHARIFF_THEME: white
     SHARIFF_LANG: en
     SHARIFF_ORIENTATION: horizontal
     SHARIFF_TWITTER_VIA: true
     SHARIFF_SERVICES: "[&quot;facebook&quot;,&quot;twitter&quot;,&quot;googleplus&quot;,&quot;pinterest&quot;,&quot;whatsapp&quot;,&quot;addthis&quot;]"
-    SIDEBAR_IMAGES_HEADER: 'My Images'
-    SIDEBAR_IMAGES: ["http://lorempixel.com/200/200/abstract", "http://lorempixel.com/200/200/abstract"]
+    # SIDEBAR_IMAGES_HEADER: 'My Images'
+    # SIDEBAR_IMAGES: ["http://lorempixel.com/200/200/abstract", "http://lorempixel.com/200/200/abstract"]
     # PAGES_SORT_ATTRIBUTE:
-    DISPLAY_ARTICLE_INFO_ON_INDEX: true
 
-THEME_OCTOPRESS:
-    DISPLAY_SOCIAL_ICONS: true
-    SHOW_HEADER: true
-    FOOTER_INCLUDE: "_includes/footer.html"
-    GITHUB_USER: rochacbruno
-    # GITHUB_REPO_COUNT: true  # this may take time
-    GITHUB_SKIP_FORK: true
-    GITHUB_SHOW_USER_LINK: true
-    TWITTER_USER: rochacbruno
-    # GOOGLE_PLUS_ID:
-    GOOGLE_PLUS_ONE: true
-    FACEBOOK_LIKE: true
-    TWITTER_WIDGET_ID: 12324
-    TWITTER_TWEET_BUTTON: true
-    TWITTER_FOLLOW_BUTTON: true
-    DISPLAY_CATEGORIES: true
-    DISPLAY_TAGS: true
-    DISPLAY_FEEDS: true
-    AUTHOR_ABOUT: Foo Bar
-    HEADER_COVER: http://lorempixel.com/1200/200/abstract/
-    HEADER_COLOR: blue
-    FAVICON_FILENAME: favicon.ico
-    DISPLAY_PAGES_ON_MENU: true
-    DISPLAY_CATEGORIES_ON_MENU: true
-    DISPLAY_FEEDS_ON_MENU: true
-    # FEED_FEEDBURNER:
-    # EXTRA_HEADER: Hello
-    # ARTICLE_ASIDES: ['social_icons', 'image', 'recentpost', 'categories', 'tags', 'github', 'social', 'links', 'twitter', 'gplus', 'google_adsense']
-    DISPLAY_TAGS: false
+# THEME_OCTOPRESS:
+#     DISPLAY_SOCIAL_ICONS: true
+#     SHOW_HEADER: true
+#     FOOTER_INCLUDE: "_includes/footer.html"
+#     GITHUB_USER: rochacbruno
+#     # GITHUB_REPO_COUNT: true  # this may take time
+#     GITHUB_SKIP_FORK: true
+#     GITHUB_SHOW_USER_LINK: true
+#     TWITTER_USER: rochacbruno
+#     # GOOGLE_PLUS_ID:
+#     GOOGLE_PLUS_ONE: true
+#     FACEBOOK_LIKE: true
+#     TWITTER_WIDGET_ID: 12324
+#     TWITTER_TWEET_BUTTON: true
+#     TWITTER_FOLLOW_BUTTON: true
+#     DISPLAY_CATEGORIES: true
+#     DISPLAY_TAGS: true
+#     DISPLAY_FEEDS: true
+#     AUTHOR_ABOUT: Foo Bar
+#     HEADER_COVER: http://lorempixel.com/1200/200/abstract/
+#     HEADER_COLOR: blue
+#     FAVICON_FILENAME: favicon.ico
+#     DISPLAY_PAGES_ON_MENU: true
+#     DISPLAY_CATEGORIES_ON_MENU: true
+#     DISPLAY_FEEDS_ON_MENU: true
+#     # FEED_FEEDBURNER:
+#     # EXTRA_HEADER: Hello
+#     # ARTICLE_ASIDES: ['social_icons', 'image', 'recentpost', 'categories', 'tags', 'github', 'social', 'links', 'twitter', 'gplus', 'google_adsense']
+#     DISPLAY_TAGS: false
 
 ## ▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬ஜ۩۞۩ஜ▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬
 ## ▓▓▓▒▒▒░░░                       DEV SETTINGS                      ░░░▒▒▒▓▓▓

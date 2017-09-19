@@ -62,7 +62,7 @@ def configure_dynaconf(app):
         'FAVICON': 'favicon.ico',
         'FAVICON_IE': 'favicon.ico',
         'FAVICON_FILENAME': 'favicon.ico',
-        'AVATAR': 'LOAD FROM UPLOADS',
+        'AVATAR': 'LOAD FROM UPLOADS'
     }
     # load theme variables from YAML file
     yaml_loader.load(
@@ -78,6 +78,13 @@ def configure_dynaconf(app):
         obj=app.theme_context,
         silent=True
     )
+
+    # remove prefix for pelican-themes
+    active = app.theme_context.get('ACTIVE', 'default')
+    if active.startswith('pelican'):
+        active = active.lstrip('pelican-')
+    app.theme_context['ACTIVE'] = active
+
     # load theme specific variables from YAML
     yaml_loader.load(
         obj=app.theme_context,

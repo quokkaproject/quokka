@@ -148,6 +148,10 @@ class QuokkaDB(object):
         return self.value_set('index', 'tags', flat=True, sort=sort)
 
     def content_set(self, *args, **kwargs):
+        kwargs.setdefault(
+            'sort',
+            self.app.theme_context.get('ARTICLE_ORDER_BY', [('date', -1)])
+        )
         return self.index.find(*args, **kwargs)
 
     def select(self, colname, *args, **kwargs):

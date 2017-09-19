@@ -15,19 +15,19 @@ DEFAULT_PP = [(0, '{name}{number}{extension}', '{name}{number}{extension}')]
 
 
 class Paginator(object):
-    def __init__(self, object_list, name=None, settings=None):
+    def __init__(self, object_list, name=None, settings=None, count=None):
         self.name = name or 'foo'
         self.object_list = object_list
         self.settings = settings or app.theme_context
+        self._num_pages = None
+        self._count = count
 
-        if self.settings.get('DEFAULT_PAGINATION'):
-            self.per_page = self.settings.get('DEFAULT_PAGINATION')
-            self.orphans = self.settings.get('DEFAULT_ORPHANS')
+        if self.settings.get('PAGINATION_ENABLED', True):
+            self.per_page = self.settings.get('DEFAULT_PAGINATION', 10)
+            self.orphans = self.settings.get('DEFAULT_ORPHANS', 0)
         else:
-            self.per_page = len(object_list)
+            self.per_page = self.count
             self.orphans = 0
-
-        self._num_pages = self._count = None
 
     def page(self, number):
         "Returns a Page object for the given 1-based page number."

@@ -2,6 +2,7 @@ import functools
 from .utils import url_for_content, url_for_category
 from .formats import get_format
 from .paginator import Paginator
+from flask import current_app as app
 from quokka.utils.text import slugify
 
 
@@ -111,6 +112,9 @@ class Tag(Orderable):
     def __str__(self):
         return self.name
 
+    def __getitem__(self, item):
+        return self
+
 
 class Content:
     def __init__(self, data):
@@ -127,18 +131,41 @@ class Content:
         return self.data['date']
 
     @property
+    def locale_modified(self):
+        # TODO: format according to settings
+        return self.data['modified']
+
+    @property
     def metadata(self):
         # TODO: get metadata from database
         # TODO: implement libratar/gravatar
         return {
            # 'cover': 'foo',
-           'author_gravatar': 'http://i.pravatar.cc/300',
+           # 'author_gravatar': 'http://i.pravatar.cc/300',
            # 'about_author': 'About Author',
            # 'translations': ['en'],
            # 'og_image': 'foo',
            # 'series': 'aa',
            # 'asides': 'aaa'
         }
+
+    @property
+    def author_gravatar(self):
+        return self.author_avatar
+
+    @property
+    def author_avatar(self):
+        return self.metadata.get(
+            'author_avatar',
+            app.theme_context.get(
+                'AVATAR',
+                'http://i.pravatar.cc/300'
+            )
+        )
+
+    @property
+    def summary(self):
+        return self.data.get('summary') or ''
 
     @property
     def header_cover(self):
@@ -184,7 +211,7 @@ class Content:
 
     @property
     def content(self):
-        return self.format.render(self.data)
+        return self.format.render(self.data) or ''
 
     @property
     def category(self):

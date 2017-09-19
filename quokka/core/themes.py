@@ -7,14 +7,17 @@ def configure(app):
     OVERLOAD_ENABLED = app.theme_context.get('OVERLOAD_ENABLED', True)
     TEMPLATES = Path('templates')
     THEME_FOLDER = Path(app.theme_context.get('FOLDER', 'themes'))
-    THEME_ACTIVE = Path(app.theme_context.get('ACTIVE', 'default'))
+    ACTIVE_NAME = app.theme_context.get('ACTIVE', 'default')
+    THEME_ACTIVE = Path(ACTIVE_NAME)
     THEME_TEMPLATE_FOLDER = THEME_FOLDER / THEME_ACTIVE / TEMPLATES
+    PREFIXED = Path(f'pelican-{ACTIVE_NAME}')
+    PREFIXED_TEMPLATE_FOLDER = THEME_FOLDER / PREFIXED / TEMPLATES
     THEME_STATIC_FOLDER = THEME_FOLDER / THEME_ACTIVE / Path('static')
     ABS_THEME_STATIC_FOLDER = Path.cwd() / THEME_STATIC_FOLDER
     DEFAULT_PATH = Path(app.jinja_loader.searchpath[0])
     OVERLOAD_FOLDER = DEFAULT_PATH / f'overload_{THEME_ACTIVE}' / TEMPLATES
 
-    FOLDERS = [THEME_TEMPLATE_FOLDER]
+    FOLDERS = [THEME_TEMPLATE_FOLDER, PREFIXED_TEMPLATE_FOLDER]
     if OVERLOAD_ENABLED:
         FOLDERS.insert(0, OVERLOAD_FOLDER)
 
