@@ -29,11 +29,10 @@ THEME:
 
     ## The name of the choosen theme folder
     ##
-    ## Known Compatible themes are:
-    ##    pure, eevee, hyde, nest, octopress, bootstrap3, clean-blog, Flex
+    ## Tested Compatible themes are:
+    ##    pure, hyde, octopress, bootstrap3, clean, Flex, malt
     ## Install one of the compatible themes with:
     ##    $ quokka themes install theme-name
-    ##    $ quokka themes activate theme-name
     ## Or download themes from http://www.pelicanthemes.com/
     ##    $ git clone --recursive https://github.com/getpelican/pelican-themes ~/pelican-themes
     ##    $ cp ~/pelican-themes/<desired_theme> themes/
@@ -51,6 +50,7 @@ THEME:
     # SITEURL: 'http://localhost:5000'
     CSS_FILE: main.css
 
+    SITELOGO: http://lorempixel.com/20/20/business/
     SITENAME: Quokka Site
     TAGLINE: Hi This is a new quokka site
     SITEDESCRIPTION: My new Quokka Site
@@ -206,6 +206,16 @@ THEME_BOOTSTRAP3:
     # SIDEBAR_IMAGES_HEADER: 'My Images'
     # SIDEBAR_IMAGES: ["http://lorempixel.com/200/200/abstract", "http://lorempixel.com/200/200/abstract"]
     # PAGES_SORT_ATTRIBUTE:
+
+THEME_MALT:
+    # http://materializecss.com/color.html
+    MALT_BASE_COLOR: teal
+    PYGMENTS_STYLE: native
+    # If Article has banner and banner_subtitle metadata it will be overwritten
+    BANNER: http://lorempixel.com/1000/200/abstract/
+    BANNER_SUBTITLE: Hello World
+    BANNER_TEXT: Hello Again
+    # BANNER_ALL_PAGES: true
 
 # THEME_OCTOPRESS:
 #     DISPLAY_SOCIAL_ICONS: true

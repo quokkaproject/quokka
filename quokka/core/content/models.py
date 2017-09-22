@@ -205,6 +205,11 @@ class Content:
         return []
 
     @property
+    def banner(self):
+        # TODO: get it from model
+        return 'http://lorempixel.com/1000/200/abstract/'
+
+    @property
     def series(self):
         # https://github.com/getpelican/pelican-plugins/tree/master/series
         return Series('foo')
