@@ -1,0 +1,196 @@
+{% if 'jinja2.ext.i18n' not in JINJA_ENVIRONMENT.extensions and 'jinja2.ext.i18n' not in JINJA_EXTENSIONS %}
+  {% macro _(msg) %}
+    {{ msg % kwargs }}
+  {% endmacro %}
+{% endif %}
+
+<!DOCTYPE html>
+<html lang="{{ DEFAULT_LANG }}">
+<head>
+  <link href='//fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700,400italic' rel='stylesheet' type='text/css'>
+
+  {% if USE_LESS %}
+    <link rel="stylesheet/less" type="text/css" href="{{ SITEURL }}/{{ THEME_STATIC_DIR }}/stylesheet/style.less">
+    <script src="//cdnjs.cloudflare.com/ajax/libs/less.js/2.5.1/less.min.js" type="text/javascript"></script>
+  {% else %}
+    <link rel="stylesheet" type="text/css" href="{{ SITEURL }}/{{ THEME_STATIC_DIR }}/stylesheet/style.min.css">
+  {% endif %}
+
+  <link rel="stylesheet" type="text/css" href="{{ SITEURL }}/{{ THEME_STATIC_DIR }}/pygments/{{ PYGMENTS_STYLE|default('github') }}.min.css">
+  <link rel="stylesheet" type="text/css" href="{{ SITEURL }}/{{ THEME_STATIC_DIR }}/font-awesome/css/font-awesome.min.css">
+
+  {% if CUSTOM_CSS %}
+    <link href="{{ SITEURL }}/{{ CUSTOM_CSS }}" rel="stylesheet">
+  {% endif %}
+
+  {% if FEED_ALL_ATOM %}
+    <link href="{{ FEED_DOMAIN }}/{{ FEED_ALL_ATOM }}" type="application/atom+xml" rel="alternate" title="{{ SITENAME }} Atom">
+  {% endif %}
+
+  {% if FEED_ALL_RSS %}
+    <link href="{{ FEED_DOMAIN }}/{{ FEED_ALL_RSS }}" type="application/rss+xml" rel="alternate" title="{{ SITENAME }} RSS">
+  {% endif %}
+
+  {% if FAVICON %}
+    <link rel="shortcut icon" href="{{ FAVICON }}" type="image/x-icon">
+    <link rel="icon" href="{{ FAVICON }}" type="image/x-icon">
+  {% endif %}
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  {% if page in hidden_pages %}
+    <meta name="robots" content="noindex, nofollow" />
+  {% else %}
+    <meta name="robots" content="{{ ROBOTS }}" />
+  {% endif %}
+
+  {% if BROWSER_COLOR %}
+    <!-- Chrome, Firefox OS and Opera -->
+    <meta name="theme-color" content="{{ BROWSER_COLOR }}">
+    <!-- Windows Phone -->
+    <meta name="msapplication-navbutton-color" content="{{ BROWSER_COLOR }}">
+    <!-- iOS Safari -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <!-- Microsoft EDGE -->
+    <meta name="msapplication-TileColor" content="{{ BROWSER_COLOR }}">
+  {% endif %}
+
+  {% block meta %}
+    <meta name="author" content="{{ AUTHOR }}" />
+    <meta name="description" content="{{ SITEDESCRIPTION }}" />
+    {% include "partial/og.html" %}
+  {% endblock %}
+
+  <title>{{ SITENAME }}{% block title %}{% endblock %}</title>
+
+  {% if GOOGLE_ADSENSE and GOOGLE_ADSENSE.page_level_ads %}
+  <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+  <script>
+    (adsbygoogle = window.adsbygoogle || []).push({
+      google_ad_client: "{{ GOOGLE_ADSENSE.ca_id }}",
+      enable_page_level_ads: true
+    });
+  </script>
+  {% endif %}
+</head>
+<body>
+  {% if GOOGLE_TAG_MANAGER %}
+    {% include "partial/gtm.html" %}
+  {% endif %}
+  <aside>
+    <div>
+      <a href="{{ SITEURL }}">
+        {% if SITELOGO %}
+        <img src="{{ SITELOGO }}" alt="{{ SITETITLE }}" title="{{ SITETITLE }}">
+        {% else %}
+        <img src="{{ SITEURL }}/{{ THEME_STATIC_DIR }}/img/profile.png" alt="{{ SITETITLE }}" title="{{ SITETITLE }}">
+        {% endif %}
+      </a>
+      <h1><a href="{{ SITEURL }}">{{ SITETITLE }}</a></h1>
+
+      {% if SITESUBTITLE %}<p>{{ SITESUBTITLE }}</p>{% endif %}
+
+      {% if pages or LINKS %}
+      <nav>
+        <ul class="list">
+          {% if not PAGES_SORT_ATTRIBUTE -%}
+              {% set PAGES_SORT_ATTRIBUTE = 'title' %}
+          {%- endif %}
+          {% for page in pages|sort(attribute=PAGES_SORT_ATTRIBUTE) %}
+          <li><a href="{{ SITEURL }}/{{ page.url }}{% if not DISABLE_URL_HASH %}#{{ page.slug }}{% endif %}">{{ page.title }}</a></li>
+          {% endfor %}
+
+          {% for name, link in LINKS %}
+          <li><a href="{{ link }}" target="_blank">{{ name }}</a></li>
+          {% endfor %}
+        </ul>
+      </nav>
+      {% endif %}
+
+      <ul class="social">
+        {% for name, link in SOCIAL %}
+        <li><a class="sc-{{ name }}" href="{{ link }}" target="_blank"><i class="fa fa-{{ name }}"></i></a></li>
+        {% endfor %}
+      </ul>
+    </div>
+
+    {% if GOOGLE_ADSENSE and GOOGLE_ADSENSE.ads.aside %}
+      <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+      <ins class="adsbygoogle ads-aside"
+           data-ad-client="{{ GOOGLE_ADSENSE.ca_id }}"
+           data-ad-slot="{{ GOOGLE_ADSENSE.ads.aside }}"></ins>
+      <script>
+        (adsbygoogle = window.adsbygoogle || []).push({});
+      </script>
+    {% endif %}
+
+  </aside>
+  <main>
+    {% if GOOGLE_ADSENSE and GOOGLE_ADSENSE.ads.main_menu %}
+      <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+      <ins class="adsbygoogle ads-responsive"
+           data-ad-client="{{ GOOGLE_ADSENSE.ca_id }}"
+           data-ad-slot="{{ GOOGLE_ADSENSE.ads.main_menu }}"></ins>
+      <script>
+        (adsbygoogle = window.adsbygoogle || []).push({});
+      </script>
+    {% endif %}
+
+    {% if MAIN_MENU %}
+    <nav>
+      <a href="{{ SITEURL }}">{{ _('Home') }}</a>
+
+      {% for title, link in MENUITEMS %}
+      <a href="{{ link }}">{{ title }}</a>
+      {% endfor %}
+
+      {% if FEED_ALL_ATOM %}
+      <a href="{{ FEED_DOMAIN }}/{{ FEED_ALL_ATOM }}">{{ _('Atom') }}</a>
+      {% endif %}
+
+      {% if FEED_ALL_RSS %}
+      <a href="{{ FEED_DOMAIN }}/{{ FEED_ALL_RSS }}">{{ _('RSS') }}</a>
+      {% endif %}
+    </nav>
+    {% endif %}
+
+    {% block content %}
+    {% endblock %}
+
+    <footer>
+      {% if CC_LICENSE %}
+        {% include "partial/cc_license.html" %}
+      {% else %}
+        {% include "partial/copyright.html" %}
+      {% endif %}
+    </footer>
+  </main>
+
+  {% if GOOGLE_ANALYTICS %}
+    {% include "partial/ga.html" %}
+  {% endif %}
+
+  {% if GUAGES %}
+    {% include "partial/guages.html" %}
+  {% endif %}
+
+  {% if ADD_THIS_ID %}
+    <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid={{ ADD_THIS_ID }}" async="async"></script>
+  {% endif %}
+
+  {% if PIWIK_URL and PIWIK_SITE_ID %}
+    {% include "partial/piwik.html" %}
+  {% endif %}
+
+  {% include "partial/jsonld.html" %}
+
+  {% block additional_js %}{% endblock %}
+
+  {% if GITHUB_CORNER_URL %}
+  {% include 'partial/github.html' %}
+  {% endif %}
+</body>
+</html>

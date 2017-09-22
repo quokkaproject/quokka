@@ -1,0 +1,46 @@
+{% set _TWITTER_SHOW_FOLLOWER_COUNT = TWITTER_SHOW_FOLLOWER_COUNT|default(True)|string|lower %}
+{% set _TWITTER_SHOW_REPLIES = TWITTER_SHOW_REPLIES|default(False)|string|lower %}
+
+{% if TWITTER_USER %}
+<section>
+  {% if TWITTER_WIDGET_ID %}
+  <h1>Latest Tweets</h1>
+  <ul id="tweets">
+    <li class="loading">Status updating...</li>
+  </ul>
+  <script type="text/javascript">
+    $.domReady(function(){
+      var widgetId = '{{TWITTER_WIDGET_ID}}',
+          domId = 'tweets',
+          count = {{TWITTER_TWEET_COUNT|default(5)}},
+          hyperlinkUrlsPlus = true,
+          showUserPhoto = false,
+          timeOfTweet = true,
+          dateFormat = 'default',
+          showRetweets = {{_TWITTER_SHOW_REPLIES}},
+          customOutputFn = null,
+          showReplyRetweetButtons = false;
+
+      twitterFetcher.fetch(
+        widgetId,
+        domId,
+        count,
+        hyperlinkUrlsPlus,
+        showUserPhoto,
+        timeOfTweet,
+        dateFormat,
+        showRetweets,
+        customOutputFn,
+        showReplyRetweetButtons
+      );
+    });
+  </script>
+  <script src="{{ ROOT_URL }}/theme/js/twitter.js" type="text/javascript"> </script>
+  {% endif %}
+  {% if TWITTER_FOLLOW_BUTTON %}
+    <a href="http://twitter.com/{{ TWITTER_USER }}" class="twitter-follow-button" data-show-count="{{ _TWITTER_SHOW_FOLLOWER_COUNT }}">Follow @{{ TWITTER_USER }}</a>
+  {% else %}
+    <p>Follow <a href="http://twitter.com/{{ TWITTER_USER }}">@{{ TWITTER_USER }}</a></p>
+  {% endif %}
+</section>
+{% endif %}

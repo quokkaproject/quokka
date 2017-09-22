@@ -1,0 +1,528 @@
+@import "variables.less";
+
+html, body {
+  width: 100%;
+  height: 100%;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: 300;
+  line-height: 1.1;
+}
+
+h1{
+  font-size: 2.4em
+}
+
+h2 {
+  font-size: 2em
+}
+
+h3 {
+  font-size: 1.6em
+}
+
+h4 {
+  font-size: 1.36em
+}
+
+h5 {
+  font-size: 1.2em
+}
+
+h6 {
+  font-size: 1.1em
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: @body-bg;
+  color: @text-color;
+  font-family: @sans;
+  font-size: 1.02em;
+  line-height: 1.2em;
+}
+
+a {
+  color: @link-color;
+  text-decoration: none;
+}
+
+a:hover {
+  color: @link-hover-color;
+}
+
+hr {
+  color: @light-grey;
+  background-color: @light-grey;
+  height: 1px;
+  border: none;
+  margin-top: 40px;
+  margin-bottom: 40px;
+}
+
+img {
+  max-width: 100%;
+}
+
+aside {
+  background-color: @sidebar-bg;
+  color: @sidebar-text-color;
+  text-align: center;
+
+  a {
+    color: @sidebar-link-color;
+  }
+
+  a:hover {
+    color: @sidebar-link-hover-color;
+  }
+
+  div {
+    padding: 20px;
+    margin: 0;
+
+    img {
+      border-radius: 50%;
+      max-width: 140px;
+    }
+
+    h1 {
+      margin: 15px 0 5px 0;
+    }
+
+    p {
+      margin: 0 0 15px 0;
+      font-size: .92em;
+    }
+  }
+
+  nav {
+    ul {
+      li {
+        display: inline;
+        line-height: 1.6em;
+        font-size: 1.28em;
+        text-transform: lowercase;
+      }
+    }
+  }
+}
+
+main {
+  nav {
+    text-align: center;
+    text-transform: uppercase;
+    font-size: .72em;
+    padding: 14px 0 14px 0;
+    border-bottom: @nav-border-color 1px solid;
+  }
+
+  nav, .translations {
+    a {
+      padding: 0 4px 0 4px;
+      border-left: @nav-border-color 1px solid;
+      border-right: @nav-border-color 1px solid;
+    }
+
+    :first-child {
+      border-left: none;
+    }
+
+    :last-child {
+      border-right: none;
+    }
+  }
+
+  .neighbors {
+    margin: 4% 0% 4% 0%;
+    height: 20px;
+  }
+
+  .pagination {
+    margin: 4% 8% 4% 8%;
+    height: 20px;
+  }
+
+  .social-share {
+    p {
+      font-size: .8em;
+    }
+  }
+
+  article {
+    margin: 0 8% 2% 8%;
+
+    header {
+      h1, h2 {
+        margin-bottom: 0;
+      }
+
+      p {
+        color: @header-text-color;
+        font-size: 0.86em;
+      }
+
+      .translations {
+        float: right;
+
+        .active {
+          font-weight: 600;
+        }
+      }
+    }
+
+    code, kbd, samp, pre {
+      font-family: @mono;
+    }
+
+    blockquote, pre {
+      background-color: rgba(128,128,128,0.05);
+      border-top-right-radius: 5px;
+      border-bottom-right-radius: 5px;
+      border-left: 8px solid rgba(128,128,128,0.075);
+      border-left-width: 10px;
+    }
+
+    blockquote {
+      padding: 10px 20px;
+      font-weight: 300;
+      font-size: 1.1em;
+    }
+
+    pre {
+      padding: 4px;
+      font-size: .9em;
+      overflow-x: auto;
+    }
+
+    samp {
+      white-space: pre;
+      display: block;
+      overflow-x: auto;
+    }
+
+    kbd {
+      padding: .1em .6em;
+      border: 1px solid rgba(63,63,63,0.25);
+      box-shadow: 0 1px 0 rgba(63,63,63,0.25);
+      background-color: #fff;
+      color: #333;
+      border-radius: 3px;
+      display: inline-block;
+      margin: 0 .1em;
+      white-space: nowrap;
+      font-size: .78em;
+    }
+
+    code {
+      font-size: .8em;
+      white-space: nowrap;
+      color: #c25;
+      padding: 1px 3px;
+      background-color: #f7f7f9;
+      border: 1px solid #e1e1e8;
+      border-radius: 3px;
+    }
+
+    .comment-count {
+      font-size: .8em;
+    }
+
+    table {
+      border-collapse: collapse;
+      border-spacing: 0;
+
+      thead:first-child tr:first-child th {
+         border-top: 0;
+      }
+
+      th, td {
+        padding: 8px;
+        line-height: 20px;
+        vertical-align: top;
+        border-top: 1px solid #ddd;
+      }
+    }
+  }
+
+  footer {
+    padding-top: 4px;
+    border-top: @footer-border-color 1px solid;
+
+    p {
+      margin: 2px;
+      text-align: center;
+      padding: 0 40px 0 40px;
+      color: @footer-text-color;
+      font-size: 11px;
+    }
+  }
+}
+
+.tag-cloud {
+  a {
+    background-color: @tag-bg;
+    padding: .2em .6em .2em;
+    font-size: .74em;
+    line-height: 1;
+    color: @tag-text-color;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+    border-radius: .25em;
+  }
+
+  a:hover {
+    background-color: @tag-hover-color;
+  }
+}
+
+a.btn {
+  background-color: @btn-bg;
+  padding: .6em .6em;
+  font-size: .8em;
+  line-height: 1;
+  color: @btn-text-color;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: baseline;
+  border-radius: .25em;
+}
+
+a.btn:hover {
+  background-color: @btn-hover-color;
+}
+
+.center, .text-center {
+  text-align: center;
+}
+
+.img-center {
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+}
+
+.align-center {
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+}
+
+.float-left {
+  float: left;
+}
+
+.float-right {
+  float: right;
+}
+
+div.related-posts {
+  margin: 15px 0 15px 0;
+  padding-bottom: 20px;
+  border-top: @rel-post-border-color 1px solid;
+  border-bottom: @rel-post-border-color 1px solid;
+
+  h4 {
+    margin: 20px 0 25px 0;
+  }
+
+  ul {
+    font-size: 1.1em;
+    padding-left: 12px;
+
+    li {
+      padding: 4px 0 4px 0;
+    }
+  }
+}
+
+ul.list, ul.social, ul.related-posts {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+ul.list {
+  padding: 1em 0 1em 0;
+
+  li {
+    padding: 4px;
+  }
+}
+
+ul.social {
+  font-size: 1.6em;
+  padding-top: 20px;
+
+  li {
+    display: inline;
+  }
+
+  a:hover {
+    z-index: 2;
+    -webkit-transform: translateY(-5px);
+    transform: translateY(-5px);
+  }
+
+  a {
+    display: inline-block;
+    width: 36px;
+    height: 36px;
+    border-radius: 100%;
+    text-align: center;
+    font-size: .8em;
+    line-height: 36px;
+  }
+
+  a.sc-facebook {
+    background-color: @facebook-bg-color;
+  }
+
+  a.sc-google {
+    background-color: @google-bg-color;
+  }
+
+  a.sc-instagram {
+    background-color: @instagram-bg-color;
+  }
+
+  a.sc-pinterest {
+    background-color: @pinterest-bg-color;
+  }
+
+  a.sc-linkedin {
+    background-color: @linkedin-bg-color;
+  }
+
+  a.sc-medium {
+    background-color: @medium-bg-color;
+  }
+
+  a.sc-rss {
+    background-color: @rss-bg-color;
+  }
+
+  a.sc-stack-overflow {
+    background-color: @stack-overflow-bg-color;
+  }
+
+  a.sc-tumblr {
+    background-color: @tumblr-bg-color;
+  }
+
+  a.sc-twitter {
+    background-color: @twitter-bg-color;
+  }
+
+  a.sc-youtube {
+    background-color: @youtube-bg-color;
+  }
+
+  a.sc-github, a.sc-github-alt {
+    background-color: @github-bg-color;
+  }
+
+  a.sc-envelope-o {
+    background-color: @email-bg-color;
+  }
+
+  a.sc-reddit {
+    background-color: @reddit-bg-color;
+  }
+
+  a.sc-soundcloud {
+    background-color: @soundcloud-bg-color;
+  }
+
+  a.sc-gitlab {
+    background-color: @gitlab-bg-color;
+  }
+
+  a.sc-xing {
+    background-color: @xing-bg-color;
+  }
+
+}
+
+.ads-aside {
+  display: inline-block;
+  height: 90px;
+  width: 70%;
+}
+
+.ads-responsive {
+  display: inline-block;
+  margin: 6px 0 6px 0;
+  width: 90%;
+  height: 70px;
+  margin-left: 5%;
+}
+
+//
+// Desktop
+//
+
+@media screen and (min-width: 768px) {
+  aside {
+    width: 25%;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    overflow-y: auto;
+
+    div {
+      padding: 36px 18px;
+
+      nav {
+        ul {
+          li {
+            padding: 0 !important;
+            display: block;
+          }
+        }
+      }
+
+      ul.social {
+        padding-top: 32px;
+      }
+    }
+  }
+
+  main {
+    width: 75%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 25%;
+
+    article {
+
+      &.single {
+        min-height: 80%;
+      }
+
+      ul.list {
+        li {
+          padding: 2px;
+        }
+      }
+    }
+  }
+
+  .ads-aside {
+    height: 250px;
+  }
+
+  .ads-responsive {
+    height: 90px;
+  }
+}

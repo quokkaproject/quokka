@@ -1,0 +1,51 @@
+<div class="navbar-fixed">
+    <nav class="{{ MALT_BASE_COLOR }} role="navigation">
+        <div class="container">
+            <div class="nav-wrapper">
+                <a id="logo-container" href="/" class="brand-logo">
+                    {{ SITENAME }}
+                </a>
+                {% if NAVBAR_BLOG_LINKS %}
+                <ul class="right hide-on-med-and-down">
+                    {% for link in NAVBAR_BLOG_LINKS %}
+                    {% if page is defined %}
+                        {% set href = page.slug %}
+                    {% elif page_name is defined %}
+                        {% set href = page_name.replace("/index", "") %}
+                    {% else %}
+                        {% set href = None %}
+                    {% endif %}
+                    <li {% if href == link['href'] %}class="active"{% endif %}><a href="{{ SITEURL }}/{{ link['href']}}">{{ link['title']}}</a></li>
+                    {% endfor %}
+                </ul>
+
+                <ul id="nav-mobile" class="side-nav">
+                    <li class="{{ MALT_BASE_COLOR }} lighten-1" id="nav-mobile-header">
+                        <div class="row center">
+                            <div class="col s12" id="nav-mobile-header-img">
+                                <a href="/" alt="{{ SITENAME }}" title="{{ SITENAME }}">
+                                    <img class="circle responsive-img valign z-depth-1" alt="{{ SITENAME }} Logo" title="{{ SITENAME }}" src="{{ SITEURL }}/{{ SITE_LOGO_MOBILE }}">
+                                </a>
+                            </div>
+                            <div class="col s12" id="nav-mobile-header-text">
+                                <span class="{{ MALT_BASE_COLOR }}-text text-lighten-5">{{ SITENAME }}</span>
+                            </div>
+                        </div>
+                    </li>
+                    {% for link in NAVBAR_BLOG_LINKS %}
+                    {% if page is defined %}
+                        {% set href = page.slug %}
+                    {% elif page_name is defined %}
+                        {% set href = page_name.replace("/index", "") %}
+                    {% else %}
+                        {% set href = None %}
+                    {% endif %}
+                    <li {% if href == link['href'] %}class="active"{% endif %}><a href="{{ SITEURL }}/{{ link['href']}}">{{ link['title']}}</a></li>
+                    {% endfor %}
+                </ul>
+                {% endif %}
+                <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="material-icons">menu</i></a>
+            </div>
+        </div>
+    </nav>
+</div>

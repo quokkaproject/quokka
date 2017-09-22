@@ -1,0 +1,42 @@
+{% if article.use_schema_org %}
+<!-- Schema.org markup for Google+ -->
+<meta itemprop="name" content="{{ article.title }}" />
+<meta itemprop="description" content="{{ article.description }}" />
+{% if article.social_image %}
+<meta itemprop="image" content="{{ SITEURL }}/{{ article.social_image }}" />
+{% elif SOCIAL_IMAGE %}
+<meta itemprop="image" content="{{ SITEURL }}/{{ SOCIAL_IMAGE }}" />
+{% endif %}
+{% endif %}
+
+{% if article.use_open_graph %}
+<!-- Open Graph data -->
+<meta property="og:type" content="article" />
+<meta property="og:title" content="{{ article.title }}" />
+{% if article.social_image %}
+<meta property="og:image" content="{{ SITEURL }}/{{ article.social_image }}" />
+{% elif SOCIAL_IMAGE %}
+<meta property="og:image" content="{{ SITEURL }}/{{ SOCIAL_IMAGE }}" />
+{% endif %}
+<meta property="og:description" content="{{ article.description }}" />
+{% endif %}
+
+{% if article.use_twitter_card %}
+<!-- Twitter Card data -->
+<meta name="twitter:card" content="summary" />
+{% if article.twitter_site %}
+<meta name="twitter:site" content="{{ article.twitter_site }}" />
+{% else %}
+<meta name="twitter:site" content="{{ TWITTER_USER }}" />
+{% endif %}
+<meta name="twitter:title" content="{{ article.title }}" />
+<meta name="twitter:description" content="{{ article.description }}" />
+{% if article.twitter_creator %}
+<meta name="twitter:creator" content="{{ article.twitter_creator }}" />
+{% endif %}
+{% if article.social_image %}
+<meta name="twitter:image" content="{{ SITEURL }}/{{ article.social_image }}" />
+{% elif SOCIAL_IMAGE %}
+<meta name="twitter:image" content="{{ SITEURL }}/{{ SOCIAL_IMAGE }}" />
+{% endif %}
+{% endif %}

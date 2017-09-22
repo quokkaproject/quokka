@@ -1,0 +1,55 @@
+{% if DISPLAY_FEEDS_ON_MENU|default(true) %}
+<ul class="subscription" data-subscription="rss">
+  {% if FEED_FEEDBURNER %}
+  <li><a href="http://feeds.feedburner.com/{{ FEED_FEEDBURNER }}" rel="subscribe-rss">RSS</a></li>
+  {% else %}
+  {% if FEED_ATOM %}
+  <li><a href="{{ FEED_DOMAIN }}/{{ FEED_ATOM }}" rel="subscribe-atom">Atom</a></li>
+  {% endif %}
+  {% if FEED_RSS %}
+  <li><a href="{{ FEED_DOMAIN }}/{{ FEED_RSS }}" rel="subscribe-rss">RSS</a></li>
+  {% endif %}
+  {% endif %}
+</ul>
+{% endif %}
+
+{% if SEARCH_BOX %}
+<form action="{{ SITESEARCH|default('https://www.google.com/search') }}" method="get">
+  <fieldset role="search">
+    {% if 'duckduckgo.com' in SITESEARCH|lower %}
+    <input type="hidden" name="sites" value="{{ SITEURL|replace('https://','')|replace('http://','') }}" />
+    {% else %}
+    <input type="hidden" name="sitesearch" value="{{ SITEURL|replace('https://','')|replace('http://','') }}">
+    {% endif %}
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+{% endif %}
+
+<ul class="main-navigation">
+  {% for title, link in MENUITEMS %}
+    <li><a href="{{ link }}">{{ title }}</a></li>
+  {% endfor %}
+  {% if DISPLAY_PAGES_ON_MENU %}
+    {% for page in PAGES %}
+      <li><a href="{{ SITEURL }}/{{ page.url }}">{{ page.title }}</a></li>
+    {% endfor %}
+  {% endif %}
+  {% if MENUITEMS_MIDDLE %}
+    {% for title, link in MENUITEMS_MIDDLE %}
+      <li><a href="{{ link }}">{{ title }}</a></li>
+    {% endfor %}
+  {% endif %}
+  {% if DISPLAY_CATEGORIES_ON_MENU %}
+    {% for cat, null in categories %}
+      <li {% if cat == category %}class="active"{% endif %}>
+        <a href="{{ SITEURL }}/{{ cat.url }}">{{ cat | capitalize }}</a>
+      </li>
+    {% endfor %}
+  {% endif %}
+  {% if MENUITEMS_AFTER %}
+    {% for title, link in MENUITEMS_AFTER %}
+      <li><a href="{{ link }}">{{ title }}</a></li>
+    {% endfor %}
+  {% endif %}
+</ul>

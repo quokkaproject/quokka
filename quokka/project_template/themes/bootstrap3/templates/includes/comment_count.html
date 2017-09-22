@@ -1,0 +1,1 @@
+{% if DISQUS_SITENAME and DISQUS_DISPLAY_COUNTS %}<p><small><a href="{{ SITEURL }}/{{ article.url }}#disqus_thread" {% if not DISQUS_NO_ID %}data-disqus-identifier="{{ article.date|strftime('%Y-%m-') ~ article.slug if DISQUS_ID_PREFIX_SLUG else article.slug }}"{% endif %}>{{ _('View comments') }}</a>.</small></p>{% endif %}

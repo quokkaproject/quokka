@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+
+{% block title %}{{ page.title }} | {{ SITENAME }}{% endblock %}
+
+{% block styles %}
+    {{ super() }}
+    <link href="{{ SITEURL }}/theme/css/page.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+{% endblock %}
+
+{% block banner %}
+<div class="hero hero-article" style="background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('{{ GET_ARTICLE_IMAGE(page, ARTICLE_BANNERS_FOLDER) }}')">
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="container content-container">
+    <div style="bottom: 45px; right: 24px;" class="fixed-action-btn">
+        <a title="Código fonte no GitHub" class="btn-floating btn-large" href="{{ GET_ARTICLE_AT_GITHUB(page, GITHUB_REPO, GITHUB_BRANCH) }}" target="_blank">
+            <i class="fa fa-code"></i> Código Fonte
+        </a>
+    </div>
+
+    <div class="row">
+        <div class="col s12 m12 l12 center-align animated bounceInDown slow page-meta">
+            <h1 class="white-text">{{ page.title }}</h1>
+            <div class="page-metadata {{ MALT_BASE_COLOR }}-text text-lighten-5">
+                <span class="page-author-name">
+                    <a href="{{ SITEURL }}/{{ page.author.url }}" title="{{ page.author.name|escape }}" class="{{ MALT_BASE_COLOR }}-text text-lighten-5">
+                        <i class="fa fa-user"></i> {{ page.author.name }}
+                    </a>
+                </span>
+                <span class="page-datetime">
+                    <i class="fa fa-calendar"></i> <time datetime="{{ page.date.isoformat() }}">{{ page.locale_date }}</time>
+                </span>
+            </div>
+        </div>
+    </div>
+
+    {% set BREADCRUMB_ELEMENTS = [("{} Blog".format(SITENAME), "blog"), (page.title, None)] %}
+
+    <div class="row">
+        <div class="col s12 m12 l12 white z-depth-2 page">
+            {% include "includes/breadcrumbs.html" %}
+            <div class="page-contents">
+            {{ page.content }}
+            </div>
+        </div>
+    </div>
+
+    {% if page.comments != "closed" %}
+        {% include "includes/comments.html" %}
+    {% endif %}
+</div>
+{% endblock %}

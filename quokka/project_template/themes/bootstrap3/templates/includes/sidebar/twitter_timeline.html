@@ -1,0 +1,12 @@
+{% if TWITTER_WIDGET_ID %}
+  {% from 'includes/sidebar/macros.jinja' import title %}
+
+<!-- Sidebar/Twitter Timeline -->
+<li class="list-group-item">
+  <h4>{{ title('Latest Tweets', DISABLE_SIDEBAR_TITLE_ICONS, icon='twitter') }}</h4>
+  <div id="twitter_timeline">
+    <a class="twitter-timeline" data-width="250" data-height="300" data-dnt="true" data-theme="light" href="https://twitter.com/{{TWITTER_USERNAME}}">Tweets by {{TWITTER_USERNAME}}</a> <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+  </div>
+</li>
+<!-- End Sidebar/Twitter Timeline -->
+{% endif %}

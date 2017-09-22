@@ -1,0 +1,43 @@
+.breadcrumb {
+  background-color: #fff;
+  margin-right: 24px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
+  width: 100%;
+}
+
+#tags {
+  border-radius: 5px;
+}
+
+#all-tags {
+  text-align: justify;
+  padding-left: 25px;
+  padding-right: 25px;
+  padding-bottom: 10px;
+}
+
+#tag-search .input-field {
+  margin-top: 0px;
+  padding-top: 15px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+#search-icon {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+}
+
+#search-input {
+  margin-left: 50px;
+  padding-left: 10px;
+  border-radius: 4px;
+  border-width: medium medium 0;
+}
+
+#search-bar {
+  border-top-left-radius: 4px;;
+  border-top-right-radius: 4px;;
+}

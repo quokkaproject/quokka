@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block content %}
+{% set index=True %}
+<div class="blog-index">
+  {% if articles %}
+  	{% for article in articles_page.object_list %}
+  		<article>
+    		{% include '_includes/article.html' %}
+  		</article>
+  	{% endfor %}
+  	{% include '_includes/pagination.html' %}
+  {% endif %}
+</div>
+{% endblock %}

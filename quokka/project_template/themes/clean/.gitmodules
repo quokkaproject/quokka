@@ -1,0 +1,3 @@
+[submodule "templates/cc-tools"]
+	path = templates/cc-tools
+	url = https://github.com/hlapp/cc-tools

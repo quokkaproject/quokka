@@ -1,0 +1,19 @@
+{% set CARD_SIZE = "s12 m6 l4" %}
+{% set BREADCRUMB_ELEMENTS = [("{} Blog".format(SITENAME), "blog"), ("Categorias", "blog/categorias"), (category.name, None)] %}
+{% set HIDE_AUTHOR_AVATAR = True %}
+{% set HIDE_CATEGORY = True %}
+
+{% extends "index.html" %}
+
+{% block styles %}
+    {{ super() }}
+    <link href="{{ SITEURL }}/theme/css/tag-category-author-index.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+{% endblock %}
+
+{% block title %}
+Artigos na Categoria '{{ category.name }}' | {{ SITENAME }}
+{% endblock %}
+
+{% block bannertext %}
+<h1>Artigos na Categoria '{{ category.name }}'</h1>
+{% endblock %}

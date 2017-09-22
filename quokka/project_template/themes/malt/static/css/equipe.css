@@ -1,0 +1,36 @@
+.dev-card {
+  height: 261px !important;
+  background-size: 261px 261px !important;
+  background-position: 50% 50% !important;
+  background-repeat: no-repeat !important;
+}
+
+.card .card-action {
+  padding: 10px;
+}
+
+.card-image {
+  height: 235px !important;
+}
+
+.hero {
+  height: 500px;
+}
+
+@media (max-width: 992px) {
+  h1 {
+    font-size: 3.5rem;
+  }
+  .hero {
+    height: 400px;
+  }
+}
+
+@media (max-width: 600px) {
+  h1 {
+    font-size: 2.5rem;
+  }
+  .hero {
+    height: 325px;
+  }
+}

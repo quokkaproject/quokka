@@ -1,0 +1,14 @@
+{% if 'neighbors' in PLUGINS %}
+  <div class="neighbors">
+  {% if article.prev_article %}
+    <a class="btn float-left" href="{{ SITEURL }}/{{ article.prev_article.url }}" title="{{ article.prev_article.title }}">
+      <i class="fa fa-angle-left"></i> {{ _('Previous Post') }}
+    </a>
+  {% endif %}
+  {% if article.next_article %}
+    <a class="btn float-right" href="{{ SITEURL }}/{{ article.next_article.url }}" title="{{ article.next_article.title }}">
+      {{ _('Next Post') }} <i class="fa fa-angle-right"></i>
+    </a>
+  {% endif %}
+  </div>
+{% endif %}

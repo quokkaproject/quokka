@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:og="http://ogp.me/ns#"
+    xmlns:fb="https://www.facebook.com/2008/fbml"
+    {% block itemscope %}
+    itemscope itemtype="http://schema.org/Blog"
+    {% endblock %}
+    lang="{{ DEFAULT_LANG }}">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0"/>
+        <meta http-equiv="content-language" content="pt-br">
+        <meta name="robots" content="index, follow">
+        <meta name="description" content="{{ SITEDESCRIPTION }}"/>
+        <meta name="keywords" content="{{ SITE_KEYWORDS|join(', ') }}"/>
+        <meta name="author" content="{{ AUTHOR }}">
+        <meta name="generator" content="Feito com Materialize, Pelican,
+        Python e VIM. ">
+        <meta name="theme-color" content="{{ MALT_BASE_COLOR }}"/>
+        <title>{% block title %}{{ SITENAME }}{% endblock %}</title>
+
+        <!-- Feeds -->
+        {% if FEED_ALL_ATOM %}
+            <link href="{{ SITEURL }}/{{ FEED_ALL_ATOM }}" type="application/atom+xml" rel="alternate" title="{{ SITENAME }} ATOM Feed"/>
+        {% endif %}
+        {% if FEED_ALL_RSS %}
+            <link href="{{ SITEURL }}/{{ FEED_ALL_RSS }}" type="application/rss+xml" rel="alternate" title="{{ SITENAME }} RSS Feed"/>
+        {% endif %}
+
+        <!-- CSS  -->
+        {% block styles %}
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <link rel="stylesheet" href="{{ SITEURL }}/theme/css/font-awesome.min.css">
+        <link href="{{ SITEURL }}/theme/css/materialize.min.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+        <link href="{{ SITEURL }}/theme/css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+        <link href="{{ SITEURL }}/theme/css/animate.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+        <link href="{{ SITEURL }}/theme/css/pygments/{{ PYGMENTS_STYLE }}.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+        {% endblock %}
+
+        <style type="text/css">
+          .hero {
+            height: 600px;
+            background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)) repeat scroll 0 0%, rgba(0, 0, 0, 0) url('{{ SITEURL }}/{{ BANNER }}'); repeat scroll 0 0;
+            background-position: 50% 50%;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            -webkit-background-size: cover;
+            -moz-background-size: cover;
+            -o-background-size: cover;
+            background-size: cover;
+            overflow: hidden;
+          }
+        </style>
+        <!-- Metadata -->
+        {# Open Graph tags #}
+        {% if USE_OPEN_GRAPH %}
+        {% block opengraph %}
+        <!-- Open Graph tags -->
+            {% if OPEN_GRAPH_FB_APP_ID %}
+                <meta property="fb:app_id" content="{{ OPEN_GRAPH_FB_APP_ID }}"/>
+            {% endif %}
+            <meta property="og:site_name" content="{{ SITENAME }}" />
+            <meta property="og:type" content="website"/>
+            <meta property="og:title" content="{{ SITENAME }}"/>
+            <meta property="og:url" content="{{ SITEURL }}"/>
+            <meta property="og:description" content="{{ SITENAME }}"/>
+            {% if OPEN_GRAPH_IMAGE %}
+                <meta property="og:image"
+                      content="{{ SITEURL }}/{{ OPEN_GRAPH_IMAGE }}"/>
+            {% endif %}
+        {% endblock %}
+        {% endif %}
+
+        {% if GOOGLE_SITE_VERIFICATION %}
+        <meta name="google-site-verification" content="{{ GOOGLE_SITE_VERIFICATION }}"/>
+        {% endif %}
+    </head>
+
+    <body class="{{ MALT_BASE_COLOR }} lighten-5">
+        <header>
+            <!-- Navigation -->
+            {% block navbar %}
+            {% include "includes/navbar-blog.html" %}
+            {% endblock %}
+
+            <!-- Banner -->
+            {% block banner %}
+            <div class="hero parallax-effect">
+                <div class="container">
+                    <div class="hero-content animated bounceInDown slow">
+                        {% block bannerimage %}
+                        <img src="{{ SITEURL }}/{{ SITELOGO }}" title="{{ SITENAME }}" alt="{{ SITENAME }}" class="logo"/>
+                        {% endblock %}
+                        {% block bannertext %}
+                        <h1>{{ BANNER_SUBTITLE }}</h1>
+                        <p>{{ BANNER_TEXT }}</p>
+                        {% endblock %}
+                    </div>
+                </div>
+            </div>
+            {% endblock %}
+        </header>
+        <main>
+            <!-- Content -->
+            {% block content %}
+            {% endblock %}
+
+            <!-- Footer -->
+            {% block footer %}
+            {% include "includes/footer.html" %}
+            {% endblock %}
+
+            <!-- Scripts -->
+            {% block scripts %}
+            <script src="{{ SITEURL }}/theme/js/jquery-2.1.1.min.js"></script>
+            <script src="{{ SITEURL }}/theme/js/materialize.min.js"></script>
+            <script src="{{ SITEURL }}/theme/js/parallax.js"></script>
+            <script src="{{ SITEURL }}/theme/js/init.js"></script>
+            {% endblock %}
+        </main>
+    </body>
+</html>

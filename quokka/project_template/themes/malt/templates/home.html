@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+
+{% block styles %}
+    {{ super() }}
+    <link href="{{ SITEURL }}/theme/css/home.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+    <link href="{{ SITEURL }}/theme/css/animate.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+{% endblock %}
+
+{% block navbar %}
+    {% include "includes/navbar-home.html" %}
+{% endblock %}
+
+{% block content %}
+{% if MALT_HOME is defined %}
+    {% for section in MALT_HOME %}
+    <div class="{% if 'color' in section %}{{ section['color'] }}{% endif %}">
+        <div class="container content-container ">
+            <div class="section">
+                {% if 'title' in section %}
+                    <h2 class="center">{{ section['title'] }}</h2>
+                {% endif %}
+                {% if 'items' in section %}
+                <!--   Icon Section   -->
+                <div class="row">
+                    {% for item in section['items'] %}
+                    <!--   Icon Element   -->
+                    <div class="col s12 m4">
+                        <div class="icon-block">
+                            {% if 'icon' in item %}
+                            <h3 class="center {{ MALT_BASE_COLOR }}-text text-lighten-1">
+                                <i class="fa {{ item['icon'] }} fa-2x"></i>
+                            </h3>
+                            {% endif %}
+
+                            {% if 'title' in item %}
+                            <h5 class="center">{{ item['title'] }}</h5>
+                            {% endif %}
+
+                            {% if 'text' in item %}
+                            <p class="light">
+                            {{ item['text'] }}
+                            </p>
+                            {% endif %}
+
+                            {% if 'buttons' in item %}
+                            <div class="center">
+                                {% for button in item['buttons'] %}
+                                <a class="{{ MALT_BASE_COLOR }} waves-effect waves-light btn" href="{{ GET_LINK(button['href']) }}">{{ button['text'] }}</a>
+                                {% endfor %}
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+{% endif %}
+{% endblock %}

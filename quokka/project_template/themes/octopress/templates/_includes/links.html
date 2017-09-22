@@ -1,0 +1,10 @@
+{% if LINKS %}
+    <section>
+        <h1>Blogroll</h1>
+        <ul>
+        {% for name, link in LINKS %}
+            <li><a href="{{ link }}" target="_blank">{{ name }}</a></li>
+        {% endfor %}
+        </ul>
+    </section>
+{% endif %}

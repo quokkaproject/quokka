@@ -1,0 +1,25 @@
+.collapsible-header {
+  font-weight: bold;
+}
+
+.collapsible-body .contents {
+  padding: 15px;
+}
+
+.collapsible-body .contents span {
+  display: block;
+  padding-bottom: 5px;
+}
+
+.collapsible-body .contents time {
+  font-size: 0.9em;
+  margin-right: 10px;
+}
+
+.breadcrumb {
+  background-color: #fff;
+  margin-left: 24px;
+  margin-right: 24px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
+}

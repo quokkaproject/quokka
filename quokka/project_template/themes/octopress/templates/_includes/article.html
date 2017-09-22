@@ -1,0 +1,25 @@
+<header>
+      {% include '_includes/qr_code.html' %}
+    {% if index %}
+      <h1 class="entry-title">
+        <a href="{{ SITEURL }}/{{ article.url }}">{{ article.title|striptags }}</a>
+      </h1>
+    {% else %}
+      <h1 class="entry-title">{{ article.title|striptags }}</h1>
+    {% endif %}
+    <p class="meta">
+      {% include '_includes/article_time.html' %}
+      {% include '_includes/article_stats.html' %}
+    </p>
+</header>
+
+{% if index %}
+  <div class="entry-content">{{ article.summary }}</div>
+  {% if article.summary != article.content %}
+  <footer>
+    <a rel="full-article" href="{{ SITEURL }}/{{ article.url }}">Read On &crarr;</a>
+  </footer>
+  {% endif %}
+{% else %}
+  <div class="entry-content">{{ article.content }}</div>
+{% endif %}

@@ -1,0 +1,27 @@
+{% if DISPLAY_TAGS_ON_SIDEBAR is not defined %}
+    {% set DISPLAY_TAGS_ON_SIDEBAR = True %}
+{% endif -%}
+
+{% if 'tag_cloud' in PLUGINS and DISPLAY_TAGS_ON_SIDEBAR %}
+  {% from 'includes/sidebar/macros.jinja' import title %}
+  {% if DISPLAY_TAGS_INLINE %}
+    {% set tags = tag_cloud | sort(attribute='0') %}
+  {% else %}
+    {% set tags = tag_cloud | sort(attribute='1') %}
+  {% endif %}
+
+<!-- Sidebar/Tag Cloud -->
+<li class="list-group-item">
+  <a href="{{ SITEURL }}/{{ TAGS_URL }}"><h4>{{ title(_('Tags'), DISABLE_SIDEBAR_TITLE_ICONS, icon='tags') }}</h4></a>
+  <ul class="list-group {% if DISPLAY_TAGS_INLINE %}list-inline tagcloud{% endif %}" id="tags">
+    {% for tag in tags %}
+    <li class="list-group-item tag-{{ tag.1 }}">
+      <a href="{{ SITEURL }}/{{ tag.0.url }}">
+        {{- tag.0 -}}
+      </a>
+    </li>
+    {% endfor %}
+  </ul>
+</li>
+<!-- End Sidebar/Tag Cloud -->
+{% endif %}

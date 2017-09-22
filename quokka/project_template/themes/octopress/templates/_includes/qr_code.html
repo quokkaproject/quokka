@@ -1,0 +1,20 @@
+{% if QR_CODE %}
+    {% if article %}
+    {% set divName = article.url|striptags|urlencode %}
+    {% set url = article.url %}
+    {% else %}
+    {% set divName = page.url|striptags|urlencode %}
+    {% set url = page.url %}
+    {% endif %}
+    
+    <div id="qr-code-{{ divName }}" class="qr-code-image-block"></div>
+    <script src="{{ SITEURL }}/theme/js/qr.min.js" type="text/javascript"></script>
+    <script>
+        var img = qr.image({
+            value: '{{ SITEURL }}/{{ url }}',
+            level: 'L',
+            size: 4
+        });
+        document.getElementById('qr-code-{{ divName }}').appendChild(img);
+    </script>
+{% endif %}

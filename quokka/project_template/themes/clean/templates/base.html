@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="{{ DEFAULT_LANG }}">
+
+<head>
+    {% block head %}
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        {% if GOOGLE_SITE_VERIFICATION %}
+            <meta name="google-site-verification" content="{{ GOOGLE_SITE_VERIFICATION }}">
+        {% endif %}
+
+        <title>{% block title %}{{ SITENAME }}{% if SITESUBTITLE and SHOW_SITESUBTITLE_IN_HTML %} - {{ SITESUBTITLE }}{% endif %}{% endblock title %}</title>
+
+    {% for name,link in SOCIAL if name in ['rss', 'rss-square'] %}
+        <link href="{{ link }}" type="application/atom+xml" rel="alternate" title="{{ SITENAME }} Full Atom Feed" />
+    {% else %}
+        {% if FEED_ALL_ATOM %}
+            <link href="{{ FEED_DOMAIN }}/{{ FEED_ALL_ATOM }}" type="application/atom+xml" rel="alternate" title="{{ SITENAME }} Full Atom Feed" />
+        {% endif %}
+        {% if FEED_ALL_RSS %}
+            <link href="{{ FEED_DOMAIN }}/{{ FEED_ALL_RSS }}" type="application/rss+xml" rel="alternate" title="{{ SITENAME }} Full RSS Feed" />
+        {% endif %}
+        {% if FEED_ATOM %}
+            <link href="{{ FEED_DOMAIN }}/{{ FEED_ATOM }}" type="application/atom+xml" rel="alternate" title="{{ SITENAME }} Atom Feed" />
+        {% endif %}
+        {% if FEED_RSS %}
+            <link href="{{ FEED_DOMAIN }}/{{ FEED_RSS }}" type="application/rss+xml" rel="alternate" title="{{ SITENAME }} RSS Feed" />
+        {% endif %}
+        {% if CATEGORY_FEED_ATOM and category %}
+            <link href="{{ FEED_DOMAIN }}/{{ CATEGORY_FEED_ATOM|format(category.slug) }}" type="application/atom+xml" rel="alternate" title="{{ SITENAME }} Categories Atom Feed" />
+        {% endif %}
+        {% if CATEGORY_FEED_RSS and category %}
+            <link href="{{ FEED_DOMAIN }}/{{ CATEGORY_FEED_RSS|format(category.slug) }}" type="application/rss+xml" rel="alternate" title="{{ SITENAME }} Categories RSS Feed" />
+        {% endif %}
+        {% if TAG_FEED_ATOM and tag %}
+            <link href="{{ FEED_DOMAIN }}/{{ TAG_FEED_ATOM|format(tag.slug) }}" type="application/atom+xml" rel="alternate" title="{{ SITENAME }} Tags Atom Feed" />
+        {% endif %}
+        {% if TAG_FEED_RSS and tag %}
+            <link href="{{ FEED_DOMAIN }}/{{ TAG_FEED_RSS|format(tag.slug) }}" type="application/rss+xml" rel="alternate" title="{{ SITENAME }} Tags RSS Feed" />
+        {% endif %}
+    {% endfor %}
+        <!-- Bootstrap Core CSS -->
+        <link href="{{ SITEURL }}/{{ THEME_STATIC_DIR }}/css/bootstrap.min.css" rel="stylesheet">
+
+        <!-- Custom CSS -->
+        <link href="{{ SITEURL }}/{{ THEME_STATIC_DIR }}/css/clean-blog.min.css" rel="stylesheet">
+
+        <!-- Code highlight color scheme -->
+        {% if COLOR_SCHEME_CSS %}
+            <link href="{{ SITEURL }}/{{ THEME_STATIC_DIR }}/css/code_blocks/{{ COLOR_SCHEME_CSS }}" rel="stylesheet">
+        {% else %}
+            <link href="{{ SITEURL }}/{{ THEME_STATIC_DIR }}/css/code_blocks/darkly.css" rel="stylesheet">
+        {% endif %}
+
+        {% if CSS_OVERRIDE %}
+            <!-- CSS specified by the user -->
+            <link href="{{ SITEURL }}/{{ CSS_OVERRIDE }}" rel="stylesheet">
+        {% endif %}
+
+        <!-- Custom Fonts -->
+        <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+        <link href='https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+        <link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+
+        <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+        <!--[if lt IE 9]>
+            <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+            <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+        <![endif]-->
+    {% endblock head %}
+
+	{% block opengraph %}
+            {% for admin in FACEBOOK_ADMINS %}
+                <meta property="fb:admins" content="{{ admin }}" >
+            {% endfor %}
+            {% for LOC in LOCALE %}
+                <meta property="og:locale" content="{{ LOC }}">
+            {% endfor %}
+		<meta property="og:site_name" content="{{ SITENAME }}">
+	{% endblock opengraph %}
+    {% block twitter_card %}
+        {% for name,link in SOCIAL if name in ['twitter'] %}
+            <meta name="twitter:card" content="summary_large_image">
+            <meta name="twitter:site" content="@{{ link|replace('http://', 'https://')|replace('https://twitter.com/', '') }}">
+            <meta name="twitter:title" content="{{ SITENAME }}">
+            <meta name="twitter:description" content="{{ SITESUBTITLE|default('View the blog.') }}">
+            {% if HEADER_COVER %}
+                <meta name="twitter:image" content="{{ SITEURL }}/{{ HEADER_COVER }}">
+            {% else %}
+                <meta name="twitter:image" content="{{ SITEURL }}/{{ THEME_STATIC_DIR }}/images/post-bg.jpg">
+            {% endif %}
+        {% endfor %}
+    {% endblock twitter_card %}
+    {% if FAVICON %}
+    <link rel="icon" href="/{{FAVICON}}">
+    {% endif %}
+</head>
+
+<body>
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+        <div class="container-fluid">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header page-scroll">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="{{ SITEURL }}/">{{ SITENAME }}</a>
+            </div>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav navbar-right">
+                    {% for title, link in MENUITEMS %}
+                        <li><a href="{{ link }}">{{ title }}</a></li>
+                    {% endfor %}
+
+                    {% if DISPLAY_PAGES_ON_MENU %}
+                        {# FIXME: Simplify to 'for p in pages' when we are ready to drop support for Pelican < 3.7 #}
+                        {% for p in PAGES or pages %}
+                            <li{% if p == page %} class="active"{% endif %}><a href="{{ SITEURL }}/{{ p.url }}">{{ p.title }}</a></li>
+                        {% endfor %}
+                    {% else %}
+                        {% if DISPLAY_CATEGORIES_ON_MENU %}
+                            {% for cat, null in categories %}
+                                <li{% if cat == category %} class="active"{% endif %}><a href="{{ SITEURL }}/{{ cat.url }}">{{ cat }}</a></li>
+                            {% endfor %}
+                        {% endif %}
+                    {% endif %}
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container -->
+    </nav>
+
+    {% block header %}{% endblock header %}
+
+    <!-- Main Content -->
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                {% block content %}{% endblock content %}
+            </div>
+        </div>
+    </div>
+
+    <hr>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                    <ul class="list-inline text-center">
+                    {% if SOCIAL %}
+                        {% for name,link in SOCIAL %}
+                            <li>
+                                <a href="{{ link }}">
+                                    <span class="fa-stack fa-lg">
+                                        <i class="fa fa-circle fa-stack-2x"></i>
+                                        <i class="fa fa-{{ name|lower }} fa-stack-1x fa-inverse"></i>
+                                    </span>
+                                </a>
+                            </li>
+                        {% endfor %}
+                    {% endif %}
+                    </ul>
+                    {% if FOOTER_INCLUDE %}
+                        {% include FOOTER_INCLUDE %}
+                    {% else %}
+                        {% include 'footer.html' %}
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- jQuery -->
+    <script src="{{ SITEURL }}/{{ THEME_STATIC_DIR }}/js/jquery.min.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="{{ SITEURL }}/{{ THEME_STATIC_DIR }}/js/bootstrap.min.js"></script>
+
+    {% if not DISABLE_CUSTOM_THEME_JAVASCRIPT %}
+        <!-- Custom Theme JavaScript -->
+        <script src="{{ SITEURL }}/{{ THEME_STATIC_DIR }}/js/clean-blog.min.js"></script>
+    {% endif %}
+
+    {% include 'analytics.html' %}
+    {% include 'disqus_script.html' %}
+</body>
+
+</html>

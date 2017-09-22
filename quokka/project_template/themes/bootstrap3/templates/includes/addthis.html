@@ -1,0 +1,16 @@
+{% if ADDTHIS_PROFILE %}
+    <hr />
+    <!-- AddThis Button BEGIN -->
+    <div class="addthis_toolbox addthis_default_style">
+        {% if ADDTHIS_FACEBOOK_LIKE|default(true) %}
+            <a class="addthis_button_facebook_like" fb:like:layout="button_count"></a>
+        {% endif %}
+        {% if ADDTHIS_TWEET|default(true) %}
+            <a class="addthis_button_tweet"></a>
+        {% endif %}
+        {% if ADDTHIS_GOOGLE_PLUSONE|default(true) %}
+            <a class="addthis_button_google_plusone" g:plusone:size="medium"></a>
+        {% endif %}
+    </div>
+    <!-- AddThis Button END -->
+{% endif %}

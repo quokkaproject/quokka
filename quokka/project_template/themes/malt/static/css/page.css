@@ -1,0 +1,52 @@
+.hero-article {
+  background-attachment: scroll;
+  height: 450px;
+}
+
+.page {
+  border-radius: 4px;
+}
+
+.page-contents {
+  padding-bottom: 50px;
+  padding-left: 56px;
+  padding-right: 56px;
+}
+
+.page-metadata span {
+  margin-right: 25px;
+  white-space: nowrap;
+}
+
+main {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+}
+
+.page-meta {
+  padding-top: 100px !important;
+  padding-bottom: 50px !important;
+}
+
+.page-tags {
+  border-top: 1px solid rgba(160, 160, 160, 0.4);
+  margin-left: 56px;
+  margin-right: 56px;
+  padding-bottom: 35px;
+  padding-top: 15px;
+  text-align: justify;
+}
+
+.page-tags span {
+  margin-top: 0px;
+}
+
+.breadcrumb {
+  background-color: #eeeeee;
+  margin-left: 56px;
+  margin-right: 56px;
+  margin-top: 50px;
+  margin-bottom: 20px;
+}

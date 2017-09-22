@@ -1,0 +1,10 @@
+@media (min-width: 600px) {
+  .article-contents {
+    min-height: 200px;
+  }
+}
+@media (min-width: 992px) {
+  .article-contents {
+    min-height: 230px;
+  }
+}

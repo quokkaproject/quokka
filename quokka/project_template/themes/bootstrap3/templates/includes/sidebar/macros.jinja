@@ -1,0 +1,7 @@
+{% macro title(name, no_icon, icon='home') -%}
+  {%- if no_icon -%}
+    {{ name }}
+  {%- else -%}
+    <i class="fa fa-{{ icon }} fa-lg"></i><span class="icon-label">{{ name }}</span>
+  {%- endif -%}
+{%- endmacro %}

@@ -1,0 +1,25 @@
+{% if SHARIFF|default(false) %}
+    <hr />
+    <!-- Shariff Button BEGIN -->
+    <div class="shariff"
+        {% if SHARIFF_BACKEND_URL %}
+        data-backend-url="{{ SHARIFF_BACKEND_URL }}"
+        {% endif %}
+        {% if SHARIFF_LANG %}
+        data-lang="{{ SHARIFF_LANG }}"
+        {% endif %}
+        {% if SHARIFF_ORIENTATION|default('vertical') %}
+        data-orientation="{{ SHARIFF_ORIENTATION }}"
+        {% endif %}
+        {% if SHARIFF_SERVICES %}
+        data-services = "{{ SHARIFF_SERVICES }}"
+        {% endif %}
+        {% if SHARIFF_THEME %}
+        data-theme="{{ SHARIFF_THEME }}"
+        {% endif %}
+        {% if SHARIFF_TWITTER_VIA|default(false) %}
+        data-twitter-via="{{ TWITTER_USERNAME }}"
+        {% endif %}
+        data-url="{{ SITEURL }}/{{ article.url }}"></div>
+    <!-- Shariff Button END -->
+{% endif %}

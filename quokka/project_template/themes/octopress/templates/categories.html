@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block title %}Categories &mdash; {{ SITENAME }}{% endblock %}
+{% block content %}
+<div>
+	<article role="article">
+    	<header>
+    		<h1 class="entry-title">Blog Categories</h1>
+    	</header>
+
+	<p>
+	{% for category, articles in categories|sort %}
+		<a href="{{ SITEURL }}/{{ category.url }}">{{ category.name }}</a> ({{ articles|count }})<br>
+	{% endfor %}
+	</p>
+	</article>
+</div>
+{% endblock %}

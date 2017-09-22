@@ -1,0 +1,19 @@
+{% if DISPLAY_RECENT_POSTS_ON_SIDEBAR %}
+  {% from 'includes/sidebar/macros.jinja' import title %}
+  {% if RECENT_POST_COUNT is not defined %}
+    {% set RECENT_POST_COUNT = 5 %}
+  {% endif %}
+
+<!-- Sidebar/Recent Posts -->
+<li class="list-group-item">
+  <h4>{{ title(_('Recent Posts'), DISABLE_SIDEBAR_TITLE_ICONS) }}</h4>
+  <ul class="list-group" id="recentposts">
+    {% for article in articles[:RECENT_POST_COUNT] %}
+    <li class="list-group-item">
+      {%- include 'includes/sidebar/article-li.html' -%}
+    </li>
+    {% endfor %}
+  </ul>
+</li>
+<!-- End Sidebar/Recent Posts -->
+{% endif %}

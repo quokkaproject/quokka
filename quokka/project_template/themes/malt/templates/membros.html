@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block styles %}
+    {{ super() }}
+    <link href="{{ SITEURL }}/theme/css/equipe.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+{% endblock %}
+
+{% block bannertext %}
+<h1>{{ page.title }}</h1>
+{% endblock %}
+
+{% block navbar %}
+    {% include "includes/navbar-home.html" %}
+{% endblock %}
+
+{% block content %}
+<div class="container content-container">
+    <div class="row">
+        {% for nome, pessoa in MEMBROS.items() %}
+        <!-- author -->
+        <div class="col l3 m4 s6">
+            <div class="card hoverable small dev-card" id="{{ pessoa['github'] }}" style="background: linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.6)) repeat scroll 0 0%, rgba(0, 0, 0, 0) url(https://avatars.githubusercontent.com/{{ pessoa['github'] }}?size=261) repeat scroll 0 0;">
+                <div class="card-image">
+                    <span class="card-title">{{ nome }}</span>
+                </div>
+                <div class="card-action">
+                {% if 'github' in pessoa %}
+                    <a title="GitHub" href="http://github.com/{{ pessoa['github'] }}"><i class="fa fa-github"></i></i></a>
+                {% endif %}
+                {% if 'github' in pessoa %}
+                    <a title="Twitter" href="http://twitter.com/{{ pessoa['twitter'] }}"><i class="fa fa-twitter"></i></i></a>
+                {% endif %}
+                {% if 'site' in pessoa %}
+                    <a title="{{ pessoa['site']['nome'] }}" href="{{ pessoa['site']['href'] }}"><i class="fa fa-globe"></i></i></a>
+                {% endif %}
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

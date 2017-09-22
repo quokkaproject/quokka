@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+
+{% block header %}
+    <!-- Page Header -->
+    <!-- Set your background image for this header on the line below. -->
+    {% if HEADER_COVER %}
+        <header class="intro-header" style="background-image: url('{{ HEADER_COVER }}')">
+    {% elif HEADER_COLOR %}
+        <header class="intro-header" style="background-color: {{ HEADER_COLOR }}">
+    {% else %}
+        <header class="intro-header" style="background-image: url('{{ SITEURL }}/{{ THEME_STATIC_DIR }}/images/home-bg.jpg')">
+    {% endif %}
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                    <div class="page-heading">
+                        <h1>{{ SITENAME }}</h1>
+                        {% if SITESUBTITLE %}
+                            <hr class="small">
+                            <span class="subheading">{{ SITESUBTITLE }}</span>
+                        {% endif %}
+                        {% if SOCIAL and SHOW_SOCIAL_ON_INDEX_PAGE_HEADER %}
+                            <ul class="list-inline text-center">
+                            {% for name,link in SOCIAL %}
+                                <li>
+                                    <a href="{{ link }}">
+                                        <span class="fa-stack fa-lg">
+                                            <i class="fa fa-{{ name|lower }} fa-stack-1x fa-inverse"></i>
+                                        </span>
+                                    </a>
+                                </li>
+                            {% endfor %}
+                            </ul>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+{% endblock header %}
+
+{% block content %}
+    {% for article in articles_page.object_list %}
+        <div class="post-preview">
+            <a href="{{ SITEURL }}/{{ article.url }}" rel="bookmark" title="Permalink to {{ article.title|striptags }}">
+                <h2 class="post-title">
+                    {{ article.title }}
+                </h2>
+            </a>
+            {% if SHOW_FULL_ARTICLE %}
+                {{ article.content }}
+            {% else %}
+                <p class="article-summary">
+                {% if article.has_summary %}
+                    {{ article.summary }}
+                {% elif article.summary %}
+                    {{ article.summary|striptags|truncate(140) }}
+                {% endif %}
+                </p>
+            {% endif %}
+            <p class="post-meta">Posted by
+                {% for author in article.authors %}
+                    <a href="{{ SITEURL }}/{{ author.url }}">{{ author }}</a>
+                {% endfor %}
+                 on {{ article.locale_date }}
+            </p>
+            {% include 'comments.html' %}
+        </div>
+    {% endfor %}
+
+    {% include "pagination.html" %}
+{% endblock content %}
+

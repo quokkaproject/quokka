@@ -1,0 +1,15 @@
+{% if GITHUB_USER %}
+  {% from 'includes/sidebar/macros.jinja' import title %}
+
+<!-- Sidebar/Github -->
+<li class="list-group-item">
+  <h4>{{ title('GitHub Repos', DISABLE_SIDEBAR_TITLE_ICONS, icon='github') }}</h4>
+  <div id="gh_repos">
+    <p class="list-group-item">Status updating...</p>
+  </div>
+  {% if GITHUB_SHOW_USER_LINK is defined %}
+  <a href="https://github.com/{{ GITHUB_USER }}">@{{ GITHUB_USER }}</a> on GitHub
+  {% endif %}
+</li>
+<!-- End Sidebar/Github -->
+{% endif %}

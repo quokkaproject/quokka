@@ -1,0 +1,34 @@
+.highlight pre .hll { background-color: #ffffcc }
+.highlight pre  { background: #ffffff; }
+.highlight pre .c { color: #008000 } /* Comment */
+.highlight pre .err { border: 1px solid #FF0000 } /* Error */
+.highlight pre .k { color: #0000ff } /* Keyword */
+.highlight pre .cm { color: #008000 } /* Comment.Multiline */
+.highlight pre .cp { color: #0000ff } /* Comment.Preproc */
+.highlight pre .c1 { color: #008000 } /* Comment.Single */
+.highlight pre .cs { color: #008000 } /* Comment.Special */
+.highlight pre .ge { font-style: italic } /* Generic.Emph */
+.highlight pre .gh { font-weight: bold } /* Generic.Heading */
+.highlight pre .gp { font-weight: bold } /* Generic.Prompt */
+.highlight pre .gs { font-weight: bold } /* Generic.Strong */
+.highlight pre .gu { font-weight: bold } /* Generic.Subheading */
+.highlight pre .kc { color: #0000ff } /* Keyword.Constant */
+.highlight pre .kd { color: #0000ff } /* Keyword.Declaration */
+.highlight pre .kn { color: #0000ff } /* Keyword.Namespace */
+.highlight pre .kp { color: #0000ff } /* Keyword.Pseudo */
+.highlight pre .kr { color: #0000ff } /* Keyword.Reserved */
+.highlight pre .kt { color: #2b91af } /* Keyword.Type */
+.highlight pre .s { color: #a31515 } /* Literal.String */
+.highlight pre .nc { color: #2b91af } /* Name.Class */
+.highlight pre .ow { color: #0000ff } /* Operator.Word */
+.highlight pre .sb { color: #a31515 } /* Literal.String.Backtick */
+.highlight pre .sc { color: #a31515 } /* Literal.String.Char */
+.highlight pre .sd { color: #a31515 } /* Literal.String.Doc */
+.highlight pre .s2 { color: #a31515 } /* Literal.String.Double */
+.highlight pre .se { color: #a31515 } /* Literal.String.Escape */
+.highlight pre .sh { color: #a31515 } /* Literal.String.Heredoc */
+.highlight pre .si { color: #a31515 } /* Literal.String.Interpol */
+.highlight pre .sx { color: #a31515 } /* Literal.String.Other */
+.highlight pre .sr { color: #a31515 } /* Literal.String.Regex */
+.highlight pre .s1 { color: #a31515 } /* Literal.String.Single */
+.highlight pre .ss { color: #a31515 } /* Literal.String.Symbol */

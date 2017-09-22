@@ -1,0 +1,11 @@
+<p>
+  {% if LICENSE %}
+      {{ LICENSE }} 
+  {% else %}
+    {% set years = dates|groupby('date.year')|sort(reverse=False) %}
+    {% set sinceYear = years|first|first|default('2014') %}
+    {% set toYear = years|last|first|default('2014') %}
+    Copyright &copy; {% if sinceYear == toYear %} {{ sinceYear }} {% else %} {{ sinceYear }}&ndash;{{ toYear }} {% endif%} {{ AUTHOR }} &mdash;
+  {% endif %}
+  <span class="credit">Powered by <a href="http://getpelican.com">Pelican</a></span>
+</p>

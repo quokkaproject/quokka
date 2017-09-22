@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block title %} &ndash; {{ _('Authors') }}{% endblock %}
+
+{% block content %}
+<article class="single">
+  <header>
+    <h1>{{ _('Authors') }}</h1>
+  </header>
+  <div>
+    <ul class="list">
+      {% for author, articles in authors|sort %}
+      <li><a href="{{ SITEURL }}/{{ author.url }}">{{ author }}</a> ({{ articles|count }})</li>
+      {% endfor %}
+    </ul>
+  </div>
+</article>
+{% endblock %}

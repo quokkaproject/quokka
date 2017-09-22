@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="{{ DEFAULT_LANG }}" prefix="og: http://ogp.me/ns#">
+	<head>
+		<link href="http://gmpg.org/xfn/11" rel="profile">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+		<!-- Metadata -->
+		{% block metadata %}
+			<meta name="description" content="{{ BIO }}" />
+			<meta property="og:description" content="{{ BIO }}" />
+			<meta property="og:title" content="{{ SITENAME }}{% if SITESUBTITLE %} - {{ SITESUBTITLE }}{% endif %}" />
+			<meta property="og:type" content="website" />
+			<meta property="og:url" content="{{ SITEURL }}" />
+		{% endblock %}
+		<meta property="og:image" content="{{ SITEURL }}/images/{{ PROFILE_IMAGE }}" />
+
+		<!-- Enable responsiveness on mobile devices-->
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+		<title>{% block title %}{{ SITENAME }}{% endblock title %}{% if SITESUBTITLE %} - {{ SITESUBTITLE }}{% endif %}</title>
+
+		<!-- CSS -->
+		<link href="//fonts.googleapis.com/" rel="dns-prefetch">
+		<link href="//fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic|Abril+Fatface|PT+Sans:400,400italic,700&amp;subset=latin,latin-ext" rel="stylesheet">
+
+		<link rel="stylesheet" href="{{ SITEURL }}/{{ THEME_STATIC_DIR }}/css/poole.css" />
+		<link rel="stylesheet" href="{{ SITEURL }}/{{ THEME_STATIC_DIR }}/css/hyde.css" />
+		<link rel="stylesheet" href="{{ SITEURL }}/{{ THEME_STATIC_DIR }}/css/syntax.css" />
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+
+		<!-- RSS -->
+		<link rel="alternate" type="application/rss+xml" title="RSS" href="/atom.xml">
+		{% include 'fragments/google_analytics.html' %}
+	</head>
+
+	<body class="theme-base-0d">
+		{% include 'sidebar.html' %}
+		<div class="content container">
+			{% block content %}
+			{% endblock %}
+		</div>
+	</body>
+</html>

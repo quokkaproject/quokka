@@ -1,0 +1,62 @@
+.article-header {
+  height: 300px;
+  background-position: 50% 50% !important;
+  background-repeat: no-repeat !important;
+  background-size: cover !important;
+  overflow: hidden;
+  padding-right: 20px;
+  padding-left: 20px;
+}
+
+.article-header-text {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  padding-right: 40px;
+  padding-bottom: 15px;
+}
+
+.article-author-avatar img {
+  max-width: 120px;
+}
+
+.responsive-img.circle {
+  border-radius: 50% !important;
+}
+
+.article-metadata span {
+  margin-right: 15px;
+  white-space: nowrap;
+}
+
+.breadcrumb {
+  background-color: #fff;
+  margin-left: 11px;
+  margin-right: 11px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
+}
+
+#pagination {
+  margin-top: 25px;
+}
+
+#pagination-card {
+  border-radius: 4px;
+}
+#pagination-card > .pagination {
+  margin-bottom: 0px;
+  margin-top: 10px;
+}
+
+@media (max-width: 992px) {
+  h2 {
+    font-size: 2.8rem;
+  }
+}
+
+@media (max-width: 600px) {
+  h2 {
+    font-size: 2rem;
+  }
+}
