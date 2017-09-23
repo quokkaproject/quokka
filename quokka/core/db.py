@@ -208,7 +208,8 @@ class QuokkaDB(object):
 
     def get_with_content(self, **kwargs):
         model = self.get('index', kwargs)
-        model['content'] = self.pull_content(model)
+        if model:
+            model['content'] = self.pull_content(model)
         return model
 
 

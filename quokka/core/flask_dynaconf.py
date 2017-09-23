@@ -52,6 +52,7 @@ def configure_dynaconf(app):
         'tags': [],
         'articles': [],
         'categories': [],
+        'CATEGORIES_URL': 'categories/index.html',
         # https://github.com/getpelican/pelican-plugins/tree/master/tag_cloud
         'tag_cloud': [],
         'JINJA_EXTENSIONS': app.jinja_env.extensions,

@@ -27,8 +27,8 @@ def url_for_content(content):
 
 
 def url_for_category(category):
-    ext = app.config.get("CONTENT_EXTENSION", "html")
-    return f'category/{category}.{ext}'
+    # ext = app.config.get("CONTENT_EXTENSION", "html")
+    return f'{category}'
 
 
 def strftime(value, dtformat):

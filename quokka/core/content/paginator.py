@@ -11,12 +11,14 @@ PaginationRule = namedtuple(
     'PaginationRule',
     'min_page URL SAVE_AS',
 )
-DEFAULT_PP = [(0, '{name}{number}{extension}', '{name}{number}{extension}')]
+# DEFAULT_PP = [(0, '{name}{number}{extension}', '{name}{number}{extension}')]
+DEFAULT_PP = [(0, '{name}/{number}/', '{name}/{number}/')]
+# DEFAULT_PP = [(0, '{name}/{number}/index{extension}', '{name}/{number}/index{extension}')]
 
 
 class Paginator(object):
     def __init__(self, object_list, name=None, settings=None, count=None):
-        self.name = name or 'foo'
+        self.name = name or ''
         self.object_list = object_list
         self.settings = settings or app.theme_context
         self._num_pages = None

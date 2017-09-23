@@ -20,6 +20,7 @@ CWD = Path.cwd()
 QUOKKA_ROOT_FOLDER = Path(sys.modules['quokka'].__file__).parent
 
 # TODO: https://github.com/ryukinix/decorating
+# TODO: https://github.com/click-contrib/click-completion
 
 
 def with_app(f):

@@ -1,34 +1,50 @@
 from flask import current_app as app, render_template, abort
 from flask.views import MethodView
-from .models import make_model, make_paginator
+from .models import make_model, make_paginator, Category
 
 
 class ArticleListView(MethodView):
+
+    template = 'index.html'
+
     def get(self, category=None, page_number=1):
+        context = {}
         query = {'published': True}
+        custom_index_template = app.theme_context.get('INDEX_TEMPLATE')
+        blog_categories = app.theme_context.get('BLOG_CATEGORIES', [])
         if category:
             query['category'] = {'$regex': f"^{category.rstrip('/')}"}
+            if category not in blog_categories:
+                self.template = 'category.html'
+                context['DISPLAY_BREADCRUMBS'] = True
+        elif custom_index_template:
+            # use custom template only when categoty is blank '/'
+            # and INDEX_TEMPLATE is defined
+            self.template = custom_index_template
 
         articles = [
             make_model(article)
             for article in app.db.content_set(query)
         ]
 
-        page_name = f'category/{category}' if category else 'index'
+        page_name = f'category/{category}' if category else ''
         paginator = make_paginator(articles, name=page_name)
         page = paginator.page(page_number)
 
-        context = {
-            'articles': articles,
-            'page_name': page_name,
-            'articles_paginator': paginator,
-            'articles_page': page,
-            'articles_next_page': page.next_page,
-            'articles_previous_page': page.previous_page,
-            'HIDE_SIDEBAR': app.theme_context.get(
-                'HIDE_SIDEBAR_ON_INDEX', False
-            )
-        }
+        context.update(
+            {
+                'articles': articles,
+                'page_name': page_name,
+                'category': Category(category) if category else None,
+                'articles_paginator': paginator,
+                'articles_page': page,
+                'articles_next_page': page.next_page,
+                'articles_previous_page': page.previous_page,
+                'HIDE_SIDEBAR': app.theme_context.get(
+                    'HIDE_SIDEBAR_ON_INDEX', False
+                )
+            }
+        )
 
         if app.theme_context.get(
             'SHOW_ABOUT_ME_ON_INDEX', True
@@ -46,7 +62,7 @@ class ArticleListView(MethodView):
         if app.theme_context.get('SIDEBAR_ON_LEFT_ON_INDEX'):
             context['SIDEBAR_ON_LEFT'] = True
 
-        return render_template('index.html', **context)
+        return render_template(self.template, **context)
 
 
 class CategoryListView(MethodView):
@@ -56,6 +72,7 @@ class CategoryListView(MethodView):
 
 class DetailView(MethodView):
     is_preview = False
+    template = 'article.html'
 
     def get(self, slug):
         category, _, slug = slug.rpartition('/')
@@ -63,6 +80,9 @@ class DetailView(MethodView):
             slug=slug,
             category=category
         )
+        if not content:
+            abort(404)
+
         article = make_model(content)
         context = {
             'article': article,
@@ -89,7 +109,7 @@ class DetailView(MethodView):
         if article.author_avatar:
             content['AVATAR'] = article.author_avatar
 
-        return render_template('article.html', **context)
+        return render_template(self.template, **context)
 
 
 class PreviewView(DetailView):

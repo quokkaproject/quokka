@@ -39,8 +39,7 @@ THEME:
     ##    note that not all those themes are compatible but you can adapt it
     ##
     ## TIP: `export QUOKKA_THEME_ACTIVE=bootstrap3` also works!
-    ## `bootstrap3` is the recommended theme for you to customize!
-    ACTIVE: bootstrap3
+    ACTIVE: malt
 
     ## If enabled quokka will overload some known themes for specific
     ## templates e.g: overload_bootstrap3/comments.html will replace original
@@ -66,10 +65,12 @@ THEME:
     DISQUS_SITENAME: quokkaproject
     DISPLAY_PAGES_ON_MENU: true
     DISPLAY_CATEGORIES_ON_MENU: true
+    ## contents posted on `blog` category is always showed as list
+    BLOG_CATEGORIES: ['blog']
     # ARCHIVES_URL:
     # MAIN_MENU: false
-    MENUITEMS: [['a', 'a']]
-    LINKS: [['a', 'a']]
+    MENUITEMS: [['a', 'http://foo']]
+    LINKS: [['b', 'http://bar']]
     SOCIAL:
       - ['twitter', 'http://twitter.com/rochacbruno']
       - ['facebook', 'http://facebook.com/rochacbruno']
@@ -111,6 +112,7 @@ THEME_BOOTSTRAP3:
     ## cerulean, cosmo, cyborg, darkly, flatly, journal, lumen, paper, readable
     ## sandstone, simplex, slate, spacelab, superhero, united, yeti
     ## comment out to use default
+    SITELOGO: http://lorempixel.com/20/20/business/
     BOOTSTRAP_THEME: cosmo
     BOOTSTRAP_FLUID: false
     TYPOGRIFY: true
@@ -143,7 +145,7 @@ THEME_BOOTSTRAP3:
     # SHOW_SERIES: true
     # SERIES_TEXT: 'Part %(index)s of the %(name)s series'
 
-    # If Article has banner and banner_subtitle metadata it will be overwritten
+    ## If Article has banner and banner_subtitle metadata it will be overwritten
     BANNER: http://lorempixel.com/1000/200/abstract/
     BANNER_SUBTITLE: Hello World
     # BANNER_ALL_PAGES: true
@@ -208,44 +210,81 @@ THEME_BOOTSTRAP3:
     # PAGES_SORT_ATTRIBUTE:
 
 THEME_MALT:
-    # http://materializecss.com/color.html
+    SITELOGO: http://lorempixel.com/200/200/business/
+    ## http://materializecss.com/color.html
     MALT_BASE_COLOR: teal
     PYGMENTS_STYLE: native
-    # If Article has banner and banner_subtitle metadata it will be overwritten
+    ## If Article has banner and banner_subtitle metadata it will be overwritten
     BANNER: http://lorempixel.com/1000/200/abstract/
     BANNER_SUBTITLE: Hello World
     BANNER_TEXT: Hello Again
     # BANNER_ALL_PAGES: true
+    FOOTER_ABOUT: <b> Hello </b> World
+    HOMEMENUITEMS: [['blog', 'category/blog.html']]
 
-# THEME_OCTOPRESS:
-#     DISPLAY_SOCIAL_ICONS: true
-#     SHOW_HEADER: true
-#     FOOTER_INCLUDE: "_includes/footer.html"
-#     GITHUB_USER: rochacbruno
-#     # GITHUB_REPO_COUNT: true  # this may take time
-#     GITHUB_SKIP_FORK: true
-#     GITHUB_SHOW_USER_LINK: true
-#     TWITTER_USER: rochacbruno
-#     # GOOGLE_PLUS_ID:
-#     GOOGLE_PLUS_ONE: true
-#     FACEBOOK_LIKE: true
-#     TWITTER_WIDGET_ID: 12324
-#     TWITTER_TWEET_BUTTON: true
-#     TWITTER_FOLLOW_BUTTON: true
-#     DISPLAY_CATEGORIES: true
-#     DISPLAY_TAGS: true
-#     DISPLAY_FEEDS: true
-#     AUTHOR_ABOUT: Foo Bar
-#     HEADER_COVER: http://lorempixel.com/1200/200/abstract/
-#     HEADER_COLOR: blue
-#     FAVICON_FILENAME: favicon.ico
-#     DISPLAY_PAGES_ON_MENU: true
-#     DISPLAY_CATEGORIES_ON_MENU: true
-#     DISPLAY_FEEDS_ON_MENU: true
-#     # FEED_FEEDBURNER:
-#     # EXTRA_HEADER: Hello
-#     # ARTICLE_ASIDES: ['social_icons', 'image', 'recentpost', 'categories', 'tags', 'github', 'social', 'links', 'twitter', 'gplus', 'google_adsense']
-#     DISPLAY_TAGS: false
+    ## remove if you want home to be full article list
+    # INDEX_TEMPLATE: home.html
+    MALT_HOME:
+        - color: blue-grey lighten-5
+          title: Services
+          items:
+            - title: Community
+              icon: fa-comments
+              text: We love the community...
+              action: ['read more', 'http://community']
+            - title: Services
+              icon: fa-list
+              text: We have the right service for you...
+              action: ['read more', 'http://community']
+            - title: Technology
+              icon: fa-globe
+              text: We know the best tech...
+              action: ['read more', 'http://community']
+        - color: grey lighten-5
+          title: Products
+          items:
+            - title: Prod 1
+              icon: fa-user
+              text: Prod 1 is awesome...
+              action: ['read more', 'http://community']
+            - title: Prod 2
+              icon: fa-edit
+              text: Prod 2 solves your problem...
+              action: ['read more', 'http://community']
+            - title: Prod 3
+              icon: fa-gear
+              text: You need prod 3...
+              action: ['read more', 'http://community']
+
+THEME_OCTOPRESS:
+    DISPLAY_SOCIAL_ICONS: true
+    SHOW_HEADER: true
+    FOOTER_INCLUDE: "_includes/footer.html"
+    GITHUB_USER: rochacbruno
+    # GITHUB_REPO_COUNT: true  # this may take time
+    GITHUB_SKIP_FORK: true
+    GITHUB_SHOW_USER_LINK: true
+    TWITTER_USER: rochacbruno
+    # GOOGLE_PLUS_ID:
+    GOOGLE_PLUS_ONE: true
+    FACEBOOK_LIKE: true
+    TWITTER_WIDGET_ID: 12324
+    TWITTER_TWEET_BUTTON: true
+    TWITTER_FOLLOW_BUTTON: true
+    DISPLAY_CATEGORIES: true
+    DISPLAY_TAGS: true
+    DISPLAY_FEEDS: true
+    AUTHOR_ABOUT: Foo Bar
+    HEADER_COVER: http://lorempixel.com/1200/200/abstract/
+    HEADER_COLOR: blue
+    FAVICON_FILENAME: favicon.ico
+    DISPLAY_PAGES_ON_MENU: true
+    DISPLAY_CATEGORIES_ON_MENU: true
+    DISPLAY_FEEDS_ON_MENU: true
+    # FEED_FEEDBURNER:
+    # EXTRA_HEADER: Hello
+    # ARTICLE_ASIDES: ['social_icons', 'image', 'recentpost', 'categories', 'tags', 'github', 'social', 'links', 'twitter', 'gplus', 'google_adsense']
+    DISPLAY_TAGS: false
 
 ## ▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬ஜ۩۞۩ஜ▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬
 ## ▓▓▓▒▒▒░░░                       DEV SETTINGS                      ░░░▒▒▒▓▓▓

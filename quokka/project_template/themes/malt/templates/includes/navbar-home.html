@@ -5,17 +5,21 @@
                 <a id="logo-container" href="/" class="brand-logo">
                     {{ SITENAME }}
                 </a>
-                {% if NAVBAR_HOME_LINKS %}
+                {% if HOMEMENUITEMS is defined %}
+                    {% set MENUITEMS = HOMEMENUITEMS %}
+                {% endif %}
+
+                {% if MENUITEMS %}
                 <ul class="right hide-on-med-and-down">
-                    {% for link in NAVBAR_HOME_LINKS %}
+                    {% for name, url in MENUITEMS %}
                     {% if page is defined %}
                         {% set href = page.slug %}
                     {% elif page_name is defined %}
-                        {% set href = page_name.replace("/index", "") %}
+                        {% set href = page_name %}
                     {% else %}
                         {% set href = None %}
                     {% endif %}
-                    <li {% if href == link['href'] %}class="active"{% endif %}><a href="{{ SITEURL }}/{{ link['href']}}">{{ link['title']}}</a></li>
+                    <li {% if href == url %}class="active"{% endif %}><a href="{{ SITEURL }}/{{ url}}">{{ name}}</a></li>
                     {% endfor %}
                 </ul>
 
@@ -24,7 +28,7 @@
                         <div class="row center">
                             <div class="col s12" id="nav-mobile-header-img">
                                 <a href="/" alt="{{ SITENAME }}" title="{{ SITENAME }}">
-                                    <img class="circle responsive-img valign z-depth-1" alt="{{ SITENAME }} Logo" title="{{ SITENAME }}" src="{{ SITEURL }}/{{ SITE_LOGO_MOBILE }}">
+                                    <img class="circle responsive-img valign z-depth-1" alt="{{ SITENAME }} Logo" title="{{ SITENAME }}" src="{{ SITEURL }}/{{ SITELOGO }}">
                                 </a>
                             </div>
                             <div class="col s12" id="nav-mobile-header-text">
@@ -32,7 +36,7 @@
                             </div>
                         </div>
                     </li>
-                    {% for link in NAVBAR_HOME_LINKS %}
+                    {% for name, url in MENUITEMS %}
                     {% if page is defined %}
                         {% set href = page.slug %}
                     {% elif page_name is defined %}
@@ -40,7 +44,7 @@
                     {% else %}
                         {% set href = None %}
                     {% endif %}
-                    <li {% if href == link['href'] %}class="active"{% endif %}><a href="{{ SITEURL }}/{{ link['href']}}">{{ link['title']}}</a></li>
+                    <li {% if href == url %}class="active"{% endif %}><a href="{{ SITEURL }}/{{ url }}">{{ name }}</a></li>
                     {% endfor %}
                 </ul>
                 {% endif %}

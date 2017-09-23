@@ -71,7 +71,7 @@ class Series(Orderable):
 
 class Category:
     def __init__(self, category):
-        self.category = self.slug = category
+        self.category = self.name = self.slug = category
 
     @property
     def url(self):
@@ -91,10 +91,10 @@ class Author:
 
     @property
     def url(self):
-        # TODO: implement
-        # if multiple generate authors/post_lug
-        # if single generate author/authorslug
-        return f'author/{slugify(self.authors[0])}'
+        authors_list = '/'.join(
+            slugify(author) for author in self.authors
+        )
+        return f'authors/{authors_list}'
 
     def __str__(self):
         return self.name
