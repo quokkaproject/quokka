@@ -13,10 +13,12 @@ class ArticleListView(MethodView):
         custom_index_template = app.theme_context.get('INDEX_TEMPLATE')
         blog_categories = app.theme_context.get('BLOG_CATEGORIES', [])
         if category:
-            query['category'] = {'$regex': f"^{category.rstrip('/')}"}
-            if category not in blog_categories:
-                self.template = 'category.html'
-                context['DISPLAY_BREADCRUMBS'] = True
+            # this logic ^ is right!!
+            if category != app.theme_context.get('CATCHALL_CATEGORY'):
+                query['category'] = {'$regex': f"^{category.rstrip('/')}"}
+                if category not in blog_categories:
+                    self.template = 'category.html'
+                    context['DISPLAY_BREADCRUMBS'] = True
         elif custom_index_template:
             # use custom template only when categoty is blank '/'
             # and INDEX_TEMPLATE is defined
@@ -27,7 +29,7 @@ class ArticleListView(MethodView):
             for article in app.db.content_set(query)
         ]
 
-        page_name = f'category/{category}' if category else ''
+        page_name = category or ''
         paginator = make_paginator(articles, name=page_name)
         page = paginator.page(page_number)
 

@@ -220,10 +220,10 @@ THEME_MALT:
     BANNER_TEXT: Hello Again
     # BANNER_ALL_PAGES: true
     FOOTER_ABOUT: <b> Hello </b> World
-    HOMEMENUITEMS: [['blog', 'category/blog.html']]
-
+    HOMEMENUITEMS: [['all', 'all/index.html'], ['blog', 'blog/index.html']]
+    CATCHALL_CATEGORY: all
     ## remove if you want home to be full article list
-    # INDEX_TEMPLATE: home.html
+    INDEX_TEMPLATE: home.html
     MALT_HOME:
         - color: blue-grey lighten-5
           title: Services
