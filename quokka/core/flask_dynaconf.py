@@ -52,9 +52,9 @@ def configure_dynaconf(app):
         'tags': [],
         'articles': [],
         'categories': [],
-        'CATEGORIES_URL': 'categories/index.html',
         # https://github.com/getpelican/pelican-plugins/tree/master/tag_cloud
         'tag_cloud': [],
+        'CATEGORIES_URL': 'categories/index.html',
         'JINJA_EXTENSIONS': app.jinja_env.extensions,
         'USE_LESS': False,
         # For some themes like bootstrap3 theme SITEURL must be ''
@@ -63,7 +63,8 @@ def configure_dynaconf(app):
         'FAVICON': 'favicon.ico',
         'FAVICON_IE': 'favicon.ico',
         'FAVICON_FILENAME': 'favicon.ico',
-        # 'AVATAR': 'LOAD FROM UPLOADS'
+        # 'AVATAR': 'LOAD FROM UPLOADS',
+        'NEWEST_FIRST_ARCHIVES': True
     }
     # load theme variables from YAML file
     yaml_loader.load(

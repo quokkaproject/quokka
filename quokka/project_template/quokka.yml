@@ -67,10 +67,15 @@ THEME:
     DISPLAY_CATEGORIES_ON_MENU: true
     ## contents posted on `blog` category is always showed as list
     BLOG_CATEGORIES: ['blog']
+    ## This is a link `/all` which will return all content independent
+    ## of its category, normally the same as `/` but for themes where
+    ## the INDEX_TEMPLATE is set to other than index.html it is useful
+    ## exmaple: portal websites
+    CATCHALL_CATEGORY: all
     # ARCHIVES_URL:
     # MAIN_MENU: false
-    MENUITEMS: [['a', 'http://foo']]
-    LINKS: [['b', 'http://bar']]
+    MENUITEMS: [['blog', 'blog'], ['all', 'all']]
+    LINKS: [['blog', '/blog'], ['all', '/all']]
     SOCIAL:
       - ['twitter', 'http://twitter.com/rochacbruno']
       - ['facebook', 'http://facebook.com/rochacbruno']
@@ -79,7 +84,7 @@ THEME:
       - ['stack-overflow', 'http://stackoverflow.com/users/559935']
     SITE_KEYWORDS: quokka, cms, flask, quokkaproject
     DEFAULT_DATE_FORMAT: '%a %d %B %Y'
-    PAGE_ORDER_BY: 'title'
+    PAGE_ORDER_BY: [['title', -1]]
     # ARTICLE_ORDER_BY: [['date', -1]]
     DEFAULT_LANG: en
     ARTICLE_LIMIT: 8
@@ -88,11 +93,8 @@ THEME:
     ## use < newest - older > instead of 1, 2, 3 >
     # USE_PAGER: false
     ## how many items per page
-    DEFAULT_PAGINATION: 5
+    DEFAULT_PAGINATION: 2
     DEFAULT_ORPHANS: 0
-    # PAGINATION_PATTERNS:
-    #   - [0, '{name}{number}{extension}', '{name}{number}{extension}']
-
 
 ## ▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬ஜ۩۞۩ஜ▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬
 ## ▓▓▓▒▒▒░░░                 THEME SPECIFIC VARIABLES                ░░░▒▒▒▓▓▓
@@ -112,68 +114,75 @@ THEME_BOOTSTRAP3:
     ## cerulean, cosmo, cyborg, darkly, flatly, journal, lumen, paper, readable
     ## sandstone, simplex, slate, spacelab, superhero, united, yeti
     ## comment out to use default
-    SITELOGO: http://lorempixel.com/20/20/business/
     BOOTSTRAP_THEME: cosmo
     BOOTSTRAP_FLUID: false
     TYPOGRIFY: true
     ## http://pygments.org/demo/6640643/
     PYGMENTS_STYLE: native
-    # DOCUTIL_CSS: true
     # CUSTOM_CSS: 'path/to/css'
     # GOOGLE_ANALYTICS_UNIVERSAL: 'code-here'
     # GOOGLE_ANALYTICS_UNIVERSAL_PROPERTY: 'code-here'
-    # SITELOGO: 'path/to/logo'
     # SITELOGO_SIZE: 200
-    # HIDE_SITENAME: true
-    # DISPLAY_BREADCRUMBS: true
-    # DISPLAY_CATEGORY_IN_BREADCRUMBS: true
     # BOOTSTRAP_NAVBAR_INVERSE: false
-    # DISPLAY_ARTICLE_INFO_ON_INDEX: true
 
-    # Below values will be overwritten by /admin/author configs
+    SITELOGO: http://lorempixel.com/20/20/business/
+    ## Below values will be overwritten by /admin/author configs
     AUTHOR: <i>Author</i>
     ABOUT_ME: <b>I</b> am Author
-    SHOW_ABOUT_ME_ON_INDEX: false
     AVATAR: http://i.pravatar.cc/300
-    SHOW_AVATAR_ON_INDEX: false
-
-    ## article info section
-    # DISPLAY_ARTICLE_INFO_ON_INDEX: true
-    # SHOW_ARTICLE_AUTHOR: true
-    SHOW_ARTICLE_CATEGORY: true
-    # SHOW_DATE_MODIFIED: true
-    # SHOW_SERIES: true
     # SERIES_TEXT: 'Part %(index)s of the %(name)s series'
 
-    ## If Article has banner and banner_subtitle metadata it will be overwritten
+    ## If Article/page has banner and banner_subtitle metadata it will be overwritten
     BANNER: http://lorempixel.com/1000/200/abstract/
     BANNER_SUBTITLE: Hello World
-    # BANNER_ALL_PAGES: true
 
-    DISPLAY_TAGS_ON_SIDEBAR: true
+    ## sidebar counters
     TAG_CLOUD_MAX_ITEMS: 100
-
-    DISPLAY_CATEGORIES_ON_SIDEBAR: true
-
-    DISPLAY_RECENT_POSTS_ON_SIDEBAR: true
     RECENT_POST_COUNT: 5
 
+    ## SIDEBAR VISIBILITY
+    DISPLAY_TAGS_ON_SIDEBAR: true
+    DISPLAY_CATEGORIES_ON_SIDEBAR: true
+    DISPLAY_RECENT_POSTS_ON_SIDEBAR: true
     DISPLAY_SERIES_ON_SIDEBAR: true
-
-    # DISPLAY_ARCHIVE_ON_SIDEBAR: true
-    # DISPLAY_AUTHORS_ON_SIDEBAR: true
-
-    HIDE_SIDEBAR: false
-    HIDE_SIDEBAR_ON_INDEX: false
-    HIDE_SIDEBAR_ON_ARTICLE: false
-    HIDE_SIDEBAR_ON_PAGE: false
-
-    SIDEBAR_ON_LEFT: false
-    SIDEBAR_ON_LEFT_ON_INDEX: false
-    SIDEBAR_ON_LEFT_ON_ARTICLE: true
-    SIDEBAR_ON_LEFT_ON_PAGE: true
+    DISPLAY_ARCHIVE_ON_SIDEBAR: true
+    DISPLAY_AUTHORS_ON_SIDEBAR: true
     DISABLE_SIDEBAR_TITLE_ICONS: true
 
+    HIDE_SITENAME: false
+    DISPLAY_CATEGORY_IN_BREADCRUMBS: true  # <-- all
+
+    ## VISIBILITY CONTROLS
+    BANNER_ALL_PAGES: false  # <-- set to `false` to use DYNAMIC_VARS
+    HIDE_SIDEBAR: false  # <-- set to `false` to use DYNAMIC_VARS
+    SIDEBAR_ON_LEFT: false  # <-- set to `false` to use DYNAMIC_VARS
+    DISPLAY_BREADCRUMBS: false  # <-- set to `false` to use DYNAMIC_VARS
+    DISPLAY_ARTICLE_INFO_ON_INDEX: false  # <-- set to `false` to use DYNAMIC_VARS
+    SHOW_DATE_MODIFIED: false  # <-- set to `false` to use DYNAMIC_VARS
+    SHOW_SERIES: false  # <-- set to `false` to use DYNAMIC_VARS
+    SHOW_ARTICLE_AUTHOR: false  # <-- set to `false` to use DYNAMIC_VARS
+    SHOW_ARTICLE_CATEGORY: false  # <-- set to `false` to use DYNAMIC_VARS
+
+    ## Variables that changes depending on the page
+    DYNAMIC_VARS:
+      ## var: any of the config values
+      ## where: index, article, page, category, tag, author
+      ##        categories, tags, authors
+      ##        'catname/other' and 'catname/article-slug'
+      ## value: true / false / anything
+      ##
+      ## Example: Hide the sidebar on site.com/blog/news/
+      # - {var: HIDE_SIDEBAR, where: 'blog/news'}
+      ## Example: Hide all author information on site.com/blog/my-article.html
+      # - {var: [AVATAR, AUTHOR, ABOUT_ME], where: 'blog/my-article', value: false}
+      - {var: BANNER_ALL_PAGES, where: [index, page, category, tag, author], value: true}
+      - {var: [AVATAR, AUTHOR, ABOUT_ME], where: [index, page, category, tag, author], value: false}
+      - {var: SIDEBAR_ON_LEFT, where: article, value: true}
+      - {var: DISPLAY_BREADCRUMBS, where: [category, tag, author], value: true}
+      - {var: DISPLAY_ARTICLE_INFO_ON_INDEX, where: [index, category, tag, author], value: true}
+      - {var: SHOW_ARTICLE_CATEGORY, where: [index, category, tag, author], value: true}
+
+    ## Comments
     DISQUS_NO_ID: true
     DISQUS_ID_PREFIX_SLUG: true
     DISQUS_DISPLAY_COUNTS: true
@@ -221,9 +230,13 @@ THEME_MALT:
     # BANNER_ALL_PAGES: true
     FOOTER_ABOUT: <b> Hello </b> World
     HOMEMENUITEMS: [['all', 'all/index.html'], ['blog', 'blog/index.html']]
-    CATCHALL_CATEGORY: all
     ## remove if you want home to be full article list
     INDEX_TEMPLATE: home.html
+    SHOW_SITELOGO: true
+    SHOW_BANNER_TEXT: true
+    DYNAMIC_VARS:
+      - {var: SHOW_BACK_TOP, where: [article, page], value: true}
+
     MALT_HOME:
         - color: blue-grey lighten-5
           title: Services

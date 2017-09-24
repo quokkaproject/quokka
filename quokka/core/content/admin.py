@@ -1,6 +1,6 @@
 # from flask_admin.helpers import get_form_data
 import datetime as dt
-
+import pymongo
 from flask import current_app
 from quokka.admin.forms import ValidationError
 from quokka.admin.views import ModelView
@@ -11,11 +11,14 @@ from quokka.utils.text import slugify
 from .formats import CreateForm, get_format
 
 
-class ContentView(ModelView):
+class AdminContentView(ModelView):
     """Base form for all contents"""
+    base_query = {}
+    base_defaults = {}
+
     details_modal = True
     can_view_details = True
-    create_modal = True
+    # create_modal = False
     # can_export = True
     # export_types = ['csv', 'json', 'yaml', 'html', 'xls']
 
@@ -142,7 +145,8 @@ class ContentView(ModelView):
     def get_save_return_url(self, model, is_created):
         if is_created:
             return self.get_url('.edit_view', id=model['_id'])
-        return super(ContentView, self).get_save_return_url(model, is_created)
+        return super(AdminContentView, self).get_save_return_url(model,
+                                                                 is_created)
 
     def on_model_change(self, form, model, is_created):
 
@@ -167,15 +171,26 @@ class ContentView(ModelView):
 
         if is_created:
             # this defaults are also applied for cloning action
+
+            # SIGNATURE
+            model['_id'] = current_app.db.generate_id()
             model['date'] = now
             model['created_by'] = current_user
-            model['_id'] = current_app.db.generate_id()
-            model['language'] = current_app.config.get(
-                'BABEL_DEFAULT_LOCALE', 'en'
-            )
             model['published'] = False
             model['modified'] = None
             model['modified_by'] = None
+
+            # DEFAULTS
+            default_locale = current_app.config.get(
+                'BABEL_DEFAULT_LOCALE', 'en'
+            )
+            model['language'] = self.base_query.get('language', default_locale)
+            model['content_type'] = self.base_query.get(
+                'content_type', 'article'
+            )
+            # subclasses can define attribute or property `base_defaults`
+            # which returns a dict
+            model.update(self.base_defaults)
 
         model['modified'] = now
         model['modified_by'] = current_user
@@ -195,3 +210,98 @@ class ContentView(ModelView):
         model['quokka_format_class'] = quokka_format.__class__.__name__
         model['quokka_create_form_module'] = form.__module__
         model['quokka_create_form_class'] = form.__class__.__name__
+
+    def get_list(self, page, sort_column, sort_desc, search, filters,
+                 execute=True, page_size=None):
+        """
+            Get list of objects from TinyDB
+            :param page:
+                Page number
+            :param sort_column:
+                Sort column
+            :param sort_desc:
+                Sort descending
+            :param search:
+                Search criteria
+            :param filters:
+                List of applied fiters
+            :param execute:
+                Run query immediately or not
+            :param page_size:
+                Number of results. Defaults to ModelView's page_size. Can be
+                overriden to change the page_size limit. Removing the page_size
+                limit requires setting page_size to 0 or False.
+        """
+        query = {**self.base_query}
+
+        # Filters
+        if self._filters:
+            data = []
+
+            for flt, flt_name, value in filters:
+                f = self._filters[flt]
+                data = f.apply(data, f.clean(value))
+
+            if data:
+                if len(data) == 1:
+                    query = data[0]
+                else:
+                    query['$and'] = data
+
+        # Search
+        if self._search_supported and search:
+            query = self._search(query, search)
+
+        # Get count
+        count = self.coll.find(
+            query).count() if not self.simple_list_pager else None
+
+        # Sorting
+        sort_by = None
+
+        if sort_column:
+            sort_by = [(sort_column, pymongo.DESCENDING
+                        if sort_desc else pymongo.ASCENDING)]
+        else:
+            order = self._get_default_order()
+
+            if order:
+                sort_by = [(order[0], pymongo.DESCENDING
+                            if order[1] else pymongo.ASCENDING)]
+
+        # Pagination
+        if page_size is None:
+            page_size = self.page_size
+
+        skip = 0
+
+        if page and page_size:
+            skip = page * page_size
+
+        results = self.coll.find(
+            query, sort=sort_by, skip=skip, limit=page_size)
+
+        if execute:
+            results = list(results)
+
+        return count, results
+
+    def get_one(self, id):
+        """
+            Return single model instance by ID
+            :param id:
+                Model ID
+        """
+        query = {**self.base_query}
+        query['_id'] = self._get_valid_id(id)
+        return self.coll.find_one(query)
+
+
+class AdminArticlesView(AdminContentView):
+    """Only articles"""
+    base_query = {'content_type': 'article'}
+
+
+class AdminPagesView(AdminContentView):
+    """Only pages"""
+    base_query = {'content_type': 'page'}

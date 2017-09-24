@@ -49,6 +49,7 @@
                                         <th>Category</th>
                                         <th>Authors</th>
                                         <th>Date</th>
+                                        <th>Type</th>
                                         <th></th>
                                     </tr>
                                 </thead>
@@ -59,9 +60,16 @@
                                         <td>{{ content['category'] }}</td>
                                         <td>{{ ','.join(content['authors']) }}</td>
                                         <td>{{ content['date'] }}</td>
+                                        <td>{{ content['content_type'] }}</td>
                                         <td>
                                                 <i class={% if content['published'] %} "fa fa-check-circle glyphicon glyphicon-ok-circle icon-ok-circle" {% else %} "fa fa-minus-circle glyphicon glyphicon-minus-sign icon-minus-sign" {% endif %}></i>
-                                                <a class="btn btn-success btn-xs" href="{{ url_for('quokka.core.content.admin.contentview.edit_view', id=content['_id'])}}">
+                                                {% if content['content_type'] == 'article' %}
+                                                    {% set edit_url = url_for('quokka.core.content.admin.articleview.edit_view', id=content['_id']) %}
+                                                {% else %}
+                                                    {% set edit_url = url_for('quokka.core.content.admin.pageview.edit_view', id=content['_id']) %}
+                                                {% endif %}
+
+                                                <a class="btn btn-success btn-xs" href="{{ edit_url }}">
                                                 <i class="fa fa-pencil glyphicon glyphicon-pencil"></i> {{_gettext('Edit')}}</a>
                                                 <a class="btn btn-primary btn-xs" target="_blank" href="/{{url_for_content(content)}}">
                                                 <i class="fa fa-eye glyphicon glyphicon-eye-open"></i> {{_gettext('View') if content['published'] else _gettext('Preview')}}</a>

@@ -3,30 +3,74 @@ from flask.views import MethodView
 from .models import make_model, make_paginator, Category
 
 
-class ArticleListView(MethodView):
+def normalize_var(text):
+    return text.replace(
+        '/', '_'
+    ).replace(
+        '-', '_'
+    ).replace(
+        ' ', '_'
+    ).replace(
+        '@', '_'
+    )
 
-    template = 'index.html'
+
+class BaseView(MethodView):
+    def set_elements_visibility(self, context, content_type):
+        """Set elements visibility according to content type
+        This works with botstrap3 and malt templates
+        Default content_types:
+            index, article, page, category, tag, author,
+                                  categories, tags, authors
+        Custom content types:
+            Any category, page or article can be accepted
+            `blog/news` or `blog/news/my-article`
+        """
+        if not content_type:
+            return
+
+        CONTENT_TYPE = normalize_var(content_type).upper()
+
+        for rule in app.theme_context.get('DYNAMIC_VARS', []):
+            where = rule.get('where')
+            var_list = rule.get('var')
+            if not where or not var_list:
+                continue
+            if not isinstance(var_list, list):
+                var_list = [var_list]
+            if not isinstance(where, list):
+                where = [where]
+            WHERE = [normalize_var(item).upper() for item in where]
+            if CONTENT_TYPE in WHERE:
+                for var in var_list:
+                    context[var] = rule.get('value', True)
+
+
+class ArticleListView(BaseView):
 
     def get(self, category=None, page_number=1):
         context = {}
         query = {'published': True}
         custom_index_template = app.theme_context.get('INDEX_TEMPLATE')
         blog_categories = app.theme_context.get('BLOG_CATEGORIES', [])
+        content_type = 'index'
+        template = custom_template = 'index.html'
         if category:
-            # this logic ^ is right!!
+            content_type = 'category'
+            custom_template = f'{content_type}/{normalize_var(category)}.html'
             if category != app.theme_context.get('CATCHALL_CATEGORY'):
                 query['category'] = {'$regex': f"^{category.rstrip('/')}"}
                 if category not in blog_categories:
-                    self.template = 'category.html'
-                    context['DISPLAY_BREADCRUMBS'] = True
+                    template = 'category.html'
         elif custom_index_template:
             # use custom template only when categoty is blank '/'
             # and INDEX_TEMPLATE is defined
-            self.template = custom_index_template
+            template = custom_index_template
+            custom_template = f'{content_type}/{custom_index_template}.html'
 
         articles = [
             make_model(article)
-            for article in app.db.content_set(query)
+            for article in app.db.article_set(query)
         ]
 
         page_name = category or ''
@@ -41,77 +85,53 @@ class ArticleListView(MethodView):
                 'articles_paginator': paginator,
                 'articles_page': page,
                 'articles_next_page': page.next_page,
-                'articles_previous_page': page.previous_page,
-                'HIDE_SIDEBAR': app.theme_context.get(
-                    'HIDE_SIDEBAR_ON_INDEX', False
-                )
+                'articles_previous_page': page.previous_page
             }
         )
 
-        if app.theme_context.get(
-            'SHOW_ABOUT_ME_ON_INDEX', True
-        ) is False:
-            context['ABOUT_ME'] = None
-
-        if app.theme_context.get(
-            'SHOW_AVATAR_ON_INDEX', True
-        ) is False:
-            context['AVATAR'] = None
-
-        if app.theme_context.get('HIDE_SIDEBAR_ON_INDEX'):
-            context['HIDE_SIDEBAR'] = True
-
-        if app.theme_context.get('SIDEBAR_ON_LEFT_ON_INDEX'):
-            context['SIDEBAR_ON_LEFT'] = True
-
-        return render_template(self.template, **context)
+        self.set_elements_visibility(context, content_type)
+        self.set_elements_visibility(context, category)
+        templates = [f'custom/{custom_template}', template]
+        print(templates)
+        return render_template(templates, **context)
 
 
-class CategoryListView(MethodView):
+class CategoryListView(BaseView):
     def get(self, page_number=1):
         return 'TODO: a list of categories'
 
 
-class DetailView(MethodView):
+class DetailView(BaseView):
     is_preview = False
-    template = 'article.html'
 
     def get(self, slug):
-        category, _, slug = slug.rpartition('/')
+        category, _, item_slug = slug.rpartition('/')
         content = app.db.get_with_content(
-            slug=slug,
+            slug=item_slug,
             category=category
         )
         if not content:
             abort(404)
 
-        article = make_model(content)
-        context = {
-            'article': article,
-            'category': article.category,
-            'tags': article.tags,
-            'author': article.author
-        }
-
-        if article.status == 'draft' and not self.is_preview:
+        content = make_model(content)
+        if content.status == 'draft' and not self.is_preview:
             abort(404)
 
-        if app.theme_context.get('DISPLAY_RECENT_POSTS_ON_SIDEBAR'):
-            context['articles'] = [
-                make_model(item)
-                for item in app.db.content_set({'published': True})
-            ]
+        context = {
+            'category': content.category,
+            'author': content.author,
+            content.content_type: content
+        }
+        if content.author_avatar:
+            context['AVATAR'] = content.author_avatar
 
-        if app.theme_context.get('HIDE_SIDEBAR_ON_ARTICLE'):
-            context['HIDE_SIDEBAR'] = True
-
-        if app.theme_context.get('SIDEBAR_ON_LEFT_ON_ARTICLE'):
-            context['SIDEBAR_ON_LEFT'] = True
-
-        if article.author_avatar:
-            content['AVATAR'] = article.author_avatar
-
-        return render_template(self.template, **context)
+        self.set_elements_visibility(context, content.content_type)
+        self.set_elements_visibility(context, slug)
+        templates = [
+            f'custom/{content.content_type}/{normalize_var(slug)}.html',
+            f'{content.content_type}.html'
+        ]
+        return render_template(templates, **context)
 
 
 class PreviewView(DetailView):

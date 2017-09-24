@@ -89,11 +89,15 @@
                 <div class="container">
                     <div class="hero-content animated bounceInDown slow">
                         {% block bannerimage %}
-                        <img src="{{ SITEURL }}/{{ SITELOGO }}" title="{{ SITENAME }}" alt="{{ SITENAME }}" class="logo"/>
+                            {% if SHOW_SITELOGO|default(True) %}
+                                <img src="{{ SITEURL }}/{{ SITELOGO }}" title="{{ SITENAME }}" alt="{{ SITENAME }}" class="logo"/>
+                            {% endif %}
                         {% endblock %}
                         {% block bannertext %}
-                        <h1>{{ BANNER_SUBTITLE }}</h1>
-                        <p>{{ BANNER_TEXT }}</p>
+                            {% if SHOW_BANNER_TEXT|default(True) %}
+                                <h1>{{ BANNER_SUBTITLE }}</h1>
+                                <p>{{ BANNER_TEXT }}</p>
+                            {% endif %}
                         {% endblock %}
                     </div>
                 </div>
@@ -101,6 +105,17 @@
             {% endblock %}
         </header>
         <main>
+
+            {% block backtop %}
+            {% if SHOW_BACK_TOP %}
+            <div style="bottom: 45px; right: 24px;" class="fixed-action-btn">
+                <a title="top" class="btn-floating btn-large" href="#">
+                    <i class="fa fa-arrow-up"></i> Back to top
+                </a>
+            </div>
+            {% endif %}
+            {% endblock %}
+
             <!-- Content -->
             {% block content %}
             {% endblock %}

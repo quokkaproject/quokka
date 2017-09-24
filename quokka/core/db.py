@@ -148,11 +148,29 @@ class QuokkaDB(object):
         return self.value_set('index', 'tags', flat=True, sort=sort)
 
     def content_set(self, *args, **kwargs):
+        return self.index.find(*args, **kwargs)
+
+    def article_set(self, *args, **kwargs):
         kwargs.setdefault(
             'sort',
             self.app.theme_context.get('ARTICLE_ORDER_BY', [('date', -1)])
         )
-        return self.index.find(*args, **kwargs)
+        if not args:
+            args = [{'content_type': 'article'}]
+        elif isinstance(args[0], dict):
+            args[0]['content_type'] = 'article'
+        return self.content_set(*args, **kwargs)
+
+    def page_set(self, *args, **kwargs):
+        kwargs.setdefault(
+            'sort',
+            self.app.theme_context.get('PAGE_ORDER_BY', [('title', -1)])
+        )
+        if not args:
+            args = [{'content_type': 'page'}]
+        elif isinstance(args[0], dict):
+            args[0]['content_type'] = 'page'
+        return self.content_set(*args, **kwargs)
 
     def select(self, colname, *args, **kwargs):
         return self.get_collection(colname).find(*args, **kwargs)

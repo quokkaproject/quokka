@@ -11,9 +11,9 @@ PaginationRule = namedtuple(
     'PaginationRule',
     'min_page URL SAVE_AS',
 )
-# DEFAULT_PP = [(0, '{name}{number}{extension}', '{name}{number}{extension}')]
-DEFAULT_PP = [(0, '{name}/{number}/', '{name}/{number}/')]
-# DEFAULT_PP = [(0, '{name}/{number}/index{extension}', '{name}/{number}/index{extension}')]
+
+DEFAULT_PP = [(1, '{name}/', '{name}/index{extension}'),
+              (2, '{name}/{number}/', '{name}/{number}/index{extension}')]
 
 
 class Paginator(object):

@@ -8,14 +8,14 @@
 {% endblock %}
 
 {% block banner %}
-<div class="hero hero-article" style="background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('{{ GET_ARTICLE_IMAGE(page, ARTICLE_BANNERS_FOLDER) }}')">
+<div class="hero hero-article" style="background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('{{ SITEURL }}/{{ page.banner }}')">
 </div>
 {% endblock %}
 
 {% block content %}
 <div class="container content-container">
     <div style="bottom: 45px; right: 24px;" class="fixed-action-btn">
-        <a title="Código fonte no GitHub" class="btn-floating btn-large" href="{{ GET_ARTICLE_AT_GITHUB(page, GITHUB_REPO, GITHUB_BRANCH) }}" target="_blank">
+        <a title="Código fonte no GitHub" class="btn-floating btn-large" href="#" target="_blank">
             <i class="fa fa-code"></i> Código Fonte
         </a>
     </div>
@@ -36,7 +36,7 @@
         </div>
     </div>
 
-    {% set BREADCRUMB_ELEMENTS = [("{} Blog".format(SITENAME), "blog"), (page.title, None)] %}
+    {% set BREADCRUMB_ELEMENTS = [(page.category, page.category.url)] %}
 
     <div class="row">
         <div class="col s12 m12 l12 white z-depth-2 page">

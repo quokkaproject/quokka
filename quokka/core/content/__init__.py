@@ -1,6 +1,5 @@
-from flask import redirect
 from quokka.core.app import QuokkaModule
-from .admin import ContentView
+from .admin import AdminArticlesView, AdminPagesView
 from .views import DetailView, PreviewView, ArticleListView, CategoryListView
 # from .models import Content
 from .utils import url_for_content, strftime
@@ -10,23 +9,36 @@ def configure(app):
     # Register admin views
     app.admin.register(
         app.db.index,
-        ContentView,
-        name='Content',
-        endpoint='contentview'
+        AdminArticlesView,
+        name='Articles',
+        endpoint='articleview'
+    )
+
+    app.admin.register(
+        app.db.index,
+        AdminPagesView,
+        name='Pages',
+        endpoint='pageview'
     )
 
     # Admin admin index panel icons
     app.admin.add_icon(
-        endpoint='quokka.core.content.admin.contentview.create_view',
-        icon='glyphicon-file',
-        text='New<br>Content'
+        endpoint='quokka.core.content.admin.articleview.create_view',
+        icon='glyphicon-list-alt',
+        text='New<br>Article'
     )
 
     app.admin.add_icon(
-        endpoint='quokka.core.content.admin.contentview.index_view',
-        icon='glyphicon-list',
-        text='All<br>Content'
+        endpoint='quokka.core.content.admin.pageview.create_view',
+        icon='glyphicon-file',
+        text='New<br>Page'
     )
+
+    # app.admin.add_icon(
+    #     endpoint='quokka.core.content.admin.articleview.index_view',
+    #     icon='glyphicon-list',
+    #     text='All<br>Articles'
+    # )
 
     # Register new commands
 

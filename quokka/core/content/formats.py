@@ -139,11 +139,11 @@ class BaseForm(Form):
 
 class CreateForm(BaseForm):
     """Default create form where content format is chosen"""
-    content_type = fields.SelectField(
-        'Type',
-        [validators.required()],
-        choices=[('article', 'Article'), ('page', 'Page')]
-    )
+    # content_type = fields.SelectField(
+    #     'Type',
+    #     [validators.required()],
+    #     choices=[('article', 'Article'), ('page', 'Page')]
+    # )
     content_format = fields.SmartSelect2Field(
         'Format',
         [validators.required()],
