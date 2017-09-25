@@ -1,7 +1,3 @@
-"""
-This functions created by Alvaro Justen (Turicas)
-"""
-import copy
 from slugify import slugify as awesome_slugify
 
 

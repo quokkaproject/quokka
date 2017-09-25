@@ -25,8 +25,6 @@ def configure(app):
         FOLDERS.insert(0, OVERLOAD_FOLDER)
 
     my_loader = jinja2.ChoiceLoader([
-        # TODO: add theme based overload for themes
-        # example, replace `comments.html` for template
         QuokkaTemplateLoader(FOLDERS),
         app.jinja_loader
     ])

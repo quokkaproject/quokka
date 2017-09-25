@@ -1,36 +1,23 @@
 # Quokka CMS
 
-![quokka](https://avatars1.githubusercontent.com/u/10763349?v=4&s=200)
+![quokka](/docs/emoji_small.png)
 
 ## The Happiest CMS in the world
 
-> **NOTE**: QuokkaCMS is being rewritten from scratch to be more simpler and use a flat file DB system
-> the old QuokkaCMS based in MongoDB will be still available in <1.0.0 branch but will no longer be
-> maintained or updated and fixes and improvements will be only community driven.
-> I recommend you to use the migration script if you are using the old QuokkaCMS.
+Quokka CMS is a Content Management System written in Python.
 
-Quokka CMS is a small and simple Content Management System based
-in Python, Flask, Flask-Admin and TinyDB.
+A lightweight framework to build websites, portals, blogs, applications
+and anything related to publishing content to the web.
 
-The default database system is TinyDB because it does not require a database system
-and stores data in a flat JSON file.
+## Features
 
-Altough you can also use MongoDB if you need to run the CMS in a concurrent admin user
-environment.
-
-## Why use QuokkaCMS
-
-- You want a simple but powerful CMS for your website or blog
-- You want a lightweight platform simple to deploy
-- You want to be able to run without a database system
-- You want the possibility to optionally use a powerful NoSQL database
-- You want to have a web admin interface to manage your content and posts
-- You want to optionally generate your CMS as a static HTML website to host on github.io
-- You want to use the already existing and powerful Pelican Themes
-- You want to install and develop plugins easily
-- You like Quokkas (the animal)
-- You like Python
-- You like Flask
+- Web based content management admin interface
+- Multiple content formats (markdown, rst, html, plaintext)
+- Compatibility with any of the [Pelican Themes](pelican-themes.org)
+- Flat file NoSQL database **TinyDB** or optionally **MongoDB** for scale deployments
+- Host the Quokka server or generate a static website
+- Extensible via modules/plugins
+- Powered by Python, Flask, Flask-Admin, TinyMongo and Pelican Themes
 
 ## Quick Start
 
@@ -39,10 +26,10 @@ environment.
 ```bash
 python3 -m venv venv
 . venv/bin/activate
-pip install quokka
+pip3 install quokka
 ```
 
-> NOTE: QuokkaCMS runs only in Python 3.6+
+> NOTE: QuokkaCMS requires Python 3.6+
 
 ### Start a project
 
@@ -86,7 +73,7 @@ The above command will generate your project in `myproject` folder as:
 
 You can optionally pass arguments:
 
-Choose existing theme (the default is Flex)
+Choose existing theme (the default is [Malt](https://github.com/grupydf/malt))
 
 ```bash
 quokka init mywebsite --theme http://github.com/user/theme
@@ -257,3 +244,65 @@ quokka runserver
 Do you want to be part of this open-source project?
 
 Take a look at [Contributing Guidelines](/CONTRIBUTING.md)
+
+## TODO
+
+This is the list of tasks to be completed until `1.0.0` can be released.
+
+- [ ] variable map (from content to theme)
+- [ ] tags/tag page
+- [ ] categories page
+- [ ] authors/author page
+- [ ] @author profile page (customizable)
+- [ ] feeds
+- [ ] sitemap
+- [ ] search
+- [ ] archives (date grouped content)
+- [ ] Custom TinyDB serializators from modules
+- [ ] admin config overrides
+- [ ] split categories by `/` to get all roots
+- [ ] content extra fields
+- [ ] content custom metadata
+- [ ] content translations
+- [ ] content avatars
+- [ ] content art/page comment attr
+- [ ] date formatting from settings
+- [ ] dynamic theme per category (deal cache..)
+- [ ] implement pre-render and post-renders
+- [ ] replacement marks [[x:y]]
+- [ ] preview should require login
+- [ ] admin: WYSIWYG editors
+- [ ] admin: rst format
+- [ ] admin: asciidoc format
+- [ ] admin: media upload
+- [ ] admin: actions
+- [ ] admin: links in columns
+- [ ] admin: solve select2 submit on enter problem
+- [ ] admin: user management
+- [ ] admin: make content type optional field (only when admin class do not provide a default)
+- [ ] admin: scaffold to enable list editing
+- [ ] admin: adapt ajax to pymongo
+- [ ] admin: requires login by default
+- [ ] admin: requires login if running external
+- [ ] admin: load content formats from plugin
+- [ ] cli: decorations
+- [ ] cli: click completion
+- [ ] cli: module custom commands
+- [ ] cli: fetch modules
+- [ ] cli: fetch themes
+- [ ] cli: cookiecutter project
+- [ ] cli: pack templates
+- [ ] cli: deploy base system
+- [ ] cli: deploy github
+- [ ] cli: deploy ftp
+- [ ] cli: deploy scp
+- [ ] cli: deploy heroku
+- [ ] cli: deploy pythonanywhere
+- [ ] Docker
+- [ ] themes: find a way to download single pelican-themes
+- [ ] fix some pelican unrendered footers
+- [ ] allow dynamic favicons
+- [ ] create tinydb debug toolbar
+- [ ] mdBook documentation
+- [ ] replace `flit` and find a better way to release
+- [ ] import scripts (quokka old, wordpress, feed)
