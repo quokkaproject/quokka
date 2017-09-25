@@ -90,6 +90,11 @@ class Author:
         return ', '.join(self.authors)
 
     @property
+    def social(self):
+        # twitter: ...
+        return {}
+
+    @property
     def url(self):
         authors_list = '/'.join(
             slugify(author) for author in self.authors
@@ -128,12 +133,12 @@ class Content:
     @property
     def locale_date(self):
         # TODO: format according to settings
-        return self.data['date']
+        return self.data['date'].isoformat()
 
     @property
     def locale_modified(self):
         # TODO: format according to settings
-        return self.data['modified']
+        return self.data['modified'].isoformat()
 
     @property
     def metadata(self):
@@ -197,7 +202,8 @@ class Content:
 
     @property
     def author(self):
-        return Author(self.data['authors'])
+        if self.data.get('authors'):
+            return Author(self.data['authors'])
 
     @property
     def related_posts(self):
@@ -208,6 +214,10 @@ class Content:
     def banner(self):
         # TODO: get it from model
         return 'http://lorempixel.com/1000/200/abstract/'
+
+    @property
+    def image(self):
+        return self.banner
 
     @property
     def series(self):
@@ -232,7 +242,11 @@ class Content:
 
     @property
     def description(self):
-        return [self.summary]
+        return self.summary
+
+    @property
+    def menulabel(self):
+        return self.title
 
     def __getattr__(self, attr):
         value = self.metadata.get(attr) or self.data.get(attr)

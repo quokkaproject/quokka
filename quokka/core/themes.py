@@ -4,6 +4,9 @@ from pathlib import Path
 
 
 def configure(app):
+    app.jinja_env.add_extension('jinja2.ext.do')
+    app.jinja_env.add_extension('jinja2.ext.i18n')
+
     OVERLOAD_ENABLED = app.theme_context.get('OVERLOAD_ENABLED', True)
     TEMPLATES = Path('templates')
     THEME_FOLDER = Path(app.theme_context.get('FOLDER', 'themes'))

@@ -20,7 +20,7 @@
     <meta property="og:url" content="{{ SITEURL }}/{{ article.url }}"/>
     <meta property="og:site_name" content="{{ SITENAME }}"/>
     <meta property="og:description" content="{{ ARTICLE_DESCRIPTION }}"/>
-    {% if article.image %}
+    {% if article.banner %}
     <meta property="og:image" content="{{ ARTICLE_IMAGE }}"/>
     {% elif OPEN_GRAPH_IMAGE %}
     <meta property="og:image" content="{{ SITEURL }}{{ OPEN_GRAPH_IMAGE }}"/>
@@ -30,13 +30,15 @@
     <!-- Twitter -->
     <meta name="twitter:card" content="summary"/>
     <meta name="twitter:site" content="{{ TWITTER }}"/>
-    {% if article.author.name in MEMBROS and "twitter" in MEMBROS[article.author.name] %}
-    <meta name="twitter:creator" content="{{ MEMBROS[article.author.name]["twitter"] }}"/>
+    {% if article.author.social.get('twitter') %}
+    <meta name="twitter:creator" content="{{ article.author.social['twitter'] }}"/>
+    {% elif article.author.name in AUTHORS and "twitter" in AUTHORS[article.author.name] %}
+    <meta name="twitter:creator" content="{{ AUTHORS[article.author.name]["twitter"] }}"/>
     {% endif %}
     <meta name="twitter:domain" content="{{ SITEURL|replace("http://", "")|replace("https://", "") }}"/>
     <meta name="twitter:title" content="{{ ARTICLE_TITLE }}"/>
     <meta name="twitter:description" content="{{ ARTICLE_DESCRIPTION }}"/>
-    {% if article.image %}
+    {% if article.banner %}
     <meta name="twitter:image:src" content="{{ ARTICLE_IMAGE }}"/>
     {% elif OPEN_GRAPH_IMAGE %}
     <meta name="twitter:image:src" content="{{ SITEURL }}{{ OPEN_GRAPH_IMAGE }}"/>
@@ -52,7 +54,7 @@
     <!-- Google+ -->
     <meta itemprop="name" content="{{ ARTICLE_TITLE }}"/>
     <meta itemprop="description" content="{{ ARTICLE_DESCRIPTION }}"/>
-    {% if article.image %}
+    {% if article.banner %}
     <meta itemprop="image" content="{{ ARTICLE_IMAGE }}"/>
     {% elif OPEN_GRAPH_IMAGE %}
     <meta itemprop="image" content="{{ SITEURL }}{{ OPEN_GRAPH_IMAGE }}"/>

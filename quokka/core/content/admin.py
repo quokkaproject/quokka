@@ -2,7 +2,7 @@
 import datetime as dt
 import pymongo
 from flask import current_app
-from quokka.admin.forms import ValidationError
+from quokka.admin.forms import ValidationError, rules
 from quokka.admin.views import ModelView
 from quokka.core.auth import get_current_user
 from quokka.utils.routing import get_content_url
@@ -15,6 +15,8 @@ class AdminContentView(ModelView):
     """Base form for all contents"""
     base_query = {}
     base_defaults = {}
+    quokka_form_edit_rules = None
+    quokka_form_create_rules = None
 
     details_modal = True
     can_view_details = True
@@ -23,10 +25,9 @@ class AdminContentView(ModelView):
     # export_types = ['csv', 'json', 'yaml', 'html', 'xls']
 
     # details_modal_template = 'admin/model/modals/details.html'
-    # create_template = 'admin/model/create.html'
-
-    # edit_template = 'admin/quokka/edit.html'
-    # EDIT template is taken from content_format
+    create_template = 'admin/quokka/create.html'
+    edit_template = 'admin/quokka/edit.html'
+    # EDIT template is re-taken from content_format
 
     page_size = 20
     can_set_page_size = True
@@ -117,23 +118,28 @@ class AdminContentView(ModelView):
     #     # rules.Macro('my_macro', foobar='baz')
     # ]
 
-    # def create_form(self):
-    #     form = super(ContentView, self).create_form()
-    #     form.content_type.choices = [('a', 'a'), ('b', 'b')]
-    #     return form
-
     # @property
     # def extra_js(self):
     #     return [
     #         url_for('static', filename='js/quokka_admin.js')
     #     ]
 
+    def create_form(self):
+        form = super(AdminContentView, self).create_form()
+        if self.quokka_form_create_rules:
+            self.form_create_rules = self.quokka_form_create_rules
+        self._refresh_form_rules_cache()
+        return form
+
     def edit_form(self, obj):
         content_format = get_format(obj)
         self.edit_template = content_format.get_edit_template(
             obj
         ) or self.edit_template
-        self.form_edit_rules = content_format.get_form_rules()
+        if self.quokka_form_edit_rules:
+            self.form_edit_rules = self.quokka_form_edit_rules
+        else:
+            self.form_edit_rules = content_format.get_form_edit_rules(obj)
         self._refresh_form_rules_cache()
         form = content_format.get_edit_form(obj)
         return form
@@ -158,6 +164,10 @@ class AdminContentView(ModelView):
 
         if not model.get('slug'):
             model['slug'] = slugify(model['title'])
+
+        if not model.get('category'):
+            # When category is hidden on form it should be None
+            model['category'] = ''
 
         existent = current_app.db.get('index', {'slug': model['slug'],
                                                 'category': model['category']})
@@ -305,3 +315,17 @@ class AdminArticlesView(AdminContentView):
 class AdminPagesView(AdminContentView):
     """Only pages"""
     base_query = {'content_type': 'page'}
+    quokka_form_create_rules = [
+        rules.FieldSet(('title', 'summary')),
+        rules.FieldSet(('content_format',)),
+        rules.csrf_token
+    ]
+    quokka_form_edit_rules = [
+        rules.FieldSet(('title', 'summary')),
+        rules.Field('content'),
+        # rules.FieldSet(('category', 'authors', 'tags')),
+        rules.FieldSet(('date',)),
+        rules.FieldSet(('slug',)),
+        rules.Field('published'),
+        rules.csrf_token
+    ]

@@ -77,3 +77,8 @@ class CallableValidator(object):
 
 
 validators.CallableValidator = CallableValidator
+
+rules.csrf_token = rules.Field(
+    'csrf_token',
+    render_field='quokka_macros.render_hidden_field'
+)

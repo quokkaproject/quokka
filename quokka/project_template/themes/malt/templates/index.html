@@ -31,10 +31,10 @@
 {% block content %}
 <div class="container content-container">
     <div class="row">
-        <!-- {% if BREADCRUMB_ELEMENTS is not defined %}
+        {% if BREADCRUMB_ELEMENTS is not defined %}
             {% set BREADCRUMB_ELEMENTS = [("{} Blog".format(SITENAME), None)] %}
         {% endif %}
-        {% include "includes/breadcrumbs.html" %} -->
+        {% include "includes/breadcrumbs.html" %}
         {% for article in (articles_page.object_list if articles_page else articles) %}
         <div class="col {{ CARD_SIZE }}">
             <div class="card">

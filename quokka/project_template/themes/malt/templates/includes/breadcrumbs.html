@@ -1,3 +1,4 @@
+{% if DISPLAY_BREADCRUMBS %}
 <ul class="breadcrumb">
     <li>
     <a class="grey-text text-darken-1" title="{{ SITENAME }} Home" href="/"><i class="fa fa-home grey-text text-darken-2"></i></i></a>
@@ -12,3 +13,4 @@
         {% endif %}
     {% endfor %}
 </ul>
+{% endif %}

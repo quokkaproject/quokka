@@ -51,8 +51,8 @@ class ArticleListView(BaseView):
     def get(self, category=None, page_number=1):
         context = {}
         query = {'published': True}
-        custom_index_template = app.theme_context.get('INDEX_TEMPLATE')
-        blog_categories = app.theme_context.get('BLOG_CATEGORIES', [])
+        home_template = app.theme_context.get('HOME_TEMPLATE')
+        list_categories = app.theme_context.get('LIST_CATEGORIES', [])
         content_type = 'index'
         template = custom_template = 'index.html'
         if category:
@@ -60,18 +60,26 @@ class ArticleListView(BaseView):
             custom_template = f'{content_type}/{normalize_var(category)}.html'
             if category != app.theme_context.get('CATCHALL_CATEGORY'):
                 query['category'] = {'$regex': f"^{category.rstrip('/')}"}
-                if category not in blog_categories:
+                if category not in list_categories:
                     template = 'category.html'
-        elif custom_index_template:
+                else:
+                    content_type = 'index'
+        elif home_template:
             # use custom template only when categoty is blank '/'
             # and INDEX_TEMPLATE is defined
-            template = custom_index_template
-            custom_template = f'{content_type}/{custom_index_template}.html'
+            template = home_template
+            custom_template = f'{content_type}/{home_template}.html'
+            content_type = 'home'
 
         articles = [
             make_model(article)
             for article in app.db.article_set(query)
         ]
+
+        if content_type not in ['index', 'home', 'direct'] and not articles:
+            # on `index`, `home` and direct templates no need for articles
+            # but category pages should never show empty
+            abort(404)
 
         page_name = category or ''
         paginator = make_paginator(articles, name=page_name)

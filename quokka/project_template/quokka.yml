@@ -66,15 +66,15 @@ THEME:
     DISPLAY_PAGES_ON_MENU: true
     DISPLAY_CATEGORIES_ON_MENU: true
     ## contents posted on `blog` category is always showed as list
-    BLOG_CATEGORIES: ['blog']
+    LIST_CATEGORIES: ['blog']
     ## This is a link `/all` which will return all content independent
     ## of its category, normally the same as `/` but for themes where
     ## the INDEX_TEMPLATE is set to other than index.html it is useful
     ## exmaple: portal websites
-    CATCHALL_CATEGORY: all
+    CATCHALL_CATEGORY: index
     # ARCHIVES_URL:
     # MAIN_MENU: false
-    MENUITEMS: [['blog', 'blog'], ['all', 'all']]
+    MENUITEMS: [['Index', 'index']]
     LINKS: [['blog', '/blog'], ['all', '/all']]
     SOCIAL:
       - ['twitter', 'http://twitter.com/rochacbruno']
@@ -95,6 +95,17 @@ THEME:
     ## how many items per page
     DEFAULT_PAGINATION: 2
     DEFAULT_ORPHANS: 0
+
+    USE_OPEN_GRAPH: true
+    OPEN_GRAPH_FB_APP_ID: 123456
+    OPEN_GRAPH_IMAGE: http://lorempixel.com/200/200/abstract
+
+    CONTENT_VAR_MAP:
+      author_avatar: AVATAR
+      banner: BANNER
+      banner: OPEN_GRAPH_IMAGE
+      author: AUTHOR
+      header_color: BASE_COLOR
 
 ## ▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬ஜ۩۞۩ஜ▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬
 ## ▓▓▓▒▒▒░░░                 THEME SPECIFIC VARIABLES                ░░░▒▒▒▓▓▓
@@ -169,6 +180,7 @@ THEME_BOOTSTRAP3:
       ## where: index, article, page, category, tag, author
       ##        categories, tags, authors
       ##        'catname/other' and 'catname/article-slug'
+      ##        when HOME_TEMPLATE is defined you can also use `home`
       ## value: true / false / anything
       ##
       ## Example: Hide the sidebar on site.com/blog/news/
@@ -196,9 +208,6 @@ THEME_BOOTSTRAP3:
     # GITHUB_SKIP_FORK: true
     # GITHUB_SHOW_USER_LINK: true
 
-    USE_OPEN_GRAPH: true
-    OPEN_GRAPH_FB_APP_ID: 123456
-    OPEN_GRAPH_IMAGE: http://lorempixel.com/200/200/abstract
     TWITTER_USERNAME: rochacbruno
     TWITTER_WIDGET_ID: 12324
     # ADDTHIS_PROFILE: 1234
@@ -229,13 +238,24 @@ THEME_MALT:
     BANNER_TEXT: Hello Again
     # BANNER_ALL_PAGES: true
     FOOTER_ABOUT: <b> Hello </b> World
-    HOMEMENUITEMS: [['all', 'all/index.html'], ['blog', 'blog/index.html']]
     ## remove if you want home to be full article list
-    INDEX_TEMPLATE: home.html
+    HOME_TEMPLATE: home.html
     SHOW_SITELOGO: true
     SHOW_BANNER_TEXT: true
+
+    ## Content listing properties
+    CARD_SIZE: "s12 m12 l12"
+    HIDE_AUTHOR_AVATAR: false
+    HIDE_AUTHOR_NAME: false
+    HIDE_CATEGORY: false
+
     DYNAMIC_VARS:
       - {var: SHOW_BACK_TOP, where: [article, page], value: true}
+      - {var: DISPLAY_BREADCRUMBS, where: [category, tag, author], value: true}
+      - {var: HIDE_CATEGORY, where: [category, tag, author, index], value: false}
+      - {var: CARD_SIZE, where: [category, tag, author], value: "s12 m6 l4"}
+      - {var: CARD_SIZE, where: [index, all], value: "s12 m12 l12"}
+      - {var: MENUITEMS, where: home, value: [['Index', 'index']]}
 
     MALT_HOME:
         - color: blue-grey lighten-5
@@ -268,6 +288,15 @@ THEME_MALT:
               icon: fa-gear
               text: You need prod 3...
               action: ['read more', 'http://community']
+
+    CONTENT_VAR_MAP:
+      ## attributes taken from article/page and its export name
+      author_avatar: AVATAR
+      banner: BANNER
+      banner: OPEN_GRAPH_IMAGE
+      author: AUTHOR
+      header_color: MALT_BASE_COLOR
+
 
 THEME_OCTOPRESS:
     DISPLAY_SOCIAL_ICONS: true

@@ -14,25 +14,10 @@
 
 {% block content %}
 <div class="container content-container">
-    <div style="bottom: 45px; right: 24px;" class="fixed-action-btn">
-        <a title="Código fonte no GitHub" class="btn-floating btn-large" href="#" target="_blank">
-            <i class="fa fa-code"></i> Código Fonte
-        </a>
-    </div>
 
     <div class="row">
         <div class="col s12 m12 l12 center-align animated bounceInDown slow page-meta">
             <h1 class="white-text">{{ page.title }}</h1>
-            <div class="page-metadata {{ MALT_BASE_COLOR }}-text text-lighten-5">
-                <span class="page-author-name">
-                    <a href="{{ SITEURL }}/{{ page.author.url }}" title="{{ page.author.name|escape }}" class="{{ MALT_BASE_COLOR }}-text text-lighten-5">
-                        <i class="fa fa-user"></i> {{ page.author.name }}
-                    </a>
-                </span>
-                <span class="page-datetime">
-                    <i class="fa fa-calendar"></i> <time datetime="{{ page.date.isoformat() }}">{{ page.locale_date }}</time>
-                </span>
-            </div>
         </div>
     </div>
 
