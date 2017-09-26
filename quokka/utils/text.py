@@ -27,3 +27,15 @@ def abbreviate(name, pretty=False):
             tiny_name = False
     result.append(names[-1])
     return ' '.join(result)
+
+
+def normalize_var(text, s='_'):
+    return text.replace(
+        '/', s
+    ).replace(
+        '-', s
+    ).replace(
+        ' ', s
+    ).replace(
+        '@', s
+    )

@@ -1,19 +1,7 @@
 from flask import current_app as app, render_template, abort
 from flask.views import MethodView
 from .models import make_model, make_paginator, Category, Tag
-from quokka.utils.text import slugify_category, slugify
-
-
-def normalize_var(text):
-    return text.replace(
-        '/', '_'
-    ).replace(
-        '-', '_'
-    ).replace(
-        ' ', '_'
-    ).replace(
-        '@', '_'
-    )
+from quokka.utils.text import slugify_category, normalize_var
 
 
 class BaseView(MethodView):
@@ -65,7 +53,7 @@ class BaseView(MethodView):
 
 class ArticleListView(BaseView):
 
-    def get(self, category=None, page_number=1):
+    def get(self, category=None, tag=None, page_number=1):
         context = {}
         query = {'published': True}
         home_template = app.theme_context.get('HOME_TEMPLATE')
@@ -73,6 +61,7 @@ class ArticleListView(BaseView):
         index_category = app.theme_context.get('INDEX_CATEGORY')
         content_type = 'index'
         template = custom_template = 'index.html'
+
         if category:
             content_type = 'category'
             custom_template = f'{content_type}/{normalize_var(category)}.html'
@@ -84,6 +73,12 @@ class ArticleListView(BaseView):
                     content_type = 'index'
             else:
                 content_type = 'index'
+        elif tag:
+            content_type = 'tag'
+            custom_template = f'{content_type}/{normalize_var(tag)}.html'
+            template = 'tag.html'
+            # https://github.com/schapman1974/tinymongo/issues/42
+            query['tags_string'] = {'$regex': f'.*,{tag},.*'}
         elif home_template:
             # use custom template only when categoty is blank '/'
             # and INDEX_TEMPLATE is defined
@@ -110,6 +105,7 @@ class ArticleListView(BaseView):
                 'articles': articles,
                 'page_name': page_name,
                 'category': Category(category) if category else None,
+                'tag': Tag(tag) if tag else None,
                 'articles_paginator': paginator,
                 'articles_page': page,
                 'articles_next_page': page.next_page,
@@ -153,7 +149,10 @@ class CategoryListView(BaseView):
 
 class TagListView(BaseView):
     def get(self, page_number=1):
-        tags = [(Tag(tag), []) for tag in app.db.tag_set()]
+        tags = [
+            (Tag(tag), [])
+            for tag in app.db.tag_set(filter={'published': True})
+        ]
         context = {'tags': tags}
         self.set_elements_visibility(context, 'tags')
         return render_template('tags.html', **context)

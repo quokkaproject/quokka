@@ -135,17 +135,17 @@ class QuokkaDB(object):
 
         return sorted(values) if sort is True else values
 
-    def author_set(self, sort=True):
+    def author_set(self, sort=True, **kwargs):
         users = [
             item.get('fullname', item.get('username'))
             for item in self.users.find()
         ]
-        authors = self.value_set('index', 'authors', flat=True)
+        authors = self.value_set('index', 'authors', flat=True, **kwargs)
         values = list(set(users + authors))
         return sorted(values) if sort is True else values
 
-    def tag_set(self, sort=True):
-        return self.value_set('index', 'tags', flat=True, sort=sort)
+    def tag_set(self, sort=True, **kwargs):
+        return self.value_set('index', 'tags', flat=True, sort=sort, **kwargs)
 
     def content_set(self, *args, **kwargs):
         return self.index.find(*args, **kwargs)

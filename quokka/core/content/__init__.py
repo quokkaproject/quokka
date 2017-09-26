@@ -87,20 +87,31 @@ def configure(app):
     module.add_url_rule(f'/tags/',
                         view_func=TagListView.as_view('tags'))
     # handle /tags/index.html
-    module.add_url_rule(f'/tags/index.html',
+    module.add_url_rule(f'/tags/index.{ext}',
                         view_func=TagListView.as_view('tagsnamed'))
+
     # handle /tag/tagname/
+    module.add_url_rule('/tag/<string:tag>/',
+                        view_func=ArticleListView.as_view('tag'))
     # handle /tag/tagname/index.html
+    module.add_url_rule(f'/tag/<string:tag>/index.{ext}',
+                        view_func=ArticleListView.as_view('tagnamed'))
     # handle /tag/tagname/2/
+    module.add_url_rule('/tag/<string:tag>/<int:page_number>/',
+                        view_func=ArticleListView.as_view('tagpag'))
     # handle /tag/tagname/2.html
+    module.add_url_rule(f'/tag/<string:tag>/<int:page_number>.{ext}',
+                        view_func=ArticleListView.as_view('tagpagext'))
     # handle /tag/tagname/2/index.html
+    module.add_url_rule(f'/tag/<string:tag>/<int:page_number>/index.{ext}',
+                        view_func=ArticleListView.as_view('tagpagnamed'))
 
     # CATEGORIES
     # handle /categories/
     module.add_url_rule(f'/categories/',
                         view_func=CategoryListView.as_view('categories'))
     # handle /categories/index.html
-    module.add_url_rule(f'/categories/index.html',
+    module.add_url_rule(f'/categories/index.{ext}',
                         view_func=CategoryListView.as_view('categoriesnamed'))
     # handle /blog/subcategory/
     module.add_url_rule('/<path:category>/',

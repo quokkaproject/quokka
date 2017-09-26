@@ -165,6 +165,15 @@ def adduser(app, username, email, password):
 # update - updates current project settings and assets to latest version
 
 
+@cli.command()
+@click.argument('line', required=True)
+@with_app
+def execute(app, line):
+    """Execute arbitrary command line in app context and outputs result"""
+    with app.app_context():
+        click.echo(eval(line, {'app': app}))
+
+
 def main():
     """
     Quokka CMS command line manager

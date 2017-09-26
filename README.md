@@ -253,6 +253,10 @@ support 100% coming only for malt and bootstrap3 themes
 - [x] variable map (from content to theme)
 - [x] list only categories with content in menu
 - [x] handle spaces in category names/tagnames slugify?
+- [x] categories page
+- [x] tags/tag page
+- [ ] optionally prettify datetime
+- [ ] authors/author page
 - [ ] list only pages with 'show_in_menu' metadata on menu
 - [ ] list only categories with 'show_in_menu' metadata on menu (will require metadata admin)
 - [ ] sort options for menu
@@ -262,9 +266,6 @@ support 100% coming only for malt and bootstrap3 themes
 - [ ] create a SHOW ONLY ROOT CATEGORIES ON MENU
 - [ ] create a USE_CATEGORIES_DROPDOWN
 - [ ] create a USE_PAGES_DROPDOWN
-- [x] categories page
-- [ ] tags/tag page
-- [ ] authors/author page
 - [ ] @author profile page (customizable)
 - [ ] feeds
 - [ ] sitemap

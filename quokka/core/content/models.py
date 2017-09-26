@@ -112,7 +112,7 @@ class Tag(Orderable):
 
     @property
     def url(self):
-        return f'tag/{self.slug}.html'
+        return f'tag/{self.slug}/index.html'
 
     def __str__(self):
         return self.name

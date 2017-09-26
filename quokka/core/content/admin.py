@@ -6,7 +6,7 @@ from quokka.admin.forms import ValidationError, rules
 from quokka.admin.views import ModelView
 from quokka.core.auth import get_current_user
 from quokka.utils.routing import get_content_url
-from quokka.utils.text import slugify, slugify_category
+from quokka.utils.text import slugify, slugify_category, normalize_var
 
 from .formats import CreateForm, get_format
 
@@ -77,7 +77,9 @@ class AdminContentView(ModelView):
         'quokka_create_form_class',
         'category_slug',
         'authors_slug',
+        'authors_string',
         'tags_slug',
+        'tags_string',
     ]
 
     # column_export_list = []
@@ -219,7 +221,13 @@ class AdminContentView(ModelView):
             _slugify = slugify_category if field == 'category' else slugify
             data = model.get(field)
             if data and isinstance(data, list):
-                model[f'{field}_slug'] = [_slugify(item) for item in data]
+                slugified = [_slugify(item) for item in data]
+                model[f'{field}_slug'] = slugified
+                # tinymongo has limitation to search in list fields
+                # https://github.com/schapman1974/tinymongo/issues/42
+                # while the above is not fixed this workaround is needed
+                # app.db.index.find({'tags_string': {'$regex': '.*,tag,.*'}})
+                model[f'{field}_string'] = f',{",".join(slugified)},'
             elif data and isinstance(data, str):
                 model[f'{field}_slug'] = _slugify(data)
             else:
