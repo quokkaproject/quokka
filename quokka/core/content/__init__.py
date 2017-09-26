@@ -1,6 +1,8 @@
 from quokka.core.app import QuokkaModule
 from .admin import AdminArticlesView, AdminPagesView
-from .views import DetailView, PreviewView, ArticleListView, CategoryListView
+from .views import (
+    DetailView, PreviewView, ArticleListView, CategoryListView, TagListView
+)
 # from .models import Content
 from .utils import url_for_content, strftime
 
@@ -81,8 +83,12 @@ def configure(app):
     # handle /author/authorname/othername/n.../2/index.html
 
     # TAGS
-    # handle /tag/
-    # handle /tag/index.html
+    # handle /tags/
+    module.add_url_rule(f'/tags/',
+                        view_func=TagListView.as_view('tags'))
+    # handle /tags/index.html
+    module.add_url_rule(f'/tags/index.html',
+                        view_func=TagListView.as_view('tagsnamed'))
     # handle /tag/tagname/
     # handle /tag/tagname/index.html
     # handle /tag/tagname/2/

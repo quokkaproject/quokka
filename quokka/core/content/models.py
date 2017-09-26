@@ -69,7 +69,7 @@ class Series(Orderable):
         return []
 
 
-class Category:
+class Category(Orderable):
     def __init__(self, category):
         self.category = self.name = self.slug = category
 
@@ -81,7 +81,7 @@ class Category:
         return self.category
 
 
-class Author:
+class Author(Orderable):
     def __init__(self, authors):
         self.authors = authors
 
@@ -107,12 +107,12 @@ class Author:
 
 class Tag(Orderable):
     def __init__(self, name):
-        self.name = self.slug = name
+        self.name = name
+        self.slug = slugify(name)
 
     @property
     def url(self):
-        # TODO: implement
-        return f'tag/{self.name}.html'
+        return f'tag/{self.slug}.html'
 
     def __str__(self):
         return self.name
@@ -190,7 +190,7 @@ class Content:
 
     @property
     def comments(self):
-        return 'True'
+        return True or 'closed'
 
     @property
     def status(self):

@@ -14,7 +14,7 @@
 {% block content %}
 <div class="container content-container">
     <div class="row">
-        {% set BREADCRUMB_ELEMENTS = [("{} Blog".format(SITENAME), "blog"), ("Tags", None)] %}
+        {% set BREADCRUMB_ELEMENTS = [("Tags", None)] %}
         {% include "includes/breadcrumbs.html" %}
         <div id="tags" class="col s12 white z-depth-1">
             <div class="row {{ MALT_BASE_COLOR }}" id="search-bar">

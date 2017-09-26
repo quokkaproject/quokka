@@ -6,7 +6,7 @@ from quokka.admin.forms import ValidationError, rules
 from quokka.admin.views import ModelView
 from quokka.core.auth import get_current_user
 from quokka.utils.routing import get_content_url
-from quokka.utils.text import slugify
+from quokka.utils.text import slugify, slugify_category
 
 from .formats import CreateForm, get_format
 
@@ -74,7 +74,10 @@ class AdminContentView(ModelView):
         'quokka_format_module',
         'quokka_format_class',
         'quokka_create_form_module',
-        'quokka_create_form_class'
+        'quokka_create_form_class',
+        'category_slug',
+        'authors_slug',
+        'tags_slug',
     ]
 
     # column_export_list = []
@@ -207,7 +210,20 @@ class AdminContentView(ModelView):
 
         model.pop('csrf_token', None)
 
+        self.slugify_search_data(model)
         current_app.db.push_content(model)
+
+    def slugify_search_data(self, model):
+        fields = ['category', 'authors', 'tags']
+        for field in fields:
+            _slugify = slugify_category if field == 'category' else slugify
+            data = model.get(field)
+            if data and isinstance(data, list):
+                model[f'{field}_slug'] = [_slugify(item) for item in data]
+            elif data and isinstance(data, str):
+                model[f'{field}_slug'] = _slugify(data)
+            else:
+                model[f'{field}_slug'] = data
 
     def after_model_change(self, form, model, is_created):
         get_format(model).after_save(form, model, is_created)

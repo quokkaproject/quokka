@@ -21,8 +21,12 @@ def configure(app):
 
         # TODO: Split categories by `/` to get roots
         app.theme_context['categories'] = [
-            (Category(cat), None)
-            for cat in app.db.value_set('index', 'category', sort=True)
+            (Category(cat), [])
+            for cat in app.db.value_set(
+                'index', 'category',
+                filter={'published': True},
+                sort=True
+            )
         ]
         # app.theme_context['tag_cloud']
         return app.theme_context

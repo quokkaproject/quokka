@@ -1,3 +1,4 @@
+from quokka.utils.text import slugify_category
 from flask import current_app as app
 
 
@@ -9,12 +10,12 @@ def url_for_content(content):
     else:
         data = content
 
-    category = data.get('category')
+    category_slug = data.get('category_slug')
     slug = data.get('slug')
     published = data.get('published')
 
-    if category:
-        slug = f'{category}/{slug}'
+    if category_slug:
+        slug = f'{category_slug}/{slug}'
 
     ext = app.config.get("CONTENT_EXTENSION", "html")
 
@@ -27,8 +28,9 @@ def url_for_content(content):
 
 
 def url_for_category(category):
+    # TODO: handle extension for static site
     # ext = app.config.get("CONTENT_EXTENSION", "html")
-    return f'{category}'
+    return slugify_category(category)
 
 
 def strftime(value, dtformat):

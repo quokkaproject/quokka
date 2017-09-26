@@ -32,7 +32,7 @@
 <div class="container content-container">
     <div class="row">
         {% if BREADCRUMB_ELEMENTS is not defined %}
-            {% set BREADCRUMB_ELEMENTS = [("{} Blog".format(SITENAME), None)] %}
+            {% set BREADCRUMB_ELEMENTS = [("Categories", "categories/index.html")] %}
         {% endif %}
         {% include "includes/breadcrumbs.html" %}
         {% for article in (articles_page.object_list if articles_page else articles) %}

@@ -248,10 +248,22 @@ Take a look at [Contributing Guidelines](/CONTRIBUTING.md)
 ## TODO
 
 This is the list of tasks to be completed until `1.0.0` can be released.
+support 100% coming only for malt and bootstrap3 themes
 
-- [ ] variable map (from content to theme)
+- [x] variable map (from content to theme)
+- [x] list only categories with content in menu
+- [x] handle spaces in category names/tagnames slugify?
+- [ ] list only pages with 'show_in_menu' metadata on menu
+- [ ] list only categories with 'show_in_menu' metadata on menu (will require metadata admin)
+- [ ] sort options for menu
+- [ ] optional footer elements on malt
+- [ ] custom footer element by CONFIG_VAR (FOOTER_ELEMENTS:{1:'text'})
+- [ ] create a EXCLUDE_FROM_MENU variable
+- [ ] create a SHOW ONLY ROOT CATEGORIES ON MENU
+- [ ] create a USE_CATEGORIES_DROPDOWN
+- [ ] create a USE_PAGES_DROPDOWN
+- [x] categories page
 - [ ] tags/tag page
-- [ ] categories page
 - [ ] authors/author page
 - [ ] @author profile page (customizable)
 - [ ] feeds
@@ -271,6 +283,7 @@ This is the list of tasks to be completed until `1.0.0` can be released.
 - [ ] implement pre-render and post-renders
 - [ ] replacement marks [[x:y]]
 - [ ] preview should require login
+- [ ] admin: move content creation logic and defaults to `model.Content`
 - [ ] admin: WYSIWYG editors
 - [ ] admin: rst format
 - [ ] admin: asciidoc format
@@ -306,3 +319,4 @@ This is the list of tasks to be completed until `1.0.0` can be released.
 - [ ] mdBook documentation
 - [ ] replace `flit` and find a better way to release
 - [ ] import scripts (quokka old, wordpress, feed)
+- [ ] handle extensions for static file and generate it based on rules

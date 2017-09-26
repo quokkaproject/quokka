@@ -71,7 +71,7 @@ THEME:
     ## of its category, normally the same as `/` but for themes where
     ## the INDEX_TEMPLATE is set to other than index.html it is useful
     ## exmaple: portal websites
-    CATCHALL_CATEGORY: index
+    INDEX_CATEGORY: index
     # ARCHIVES_URL:
     # MAIN_MENU: false
     MENUITEMS: [['Index', 'index']]
@@ -248,6 +248,8 @@ THEME_MALT:
     HIDE_AUTHOR_AVATAR: false
     HIDE_AUTHOR_NAME: false
     HIDE_CATEGORY: false
+
+    DISPLAY_BREADCRUMBS: false
 
     DYNAMIC_VARS:
       - {var: SHOW_BACK_TOP, where: [article, page], value: true}

@@ -1,6 +1,7 @@
 from flask import current_app as app, render_template, abort
 from flask.views import MethodView
-from .models import make_model, make_paginator, Category
+from .models import make_model, make_paginator, Category, Tag
+from quokka.utils.text import slugify_category, slugify
 
 
 def normalize_var(text):
@@ -16,6 +17,21 @@ def normalize_var(text):
 
 
 class BaseView(MethodView):
+    def set_content_var_map(self, context, content):
+        """Export variables from `content` to theme context
+        example:
+            CONTENT_VAR_MAP:
+                author_avatar: AVATAR
+        Will get the `article.author_avatar` and export as `AVATAR`
+
+        :param: content must be a `model` of type Content
+        """
+        MAP = app.theme_context.get('CONTENT_VAR_MAP', {})
+        for attr, variable in MAP.items():
+            value = getattr(content, attr, None)
+            if value is not None:
+                context[variable] = value
+
     def set_elements_visibility(self, context, content_type):
         """Set elements visibility according to content type
         This works with botstrap3 and malt templates
@@ -30,6 +46,7 @@ class BaseView(MethodView):
             return
 
         CONTENT_TYPE = normalize_var(content_type).upper()
+        context['CONTENT_TYPE'] = content_type
 
         for rule in app.theme_context.get('DYNAMIC_VARS', []):
             where = rule.get('where')
@@ -53,17 +70,20 @@ class ArticleListView(BaseView):
         query = {'published': True}
         home_template = app.theme_context.get('HOME_TEMPLATE')
         list_categories = app.theme_context.get('LIST_CATEGORIES', [])
+        index_category = app.theme_context.get('INDEX_CATEGORY')
         content_type = 'index'
         template = custom_template = 'index.html'
         if category:
             content_type = 'category'
             custom_template = f'{content_type}/{normalize_var(category)}.html'
-            if category != app.theme_context.get('CATCHALL_CATEGORY'):
-                query['category'] = {'$regex': f"^{category.rstrip('/')}"}
+            if category != index_category:
+                query['category_slug'] = {'$regex': f"^{category.rstrip('/')}"}
                 if category not in list_categories:
                     template = 'category.html'
                 else:
                     content_type = 'index'
+            else:
+                content_type = 'index'
         elif home_template:
             # use custom template only when categoty is blank '/'
             # and INDEX_TEMPLATE is defined
@@ -100,13 +120,43 @@ class ArticleListView(BaseView):
         self.set_elements_visibility(context, content_type)
         self.set_elements_visibility(context, category)
         templates = [f'custom/{custom_template}', template]
-        print(templates)
         return render_template(templates, **context)
 
 
 class CategoryListView(BaseView):
+    def get(self):
+        # TODO: Split categories by `/` to get roots
+        categories = [
+            (
+                Category(cat),
+                [
+                    make_model(article)
+                    for article in app.db.article_set(
+                        {'category_slug': slugify_category(cat)}
+                    )
+                ]
+            )
+            for cat in app.db.value_set(
+                'index', 'category',
+                filter={'published': True},
+                sort=True
+            )
+        ]
+
+        context = {
+            'categories': categories
+        }
+
+        self.set_elements_visibility(context, 'categories')
+        return render_template('categories.html', **context)
+
+
+class TagListView(BaseView):
     def get(self, page_number=1):
-        return 'TODO: a list of categories'
+        tags = [(Tag(tag), []) for tag in app.db.tag_set()]
+        context = {'tags': tags}
+        self.set_elements_visibility(context, 'tags')
+        return render_template('tags.html', **context)
 
 
 class DetailView(BaseView):
@@ -116,7 +166,7 @@ class DetailView(BaseView):
         category, _, item_slug = slug.rpartition('/')
         content = app.db.get_with_content(
             slug=item_slug,
-            category=category
+            category_slug=category
         )
         if not content:
             abort(404)
@@ -130,11 +180,10 @@ class DetailView(BaseView):
             'author': content.author,
             content.content_type: content
         }
-        if content.author_avatar:
-            context['AVATAR'] = content.author_avatar
 
         self.set_elements_visibility(context, content.content_type)
         self.set_elements_visibility(context, slug)
+        self.set_content_var_map(context, content)
         templates = [
             f'custom/{content.content_type}/{normalize_var(slug)}.html',
             f'{content.content_type}.html'
