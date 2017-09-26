@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="{% block meta_description %}{{ SITENAME }}, {{ TAGLINE }}{% endblock meta_description %}">
+
+    {% if FEED_ALL_ATOM %}
+        <link rel="alternate"  href="{{ FEED_DOMAIN }}/{{ FEED_ALL_ATOM }}" type="application/atom+xml" title="{{ SITENAME }} Full Atom Feed"/>
+    {% endif %}
+    {% if FEED_ALL_RSS %}
+        <link rel="alternate" href="{{ FEED_DOMAIN }}/{{ FEED_ALL_RSS }}" type="application/rss+xml" title="{{ SITENAME }} Full RSS Feed"/>
+    {% endif %}
+    {% if FEED_ATOM %}
+        <link rel="alternate" href="{{ FEED_DOMAIN }}/{{ FEED_ATOM }}" type="application/atom+xml" title="{{ SITENAME }} Atom Feed"/>
+    {% endif %}
+    {% if FEED_RSS %}
+        <link rel="alternate" href="{{ FEED_DOMAIN }}/{{ FEED_RSS }}" type="application/rss+xml" title="{{ SITENAME }} RSS Feed"/>
+    {% endif %}
+
+    {% block head %}
+        <title>{% block title %}{{ SITENAME }} // {{ TAGLINE }}{% endblock title %}</title>
+    {% endblock head %}
+
+    {% if FAVICON %}
+    <link href="{{ SITEURL }}/{{ FAVICON }}" rel="icon">
+    {% endif %}
+
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/pure/0.3.0/pure-min.css">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.1.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="{{ SITEURL }}/theme/css/pure.css">
+    {% block head_css %}{% endblock %}
+
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+    {% block head_js %}{% endblock %}
+</head>
+
+<body>
+    {% block content %}
+    {% endblock %}
+    <script>
+        var $top = $('.go-top');
+
+        // Show or hide the sticky footer button
+        $(window).scroll(function() {
+            if ($(this).scrollTop() > 200) {
+                $top.fadeIn(200);
+            } else {
+                $top.fadeOut(200);
+            }
+        });
+
+        // Animate the scroll to top
+        $top.click(function(event) {
+            event.preventDefault();
+            $('html, body').animate({scrollTop: 0}, 300);
+        })
+
+        // Makes sure that the href="#" attached to the <a> elements
+        // don't scroll you back up the page.
+        $('body').on('click', 'a[href="#"]', function(event) {
+            event.preventDefault();
+        });
+    </script>
+    {% include 'analytics.html' %}
+</body>
+</html>

@@ -1,0 +1,149 @@
+# Catalan translations for pelican-bootstrap3.
+# Copyright (C) 2016 Ramon Maria Gallart Escolà
+# This file is distributed under the same license as pelican-bootstrap3.
+# Ramon Maria Gallart Escolà <rgallart@easydevmixin.com>, 2016.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"Report-Msgid-Bugs-To: rgallart@easydevmixin.com\n"
+"POT-Creation-Date: 2016-10-06 15:03+0200\n"
+"PO-Revision-Date: 2017-02-23 11:35+0000\n"
+"Last-Translator: Ramon Maria Gallart Escolà <rgallart@easydevmixin.com>\n"
+"Language: ca\n"
+"Language-Team: ca <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.3.4\n"
+
+#: templates/archives.html:2 templates/archives.html:7 templates/base.html:150
+msgid "Archives"
+msgstr "Arxius"
+
+#: templates/archives.html:14
+msgid "Archives for"
+msgstr "Arxius per"
+
+#: templates/article.html:77
+msgid "Permalink to"
+msgstr "Enllaç permanent a"
+
+#: templates/article_list.html:14
+msgid "more"
+msgstr "més"
+
+#: templates/author.html:3
+msgid "Articles by"
+msgstr "Articles per"
+
+#: templates/author.html:9 templates/authors.html:3 templates/authors.html:9
+msgid "Authors"
+msgstr "Autors"
+
+#: templates/authors.html:15
+msgid "Authors on"
+msgstr "Autors en"
+
+#: templates/categories.html:2 templates/categories.html:8
+#: templates/category.html:11 templates/includes/sidebar.html:45
+msgid "Categories"
+msgstr "Categories"
+
+#: templates/categories.html:15
+msgid "All Categories for"
+msgstr "Totes les categories per"
+
+#: templates/search.html:4
+msgid "Search"
+msgstr "Cerca"
+
+#: templates/tags.html:16
+msgid "Tags for"
+msgstr "Etiquetes per"
+
+#: templates/includes/aboutme.html:8
+msgid "About"
+msgstr "Sobre"
+
+#: templates/includes/article_info.html:8
+msgid "Modified"
+msgstr "Modificat"
+
+#: templates/includes/article_info.html:17 templates/includes/sidebar.html:80
+msgid "Series"
+msgstr "Sèries"
+
+#: templates/includes/article_info.html:24
+msgid "By"
+msgstr "Per"
+
+#: templates/includes/article_info.html:30
+msgid "Category"
+msgstr "Categoria"
+
+#: templates/includes/cc-license.html:62
+msgid "Content"
+msgstr "Contingut"
+
+#: templates/includes/cc-license.html:64
+msgid "licensed under a"
+msgstr "llicentiat sota un"
+
+#: templates/includes/cc-license.html:64
+msgid "except where indicated otherwise"
+msgstr "excepte si no s'ha indicat d'una altra manera"
+
+#: templates/includes/comment_count.html:1
+msgid "View comments"
+msgstr "Veure comentaris"
+
+#: templates/includes/comments.html:4
+msgid "Comments"
+msgstr "Comentaris"
+
+#: templates/includes/footer.html:11
+msgid "Powered by"
+msgstr "Impulsat per"
+
+#: templates/includes/footer.html:21
+msgid "Back to top"
+msgstr "Tornar amunt"
+
+#: templates/includes/links.html:2
+msgid "Links"
+msgstr "Enllaços"
+
+#: templates/includes/pagination.html:5 templates/includes/pagination.html:7
+msgid "Newer"
+msgstr "Més nous"
+
+#: templates/includes/pagination.html:11 templates/includes/pagination.html:13
+msgid "Older"
+msgstr "Més antics"
+
+#: templates/includes/sidebar.html:8
+msgid "Social"
+msgstr "Social"
+
+#: templates/includes/sidebar.html:31
+msgid "Recent Posts"
+msgstr "Articles Recents"
+
+#: templates/includes/sidebar.html:64 templates/includes/taglist.html:2
+msgid "Tags"
+msgstr "Etiquetes"
+
+#: templates/includes/sidebar.html:84
+msgid "Previous article"
+msgstr "Article anterior"
+
+#: templates/includes/sidebar.html:90
+msgid "Next article"
+msgstr "Article següent"
+
+#: templates/includes/translations.html:3
+msgid "Lang"
+msgstr "Idioma"
+

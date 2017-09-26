@@ -70,9 +70,6 @@ databases
 quokka/project_template/databases/*.json
 !quokka/project_template/databases/README.md
 
-quokka/project_template/themes/*
-!quokka/project_template/themes/README.md
-
 quokka/project_template/uploads/*
 !quokka/project_template/uploads/README.md
 
@@ -85,3 +82,5 @@ quokka/project_template/modules/*
 venv
 old_*
 .envrc
+
+docs/book

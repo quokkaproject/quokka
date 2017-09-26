@@ -20,6 +20,9 @@ class QuokkaApp(Flask):
             endpoint = 'quokka.' + endpoint
         self.add_url_rule(rule, endpoint, view_func, **options)
 
+    def register_module(self, module):
+        self.register_blueprint(module)
+
     @property
     def db(self):
         return self.extensions['db']
@@ -37,5 +40,6 @@ class QuokkaModule(Blueprint):
     to avoid conflicts with external Blueprints use same name"""
 
     def __init__(self, name, *args, **kwargs):
-        name = "quokka.modules." + name
+        kwargs.setdefault('import_name', name)
+        kwargs.setdefault('template_folder', 'templates')
         super(QuokkaModule, self).__init__(name, *args, **kwargs)

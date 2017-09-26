@@ -1,11 +1,10 @@
-"""
-This functions created by Alvaro Justen (Turicas)
-"""
-from slugify import slugify as awesome_slugify
+from slugify.main import Slugify
 
-
-def slugify(text):
-    return awesome_slugify(text).lower()
+slugify = Slugify()
+slugify.to_lower = True
+slugify_category = Slugify()
+slugify_category.to_lower = True
+slugify_category.safe_chars = '/'
 
 
 def abbreviate(name, pretty=False):
@@ -28,3 +27,15 @@ def abbreviate(name, pretty=False):
             tiny_name = False
     result.append(names[-1])
     return ' '.join(result)
+
+
+def normalize_var(text, s='_'):
+    return text.replace(
+        '/', s
+    ).replace(
+        '-', s
+    ).replace(
+        ' ', s
+    ).replace(
+        '@', s
+    )

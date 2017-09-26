@@ -1,0 +1,23 @@
+{% if SITELOGO %}
+  {% set default_cover = SITELOGO %}
+{% else %}
+  {% set default_cover = '{{ SITEURL }}/{{ THEME_STATIC_DIR }}/img/profile.png' %}
+{% endif %}
+<script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "BlogPosting",
+  "name": "{{ article.title|striptags }}",
+  "headline": "{{ article.title|striptags }}",
+  "datePublished": "{{ article.date }}",
+  "dateModified": "{{ article.modified }}",
+  "author": {
+    "@type": "Person",
+    "name": "{{ article.author.name }}",
+    "url": "{{ SITEURL }}/{{ article.author.url }}"
+  },
+  "image": "{{ article.metadata.get('cover', default_cover) }}",
+  "url": "{{ SITEURL }}/{{ article.url }}",
+  "description": "{{ article.summary|striptags }}"
+}
+</script>

@@ -1,0 +1,32 @@
+<div class="sidebar">
+	<div class="container sidebar-sticky">
+		<div class="sidebar-about">
+
+			<h1>
+				<a href="/">
+					<img class="profile-picture" src="{{ SITEURL }}/images/{{ PROFILE_IMAGE }}">
+					{{ SITENAME }}
+				</a>
+			</h1>
+			<p class="lead"></p>
+			<p class="lead">{{ BIO }} </p>
+			<p></p>
+		</div>
+		<nav class="sidebar-nav">
+			{% for name, link in SOCIAL %}
+				{% if name == 'email' %}
+					<a class="sidebar-nav-item" href="mailto:{{ link }}">
+						<i class="fa fa-envelope"></i>
+					</a>
+				{% else %}
+					<a class="sidebar-nav-item" href="{{ link }}">
+						<i class="fa fa-{{ name }}"></i>
+					</a>
+				{% endif %}
+			{% endfor %}
+			<a class="sidebar-nav-item" href="{{ FEED_ALL_RSS }}">
+				<i class="fa fa-feed"></i>
+			</a>
+		</nav>
+	</div>
+</div>

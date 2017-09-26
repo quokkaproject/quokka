@@ -1,0 +1,11 @@
+<div class="sharing">
+  {% if TWITTER_TWEET_BUTTON %}
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="{{ SITEURL }}/{{ article.url }}" data-via="{{ TWITTER_USER }}" data-counturl="{{ SITEURL }}/{{ article.url }}" >Tweet</a>
+  {% endif %}
+  {% if GOOGLE_PLUS_ONE %}
+  <div class="g-plusone" data-size="{{ GOOGLE_PLUS_ONE_SIZE|default('medium') }}"></div>
+  {% endif %}
+  {% if FACEBOOK_LIKE %}
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  {% endif %}
+</div>

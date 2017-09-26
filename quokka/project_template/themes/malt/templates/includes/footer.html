@@ -1,0 +1,46 @@
+<footer class="page-footer {{ MALT_BASE_COLOR }} darken-3">
+    <div class="container">
+        <div class="row">
+            <div class="col l6 s12">
+                <h5 class="white-text">Sobre</h5>
+                <p class="grey-text text-lighten-4">
+                {{ FOOTER_ABOUT }}
+                </p>
+
+
+            </div>
+            <div class="col l3 s12">
+                <h5 class="white-text">Links</h5>
+                <ul class="social-links">
+                {% for name, url in LINKS %}
+                    <li>
+                        <a class="white-text" href="{{ url }}" title="{{ name}}">
+                            <i class="fa fa-{{ name }}"></i> {{ name }}
+                        </a>
+                    </li>
+                {% endfor %}
+                </ul>
+            </div>
+            <div class="col l3 s12">
+                <h5 class="white-text">Social</h5>
+                <ul class="social-links">
+                {% for name, url in SOCIAL %}
+                    <li>
+                        <a class="white-text" href="{{ url }}" title="{{ name}}">
+                            <i class="fa fa-{{ name }}"></i> {{ name }}
+                        </a>
+                    </li>
+                {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="footer-copyright {{ MALT_BASE_COLOR }} darken-4">
+        <div class="container">
+            Powered by
+            <a class="orange-text text-lighten-3" href="http://materializecss.com">Materialize</a>,
+            <a class="orange-text text-lighten-3" href="https://quokkaproject.org">Quokka CMS</a>,
+            <a class="orange-text text-lighten-3" href="https://python.org/">Python</a>
+        </div>
+    </div>
+</footer>

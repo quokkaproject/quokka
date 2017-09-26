@@ -1,0 +1,10 @@
+<p class="copyright text-muted">
+    Blog powered by <a href="http://getpelican.com">Pelican</a>,
+    which takes great advantage of <a href="http://python.org">Python</a>. <br />
+    {%- if CC_LICENSE or CC_LICENSE_DERIVATIVES or CC_LICENSE_COMMERCIAL %}
+    {% from 'cc-tools/cc-license.html' import cc_license_mark %}
+        {{ cc_license_mark(cc_name=CC_LICENSE,derivatives=CC_LICENSE_DERIVATIVES,commercial=CC_LICENSE_COMMERCIAL,attr_markup=CC_ATTR_MARKUP,attr_props={'title':SITENAME,'name':article.author if article else AUTHOR,'url':SITEURL}) }}
+    {% else %}
+        &copy; {{ copy_date }} {{ AUTHOR }}
+    {% endif %}
+</p>

@@ -1,0 +1,16 @@
+{% if SIDEBAR_IMAGES %}
+  {% from 'includes/sidebar/macros.jinja' import title %}
+
+<!-- Sidebar/Images -->
+<li class="list-group-item">
+  {% if SIDEBAR_IMAGES_HEADER %}
+  <h4>{{ title(SIDEBAR_IMAGES_HEADER, DISABLE_SIDEBAR_TITLE_ICONS, icon='external-link-square') }}</h4>
+  {% endif %}
+  <ul class="list-group" id="links">
+    {% for image in SIDEBAR_IMAGES %}
+    <img width="100%" class="img-thumbnail" src="{{ image }}"/>
+    {% endfor %}
+  </ul>
+</li>
+<!-- End Sidebar/Images -->
+{% endif %}

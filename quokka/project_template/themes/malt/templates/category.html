@@ -1,0 +1,30 @@
+{% if CARD_SIZE is not defined %}
+    {% set CARD_SIZE = "s12 m6 l4" %}
+{% endif %}
+
+{% if BREADCRUMB_ELEMENTS is not defined %}
+    {% set BREADCRUMB_ELEMENTS = [("Categories", "categories/index.html"), (category.name, None)] %}
+{% endif %}
+
+{% if HIDE_AUTHOR_AVATAR is not defined %}
+    {% set HIDE_AUTHOR_AVATAR = True %}
+{% endif %}
+
+{% if HIDE_CATEGORY is not defined %}
+    {% set HIDE_CATEGORY = True %}
+{% endif %}
+
+{% extends "index.html" %}
+
+{% block styles %}
+    {{ super() }}
+    <link href="{{ SITEURL }}/theme/css/tag-category-author-index.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+{% endblock %}
+
+{% block title %}
+Content in '{{ category.name }}' category | {{ SITENAME }}
+{% endblock %}
+
+{% block bannertext %}
+<h1>Content in '{{ category.name }}' category</h1>
+{% endblock %}

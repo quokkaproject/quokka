@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+
+{% block meta %}
+<meta name="author" content="{{ article.author.name }}" />
+<meta name="description" content="{{ article.summary|striptags|escape }}" />
+<meta name="keywords" content="{{ article.tags|join(', ')|escape }}">
+
+{% include "partial/og_article.html" %}
+{% endblock %}
+
+{% block title %} &ndash; {{ article.title|striptags|escape }}{% endblock %}
+
+{% block content %}
+<article class="single">
+  <header>
+    {% if not ARTICLE_HIDE_TRANSLATION %}
+      {% import 'partial/translations.html' as translations with context %}
+      {{ translations.translations_for(article) }}
+    {% endif %}
+    <h1 id="{{ article.slug }}">{{ article.title }}</h1>
+    <p>
+      {{ _('Posted on %(when)s in %(category)s',
+           when=article.locale_date,
+           category='<a href="%s/%s">%s</a>'|format(SITEURL, article.category.url, article.category)|safe) }}
+
+      {% if 'post_stats' in PLUGINS %}
+        &#8226; {{ article.stats['read_mins'] }} min read
+      {% endif %}
+    </p>
+  </header>
+
+  {% if GOOGLE_ADSENSE and GOOGLE_ADSENSE.ads.article_top %}
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <ins class="adsbygoogle ads-responsive"
+         data-ad-client="{{ GOOGLE_ADSENSE.ca_id }}"
+         data-ad-slot="{{ GOOGLE_ADSENSE.ads.article_top }}"></ins>
+    <script>
+      (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+  {% endif %}
+
+  <div>
+    {{ article.content }}
+  </div>
+  <div class="tag-cloud">
+    <p>
+      {% if article.tags %}
+      {% for tag in article.tags %}
+      <a href="{{ SITEURL }}/{{ tag.url }}">{{ tag }}</a>
+      {% endfor %}
+      {% endif %}
+    </p>
+  </div>
+
+  {% if ADD_THIS_ID %}
+  <div class="center social-share">
+    <p>{{ _('Like this article? Share it with your friends!') }}</p>
+    <div class="addthis_native_toolbox"></div>
+    <div class="addthis_sharing_toolbox"></div>
+    <div class="addthis_inline_share_toolbox"></div>
+  </div>
+  {% endif %}
+
+  {% include "partial/neighbors.html" %}
+
+  {% if article.related_posts %}
+  <div class="related-posts">
+    <h4>{{ _('You might enjoy') }}</h4>
+    <ul class="related-posts">
+    {% for related_post in article.related_posts %}
+      <li><a href="{{ SITEURL }}/{{ related_post.url }}">{{ related_post.title }}</a></li>
+    {% endfor %}
+    </ul>
+  </div>
+  {% else %}
+    <div class="addthis_relatedposts_inline">
+  {% endif %}
+
+  {% if GOOGLE_ADSENSE and GOOGLE_ADSENSE.ads.article_bottom %}
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <ins class="adsbygoogle ads-responsive"
+         data-ad-client="{{ GOOGLE_ADSENSE.ca_id }}"
+         data-ad-slot="{{ GOOGLE_ADSENSE.ads.article_bottom }}"></ins>
+    <script>
+      (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+  {% endif %}
+
+  {% include "partial/disqus.html" %}
+  {% include "partial/duoshuo.html" %}
+</article>
+{% endblock %}

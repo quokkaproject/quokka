@@ -1,0 +1,112 @@
+{% extends "base.html" %}
+{% block title %}{{ article.title|striptags }} - {{ SITENAME }}{% endblock %}
+{% block html_lang %}{{ article.lang }}{% endblock %}
+{% block meta %}
+    {% if article.author %}
+        <meta name="author" content="{{ article.author }}" />
+    {% else %}
+        <meta name="author" content="{{ AUTHOR }}" />
+    {% endif %}
+    {% if article.tags %}
+        <meta name="keywords" content="{{ article.tags|join(',')|striptags }}" />
+    {% endif %}
+    {% if article.summary %}
+        <meta name="description" content="{{ article.summary|striptags|escape }}" />
+    {% endif %}
+{% endblock %}
+{% block opengraph %}
+    {% if USE_OPEN_GRAPH %}
+        {% if OPEN_GRAPH_FB_APP_ID %}
+            <meta property="fb:app_id" content="{{ OPEN_GRAPH_FB_APP_ID }}"/>
+        {% endif %}
+        <meta property="og:site_name" content="{{ SITENAME }}" />
+        <meta property="og:type" content="article"/>
+        <meta property="og:title" content="{{ article.title|striptags|escape }}"/>
+        <meta property="og:url" content="{{ SITEURL }}/{{ article.url }}"/>
+        <meta property="og:description" content="{{ article.summary|striptags|escape }}"/>
+        <meta property="article:published_time" content="{{ article.date.strftime("%Y-%m-%d") }}" />
+        {% if article.category %}
+            <meta property="article:section" content="{{ article.category }}" />
+        {% endif %}
+        {% for tag in article.tags %}
+            <meta property="article:tag" content="{{ tag }}" />
+        {% endfor %}
+        {% if article.author %}
+            <meta property="article:author" content="{{ article.author }}" />
+        {% elif AUTHOR %}
+            <meta property="article:author" content="{{ AUTHOR }}" />
+        {% endif %}
+        {% if article.og_image %}
+            <meta property="og:image"
+                  content="{{ SITEURL }}/{{ article.og_image }}"/>
+        {% elif OPEN_GRAPH_IMAGE %}
+            <meta property="og:image"
+                  content="{{ SITEURL }}/{{ OPEN_GRAPH_IMAGE }}"/>
+        {% endif %}
+    {% endif %}
+{% endblock %}
+
+{% block canonical_rel %}
+<link rel="canonical" href="{{ SITEURL }}/{{ article.url }}">
+{% endblock %}
+
+{% block breadcrumbs %}
+    {% if DISPLAY_BREADCRUMBS %}
+        {% if DISPLAY_CATEGORY_IN_BREADCRUMBS %}
+            <ol class="breadcrumb">
+                <li><a href="{{ SITEURL }}" title="{{ SITENAME }}"><i class="fa fa-home fa-lg"></i></a></li>
+                <li><a href="{{ SITEURL }}/{{ article.category.url }}" title="{{ article.category }}">{{ article.category }}</a></li>
+                <li class="active">{{ article.title }}</li>
+            </ol>
+        {% else %}
+            <ol class="breadcrumb">
+                <li><a href="{{ SITEURL }}" title="{{ SITENAME }}"><i class="fa fa-home fa-lg"></i></a></li>
+                <li class="active">{{ article.title }}</li>
+            </ol>
+        {% endif %}
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+    <section id="content">
+        <article>
+            <header class="page-header">
+                <h1>
+                    <a href="{{ SITEURL }}/{{ article.url }}"
+                       rel="bookmark"
+                       title="{{ _('Permalink to') }} {{ article.title|striptags }}">
+                        {{ article.title }}
+                    </a>
+                </h1>
+            </header>
+            <div class="entry-content">
+                <div class="panel">
+                    <div class="panel-body">
+                        {% include "includes/article_info.html" %}
+                    </div>
+                </div>
+                {{ article.content }}
+            </div>
+            <!-- /.entry-content -->
+            {% include 'includes/related-posts.html' %}
+            {% include 'includes/series.html' %}
+            {% include 'includes/addthis.html' %}
+            {% include 'includes/shariff.html' %}
+            {% include 'includes/comments.html' %}
+        </article>
+    </section>
+
+{% endblock %}
+
+{% block scripts %}
+{% if ADDTHIS_PROFILE %}
+    {% if ADDTHIS_DATA_TRACK_ADDRESSBAR|default(true) %}
+        <script type="text/javascript">var addthis_config = {"data_track_addressbar": true};</script>
+    {% endif %}
+    <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid={{ ADDTHIS_PROFILE }}"></script>
+{% endif %}
+{% if SHARIFF|default(false) %}
+    <!-- add shariff support -->
+    <script src="{{ SITEURL }}/{{ THEME_STATIC_DIR }}/js/shariff.min.js"></script>
+{% endif %}
+{% endblock %}

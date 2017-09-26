@@ -1,0 +1,14 @@
+{% if DEFAULT_PAGINATION %}
+  <div class="pagination">
+  {% if articles_page.has_next() %}
+    <a class="btn float-left" href="{{ SITEURL }}/{{ articles_next_page.url }}">
+      <i class="fa fa-angle-left"></i> {{ _('Older Posts') }}
+    </a>
+  {% endif %}
+  {% if articles_page.has_previous() %}
+    <a class="btn float-right" href="{{ SITEURL }}/{{ articles_previous_page.url }}">
+      {{ _('Newer Posts') }} <i class="fa fa-angle-right"></i>
+    </a>
+  {% endif %}
+  </div>
+{% endif %}

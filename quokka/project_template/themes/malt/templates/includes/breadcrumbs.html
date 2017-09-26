@@ -1,0 +1,16 @@
+{% if DISPLAY_BREADCRUMBS %}
+<ul class="breadcrumb">
+    <li>
+    <a class="grey-text text-darken-1" title="{{ SITENAME }} Home" href="/"><i class="fa fa-home grey-text text-darken-2"></i></i></a>
+    </li>
+    {% for name, url in BREADCRUMB_ELEMENTS %}
+        {% if url %}
+        <li>
+        <a class="grey-text text-darken-1" title="{{ name }}" href="{{ SITEURL }}/{{ url }}">{{ name }}</a>
+        </li>
+        {% else %}
+        <li class="grey-text text-lighten-1">{{ name }}</li>
+        {% endif %}
+    {% endfor %}
+</ul>
+{% endif %}

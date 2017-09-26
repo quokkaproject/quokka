@@ -1,0 +1,36 @@
+{% if GITHUB_USER %}
+  {% if GITHUB_REPO_COUNT is not defined %}
+    {% set GITHUB_REPO_COUNT = 5 %}
+  {% endif %}
+  {% if GITHUB_SKIP_FORK is not defined %}
+    {% set GITHUB_SKIP_FORK = "false" %}
+  {% else %}
+    {% if GITHUB_SKIP_FORK %}
+      {% set GITHUB_SKIP_FORK = "true" %}
+    {% else %}
+      {% set GITHUB_SKIP_FORK = "false" %}
+    {% endif %}
+  {% endif %}
+
+<!-- GitHub JS Code -->
+<script type="text/javascript">
+$(document).ready(function () {
+  if (!window.jXHR) {
+    var jxhr = document.createElement('script');
+    jxhr.type = 'text/javascript';
+    jxhr.src = '{{ SITEURL }}/{{ THEME_STATIC_DIR }}/js/jXHR.js';
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(jxhr, s);
+  }
+
+  github.showRepos({
+    user: '{{ GITHUB_USER }}',
+    count: {{ GITHUB_REPO_COUNT }},
+    skip_forks: {{ GITHUB_SKIP_FORK }},
+    target: '#gh_repos'
+  });
+});
+</script>
+<script src="{{ SITEURL }}/{{ THEME_STATIC_DIR }}/js/github.js" type="text/javascript"></script>
+<!-- End GitHub JS Code -->
+{% endif %}

@@ -1,0 +1,117 @@
+{% extends "base.html" %}
+
+{% block styles %}
+    {{ super() }}
+    <link href="{{ SITEURL }}/theme/css/index.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+{% endblock %}
+
+{% block title %}{{ SITENAME }}{% endblock %}
+
+{% block bannertext %}
+<h1>{{ SITENAME }}</h1>
+{% endblock %}
+
+{% if CARD_SIZE is not defined %}
+    {% set CARD_SIZE = "s12 m12 l12" %}
+{% endif %}
+
+{% if HIDE_AUTHOR_AVATAR is not defined %}
+    {% set HIDE_AUTHOR_AVATAR = False %}
+{% endif %}
+
+{% if HIDE_AUTHOR_NAME is not defined %}
+    {% set HIDE_AUTHOR_NAME = False %}
+{% endif %}
+
+{% if HIDE_CATEGORY is not defined %}
+    {% set HIDE_CATEGORY = False %}
+{% endif %}
+
+
+{% block content %}
+<div class="container content-container">
+    <div class="row">
+        {% if BREADCRUMB_ELEMENTS is not defined %}
+            {% set BREADCRUMB_ELEMENTS = [("Categories", "categories/index.html")] %}
+        {% endif %}
+        {% include "includes/breadcrumbs.html" %}
+        {% for article in (articles_page.object_list if articles_page else articles) %}
+        <div class="col {{ CARD_SIZE }}">
+            <div class="card">
+                <div class="card-image row {{ MALT_BASE_COLOR }}-text text-lighten-5 article-header" style="background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('{{ SITEURL }}/{{ article.banner }}')">
+                    <div class="article-header-text valign-wrapper">
+                        {% if not HIDE_AUTHOR_AVATAR %}
+                        <div class="col s2 m2 l2 article-author-avatar center-align hide-on-med-and-down">
+                            <a href="{{ SITEURL }}/{{ article.author.url }}">
+                                <img class="responsive-img circle" title="{{ article.author.name|escape }}"  alt="{{ article.author.name|escape }}" src="{{ article.author_avatar }}"/>
+                            </a>
+                        </div>
+                        {% endif %}
+                        <div class="article-title col {% if HIDE_AUTHOR_AVATAR %}s12 m12 l12{% else %}s12 m10 l10{% endif %}">
+                            <h2>
+                                <a class="{{ MALT_BASE_COLOR }}-text text-lighten-5" href="{{ SITEURL }}/{{ article.url }}" title="{{ article.title|escape }}">{{ article.title }}</a>
+                            </h2>
+                            <div class="article-metadata">
+                                {% if not HIDE_AUTHOR_NAME %}
+                                <span class="article-author-name">
+                                    <a href="{{ SITEURL }}/{{ article.author.url }}" title="{{ article.author.name|escape }}" class="{{ MALT_BASE_COLOR }}-text text-lighten-5">
+                                        <i class="fa fa-user"></i> {{ article.author.name }}
+                                    </a>
+                                </span>
+                                {% endif %}
+                                {% if not HIDE_CATEGORY %}
+                                <span class="article-category">
+                                    <a href="{{ SITEURL }}/{{ article.category.url }}" title="{{ article.category.name|escape }}" class="{{ MALT_BASE_COLOR }}-text text-lighten-5">
+                                        <i class="fa fa-folder"></i> {{ article.category.name }}
+                                    </a>
+                                </span>
+                                {% endif %}
+                                <span class="article-datetime">
+                                    <i class="fa fa-calendar"></i> <time datetime="{{ article.date.isoformat() }}">{{ article.locale_date }}</time>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-content article-contents">
+                {% if article.description %}
+                    {{ article.description }}
+                {% else %}
+                    {{ article.summary }}
+                {% endif %}
+                </div>
+                <div class="card-action">
+                    <a href="{{ SITEURL }}/{{ article.url }}">Read More...</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+        <div class="col s12" id="pagination">
+            <div id="pagination-card" class="col s12 white z-depth-1 valign-wrapper">
+                <ul class="pagination valign">
+                    {% if articles_page.has_previous() %}
+                        {% set num = articles_page.previous_page_number() %}
+                        <li class=""><a href="{{ SITEURL }}/{{ articles_previous_page.url }}"><i class="material-icons">chevron_left</i></a></li>
+                    {% else %}
+                        <li class="disabled"><a href=""><i class="material-icons">chevron_left</i></a></li>
+                    {% endif %}
+
+                    {% for num in articles_paginator.page_range %}
+                        {% if num == articles_page.number %}
+                            <li class="active"><a href="">{{ num }}</a></li>
+                        {% else %}
+                            <li class="waves-effect"><a href="{{ SITEURL }}/{{ articles_paginator.page(num).url }}">{{ num }}</a></li>
+                        {% endif %}
+                    {% endfor %}
+
+                    {% if articles_page.has_next() %}
+                        <li class="waves-effect"><a href="{{ SITEURL }}/{{ articles_next_page.url }}"><i class="material-icons">chevron_right</i></a></li>
+                    {% else %}
+                        <li class="disabled"><a href=""><i class="material-icons">chevron_right</i></a></li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

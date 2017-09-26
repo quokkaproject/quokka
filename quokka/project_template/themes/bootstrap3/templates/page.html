@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+{% block title %}{{ page.title }} - {{ SITENAME }}{% endblock %}
+{% block html_lang %}{{ page.lang }}{% endblock %}
+{% block meta %}
+    {% if page.author %}
+        <meta name="author" content="{{ page.author }}" />
+    {% else %}
+        <meta name="author" content="{{ AUTHOR }}" />
+    {% endif %}
+    {% if page.summary %}
+        <meta name="description" content="{{ page.summary|striptags|escape }}" />
+    {% endif %}
+{% endblock %}
+{% block opengraph %}
+    {% if OPEN_GRAPH_FB_APP_ID %}
+        <meta property="fb:app_id" content="{{ OPEN_GRAPH_FB_APP_ID }}"/>
+    {% endif %}
+    <meta property="og:site_name" content="{{ SITENAME }}" />
+    <meta property="og:type" content="article"/>
+    <meta property="og:title" content="{{ page.title|striptags|escape }}"/>
+    <meta property="og:url" content="{{ SITEURL }}/{{ page.url }}"/>
+    <meta property="og:description" content="{{ page.summary|striptags|escape }}" />
+    {% if page.og_image %}
+        <meta property="og:image"
+              content="{{ SITEURL }}/{{ page.og_image }}"/>
+    {% elif OPEN_GRAPH_IMAGE %}
+        <meta property="og:image"
+              content="{{ SITEURL }}/{{ OPEN_GRAPH_IMAGE }}"/>
+    {% endif %}
+{% endblock %}
+
+{% block canonical_rel %}
+<link rel="canonical" href="{{ SITEURL }}/{{ page.url }}">
+{% endblock %}
+
+{% block breadcrumbs %}
+    {% if DISPLAY_BREADCRUMBS %}
+    <ol class="breadcrumb">
+        <li><a href="{{ SITEURL }}" title="{{ SITENAME }}"><i class="fa fa-home fa-lg"></i></a></li>
+	  {% if page.url %}
+        <li class="active">{{ page.title }}</li>
+	  {% endif %}
+    </ol>
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+    <section id="content" class="body">
+        {% if page.title %}
+        <h1 class="entry-title">{{ page.title }}</h1>
+        {% endif %}
+        {% import 'includes/translations.html' as translations with context %}
+        {{ translations.translations_for(page) }}
+        {% if PDF_PROCESSOR %}
+            <a href="{{ SITEURL }}/pdf/{{ page.slug }}.pdf">
+                get the pdf
+            </a>
+        {% endif %}
+        <div class="entry-content">
+            {{ page.content }}
+            {% if page.comments == 'enabled' %}
+                {% include 'includes/comments.html' %}
+            {% endif %}
+        </div>
+    </section>
+{% endblock %}

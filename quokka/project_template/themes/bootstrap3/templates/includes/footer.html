@@ -1,0 +1,28 @@
+<footer>
+   <div class="container{% if BOOTSTRAP_FLUID %}-fluid{% endif %}">
+      <hr>
+      <div class="row">
+         {% if articles %}
+           {% if articles[0].modified %}
+             {% set copy_date = articles[0].modified.strftime('%Y') %}
+           {% else %}
+             {% set copy_date = articles[0].date.strftime('%Y') %}
+           {% endif %}
+         {% else %}
+            {% set copy_date = '' %}
+         {% endif %}
+         <div class="col-xs-10">&copy; {{ copy_date }} {{ AUTHOR }}
+            &middot; {{ _('Powered by') }} <a href="https://github.com/getpelican/pelican-themes/tree/master/pelican-bootstrap3" target="_blank">pelican-bootstrap3</a>,
+            <a href="http://docs.getpelican.com/" target="_blank">Pelican</a>,
+            <a href="http://getbootstrap.com" target="_blank">Bootstrap</a>
+            {%- if CC_LICENSE or CC_LICENSE_DERIVATIVES or CC_LICENSE_COMMERCIAL %}
+              {% from 'includes/cc-license.html' import cc_license_mark %}
+                <p><small>{{ cc_license_mark(cc_name=CC_LICENSE,derivatives=CC_LICENSE_DERIVATIVES,commercial=CC_LICENSE_COMMERCIAL,attr_markup=CC_ATTR_MARKUP,attr_props={'title':SITENAME,'name':article.author if article else AUTHOR,'url':SITEURL,'lang':DEFAULT_LANG}) }}</small></p>
+            {% elif CUSTOM_LICENSE %}
+              <p><small>{{ CUSTOM_LICENSE }}</small></p>
+            {% endif %}
+         </div>
+         <div class="col-xs-2"><p class="pull-right"><i class="fa fa-arrow-up"></i> <a href="#">{{ _('Back to top') }}</a></p></div>
+      </div>
+   </div>
+</footer>

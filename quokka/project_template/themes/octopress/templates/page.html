@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% block title %}{{ page.title }} &mdash; {{ SITENAME }}{% endblock %}
+{% block content %}
+<div>
+  <article role="article">
+    <header>
+      {% include '_includes/qr_code.html' %}
+      <h1 class="entry-title">{{ page.title }}</h1>
+    </header>
+    {{ page.content }}
+  </article>
+</div>
+{% endblock %}

@@ -1,0 +1,201 @@
+footer.page-footer {
+  margin-top: 0px;
+}
+.valign {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.content-container {
+  padding-top: 50px;
+  padding-bottom: 50px;
+}
+
+.social-links li {
+  padding-bottom: 5px;
+}
+
+.hero-content {
+  padding: 10px;
+  padding-top: 50px;
+  padding-bottom: 40px;
+  color: #fff;
+  text-shadow: 0px 0px 5px rgba(0, 0, 0, 0.5);
+  font-size: 1.4em;
+  text-align: center;
+}
+
+.hero .logo {
+  height: 250px;
+}
+
+#nav-mobile-header {
+  width: 100%;
+}
+
+#nav-mobile-header-img {
+  height: 110px;
+}
+
+#nav-mobile-header-img img {
+  height: 90px;
+  margin-top: 25px;
+}
+
+#nav-mobile-header-text span {
+  font-size: 25px;
+}
+
+.article-contents {
+  -webkit-hyphens: auto;
+  -moz-hyphens: auto;
+  hyphens: auto;
+}
+
+.article-contents p {
+  text-align: justify;
+}
+
+.article-contents ul {
+  padding-left: 35px;
+}
+
+.article-contents li {
+  list-style: initial;
+}
+
+.article-contents .figure.align-center {
+  display: block;
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+
+.article-contents .figure.align-center img {
+  height: auto;
+  max-width: 100%;
+}
+
+.breadcrumb {
+  border-radius: 5px;
+  list-style: outside none none;
+  padding: 8px 15px;
+}
+
+.breadcrumb li {
+  display: inline-block;
+}
+
+.breadcrumb > li + li::before {
+  content: "/ ";
+  padding: 0 5px;
+  color: #bdbdbd;
+}
+
+.pill {
+  border-radius: 3px;
+  display: inline-block;
+  font-size: 14px;
+  font-weight: bold;
+  line-height: 1;
+  padding: 4px 7px;
+  font-size: 0.8rem;
+  font-weight: 300;
+  text-align: center;
+  vertical-align: baseline;
+  white-space: nowrap;
+  margin-top: 12px;
+}
+
+.highlight {
+  border-radius: 4px;
+}
+
+.highlight > pre {
+  padding: 9px;
+}
+
+#comments > div {
+  border-radius: 4px;
+  padding-top: 15px;
+  padding-left: 50px;
+  padding-right: 50px;
+  padding-bottom: 30px;
+}
+
+.figure {
+    border: 1px solid #DDDDDD;
+    border-radius: 4px;
+    display: block;
+    margin-bottom: 20px;
+    padding: 4px;
+    transition: all 0.2s ease-in-out 0s;
+}
+
+.figure img {
+    border-radius: 2px;
+}
+
+.figure p.caption {
+    margin-top: 10px;
+    margin-bottom: 5px;
+    padding: 4px;
+    text-align: center;
+    -webkit-hyphens: auto;
+    -moz-hyphens: auto;
+    -ms-hyphens: auto;
+    hyphens: auto;
+}
+
+.figure div.legend {
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-bottom: 10px;
+    font-size: small;
+    text-align: center;
+}
+
+
+@media (min-width: 991px) {
+  h2 {
+    font-size: 2.8rem;
+  }
+}
+
+@media (max-width: 992px) {
+  .hero .logo {
+    height: 200px;
+  }
+
+  h1 {
+    font-size: 3rem;
+  }
+
+  h2 {
+    font-size: 2.4rem;
+  }
+
+  .hero {
+    height: 550px;
+    font-size: 1em;
+  }
+}
+
+@media (max-width: 600px) {
+  .hero .logo {
+    height: 150px;
+  }
+
+  h1 {
+    font-size: 2rem;
+  }
+
+  h2 {
+    font-size: 1.8rem;
+  }
+
+  .hero {
+    height: 450px;
+    font-size: 0.8em;
+  }
+}

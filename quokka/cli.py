@@ -19,6 +19,9 @@ from .utils.project import cookiecutter, fetch_modules, fetch_theme
 CWD = Path.cwd()
 QUOKKA_ROOT_FOLDER = Path(sys.modules['quokka'].__file__).parent
 
+# TODO: https://github.com/ryukinix/decorating
+# TODO: https://github.com/click-contrib/click-completion
+
 
 def with_app(f):
     """Calls function passing app as first argument"""
@@ -160,6 +163,15 @@ def adduser(app, username, email, password):
 
 # TODO:
 # update - updates current project settings and assets to latest version
+
+
+@cli.command()
+@click.argument('line', required=True)
+@with_app
+def execute(app, line):
+    """Execute arbitrary command line in app context and outputs result"""
+    with app.app_context():
+        click.echo(eval(line, {'app': app}))
 
 
 def main():

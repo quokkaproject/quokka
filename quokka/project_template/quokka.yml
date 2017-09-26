@@ -1,9 +1,13 @@
-## This is the default `settings.yml` for your Quokka Project
+## ▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬ஜ۩۞۩ஜ▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬
+## ▓▓▓▒▒▒░░░                  QUOKKA CMS CONFIG FILE                 ░░░▒▒▒▓▓▓
+## ▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬ஜ۩۞۩ஜ▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬
+
+## This is the default `quokka.yml` for your Quokka Project
 ##
 ## The first level keys are config namespaces by default namespaces
-## `DEV:` and `QUOKKA:` are defined.
+## `DEV:` and `QUOKKA:` and `THEME*` are defined.
 ##
-## The `DEV:` are loaded only when `quokka` is called with --envmode=dev
+## The `DEV:` is loaded only when `quokka` is called with --envmode=dev
 ## it is also possible to define it via environment variable
 ## ex:  `export QUOKKA_ENVMODE=dev`
 ##
@@ -12,9 +16,327 @@
 ## exporting your settings keys as env vars prefixed with `QUOKKA_`
 ## ex: `export QUOKKA_SECRET_KEY="secret-here"
 
-## Namespaces
+## ▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬ஜ۩۞۩ஜ▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬
+## ▓▓▓▒▒▒░░░                     THEME VARIABLES                     ░░░▒▒▒▓▓▓
+## ▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬ஜ۩۞۩ஜ▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬
 
-## Dev settings override production settings
+## Global Static variables to bound to pelican themes
+## TIP: `export QUOKKA_THEME_SITENAME=FooBar` also works
+THEME:
+    ## The folder where themes are located
+    ## give the absolute path if you saved your templates in a different path
+    FOLDER: themes
+
+    ## The name of the choosen theme folder
+    ##
+    ## Tested Compatible themes are:
+    ##    pure, hyde, octopress, bootstrap3, clean, Flex, malt
+    ## Install one of the compatible themes with:
+    ##    $ quokka themes install theme-name
+    ## Or download themes from http://www.pelicanthemes.com/
+    ##    $ git clone --recursive https://github.com/getpelican/pelican-themes ~/pelican-themes
+    ##    $ cp ~/pelican-themes/<desired_theme> themes/
+    ##    note that not all those themes are compatible but you can adapt it
+    ##
+    ## TIP: `export QUOKKA_THEME_ACTIVE=bootstrap3` also works!
+    ACTIVE: malt
+
+    ## If enabled quokka will overload some known themes for specific
+    ## templates e.g: overload_bootstrap3/comments.html will replace original
+    ## This feature fixes some known issues
+    OVERLOAD_ENABLED: true
+
+    # SITEURL: 'http://localhost:5000'
+    CSS_FILE: main.css
+
+    SITELOGO: http://lorempixel.com/20/20/business/
+    SITENAME: Quokka Site
+    TAGLINE: Hi This is a new quokka site
+    SITEDESCRIPTION: My new Quokka Site
+    SITE_SUMMARY: The same as description
+    SITETITLE: The site title
+    SITESUBTITLE: The site subtitle
+
+    # GOOGLE_ANALYTICS: 'code-here'
+    # GAUGES: 'code-here'
+    # PIWIK_URL: 'url-here'
+    # PIWIK_SSL_URL: 'url-here'
+    # PIWIK_SITE_ID: 'code-here'
+    DISQUS_SITENAME: quokkaproject
+    DISPLAY_PAGES_ON_MENU: true
+    DISPLAY_CATEGORIES_ON_MENU: true
+    ## contents posted on `blog` category is always showed as list
+    LIST_CATEGORIES: ['blog']
+    ## This is a link `/all` which will return all content independent
+    ## of its category, normally the same as `/` but for themes where
+    ## the INDEX_TEMPLATE is set to other than index.html it is useful
+    ## exmaple: portal websites
+    INDEX_CATEGORY: index
+    # ARCHIVES_URL:
+    # MAIN_MENU: false
+    MENUITEMS: [['Index', 'index']]
+    LINKS: [['blog', '/blog'], ['all', '/all']]
+    SOCIAL:
+      - ['twitter', 'http://twitter.com/rochacbruno']
+      - ['facebook', 'http://facebook.com/rochacbruno']
+      - ['linkedin', 'http://linkedin.com/in/rochacbruno']
+      - ['github', 'http://github.com/rochacbruno']
+      - ['stack-overflow', 'http://stackoverflow.com/users/559935']
+    SITE_KEYWORDS: quokka, cms, flask, quokkaproject
+    DEFAULT_DATE_FORMAT: '%a %d %B %Y'
+    PAGE_ORDER_BY: [['title', -1]]
+    # ARTICLE_ORDER_BY: [['date', -1]]
+    DEFAULT_LANG: en
+    ARTICLE_LIMIT: 8
+    PAGE_LIMIT: 8
+    # PAGINATION_ENABLED: true
+    ## use < newest - older > instead of 1, 2, 3 >
+    # USE_PAGER: false
+    ## how many items per page
+    DEFAULT_PAGINATION: 2
+    DEFAULT_ORPHANS: 0
+
+    USE_OPEN_GRAPH: true
+    OPEN_GRAPH_FB_APP_ID: 123456
+    OPEN_GRAPH_IMAGE: http://lorempixel.com/200/200/abstract
+
+    CONTENT_VAR_MAP:
+      author_avatar: AVATAR
+      banner: BANNER
+      banner: OPEN_GRAPH_IMAGE
+      author: AUTHOR
+      header_color: BASE_COLOR
+
+## ▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬ஜ۩۞۩ஜ▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬
+## ▓▓▓▒▒▒░░░                 THEME SPECIFIC VARIABLES                ░░░▒▒▒▓▓▓
+## ▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬ஜ۩۞۩ஜ▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬
+
+## Theme specific variables named THEME_<THEMENAME>
+## If you change to i.e: THEME_ACTIVE=eeve create a section called
+## THEME_EEVEE:
+
+## use dynaconf casting to export non string env vars e.g:
+## `export QUOKKA_THEME_BOOTSTRAP3_BOOTSTRAP_FLUID='@bool true'`
+## you can use @bool @int @float @json - see dynaconf docs
+
+## See themes/bootstrap3/README.md for details
+THEME_BOOTSTRAP3:
+    ## theme from: https://bootswatch.com/
+    ## cerulean, cosmo, cyborg, darkly, flatly, journal, lumen, paper, readable
+    ## sandstone, simplex, slate, spacelab, superhero, united, yeti
+    ## comment out to use default
+    BOOTSTRAP_THEME: cosmo
+    BOOTSTRAP_FLUID: false
+    TYPOGRIFY: true
+    ## http://pygments.org/demo/6640643/
+    PYGMENTS_STYLE: native
+    # CUSTOM_CSS: 'path/to/css'
+    # GOOGLE_ANALYTICS_UNIVERSAL: 'code-here'
+    # GOOGLE_ANALYTICS_UNIVERSAL_PROPERTY: 'code-here'
+    # SITELOGO_SIZE: 200
+    # BOOTSTRAP_NAVBAR_INVERSE: false
+
+    SITELOGO: http://lorempixel.com/20/20/business/
+    ## Below values will be overwritten by /admin/author configs
+    AUTHOR: <i>Author</i>
+    ABOUT_ME: <b>I</b> am Author
+    AVATAR: http://i.pravatar.cc/300
+    # SERIES_TEXT: 'Part %(index)s of the %(name)s series'
+
+    ## If Article/page has banner and banner_subtitle metadata it will be overwritten
+    BANNER: http://lorempixel.com/1000/200/abstract/
+    BANNER_SUBTITLE: Hello World
+
+    ## sidebar counters
+    TAG_CLOUD_MAX_ITEMS: 100
+    RECENT_POST_COUNT: 5
+
+    ## SIDEBAR VISIBILITY
+    DISPLAY_TAGS_ON_SIDEBAR: true
+    DISPLAY_CATEGORIES_ON_SIDEBAR: true
+    DISPLAY_RECENT_POSTS_ON_SIDEBAR: true
+    DISPLAY_SERIES_ON_SIDEBAR: true
+    DISPLAY_ARCHIVE_ON_SIDEBAR: true
+    DISPLAY_AUTHORS_ON_SIDEBAR: true
+    DISABLE_SIDEBAR_TITLE_ICONS: true
+
+    HIDE_SITENAME: false
+    DISPLAY_CATEGORY_IN_BREADCRUMBS: true  # <-- all
+
+    ## VISIBILITY CONTROLS
+    BANNER_ALL_PAGES: false  # <-- set to `false` to use DYNAMIC_VARS
+    HIDE_SIDEBAR: false  # <-- set to `false` to use DYNAMIC_VARS
+    SIDEBAR_ON_LEFT: false  # <-- set to `false` to use DYNAMIC_VARS
+    DISPLAY_BREADCRUMBS: false  # <-- set to `false` to use DYNAMIC_VARS
+    DISPLAY_ARTICLE_INFO_ON_INDEX: false  # <-- set to `false` to use DYNAMIC_VARS
+    SHOW_DATE_MODIFIED: false  # <-- set to `false` to use DYNAMIC_VARS
+    SHOW_SERIES: false  # <-- set to `false` to use DYNAMIC_VARS
+    SHOW_ARTICLE_AUTHOR: false  # <-- set to `false` to use DYNAMIC_VARS
+    SHOW_ARTICLE_CATEGORY: false  # <-- set to `false` to use DYNAMIC_VARS
+
+    ## Variables that changes depending on the page
+    DYNAMIC_VARS:
+      ## var: any of the config values
+      ## where: index, article, page, category, tag, author
+      ##        categories, tags, authors
+      ##        'catname/other' and 'catname/article-slug'
+      ##        when HOME_TEMPLATE is defined you can also use `home`
+      ## value: true / false / anything
+      ##
+      ## Example: Hide the sidebar on site.com/blog/news/
+      # - {var: HIDE_SIDEBAR, where: 'blog/news'}
+      ## Example: Hide all author information on site.com/blog/my-article.html
+      # - {var: [AVATAR, AUTHOR, ABOUT_ME], where: 'blog/my-article', value: false}
+      - {var: BANNER_ALL_PAGES, where: [index, page, category, tag, author], value: true}
+      - {var: [AVATAR, AUTHOR, ABOUT_ME], where: [index, page, category, tag, author], value: false}
+      - {var: SIDEBAR_ON_LEFT, where: article, value: true}
+      - {var: DISPLAY_BREADCRUMBS, where: [category, tag, author], value: true}
+      - {var: DISPLAY_ARTICLE_INFO_ON_INDEX, where: [index, category, tag, author], value: true}
+      - {var: SHOW_ARTICLE_CATEGORY, where: [index, category, tag, author], value: true}
+
+    ## Comments
+    DISQUS_NO_ID: true
+    DISQUS_ID_PREFIX_SLUG: true
+    DISQUS_DISPLAY_COUNTS: true
+
+    ## CC-BY CC-BY-SA CC-BY-ND CC-BY-NC CC-BY-NC-SA CC-BY-NC-ND
+    # CC_LICENSE: CC-BY-NC-SA
+    # CUSTOM_LICENSE: 'Unless otherwise stated, all articles are published under the <a href="http://www.wtfpl.net/about/">WTFPL</a> license.'
+
+    # GITHUB_USER: rochacbruno
+    # GITHUB_REPO_COUNT: true  # this may take time
+    # GITHUB_SKIP_FORK: true
+    # GITHUB_SHOW_USER_LINK: true
+
+    TWITTER_USERNAME: rochacbruno
+    TWITTER_WIDGET_ID: 12324
+    # ADDTHIS_PROFILE: 1234
+    # ADDTHIS_DATA_TRACK_ADDRESSBAR: true
+    # ADDTHIS_FACEBOOK_LIKE: true
+    # ADDTHIS_TWEET: true
+    # ADDTHIS_GOOGLE_PLUSONE: true
+
+    ## shariff is the social sharing buttons
+    SHARIFF: true
+    SHARIFF_THEME: white
+    SHARIFF_LANG: en
+    SHARIFF_ORIENTATION: horizontal
+    SHARIFF_TWITTER_VIA: true
+    SHARIFF_SERVICES: "[&quot;facebook&quot;,&quot;twitter&quot;,&quot;googleplus&quot;,&quot;pinterest&quot;,&quot;whatsapp&quot;,&quot;addthis&quot;]"
+    # SIDEBAR_IMAGES_HEADER: 'My Images'
+    # SIDEBAR_IMAGES: ["http://lorempixel.com/200/200/abstract", "http://lorempixel.com/200/200/abstract"]
+    # PAGES_SORT_ATTRIBUTE:
+
+THEME_MALT:
+    SITELOGO: http://lorempixel.com/200/200/business/
+    ## http://materializecss.com/color.html
+    MALT_BASE_COLOR: teal
+    PYGMENTS_STYLE: native
+    ## If Article has banner and banner_subtitle metadata it will be overwritten
+    BANNER: http://lorempixel.com/1000/200/abstract/
+    BANNER_SUBTITLE: Hello World
+    BANNER_TEXT: Hello Again
+    # BANNER_ALL_PAGES: true
+    FOOTER_ABOUT: <b> Hello </b> World
+    ## remove if you want home to be full article list
+    HOME_TEMPLATE: home.html
+    SHOW_SITELOGO: true
+    SHOW_BANNER_TEXT: true
+
+    ## Content listing properties
+    CARD_SIZE: "s12 m12 l12"
+    HIDE_AUTHOR_AVATAR: false
+    HIDE_AUTHOR_NAME: false
+    HIDE_CATEGORY: false
+
+    DISPLAY_BREADCRUMBS: false
+
+    DYNAMIC_VARS:
+      - {var: SHOW_BACK_TOP, where: [article, page], value: true}
+      - {var: DISPLAY_BREADCRUMBS, where: [category, tag, author], value: true}
+      - {var: HIDE_CATEGORY, where: [category, tag, author, index], value: false}
+      - {var: CARD_SIZE, where: [category, tag, author], value: "s12 m6 l4"}
+      - {var: CARD_SIZE, where: [index, all], value: "s12 m12 l12"}
+      - {var: MENUITEMS, where: home, value: [['Index', 'index']]}
+
+    MALT_HOME:
+        - color: blue-grey lighten-5
+          title: Services
+          items:
+            - title: Community
+              icon: fa-comments
+              text: We love the community...
+              action: ['read more', 'http://community']
+            - title: Services
+              icon: fa-list
+              text: We have the right service for you...
+              action: ['read more', 'http://community']
+            - title: Technology
+              icon: fa-globe
+              text: We know the best tech...
+              action: ['read more', 'http://community']
+        - color: grey lighten-5
+          title: Products
+          items:
+            - title: Prod 1
+              icon: fa-user
+              text: Prod 1 is awesome...
+              action: ['read more', 'http://community']
+            - title: Prod 2
+              icon: fa-edit
+              text: Prod 2 solves your problem...
+              action: ['read more', 'http://community']
+            - title: Prod 3
+              icon: fa-gear
+              text: You need prod 3...
+              action: ['read more', 'http://community']
+
+    CONTENT_VAR_MAP:
+      ## attributes taken from article/page and its export name
+      author_avatar: AVATAR
+      banner: BANNER
+      banner: OPEN_GRAPH_IMAGE
+      author: AUTHOR
+      header_color: MALT_BASE_COLOR
+
+
+THEME_OCTOPRESS:
+    DISPLAY_SOCIAL_ICONS: true
+    SHOW_HEADER: true
+    FOOTER_INCLUDE: "_includes/footer.html"
+    GITHUB_USER: rochacbruno
+    # GITHUB_REPO_COUNT: true  # this may take time
+    GITHUB_SKIP_FORK: true
+    GITHUB_SHOW_USER_LINK: true
+    TWITTER_USER: rochacbruno
+    # GOOGLE_PLUS_ID:
+    GOOGLE_PLUS_ONE: true
+    FACEBOOK_LIKE: true
+    TWITTER_WIDGET_ID: 12324
+    TWITTER_TWEET_BUTTON: true
+    TWITTER_FOLLOW_BUTTON: true
+    DISPLAY_CATEGORIES: true
+    DISPLAY_TAGS: true
+    DISPLAY_FEEDS: true
+    AUTHOR_ABOUT: Foo Bar
+    HEADER_COVER: http://lorempixel.com/1200/200/abstract/
+    HEADER_COLOR: blue
+    FAVICON_FILENAME: favicon.ico
+    DISPLAY_PAGES_ON_MENU: true
+    DISPLAY_CATEGORIES_ON_MENU: true
+    DISPLAY_FEEDS_ON_MENU: true
+    # FEED_FEEDBURNER:
+    # EXTRA_HEADER: Hello
+    # ARTICLE_ASIDES: ['social_icons', 'image', 'recentpost', 'categories', 'tags', 'github', 'social', 'links', 'twitter', 'gplus', 'google_adsense']
+    DISPLAY_TAGS: false
+
+## ▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬ஜ۩۞۩ஜ▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬
+## ▓▓▓▒▒▒░░░                       DEV SETTINGS                      ░░░▒▒▒▓▓▓
+## ▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬ஜ۩۞۩ஜ▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬
+## This values are loaded when --envmode=dev is passed
+## or env var QUOKKA_ENVMODE=dev
+## TIP: Export envvars with `dev` to overload this.
+## `export QUOKKA_DEV_PORT='@int 3000'`
 DEV:
   DEBUG: true
   RELOADER: true
@@ -39,7 +361,11 @@ DEV:
     - flask_debugtoolbar.panels.profiler.ProfilerDebugPanel
     - flask_debugtoolbar.panels.config_vars.ConfigVarsDebugPanel
 
-# Production Settings
+## ▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬ஜ۩۞۩ஜ▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬
+## ▓▓▓▒▒▒░░░                       MAIN SETTINGS                     ░░░▒▒▒▓▓▓
+## ▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬ஜ۩۞۩ஜ▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬
+## All values under QUOKKA: namespace are the main default settings
+
 QUOKKA:
 
   ## [ --- SECURITY --- ]
@@ -60,19 +386,21 @@ QUOKKA:
   ## [ --- EXTENSIONS --- ]
   ## Use EXTRA_EXTENSIONS for thirty party extensions
   CORE_EXTENSIONS:
+    - flask_babelex.Babel
     - quokka.core.logger.configure
     - quokka.core.db.QuokkaDB
     - quokka.admin.configure_admin
     - flask_wtf.csrf.CSRFProtect
-    - flask_mistune.Mistune
     - quokka.core.auth.configure
     - quokka.core.error_handlers.configure
     - quokka.core.monitoring.configure
     - quokka.core.themes.configure
+    - quokka.core.context_processors.configure
     - quokka.core.content.configure
     - quokka.admin.configure_file_admin
     - quokka.admin.configure_extra_views
     - quokka.core.auth.configure_user_admin
+    - quokka.core.views.configure
 
   ## The EXTRA_EXTENSIONS are for loading installed modules
   ## Extensions here can be import path to any callable or class
@@ -217,36 +545,6 @@ QUOKKA:
   ## translations variable list all translations urls in theme
   FILTER_LANGUAGES: *languages
 
-  ## [ --- FRONT END --- ]
-  ## The folder where themes are located
-  THEME_PATHS: themes
-  ## Name of one of the themes/folders
-  DEFAULT_THEME: Flex
-  ## https://github.com/alexandrevicenzi/Flex
-  ## https://github.com/alexandrevicenzi/Flex/wiki/Custom-Settings
-  ## http://www.pelicanthemes.com/
-  ## $ quokka themes install theme-name
-  ## $ quokka themes activate theme-name
-  ## http://docs.getpelican.com/en/latest/themes.html
-
-  ## content urls will end with .html
-  CONTENT_EXTENSION: html
-
-  ## Default categories to be listed on create form
-  ## all existing categories on database will also be listed
-  # CATEGORIES:
-  #   - general
-
-  ## Force a default category instead of blank
-  # DEFAULT_CATEGORY: general
-
-  ## Default tags to be listes on edit form
-  # TAGS:
-  #   - foo
-
-  ## Default author names to be listed on edit form
-  # AUTHORS:
-  #   - jane Doe
 
   ## [ --- MONITORING --- ]
   ## You must install `raven` package to use it
@@ -273,6 +571,33 @@ QUOKKA:
   LOGGER_FORMAT: '%(asctime)s %(name)-12s %(levelname)-8s %(message)s'
   LOGGER_DATE_FORMAT: '%d.%m %H:%M:%S'
 
+  ## [ --- CONTENT MODULE SETTINGS --- ]
+  ## Media root folder (to store uploaded files)
+  MEDIA_ROOT: uploads
+
+  ## content urls will end with .html
+  CONTENT_EXTENSION: html
+
+  ## Default categories to be listed on create form
+  ## all existing categories on database will also be listed
+  # CATEGORIES:
+  #   - general
+
+  ## Force a default category instead of blank
+  # DEFAULT_CATEGORY: general
+
+  ## Default tags to be listes on edit form
+  # TAGS:
+  #   - foo
+
+  ## Default author names to be listed on edit form
+  # AUTHORS:
+  #   - jane Doe
+
+
+## ▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬ஜ۩۞۩ஜ▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬
+## ▓▓▓▒▒▒░░░                  MANAGE SHELL SETTINGS                  ░░░▒▒▒▓▓▓
+## ▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬ஜ۩۞۩ஜ▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬
 
 ## [< --- MANAGE SHELL --->]
 ## The following sections controls how `quokka` command line works

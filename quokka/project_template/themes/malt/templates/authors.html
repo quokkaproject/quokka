@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block styles %}
+    {{ super() }}
+    <link href="{{ SITEURL }}/theme/css/authors.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+{% endblock %}
+
+{% block title %}Autores | {{ SITENAME }}{% endblock %}
+
+{% block bannertext %}
+<h1>Autores</h1>
+{% endblock %}
+
+{% block content %}
+<div class="container content-container">
+    <div class="row">
+        {% set BREADCRUMB_ELEMENTS = [("{} Blog".format(SITENAME), "blog"), ("Autores", None)] %}
+        {% include "includes/breadcrumbs.html" %}
+        <div class="autores">
+            <ul data-collapsible="accordion" class="collapsible popout collapsible-accordion">
+                {% for author, articles in authors|sort %}
+                <li class="">
+                    <div class="collapsible-header" title="Autores {{ author.name|escape }}">
+                        {{ author.name }} <span class="pull-right pill {{ MALT_BASE_COLOR }} lighten-1 white-text">{{ articles|count }}</span>
+                    </div>
+                    <div class="collapsible-body white" style="display: block;">
+                        <div class="contents">
+                            {% for article in articles %}
+                            <span><time class="grey-text" datetime="{{ article.date.isoformat() }}">{{ article.locale_date }}</time> <a class="grey-text text-darken-4" title="Artigo '{{ article.title|escape }}'" href="{{ SITEURL }}/{{ article.url }}">{{ article.title }}</a></span>
+                            {% endfor %}
+                            </div>
+                    </div>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</div>
+{% endblock %}

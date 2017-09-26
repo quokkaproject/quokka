@@ -1,0 +1,23 @@
+{% if DISPLAY_ARCHIVE_ON_SIDEBAR and MONTH_ARCHIVE_SAVE_AS %}
+  {% from 'includes/sidebar/macros.jinja' import title %}
+
+<!-- Sidebar/Archive -->
+<li class="list-group-item">
+  <h4>{{ title(_('Archive'), DISABLE_SIDEBAR_TITLE_ICONS) }}</h4>
+  <ul class="list-group" id="archive">
+    {% for year, date_year in dates|groupby( 'date.year' )|sort(reverse=True) %}
+      {% for month, articles in date_year|groupby( 'date.month' )|sort(reverse=True) %}
+        <li class="list-group-item">
+          <a href="{{ SITEURL }}/{{ MONTH_ARCHIVE_SAVE_AS.format(date=articles[0].date) }}">
+            {%- if not DISABLE_SIDEBAR_TITLE_ICONS -%}
+            <i class="fa fa-calendar fa-lg"></i>
+            {%- endif -%}
+            {{ articles[0].date.strftime('%B') }} {{ year }} ({{ articles|count }})
+          </a>
+        </li>
+      {% endfor %}
+    {% endfor %}
+  </ul>
+</li>
+<!-- End Sidebar/Archive -->
+{% endif %}

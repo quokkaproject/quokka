@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block title %}{{ page.title }} | {{ SITENAME }}{% endblock %}
+
+{% block styles %}
+    {{ super() }}
+    <link href="{{ SITEURL }}/theme/css/page.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+{% endblock %}
+
+{% block banner %}
+<div class="hero hero-article" style="background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('{{ SITEURL }}/{{ page.banner }}')">
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="container content-container">
+
+    <div class="row">
+        <div class="col s12 m12 l12 center-align animated bounceInDown slow page-meta">
+            <h1 class="white-text">{{ page.title }}</h1>
+        </div>
+    </div>
+
+    {% set BREADCRUMB_ELEMENTS = [(page.category, page.category.url)] %}
+
+    <div class="row">
+        <div class="col s12 m12 l12 white z-depth-2 page">
+            {% include "includes/breadcrumbs.html" %}
+            <div class="page-contents">
+            {{ page.content }}
+            </div>
+        </div>
+    </div>
+
+    {% if page.comments != "closed" %}
+        {% include "includes/comments.html" %}
+    {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block title %}Tag: {{ tag }} &mdash; {{ SITENAME }}{% endblock %}
+{% block content %}
+<div>
+	<article role="article">
+    	<header>
+    		<h1 class="entry-title">Tag: {{ tag }}</h1>
+    	</header>
+
+    	<div id="blog-archives">
+        {% for year, date_year in dates|groupby('date.year')|sort(reverse=NEWEST_FIRST_ARCHIVES) %}
+            <h2>{{ year }}</h2>
+            {% for month, articles in date_year|groupby('date.month')|sort(reverse=NEWEST_FIRST_ARCHIVES) %}
+                {% for article in articles %}
+                    <article>
+                        <h1><a href="{{ SITEURL }}/{{ article.url }}">{{ article.title }}</a></h1>
+                        <time datetime="{{ article.date }}" pubdate>
+                            <span class="month">{{ article.date.strftime('%B')[:3] }}</span>
+                            <span class="day">{{ article.date.strftime('%d') }}</span>
+                            <span class="year">{{ article.date.strftime('%Y') }}</span>
+                        </time>
+                        <footer>
+                            <span class="categories">posted in
+                                <a class='category' href='{{ SITEURL }}/{{ article.category.url }}'>{{ article.category }}</a>
+                            </span>
+			    {% include '_includes/article_stats.html' %}
+                        </footer>
+                    </article>
+                {% endfor %}
+            {% endfor %}
+        {% endfor %}
+	    </div>
+    </article>
+</div>
+{% endblock %}

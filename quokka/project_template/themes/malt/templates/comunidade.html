@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block styles %}
+  {{ super() }}
+  <link href="{{ SITEURL }}/theme/css/comunidade.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+{% endblock %}
+
+{% block bannertext %}
+  <h1>{{ page.title }}</h1>
+{% endblock %}
+
+{% block navbar %}
+  {% include "includes/navbar-home.html" %}
+{% endblock %}
+
+{% block content %}
+{% if MALT_COMUNITY is defined %}
+<div class="container content-container">
+  <div class="row center-align">
+  {% for section in MALT_COMUNITY %}
+    <div class="col s12 m4 icon-block">
+      <h5>{{ section['title'] }}</h5>
+
+      <p class="light">{{ section['text'] }}</p>
+
+      <div class="center">
+      {% for button in section['buttons'] %}
+        <a class="{{ MALT_BASE_COLOR }} waves-effect waves-light btn" href="{{ GET_LINK(button['href']) }}">{{ button['text'] }}</a>
+      {% endfor %}
+      </div>
+    </div>
+  {% endfor %}
+  </div>
+</div>
+{% endif %}
+{% endblock %}

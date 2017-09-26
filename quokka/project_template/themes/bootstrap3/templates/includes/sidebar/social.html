@@ -1,0 +1,24 @@
+{% if SOCIAL %}
+  {% from 'includes/sidebar/macros.jinja' import title %}
+
+<!-- Sidebar/Social -->
+<li class="list-group-item">
+  <h4>{{ title(_('Social'), DISABLE_SIDEBAR_TITLE_ICONS) }}</h4>
+  <ul class="list-group" id="social">
+    {% for s in SOCIAL %}
+      {% if s[2] %}
+        {% set name_sanitized = s[2]|lower|replace('+','-plus')|replace(' ','-') %}
+      {% else %}
+        {% set name_sanitized = s[0]|lower|replace('+','-plus')|replace(' ','-') %}
+      {% endif %}
+      {% if name_sanitized in ['flickr', 'slideshare', 'instagram', 'spotify', 'stack-overflow', 'weibo', 'line-chart', 'home', 'user', 'users', 'envelope', 'envelope-o', 'stack-exchange', 'hacker-news', 'gitlab'] %}
+        {% set iconattributes = '"fa fa-' ~ name_sanitized ~ ' fa-lg"' %}
+      {% else %}
+        {% set iconattributes = '"fa fa-' ~ name_sanitized ~ '-square fa-lg"' %}
+      {% endif %}
+    <li class="list-group-item"><a href="{{ s[1] }}"><i class={{ iconattributes }}></i> {{ s[0] }}</a></li>
+    {% endfor %}
+  </ul>
+</li>
+<!-- End Sidebar/Social -->
+{% endif %}

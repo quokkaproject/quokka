@@ -1,0 +1,23 @@
+{% if OG_LOCALE %}
+  {% set default_locale = OG_LOCALE %}
+{% else %}
+  {% set default_locale = 'en_US' %}
+{% endif %}
+<meta property="og:site_name" content="{{ SITENAME }}"/>
+<meta property="og:title" content="{{ article.title|striptags|escape }}"/>
+<meta property="og:description" content="{{ article.summary|striptags|escape }}"/>
+<meta property="og:locale" content="{{ article.metadata.get('og_locale', default_locale) }}"/>
+<meta property="og:url" content="{{ SITEURL }}/{{ article.url }}"/>
+<meta property="og:type" content="article"/>
+<meta property="article:published_time" content="{{ article.date }}"/>
+<meta property="article:modified_time" content="{{ article.modified }}"/>
+<meta property="article:author" content="{{ SITEURL }}/{{ article.author.url }}">
+<meta property="article:section" content="{{ article.category.name }}"/>
+{% for tag in article.tags %}
+<meta property="article:tag" content="{{ tag.name|escape }}"/>
+{% endfor %}
+{% if 'cover' in article.metadata %}
+<meta property="og:image" content="{{ SITEURL }}/{{ article.metadata['cover'] }}">
+{% else %}
+<meta property="og:image" content="{{ SITELOGO }}">
+{% endif %}

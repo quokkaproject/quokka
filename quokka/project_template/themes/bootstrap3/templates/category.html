@@ -1,0 +1,15 @@
+{% extends "article_list.html" %}
+{% block title %}{{ category }} - {{ SITENAME }}{% endblock %}
+{% block meta %}
+    <meta name="author" content="{{ AUTHOR }}" />
+    <meta name="keywords" content="{{ category }}" />
+{% endblock %}
+{% block breadcrumbs %}
+    {% if DISPLAY_BREADCRUMBS %}
+    <ol class="breadcrumb">
+        <li><a href="{{ SITEURL }}" title="{{ SITENAME }}"><i class="fa fa-home fa-lg"></i></a></li>
+        <li><a href="{{ SITEURL}}/{{ CATEGORIES_URL }}" title="{{ SITENAME }} {{ _('Categories') }}">{{ _('Categories') }}</a></li>
+        <li class="active">{{ category }}</li>
+    </ol>
+    {% endif %}
+{% endblock %}

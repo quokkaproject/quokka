@@ -1,0 +1,22 @@
+{% if DISPLAY_AUTHORS_ON_SIDEBAR %}
+  {% from 'includes/sidebar/macros.jinja' import title %}
+
+<!-- Sidebar/Authors -->
+<li class="list-group-item">
+  <h4>{{ title(_('Authors'), DISABLE_SIDEBAR_TITLE_ICONS) }}</h4>
+  <ul class="list-group" id="authors">
+    {% for author, articles in authors|sort %}
+    <li class="list-group-item">
+      <a href="{{ SITEURL }}/{{ author.url }}">
+        {%- if not DISABLE_SIDEBAR_TITLE_ICONS -%}
+        <i class="fa fa-user fa-lg"></i>
+        {%- endif -%}
+        {{- author -}}
+      </a>
+      ({{ articles|count }})
+    </li>
+    {% endfor %}
+  </ul>
+</li>
+<!-- End Sidebar/Authors -->
+{% endif %}

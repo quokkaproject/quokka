@@ -1,0 +1,19 @@
+<p>
+  &copy; {{ COPYRIGHT_NAME }} {{ COPYRIGHT_YEAR }} - This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/{{ CC_LICENSE['slug'] }}/{{ CC_LICENSE['version'] }}/">{{ CC_LICENSE['name'] }} {{ CC_LICENSE['version'] }} International License</a>
+</p>
+{% include "partial/flex.html" %}
+<p>
+  <a rel="license"
+     href="http://creativecommons.org/licenses/{{ CC_LICENSE['slug'] }}/{{ CC_LICENSE['version'] }}/"
+     target="_blank">
+    <img alt="Creative Commons License"
+         title="Creative Commons License"
+         style="border-width:0"
+         src="https://i.creativecommons.org/l/{{ CC_LICENSE['slug'] }}/{{ CC_LICENSE['version'] }}/80x15.png"
+         width="80"
+         height="15"/>
+  </a>
+  {% if STATUSCAKE %}
+    {% include "partial/statuscake.html" %}
+  {% endif %}
+</p>

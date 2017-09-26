@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+
+{% block styles %}
+    {{ super() }}
+    <link href="{{ SITEURL }}/theme/css/tags.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+{% endblock %}
+
+{% block title %}Tags | {{ SITENAME }}{% endblock %}
+
+{% block bannertext %}
+<h1>Tags</h1>
+{% endblock %}
+
+{% block content %}
+<div class="container content-container">
+    <div class="row">
+        {% set BREADCRUMB_ELEMENTS = [("Tags", None)] %}
+        {% include "includes/breadcrumbs.html" %}
+        <div id="tags" class="col s12 white z-depth-1">
+            <div class="row {{ MALT_BASE_COLOR }}" id="search-bar">
+                <form id="tag-search"  onkeypress="return event.keyCode != 13;">
+                    <div class="input-field">
+                        <i class="fa fa-search fa-2x" id="search-icon"></i>
+                        <input id="search-input" type="search" required placeholder="Buscar uma tag">
+                    </div>
+                </form>
+            </div>
+
+            <div class="row" id="all-tags">
+                {% for tag, articles in tags|sort %}
+                <span class="pill {{ MALT_BASE_COLOR }} lighten-2">
+                    <a class="white-text" href="{{ SITEURL }}/{{ tag.url }}">{{ tag.name }}</a>
+                </span>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+    {{ super() }}
+    <script type="text/javascript">
+        (function ($) {
+            // custom css expression for a case-insensitive contains()
+            jQuery.expr[':'].Contains = function(a,i,m){
+                return (a.textContent || a.innerText || "").toUpperCase().indexOf(m[3].toUpperCase())>=0;
+            };
+
+            function listFilter() {
+                $('#search-input')
+                .change( function () {
+                    var filter = $(this).val();
+                    if(filter) {
+                        // this finds all links in a list that contain the input,
+                        // and hide the ones not containing the input while showing the ones that do
+                        $('#all-tags').find("a:not(:Contains(" + filter + "))").parent().hide();
+                        $('#all-tags').find("a:Contains(" + filter + ")").parent().show();
+                    } else {
+                        $('#all-tags').find("span").show();
+                    }
+                    return false;
+                })
+                .keyup( function () {
+                    // fire the above change event after every letter
+                    $(this).change();
+                });
+            }
+
+            //ondomready
+            $(function () {
+                listFilter($());
+            });
+        }(jQuery));
+    </script>
+{% endblock %}

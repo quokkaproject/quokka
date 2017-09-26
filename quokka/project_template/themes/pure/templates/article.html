@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% block title %}{{ article.title|striptags }} // {{ super() }}{% endblock title %}
+
+{% block head_css %}
+    <link rel="stylesheet" href="{{ SITEURL }}/theme/css/pygments.css">
+{% endblock %}
+
+{% block head_js %}
+    <script src="//cdnjs.cloudflare.com/ajax/libs/fitvids/1.0.1/jquery.fitvids.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            $(".content").fitVids();
+        });
+    </script>
+{% endblock %}
+
+{% block content %}
+<div class="pure-g-r" id="layout">
+    <div class="sidebar sidebar-article pure-u">
+        <header class="header-article">
+            <hgroup>
+                <a href="{{ SITEURL }}/{{ article.author.url }}" title="See posts by {{ article.author }}">
+                    {% if article.author_gravatar %}
+                        <img class="avatar" alt="{{ article.author }}" src="{{ article.author_gravatar }}">
+                    {% endif %}
+                </a>
+                <h2 class="article-info">{{ article.author }}</h2>
+                <small class="about-author">{{ article.about_author }}</small>
+                <h5>Published</h5>
+                <p>{{ article.locale_date }}</p>
+                <a href="/">&larr;Home</a>
+            </hgroup>
+        </header>
+    </div>
+    <div class="pure-u">
+        <div class="content">
+            <section class="post">
+                <header class="post-header">
+                    <h1>{{ article.title }}</h1>
+                        <p class="post-meta">
+                            // under {% for tag in article.tags %}
+                                <a class="post-category" href="{{ SITEURL }}/{{ tag.url }}">{{ tag }}</a>
+                            {% endfor %}
+                        </p>
+                </header>
+            </section>
+            {{ article.content }}
+            <div class="hr"></div>
+            <a href="#" class="go-top">Go Top</a>
+            {% if DISQUS_SITENAME %}
+                {% include 'disqus.html' %}
+            {% endif %}
+            {% include 'footer.html' %}
+        </div>
+    </div>
+</div>
+{% endblock  %}

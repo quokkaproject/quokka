@@ -1,0 +1,18 @@
+.icon-block .btn {
+  margin-bottom: 15px;
+}
+.icon-block p {
+  min-height: 100px;
+}
+
+@media (max-width: 992px) {
+  .icon-block > p {
+    min-height: 120px;
+  }
+}
+
+@media (max-width: 600px) {
+  .icon-block > p {
+    min-height: inherit;
+  }
+}

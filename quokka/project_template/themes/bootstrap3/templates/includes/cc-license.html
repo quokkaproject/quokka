@@ -1,0 +1,65 @@
+{# ------------------------------------------------------------------------ #}
+{# Creative Commons license mark generator for Jinja2 templates, including  #}
+{# Pelican-generated static sites (or blogs).                               #}
+{# ------------------------------------------------------------------------ #}
+{# To use, put this file in a location where your template can import it.   #}
+{# Then import into the template, for example like this:                    #}
+{# {% from '/path/to/where/you/placed/the/file' import cc_license_mark %}   #}
+{# Then call as simply as {{ cc_license_mark("CC-BY") }}.                   #}
+{#                                                                          #}
+{# If full attribution markup is desired in a Pelican template, the         #}
+{# attr_props dict can be defaulted to the following when calling the macro:#}
+{# attr_props={'title':SITENAME,'name':AUTHOR,'url':SITEURL}
+{# ------------------------------------------------------------------------ #}
+{# Generate a license mark for Creative Commons licensed content.           #}
+{# Choose the license either by name (CC-BY, CC-BY-SA, CC-BY-NC-SA, or      #}
+{# CC-BY-NC-ND), or by its features (allow derivatives: Yes, No, ShareAlike;#}
+{# allow commercial reuse: Yes, No). Name, if provided, takes precedence,   #}
+{# and case is ignored.                                                     #}
+{#                                                                          #}
+{# Optional:                                                                #}
+{#   br_after_icon: if true put a line break after the license icon         #}
+{#   attr_markup: if true create markup for fulll attribution               #}
+{#   attr_props: if attr_markup, a dict with title, name, and url keys      #}
+{#               specifying how under which title, to which creator, and    #}
+{#               to which URL to attribute the work                         #}
+{# The parameters all mirror the Creative Commone license chooser:          #}
+{# https://creativecommons.org/choose/                                      #}
+{# ------------------------------------------------------------------------ #}
+{# Copyright (c) 2014 Hilmar Lapp, hlapp@drycafe.net.                       #}
+{# Licensed under the terms of the MIT License.                             #}
+{# Source at http://github.com/hlapp/cc-tools. Please fork & contribute.    #}
+{# ------------------------------------------------------------------------ #}
+{% macro cc_license_mark(cc_name,
+                         derivatives, commercial,
+                         br_after_icon=false,
+                         attr_markup=false,
+                         attr_props={}) %}
+  {% if cc_name %}
+    {% set cc_name = cc_name|lower|replace("cc-","") %}
+    {% set cc_title_suffix = cc_name|replace("by", "")|replace("-nc","-NonCommercial")|replace("-nd","-NoDerivatives")|replace("-sa","-ShareAlike") %}
+  {% else %}
+    {% set cc_name = "by" %}
+    {% set cc_title_suffix = "" %}
+    {% if (not commercial) or (commercial|lower == "no") %}
+      {% set cc_name = cc_name ~ "-nc" %}
+      {% set cc_title_suffix = "-NonCommercial" %}
+    {% endif %}
+    {% if derivatives|lower == "no" %}
+      {% set cc_name = cc_name ~ "-nd" %}
+      {% set cc_title_suffix = cc_title_suffix ~ "-NoDerivatives" %}
+    {% elif derivatives|lower == "sharealike" %}
+      {% set cc_name = cc_name ~ "-sa" %}
+      {% set cc_title_suffix = cc_title_suffix ~ "-ShareAlike" %}
+    {% endif %}
+  {% endif %}
+  {% set cc_title, cc_uri, cc_icon = ("Creative Commons AttributionCCSUFFIX 4.0 International License","https://creativecommons.org/licenses/CCNAME/4.0/","//i.creativecommons.org/l/CCNAME/4.0/80x15.png") %}
+  <a rel="license" href="{{ cc_uri|replace('CCNAME',cc_name) }}deed.{{ attr_props['lang'] }}"><img alt="Creative Commons License" style="border-width:0" src="{{ cc_icon|replace('CCNAME',cc_name) }}" /></a>
+  {% if br_after_img %}<br/>{% endif %}
+  {% if attr_markup %}
+    &quot;<span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">{{ attr_props['title'] }}</span>&quot; by <a xmlns:cc="http://creativecommons.org/ns#" href="{{ attr_props['url'] }}" property="cc:attributionName" rel="cc:attributionURL">{{ attr_props['name'] }}</a> is
+  {% else %}
+    {{ _('Content') }}
+  {% endif %}
+  {{ _('licensed under a') }} <a rel="license" href="{{ cc_uri|replace('CCNAME',cc_name) }}deed.{{ attr_props['lang'] }}">{{ cc_title|replace('CCSUFFIX',cc_title_suffix) }}</a>, {{ _('except where indicated otherwise') }}.
+{% endmacro %}

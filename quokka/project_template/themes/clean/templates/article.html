@@ -1,0 +1,158 @@
+{% extends "base.html" %}
+{% block title %}{{ article.title|striptags }}{% endblock %}
+
+{% block head %}
+    {{ super() }}
+
+    {% for keyword in article.keywords %}
+        <meta name="keywords" content="{{keyword}}" >
+    {% endfor %}
+
+    {% if description %}
+        <meta name="description" content="{{ description }}">
+    {% elif article.headline %}
+        <meta name="description" content="{{ article.headline }}">
+    {% elif article.summary %}
+        <meta name="description" content="{{ article.summary|striptags|truncate(140) }}">
+    {% endif %}
+
+    {% for author in article.authors %}
+        <meta name="author" content="{{ author }}">
+    {% endfor %}
+
+    {% for tag in article.tags %}
+        <meta name="tags" content="{{tag}}">
+    {% endfor %}
+{% endblock %}
+
+{% block twitter_card %}
+    {% for name,link in SOCIAL if name in ['twitter'] %}
+        <meta name="twitter:card" content="summary_large_image">
+        <meta name="twitter:site" content="@{{ link|replace('http://', 'https://')|replace('https://twitter.com/', '') }}">
+        <meta name="twitter:title" content="{{ article.title|striptags }}">
+
+        {% if article.twitter_image %}
+            {% if article.twitter_image|lower|truncate(4, True, '') == "http" %}
+                <meta property="twitter:image" content="{{ article.twitter_image }}">
+            {% else %}
+                <meta property="twitter:image" content="{{ SITEURL }}/{{ article.twitter_image }}">
+            {% endif %}
+        {% elif article.header_cover %}
+            <meta name="twitter:image" content="{{ SITEURL }}/{{ article.header_cover }}">
+        {% elif HEADER_COVER %}
+            <meta name="twitter:image" content="{{ SITEURL }}/{{ HEADER_COVER }}">
+        {% else %}
+            <meta name="twitter:image" content="{{ SITEURL }}/{{ THEME_STATIC_DIR }}/images/post-bg.jpg">
+        {% endif %}
+
+        {% if description %}
+            <meta name="twitter:description" content="{{ description }}">
+        {% elif article.headline %}
+            <meta name="twitter:description" content="{{ article.headline }}">
+        {% else %}
+            <meta name="twitter:description" content="{{ article.summary|striptags|truncate(140) }}">
+        {% endif %}
+    {% endfor %}
+{% endblock %}
+{% block opengraph %}
+	{{ super() }}
+	<meta property="og:type" content="article">
+        {% for author in article.authors %}
+            <meta property="article:author" content="{{ SITEURL }}/{{ author.url }}">
+        {% endfor %}
+	<meta property="og:url" content="{{ SITEURL }}/{{ article.url }}">
+	<meta property="og:title" content="{{ article.title|striptags }}">
+	<meta property="article:published_time" content="{{ article.date }}">
+        {% if description %}
+            <meta property="og:description" content="{{ description }}">
+        {% elif article.headline %}
+            <meta property="og:description" content="{{ article.headline }}">
+        {% elif article.summary %}
+            <meta property="og:description" content="{{ article.summary|striptags|truncate(140) }}">
+        {% endif %}
+
+        {% if article.og_image %}
+            {% if article.og_image|lower|truncate(4, True, '') == "http" %}
+                <meta property="og:image" content="{{ article.og_image }}">
+            {% else %}
+                <meta property="og:image" content="{{ SITEURL }}/{{ article.og_image }}">
+            {% endif %}
+        {% elif article.header_cover %}
+            <meta property="og:image" content="{{ SITEURL }}/{{ article.header_cover }}">
+        {% elif HEADER_COVER %}
+            <meta property="og:image" content="{{ SITEURL }}/{{ HEADER_COVER }}">
+        {% else %}
+            <meta property="og:image" content="{{ SITEURL }}/{{ THEME_STATIC_DIR }}/images/post-bg.jpg">
+        {% endif %}
+{% endblock %}
+
+{% block header %}
+    <!-- Page Header -->
+    {% if article.header_cover %}
+        <header class="intro-header" style="background-image: url('{{ article.header_cover }}')">
+    {% elif HEADER_COVER %}
+        <header class="intro-header" style="background-image: url('{{ HEADER_COVER }}')">
+    {% elif HEADER_COLOR %}
+        <header class="intro-header" style="background-color: {{ HEADER_COLOR }}">
+    {% else %}
+        <header class="intro-header" style="background-image: url('{{ SITEURL }}/{{ THEME_STATIC_DIR }}/images/post-bg.jpg')">
+    {% endif %}
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                    <div class="post-heading">
+                        <h1>{{ article.title|striptags }}</h1>
+                        {% if article.headline %}
+                            <h3 class="subheading">{{ article.headline }}</h3>
+                        {% endif %}
+                        <span class="meta">Posted by
+                            {% for author in article.authors %}
+                                <a href="{{ SITEURL }}/{{ author.url }}">{{ author }}</a>
+                            {% endfor %}
+                             on {{ article.locale_date }}
+                        </span>
+                        {% if article.modified %}
+                            <span class="meta">Updated on {{ article.locale_modified }}</span>
+                        {% endif %}
+                        {% import 'translations.html' as translations with context %}
+                        {{ translations.translations_for(article) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+{% endblock header %}
+
+{% block content %}
+    <!-- Post Content -->
+    <article>
+        {{ article.content }}
+    </article>
+
+    {% if article.tags %}
+        <div class="tags">
+            <p>tags: {% for tag in article.tags %}<a href="{{ SITEURL }}/{{ tag.url }}">{{ tag | escape }}</a>{% if not loop.last %}, {% endif %}{% endfor %}</p>
+        </div>
+    {% endif %}
+
+    {% include 'sharing.html' %}
+    <hr>
+
+    {% if DISQUS_SITENAME and SITEURL and article.status != "draft" %}
+        <div class="comments">
+            <h2>Comments !</h2>
+            <div id="disqus_thread"></div>
+            <script type="text/javascript">
+                var disqus_shortname = '{{ DISQUS_SITENAME }}';
+                var disqus_identifier = '{{ article.url }}';
+                var disqus_url = '{{ SITEURL }}/{{ article.url }}';
+                (function() {
+                    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                    dsq.src = '//{{ DISQUS_SITENAME }}.disqus.com/embed.js';
+                    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+                })();
+            </script>
+            <noscript>Please enable JavaScript to view the comments.</noscript>
+        </div>
+    {% endif %}
+{% endblock content %}

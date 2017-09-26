@@ -1,0 +1,22 @@
+<div class="sidebar pure-u">
+    <div class="cover-img" style="background-image: url('{{ COVER_IMG_URL }}')">
+        <div class="cover-body">
+            <header class="header">
+                <hgroup>
+                    <h1 class="brand-main"><a href="/">{{ SITENAME }}</a></h1>
+                    <p class="tagline">{{ TAGLINE }}</p>
+                {% for title, link in MENUITEMS %}
+                    <p class="links"><a href="{{ link }}">{{ title }}</a></p>
+                {% endfor %}
+                    <p class="social">
+                {% for title, link in SOCIAL %}
+                        <a href="{{ link }}">
+                            <i class="fa fa-{{ title }} fa-3x"></i>
+                        </a>
+                {% endfor %}
+                    <p>
+                </hgroup>
+            </header>
+        </div>
+    </div>
+</div>

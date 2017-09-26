@@ -1,0 +1,43 @@
+<footer class="post-info">
+    <span class="label label-default">Date</span>
+    <span class="published">
+        <i class="fa fa-calendar"></i><time datetime="{{ article.date.isoformat() }}"> {{ article.locale_date }}</time>
+    </span>
+    {% if SHOW_DATE_MODIFIED %}
+        {% if article.modified %}
+          <span class="label label-default">{{ _('Modified') }}</span>
+            <span class="modified">
+                <i class="fa fa-calendar"></i><time datetime="{{ article.modified.isoformat() }}"> {{ article.locale_modified }}</time>
+            </span>
+        {% endif %}
+    {% endif %}
+
+    {% if SHOW_SERIES %}
+        {% if article.series %}
+            <span class="label label-default">{{ _('Series') }}</span>
+            Part {{ article.series.index}} of {{ article.series.name }}
+        {% endif %}
+    {% endif %}
+
+    {% if SHOW_ARTICLE_AUTHOR %}
+        {% if article.author %}
+            <span class="label label-default">{{ _('By') }}</span>
+            <a href="{{ SITEURL }}/{{ article.author.url }}"><i class="fa fa-user"></i> {{ article.author }}</a>
+        {% endif %}
+    {% endif %}
+
+    {% if SHOW_ARTICLE_CATEGORY %}
+        <span class="label label-default">{{ _('Category') }}</span>
+        <a href="{{ SITEURL }}/{{ article.category.url }}">{{ article.category }}</a>
+    {% endif %}
+
+    {% if PDF_PROCESSOR %}
+        <span class="label label-default">
+            <a href="{{ SITEURL }}/pdf/{{ article.slug }}.pdf">PDF</a>
+        </span>
+    {% endif %}
+
+    {% include 'includes/taglist.html' %}
+    {% import 'includes/translations.html' as translations with context %}
+    {{ translations.translations_for(article) }}
+</footer><!-- /.post-info -->

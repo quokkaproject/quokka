@@ -1,0 +1,40 @@
+{% if article is defined %}
+    {% set content = article %}
+{% elif page is defined %}
+    {% set content = page %}
+{% endif %}
+
+{% if DISQUS_SITENAME %}
+    <section class="row" id="comments">
+        <div class="col s12 m12 l12 white z-depth-2">
+            <h4>Comentários</h4>
+            <div id="disqus_thread"></div>
+            <script type="text/javascript">
+                /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+                {% if DISQUS_SITENAME %}
+                    var disqus_shortname = '{{ DISQUS_SITENAME }}'; // required: replace example with your forum shortname
+                {% endif %}
+
+                {% if not DISQUS_NO_ID %}
+                    var disqus_identifier = '{{ content.date|strftime('%Y-%m-') ~ content.slug if DISQUS_ID_PREFIX_SLUG else content.slug }}';
+                {% endif %}
+
+                var disqus_url = '{{ SITEURL }}/{{ content.url }}';
+                var disqus_config = function () {
+                    this.language = "{{ DEFAULT_LANG }}";
+                };
+
+                /* * * DON'T EDIT BELOW THIS LINE * * */
+                (function () {
+                    var dsq = document.createElement('script');
+                    dsq.type = 'text/javascript';
+                    dsq.async = true;
+                    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+                })();
+            </script>
+            <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+            <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+        </div>
+    </section>
+{% endif %}

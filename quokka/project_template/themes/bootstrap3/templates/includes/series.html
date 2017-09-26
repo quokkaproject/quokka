@@ -1,0 +1,22 @@
+{% if article.series %}
+<section class="well" id="related-posts">
+   {% set text = SERIES_TEXT|default('Part %(index)s of the %(name)s series') %}
+    <h4>{{ text|format(index=article.series.index, name=article.series.name) }}</h4>
+    {% if article.series.all_previous %}
+       <h5>Previous articles</h5>
+       <ul>
+       {% for article in article.series.all_previous %}
+           <li><a href="{{ SITEURL }}/{{ article.url }}">{{ article.title }}</a></li>
+       {% endfor %}
+       </ul>
+    {% endif %}
+    {% if article.series.all_next %}
+       <h5>Next articles</h5>
+       <ul>
+       {% for article in article.series.all_next %}
+           <li><a href="{{ SITEURL }}/{{ article.url }}">{{ article.title }}</a></li>
+       {% endfor %}
+       </ul>
+    {% endif %}
+</section>
+{% endif %}

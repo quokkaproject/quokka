@@ -135,20 +135,42 @@ class QuokkaDB(object):
 
         return sorted(values) if sort is True else values
 
-    def author_set(self, sort=True):
+    def author_set(self, sort=True, **kwargs):
         users = [
             item.get('fullname', item.get('username'))
             for item in self.users.find()
         ]
-        authors = self.value_set('index', 'authors', flat=True)
+        authors = self.value_set('index', 'authors', flat=True, **kwargs)
         values = list(set(users + authors))
         return sorted(values) if sort is True else values
 
-    def tag_set(self, sort=True):
-        return self.value_set('index', 'tags', flat=True, sort=sort)
+    def tag_set(self, sort=True, **kwargs):
+        return self.value_set('index', 'tags', flat=True, sort=sort, **kwargs)
 
     def content_set(self, *args, **kwargs):
         return self.index.find(*args, **kwargs)
+
+    def article_set(self, *args, **kwargs):
+        kwargs.setdefault(
+            'sort',
+            self.app.theme_context.get('ARTICLE_ORDER_BY', [('date', -1)])
+        )
+        if not args:
+            args = [{'content_type': 'article'}]
+        elif isinstance(args[0], dict):
+            args[0]['content_type'] = 'article'
+        return self.content_set(*args, **kwargs)
+
+    def page_set(self, *args, **kwargs):
+        kwargs.setdefault(
+            'sort',
+            self.app.theme_context.get('PAGE_ORDER_BY', [('title', -1)])
+        )
+        if not args:
+            args = [{'content_type': 'page'}]
+        elif isinstance(args[0], dict):
+            args[0]['content_type'] = 'page'
+        return self.content_set(*args, **kwargs)
 
     def select(self, colname, *args, **kwargs):
         return self.get_collection(colname).find(*args, **kwargs)
@@ -204,7 +226,8 @@ class QuokkaDB(object):
 
     def get_with_content(self, **kwargs):
         model = self.get('index', kwargs)
-        model['content'] = self.pull_content(model)
+        if model:
+            model['content'] = self.pull_content(model)
         return model
 
 

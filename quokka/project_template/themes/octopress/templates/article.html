@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block title %}{{ article.title|striptags }} &mdash; {{ SITENAME }}{% endblock %}
+{% block content %}
+<div>
+  <article class="hentry" role="article">
+    {% include '_includes/article.html' %}
+    <footer>
+      {% include '_includes/article_infos.html' %}
+      {% include '_includes/sharing.html' %}
+    </footer>
+  </article>
+
+  {% if (DISQUS_SITENAME or ISSO_SITEURL) and SITEURL and article.status != "draft" %}
+  <section>
+    <h1>Comments</h1>
+    {% if ISSO_SITEURL %}
+    <section id="isso-thread"></section>
+    {% endif %}
+    {% if DISQUS_SITENAME %}
+    <div id="disqus_thread" aria-live="polite">{% include '_includes/disqus_thread.html' %}</div>
+    {% endif %}
+  </section>
+  {% endif %}
+</div>
+{% endblock %}

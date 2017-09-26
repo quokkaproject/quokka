@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+{% if USE_OPEN_GRAPH is not defined %}
+    {% set USE_OPEN_GRAPH = True %}
+{% endif %}
+<html lang="{% block html_lang %}{{ DEFAULT_LANG }}{% endblock %}"{% if USE_OPEN_GRAPH %} prefix="og: http://ogp.me/ns# fb: https://www.facebook.com/2008/fbml"{% endif %}>
+<head>
+    <title>{% block title %}{{ SITENAME }}{% endblock %}</title>
+    <!-- Using the latest rendering mode for IE -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    {% if 'liquid_tags.notebook' in PLUGINS %}
+        {% include 'includes/liquid_tags_nb_header.html' %}
+    {% endif %}
+
+    {# Favicons are a touchy subject. For reasoning for the following code, see: http://stackoverflow.com/a/23851464/872397 #}
+    {% if FAVICON %}
+    <link href="{{ SITEURL }}/{{ FAVICON }}" rel="icon">
+    {% endif %}
+    {% if FAVICON_IE %}
+    <!--[if IE]><link rel="shortcut icon" href="{{ SITEURL }}/{{ FAVICON_IE }}"><![endif]-->
+    {% endif %}
+    {% if TOUCHICON %}
+    <link rel="apple-touch-icon" href="{{ SITEURL }}/{{ TOUCHICON }}">
+    {% endif %}
+
+    {% block canonical_rel %}{% endblock %}
+
+    {% block meta %}
+        <meta name="author" content="{{ AUTHOR }}" />
+    {% endblock %}
+
+    {# Open Graph tags #}
+    {% if USE_OPEN_GRAPH %}
+    {% block opengraph %}
+    <!-- Open Graph tags -->
+        {% if OPEN_GRAPH_FB_APP_ID %}
+            <meta property="fb:app_id" content="{{ OPEN_GRAPH_FB_APP_ID }}"/>
+        {% endif %}
+        <meta property="og:site_name" content="{{ SITENAME }}" />
+        <meta property="og:type" content="website"/>
+        <meta property="og:title" content="{{ SITENAME }}"/>
+        <meta property="og:url" content="{{ SITEURL }}"/>
+        <meta property="og:description" content="{{ SITENAME }}"/>
+        {% if OPEN_GRAPH_IMAGE %}
+            <meta property="og:image"
+                  content="{{ SITEURL }}/{{ OPEN_GRAPH_IMAGE }}"/>
+        {% endif %}
+    {% endblock %}
+    {% endif %}
+
+    {# Twitter Cards tags #}
+    {% include 'includes/twitter_cards.html' %}
+
+    {# Flattr ID for the Flattr browser plug-in #}
+    {% if FLATTR_ID %}
+        <meta name="flattr:id" content="m1qj28">
+    {% endif %}
+
+    <!-- Bootstrap -->
+    {% if BOOTSTRAP_THEME %}
+        <link rel="stylesheet" href="{{ SITEURL }}/{{ THEME_STATIC_DIR }}/css/bootstrap.{{ BOOTSTRAP_THEME }}.min.css" type="text/css"/>
+    {% else %}
+        <link rel="stylesheet" href="{{ SITEURL }}/{{ THEME_STATIC_DIR }}/css/bootstrap.min.css" type="text/css"/>
+    {% endif %}
+    <link href="{{ SITEURL }}/{{ THEME_STATIC_DIR }}/css/font-awesome.min.css" rel="stylesheet">
+
+    <link href="{{ SITEURL }}/{{ THEME_STATIC_DIR }}/css/pygments/{{ PYGMENTS_STYLE|default('native') }}.css" rel="stylesheet">
+    {% if 'tipue_search' in PLUGINS %}
+    <link href="{{ SITEURL}}/{{ THEME_STATIC_DIR }}/tipuesearch/tipuesearch.css" rel="stylesheet">
+    {% endif %}
+    {% if DOCUTIL_CSS %}
+        <link href="{{ SITEURL }}/{{ THEME_STATIC_DIR }}/css/html4css1.css" rel="stylesheet">
+    {% endif %}
+    {% if TYPOGRIFY %}
+        <link href="{{ SITEURL }}/{{ THEME_STATIC_DIR }}/css/typogrify.css" rel="stylesheet">
+    {% endif %}
+    <link rel="stylesheet" href="{{ SITEURL }}/{{ THEME_STATIC_DIR }}/css/style.css" type="text/css"/>
+    {% if CUSTOM_CSS %}
+        <link href="{{ SITEURL }}/{{ CUSTOM_CSS }}" rel="stylesheet">
+    {% endif %}
+    {% if SHARIFF %}
+        <link href="{{ SITEURL }}/{{ THEME_STATIC_DIR }}/css/shariff/shariff.min.css" rel="stylesheet">
+    {% endif %}
+
+    {% if FEED_ALL_ATOM %}
+        <link href="{{ SITEURL }}/{{ FEED_ALL_ATOM }}" type="application/atom+xml" rel="alternate"
+              title="{{ SITENAME }} ATOM Feed"/>
+    {% endif %}
+
+    {% if FEED_ALL_RSS %}
+        <link href="{{ SITEURL }}/{{ FEED_ALL_RSS }}" type="application/rss+xml" rel="alternate"
+              title="{{ SITENAME }} RSS Feed"/>
+    {% endif %}
+
+    {% if tag and TAG_FEED_ATOM %}
+        <link href="{{ SITEURL }}/{{ TAG_FEED_ATOM|format(tag.slug) }}" type="application/atom+xml" rel="alternate"
+              title="{{ SITENAME }} {{ tag }} ATOM Feed"/>
+    {% endif %}
+
+    {% if category and CATEGORY_FEED_ATOM %}
+        <link href="{{ SITEURL }}/{{ CATEGORY_FEED_ATOM|format(category.slug) }}" type="application/atom+xml" rel="alternate"
+              title="{{ SITENAME }} {{ category }} ATOM Feed"/>
+    {% endif %}
+
+</head>
+<body>
+
+<div class="navbar {% if BOOTSTRAP_NAVBAR_INVERSE %}navbar-inverse{% else %}navbar-default{% endif %} navbar-fixed-top" role="navigation">
+	<div class="container{% if BOOTSTRAP_FLUID %}-fluid{% endif %}">
+        <div class="navbar-header">
+            {% if MENUITEMS or (pages and DISPLAY_PAGES_ON_MENU) or (categories and DISPLAY_CATEGORIES_ON_MENU) %}
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            {% endif %}
+            <a href="{{ SITEURL }}/" class="navbar-brand">
+                {% if SITELOGO %}<img class="img-responsive pull-left gap-right" src="{{ SITEURL }}/{{ SITELOGO }}" width="{{ SITELOGO_SIZE }}"/> {% endif %}
+                {% if not HIDE_SITENAME %}{{ SITENAME }}{% endif %}
+            </a>
+        </div>
+        <div class="collapse navbar-collapse navbar-ex1-collapse">
+            <ul class="nav navbar-nav">
+                {% for title, link in MENUITEMS %}
+                    <li><a href="{{ link }}">{{ title }}</a></li>
+                {% endfor %}
+                {% if not PAGES_SORT_ATTRIBUTE -%}
+                    {% set PAGES_SORT_ATTRIBUTE = 'title' %}
+                {%- endif %}
+                {% if DISPLAY_PAGES_ON_MENU %}
+                    {% for p in pages | sort(attribute=PAGES_SORT_ATTRIBUTE) %}
+                        {% if p.url %}
+                         <li{% if p == page %} class="active"{% endif %}><a href="{{ SITEURL }}/{{ p.url }}">
+                             {{ p.menulabel|default(p.title) }}
+                          </a></li>
+                        {% endif %}
+                      {% endfor %}
+                {% endif %}
+                {% if DISPLAY_CATEGORIES_ON_MENU %}
+                    {% for cat, null in categories %}
+                        <li {% if cat == category %}class="active"{% endif %}>
+                            <a href="{{ SITEURL }}/{{ cat.url }}">{{ cat | capitalize }}</a>
+                        </li>
+                    {% endfor %}
+                {% endif %}
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+            {% if 'tipue_search' in PLUGINS %}
+              <li><span>
+                <form class="navbar-search" action="{{ SEARCH_URL | default('/search.html') }}">
+                  <input type="text" class="search-query" placeholder="Search" name="q" id="tipue_search_input" required>
+                </form></span>
+              </li>
+            {% endif %}
+            {% if ARCHIVES_SAVE_AS %}
+              <li><a href="{{ SITEURL }}/{{ ARCHIVES_URL | default('archives.html') }}"><i class="fa fa-th-list"></i><span class="icon-label">{{ _('Archives') }}</span></a></li>
+            {% endif %}
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+</div> <!-- /.navbar -->
+<!-- Banner -->
+{% if BANNER and BANNER_ALL_PAGES %}
+    {% include 'includes/banner.html' %}
+{% elif BANNER and not BANNER_ALL_PAGES %}
+    {% block banner %}{% endblock %}
+{% endif %}
+<!-- End Banner -->
+<div class="container{% if BOOTSTRAP_FLUID %}-fluid{% endif %}">
+    <div class="row">
+        {% if not HIDE_SIDEBAR or ABOUT_ME or AVATAR %}
+        <div class="col-sm-9{% if SIDEBAR_ON_LEFT %} col-sm-push-3{% endif %}">
+        {% else %}
+        <div class="col-lg-12">
+        {% endif %}
+        {% block breadcrumbs %}
+        {% endblock %}
+        {% block content %}
+        {% endblock %}
+        </div>
+        {% if not HIDE_SIDEBAR or ABOUT_ME or AVATAR %}
+        <div class="col-sm-3{% if SIDEBAR_ON_LEFT %} col-sm-pull-9{% endif %}" id="sidebar">
+            <aside>
+            {% if ABOUT_ME or AVATAR %}
+                {% include 'includes/aboutme.html' %}
+            {% endif %}
+            {% if not HIDE_SIDEBAR %}
+                {% include 'includes/sidebar.html' %}
+            {% endif %}
+            </aside>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% include 'includes/footer.html' %}
+
+<script src="{{ SITEURL }}/{{ THEME_STATIC_DIR }}/js/jquery.min.js"></script>
+
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="{{ SITEURL }}/{{ THEME_STATIC_DIR }}/js/bootstrap.min.js"></script>
+
+<!-- Enable responsive features in IE8 with Respond.js (https://github.com/scottjehl/Respond) -->
+<script src="{{ SITEURL }}/{{ THEME_STATIC_DIR }}/js/respond.min.js"></script>
+
+{% if BANNER %}
+    <script src="{{ SITEURL }}/{{ THEME_STATIC_DIR }}/js/bodypadding.js"></script>
+{% endif %}
+{% include 'includes/sidebar/github-js.html' %}
+{% include 'includes/disqus_script.html' %}
+{% include 'includes/ga.html' %}
+{% include 'includes/piwik.html' %}
+
+{% if 'liquid_tags.notebook' in PLUGINS %}
+    {% include 'includes/liquid_tags_nb_footer.html' %}
+{% endif %}
+
+{% block scripts %}{% endblock %}
+</body>
+</html>

@@ -1,17 +1,18 @@
 import datetime as dt
 import getpass
 import json
-
-from flask import current_app
+from .parsers import markdown
+from flask import current_app as app, Markup
 from flask_admin.helpers import get_form_data
 from quokka.admin.forms import Form, fields, rules, validators
 from werkzeug.utils import import_string
+
 
 # Utils
 
 
 def get_content_formats(instances=False):
-    content_formats = current_app.config.get(
+    content_formats = app.config.get(
         'CONTENT_FORMATS',
         {
             'markdown': {
@@ -57,27 +58,36 @@ def get_edit_form(obj):
 
 
 def validate_category(form, field):
+    denied_categories = app.config.get(
+        'DENIED_CATEGORIES',
+        ['tag', 'categories', 'author', 'authors', 'user', 'index', 'feed',
+         'admin', 'adm', 'login', 'logout', 'sitemap']
+    )
     if field.data is not None:
         items = field.data.split(',')
         if len(items) > 1:
             return 'You can select only one category'
+        for item in items:
+            root_name = item.split('/')[0]
+            if root_name in denied_categories or root_name.startswith('@'):
+                return f'You cannot use `{root_name}` as a category start name'
 
 
 def get_category_kw(field):
-    categories = current_app.db.value_set('index', 'category', sort=False)
-    categories.extend(current_app.config.get('CATEGORIES', []))
+    categories = app.db.value_set('index', 'category', sort=False)
+    categories.extend(app.config.get('CATEGORIES', []))
     categories = sorted(list(set(categories)))
     return {'data-tags': json.dumps(categories),
             'data-placeholder': 'One category or leave blank'}
 
 
 def get_default_category():
-    return current_app.config.get('DEFAULT_CATEGORY')
+    return app.config.get('DEFAULT_CATEGORY')
 
 
 def get_authors_kw(field):
-    authors = current_app.db.author_set(sort=False)
-    authors.extend(current_app.config.get('AUTHORS', []))
+    authors = app.db.author_set(sort=False)
+    authors.extend(app.config.get('AUTHORS', []))
     authors.append(getpass.getuser())
     authors = sorted(list(set(authors)))
     return {'data-tags': json.dumps(authors),
@@ -86,20 +96,20 @@ def get_authors_kw(field):
 
 
 def get_default_author():
-    authors = current_app.config.get('AUTHORS')
+    authors = app.config.get('AUTHORS')
     return authors[0] if authors else getpass.getuser()
 
 
 def get_tags_kw(field):
-    tags = current_app.db.tag_set(sort=False)
-    tags.extend(current_app.config.get('TAGS', []))
+    tags = app.db.tag_set(sort=False)
+    tags.extend(app.config.get('TAGS', []))
     tags = sorted(list(set(tags)))
     return {'data-tags': json.dumps(tags),
             'data-placeholder': 'Comma separated tags'}
 
 
 def get_default_language():
-    return current_app.config.get('BABEL_DEFAULT_LOCALE', 'en')
+    return app.config.get('BABEL_DEFAULT_LOCALE', 'en')
 
 # classes
 
@@ -134,11 +144,12 @@ class BaseForm(Form):
 
 class CreateForm(BaseForm):
     """Default create form where content format is chosen"""
-    content_type = fields.SelectField(
-        'Type',
-        [validators.required()],
-        choices=[('article', 'Article'), ('page', 'Page')]
-    )
+    # TODO: Make content_type an optional field by ASK_CONTENT_TYPE config
+    # content_type = fields.SelectField(
+    #     'Type',
+    #     [validators.required()],
+    #     choices=[('article', 'Article'), ('page', 'Page')]
+    # )
     content_format = fields.SmartSelect2Field(
         'Format',
         [validators.required()],
@@ -172,12 +183,11 @@ class BaseEditForm(BaseForm):
     )
     modified = fields.HiddenField('Modified')
     slug = fields.StringField('Slug')
-    # TODO: validate slug collision
     language = fields.SmartSelect2Field(
         'Language',
         choices=lambda: [
             (lng, lng)
-            for lng in current_app.config.get('BABEL_LANGUAGES', ['en'])
+            for lng in app.config.get('BABEL_LANGUAGES', ['en'])
         ],
         default=get_default_language
     )
@@ -197,30 +207,27 @@ class BaseEditForm(BaseForm):
 class BaseFormat(object):
     identifier = None
     edit_form = BaseEditForm
-    form_rules = [
+    form_edit_rules = [
         rules.FieldSet(('title', 'summary')),
         rules.Field('content'),
         rules.FieldSet(('category', 'authors', 'tags')),
         rules.FieldSet(('date',)),
         rules.FieldSet(('slug',)),
-        rules.Field('published')
+        rules.Field('published'),
+        rules.csrf_token
     ]
 
     def get_edit_form(self, obj):
         return self.edit_form(get_form_data(), **obj)
 
+    def get_edit_template(self, obj):
+        return 'admin/quokka/edit.html'
+
     def get_identifier(self):
         return self.identifier or self.__class__.__name__
 
-    def get_form_rules(self):
-        if self.form_rules is not None:
-            self.form_rules.append(
-                rules.Field(
-                    'csrf_token',
-                    render_field='quokka_macros.render_hidden_field'
-                )
-            )
-        return self.form_rules
+    def get_form_edit_rules(self, obj):
+        return self.form_edit_rules
 
     def before_save(self, form, model, is_created):
         """optional"""
@@ -230,6 +237,24 @@ class BaseFormat(object):
 
     def extra_js(self):
         return []
+
+    def render_content(self, obj):
+
+        if not isinstance(obj, dict):
+            content = obj.data
+        else:
+            content = obj
+
+        if 'content' not in content:
+            content = app.db.get_with_content(_id=content['_id'])
+
+        return content['content']
+
+    def render(self, obj):
+        # TODO: PRE-RENDER
+        rv = self.render_content(obj)
+        # TODO: POST-RENDER
+        return rv
 
 
 # Customs
@@ -257,3 +282,9 @@ class MarkdownEditForm(BaseEditForm):
 
 class MarkdownFormat(BaseFormat):
     edit_form = MarkdownEditForm
+
+    def render_content(self, obj):
+        content = super().render_content(obj)
+        if content:
+            return Markup(markdown(content))
+        return content or ''

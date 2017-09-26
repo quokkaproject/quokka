@@ -1,0 +1,13 @@
+<div id="aboutme">
+    {% if AVATAR %}
+        <p>
+            <img width="100%" class="img-thumbnail" src="{{ SITEURL }}/{{ AVATAR }}"/>
+        </p>
+    {% endif %}
+    {% if ABOUT_ME %}
+    <p>
+      <strong>{{ _('About') }} {{ AUTHOR }}</strong><br/>
+        {{ ABOUT_ME }}
+    </p>
+    {% endif %}
+</div>

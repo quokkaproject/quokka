@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block title %}{{ _('Archives') }} - {{ SITENAME }}{% endblock %}
+{% block breadcrumbs %}
+    {% if DISPLAY_BREADCRUMBS %}
+    <ol class="breadcrumb">
+        <li><a href="{{ SITEURL }}" title="{{ SITENAME }}"><i class="fa fa-home fa-lg"></i></a></li>
+        <li class="active">{{ _('Archives') }}</li>
+    </ol>
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+    <section id="content">
+      <h1>{{ _('Archives for') }} {{ SITENAME }}</h1>
+        <div id="archives">
+            {% for article in dates %}
+                <p>
+                    <span class="categories-timestamp"><time datetime="{{ article.date.isoformat() }}">{{ article.locale_date }}</time></span>
+                    <a href="{{ SITEURL }}/{{ article.url }}">{{ article.title }}{% if article.subtitle %} - {{ article.subtitle }}{% endif %}</a>
+                </p>
+            {% endfor %}
+        </div>
+    </section>
+{% endblock %}
