@@ -1,9 +1,13 @@
 import functools
-from .utils import url_for_content, url_for_category
+from .utils import url_for_content
 from .formats import get_format
 from .paginator import Paginator
 from flask import current_app as app
-from quokka.utils.text import slugify
+from quokka.utils.text import slugify, slugify_category
+from quokka.utils.dateformat import pretty_date
+
+
+DEFAULT_DATE_FORMAT = '%a %d %B %Y'
 
 
 @functools.total_ordering
@@ -71,11 +75,16 @@ class Series(Orderable):
 
 class Category(Orderable):
     def __init__(self, category):
-        self.category = self.name = self.slug = category
+        self.category = category
+        self.slug = slugify_category(category)
+        if category == self.slug:
+            self.name = category.replace('-', ' ').title()
+        else:
+            self.name = category
 
     @property
     def url(self):
-        return url_for_category(self.category)
+        return self.slug
 
     def __str__(self):
         return self.category
@@ -143,13 +152,21 @@ class Content:
 
     @property
     def locale_date(self):
-        # TODO: format according to settings
-        return self.data['date'].isoformat()
+        if app.theme_context.get('SHOW_PRETTY_DATES') is True:
+            return pretty_date(self.data['date'])
+        date_format = app.theme_context.get(
+            'DEFAULT_DATE_FORMAT', DEFAULT_DATE_FORMAT
+        )
+        return self.data['date'].strftime(date_format)
 
     @property
     def locale_modified(self):
-        # TODO: format according to settings
-        return self.data['modified'].isoformat()
+        if app.theme_context.get('SHOW_PRETTY_DATES') is True:
+            return pretty_date(self.data['modified'])
+        date_format = app.theme_context.get(
+            'DEFAULT_DATE_FORMAT', DEFAULT_DATE_FORMAT
+        )
+        return self.data['modified'].strftime(date_format)
 
     @property
     def metadata(self):
@@ -201,7 +218,10 @@ class Content:
 
     @property
     def comments(self):
-        return True or 'closed'
+        # data = self.data.get('comments', None)
+        # if data is not None:
+        #     return data or 'closed'
+        return "closed" if not self.data.get('comments') else "opened"
 
     @property
     def status(self):

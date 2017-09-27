@@ -83,7 +83,6 @@ THEME:
       - ['github', 'http://github.com/rochacbruno']
       - ['stack-overflow', 'http://stackoverflow.com/users/559935']
     SITE_KEYWORDS: quokka, cms, flask, quokkaproject
-    DEFAULT_DATE_FORMAT: '%a %d %B %Y'
     PAGE_ORDER_BY: [['title', -1]]
     # ARTICLE_ORDER_BY: [['date', -1]]
     DEFAULT_LANG: en
@@ -106,6 +105,11 @@ THEME:
       banner: OPEN_GRAPH_IMAGE
       author: AUTHOR
       header_color: BASE_COLOR
+
+    ## show `3 weeks ago` instead of date
+    SHOW_PRETTY_DATES: true
+    DEFAULT_DATE_FORMAT: '%a %d %B %Y'
+
 
 ## ▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬ஜ۩۞۩ஜ▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬
 ## ▓▓▓▒▒▒░░░                 THEME SPECIFIC VARIABLES                ░░░▒▒▒▓▓▓
@@ -193,6 +197,9 @@ THEME_BOOTSTRAP3:
       - {var: DISPLAY_BREADCRUMBS, where: [category, tag, author], value: true}
       - {var: DISPLAY_ARTICLE_INFO_ON_INDEX, where: [index, category, tag, author], value: true}
       - {var: SHOW_ARTICLE_CATEGORY, where: [index, category, tag, author], value: true}
+      # remove below to enable coments on pages
+      # (also controled individually by `comments = 'closed|opened' metadata`)
+      - {var: HIDE_COMMENTS, where: page, value: true}
 
     ## Comments
     DISQUS_NO_ID: true
@@ -258,6 +265,9 @@ THEME_MALT:
       - {var: CARD_SIZE, where: [category, tag, author], value: "s12 m6 l4"}
       - {var: CARD_SIZE, where: [index, all], value: "s12 m12 l12"}
       - {var: MENUITEMS, where: home, value: [['Index', 'index']]}
+      # remove below to enable coments on pages
+      # (can also be controled individually by `comments = 'closed|opened' metadata`)
+      - {var: HIDE_COMMENTS, where: page, value: true}
 
     MALT_HOME:
         - color: blue-grey lighten-5

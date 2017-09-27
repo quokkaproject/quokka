@@ -280,8 +280,10 @@ support 100% coming only for malt and bootstrap3 themes
 - [x] categories page
 - [x] tags/tag page
 - [x] authors/author page
-- [ ] Show pretty name of category/tag in category/tag page
-- [ ] optionally prettify datetime
+- [x] Show pretty name of category/tag in category/tag page
+- [x] optionally prettify datetime
+- [x] date formatting from settings
+- [x] content art/page comment attr
 - [ ] list only pages with 'show_in_menu' metadata on menu
 - [ ] list only categories with 'show_in_menu' metadata on menu (will require metadata admin)
 - [ ] sort options for menu
@@ -303,8 +305,6 @@ support 100% coming only for malt and bootstrap3 themes
 - [ ] content custom metadata
 - [ ] content translations
 - [ ] content avatars
-- [ ] content art/page comment attr
-- [ ] date formatting from settings
 - [ ] dynamic theme per category (deal cache..)
 - [ ] implement pre-render and post-renders
 - [ ] replacement marks [[x:y]]

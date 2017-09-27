@@ -72,3 +72,4 @@ if __name__ == "__main__":
     print(pp(now - timedelta(days=1)))
     print(pp(now + timedelta(days=1)))
     print(pp(now - now))
+    print(pp())

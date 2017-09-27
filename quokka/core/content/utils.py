@@ -30,7 +30,9 @@ def url_for_content(content):
 def url_for_category(category):
     # TODO: handle extension for static site
     # ext = app.config.get("CONTENT_EXTENSION", "html")
-    return slugify_category(category)
+    if isinstance(category, str):
+        return slugify_category(category)
+    return category.url
 
 
 def strftime(value, dtformat):

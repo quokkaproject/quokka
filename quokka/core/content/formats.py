@@ -60,8 +60,8 @@ def get_edit_form(obj):
 def validate_category(form, field):
     denied_categories = app.config.get(
         'DENIED_CATEGORIES',
-        ['tag', 'categories', 'author', 'authors', 'user', 'index', 'feed',
-         'admin', 'adm', 'login', 'logout', 'sitemap']
+        ['tag', 'tags', 'categories', 'author', 'authors', 'user',
+         'index', 'feed', 'admin', 'adm', 'login', 'logout', 'sitemap']
     )
     if field.data is not None:
         items = field.data.split(',')
@@ -202,6 +202,16 @@ class BaseEditForm(BaseForm):
             "data-onstyle": 'success'
         }
     )
+    comments = fields.BooleanField(
+        'Comments',
+        default=True,
+        render_kw={
+            'data-toggle': "toggle",
+            'data-on': "Enabled",
+            'data-off': "Disabled",
+            "data-onstyle": 'success'
+        }
+    )
 
 
 class BaseFormat(object):
@@ -214,6 +224,7 @@ class BaseFormat(object):
         rules.FieldSet(('date',)),
         rules.FieldSet(('slug',)),
         rules.Field('published'),
+        rules.Field('comments'),
         rules.csrf_token
     ]
 

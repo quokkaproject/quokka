@@ -237,7 +237,8 @@ def is_equal(model, other):
 
     versioned_keys = [
         'title', 'summary', 'tags', 'category', 'date',
-        'content', 'authors', 'slug', 'status', 'published'
+        'content', 'authors', 'slug', 'status', 'published',
+        'comments'
     ]
     for key in versioned_keys:
         if model.get(key) != other.get(key):

@@ -6,7 +6,7 @@ from quokka.admin.forms import ValidationError, rules
 from quokka.admin.views import ModelView
 from quokka.core.auth import get_current_user
 from quokka.utils.routing import get_content_url
-from quokka.utils.text import slugify, slugify_category, normalize_var
+from quokka.utils.text import slugify, slugify_category
 
 from .formats import CreateForm, get_format
 
@@ -14,7 +14,7 @@ from .formats import CreateForm, get_format
 class AdminContentView(ModelView):
     """Base form for all contents"""
     base_query = {}
-    base_defaults = {}
+    create_defaults = {}
     quokka_form_edit_rules = None
     quokka_form_create_rules = None
 
@@ -171,7 +171,7 @@ class AdminContentView(ModelView):
             model['slug'] = slugify(model['title'])
 
         if not model.get('category'):
-            # When category is hidden on form it should be None
+            # When category is hidden on form it should be ''
             model['category'] = ''
 
         existent = current_app.db.get('index', {'slug': model['slug'],
@@ -203,9 +203,10 @@ class AdminContentView(ModelView):
             model['content_type'] = self.base_query.get(
                 'content_type', 'article'
             )
-            # subclasses can define attribute or property `base_defaults`
-            # which returns a dict
-            model.update(self.base_defaults)
+
+        defaults_attr = f"{'create' if is_created else 'edit'}_defaults"
+        for key, val in getattr(self, defaults_attr, {}).items():
+            model.setdefault(key, val)
 
         model['modified'] = now
         model['modified_by'] = current_user
@@ -334,11 +335,13 @@ class AdminContentView(ModelView):
 class AdminArticlesView(AdminContentView):
     """Only articles"""
     base_query = {'content_type': 'article'}
+    create_defaults = {'comments': True}
 
 
 class AdminPagesView(AdminContentView):
     """Only pages"""
     base_query = {'content_type': 'page'}
+    create_defaults = {'comments': False}
     quokka_form_create_rules = [
         rules.FieldSet(('title', 'summary')),
         rules.FieldSet(('content_format',)),
@@ -351,5 +354,6 @@ class AdminPagesView(AdminContentView):
         rules.FieldSet(('date',)),
         rules.FieldSet(('slug',)),
         rules.Field('published'),
+        rules.Field('comments'),
         rules.csrf_token
     ]

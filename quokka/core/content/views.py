@@ -50,6 +50,33 @@ class BaseView(MethodView):
                 for var in var_list:
                     context[var] = rule.get('value', True)
 
+        # content specific visibility items
+        content = context.get('content')
+        if content:
+            # comments visibility control
+            hide = False
+            disqus_sitename = app.theme_context.get('DISQUS_SITENAME')
+
+            if 'HIDE_COMMENTS' in app.theme_context:
+                hide = app.theme_context['HIDE_COMMENTS']
+
+            if 'HIDE_COMMENTS' in context:
+                hide = context['HIDE_COMMENTS']
+            else:
+                context['HIDE_COMMENTS'] = hide
+
+            if content.comments in ('closed', False):
+                hide = True
+            elif content.comments in ('opened', True):
+                hide = False
+
+            if hide is True:
+                context['HIDE_COMMENTS'] = True
+                context['DISQUS_SITENAME'] = False
+            else:
+                context['HIDE_COMMENTS'] = False
+                context['DISQUS_SITENAME'] = disqus_sitename
+
 
 class ArticleListView(BaseView):
 
@@ -224,6 +251,7 @@ class DetailView(BaseView):
         context = {
             'category': content.category,
             'author': content.author,
+            'content': content,
             content.content_type: content
         }
 
