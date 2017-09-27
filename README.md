@@ -351,3 +351,11 @@ support 100% coming only for malt and bootstrap3 themes
 - [ ] import scripts (quokka old, wordpress, feed)
 - [ ] handle extensions for static file and generate it based on rules
 - [ ] redirect system for old site migrations
+
+
+## BUGS
+
+- [ ] Fresh install [from](https://github.com/rochacbruno/quokka_ng#setup-a-contributor-environment)
+      then access admin and create and publish an article, access the article and navigate in site
+      then go back to admin and create a page (dont publish) go to site and article is gone.
+      Why creating a new page removes the article?
