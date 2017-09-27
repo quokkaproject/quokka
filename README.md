@@ -245,6 +245,30 @@ Do you want to be part of this open-source project?
 
 Take a look at [Contributing Guidelines](/CONTRIBUTING.md)
 
+### Setup a contributor environment
+
+Ensure you have `Python3.6+` clone this repo and:
+
+```bash
+git clone https://github.com/$YOURNAME/quokka_ng
+cd quokka_ng
+
+# create a Python3.6 virtual env
+make create_env
+
+# activate the venv
+. venv/bin/activate
+
+# install Quokka in --editable mode (using flit)
+make install
+
+# run quokka
+make devserver
+```
+
+Access http://localhost:5000/admin and http://localhost
+
+
 ## TODO
 
 This is the list of tasks to be completed until `1.0.0` can be released.

@@ -1,4 +1,4 @@
-.PHONY: docs test pep8 clean install build publish tree reenv
+.PHONY: docs test pep8 clean install build publish tree create_env devserver
 
 test: pep8
 	QUOKKA_MODE=test py.test --cov=quokka -l --tb=short --maxfail=1 tests/
@@ -30,6 +30,10 @@ publish:
 tree:
 	@tree  -L 1 -a -I __pycache__ --dirsfirst --noreport
 
-reenv:
+create_env:
 	@rm -rf venv
 	@python3.6 -m venv venv
+
+devserver:
+	$(info "Running quokka project template...")
+	@cd quokka/project_template; quokka runserver
