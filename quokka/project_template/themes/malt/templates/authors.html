@@ -8,7 +8,7 @@
 {% block title %}Autores | {{ SITENAME }}{% endblock %}
 
 {% block bannertext %}
-<h1>Autores</h1>
+<h1>Authors</h1>
 {% endblock %}
 
 {% block content %}
@@ -25,6 +25,7 @@
                     </div>
                     <div class="collapsible-body white" style="display: block;">
                         <div class="contents">
+                            <span><a class="blue-text text-darken-4" title="Author '{{ author.name|escape }}'" href="{{ SITEURL }}/{{ author.url }}">{{ author.name }}</a></span>
                             {% for article in articles %}
                             <span><time class="grey-text" datetime="{{ article.date.isoformat() }}">{{ article.locale_date }}</time> <a class="grey-text text-darken-4" title="Artigo '{{ article.title|escape }}'" href="{{ SITEURL }}/{{ article.url }}">{{ article.title }}</a></span>
                             {% endfor %}

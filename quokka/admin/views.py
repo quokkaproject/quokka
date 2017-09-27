@@ -1,6 +1,6 @@
 # coding: utf -8
 
-from flask import current_app, redirect, url_for
+from flask import current_app, redirect, url_for, abort
 from flask_admin import AdminIndexView
 from flask_admin.contrib.fileadmin import FileAdmin as _FileAdmin
 from flask_admin.contrib.pymongo import ModelView as PyMongoModelView
@@ -31,6 +31,14 @@ class IndexView(RequiresLogin, AdminIndexView):
 
     @expose('/')
     def index(self):
+        if not current_app.config.get('SECRET_KEY'):
+            return abort(
+                500,
+                '/admin requires the "SECRET_KEY" config var to be set in '
+                '.secrets.yml or quokka.yml e.g: '
+                'QUOKKA: {"SECRET_KEY": "secret-key"} '
+                'or exported as `export QUOKKA_SECRET_KEY="secret-key"'
+            )
         limit = current_app.config.get('ADMIN_INDEX_CONTENT_LIMIT', 8)
         sort = current_app.config.get(
             'ADMIN_INDEX_CONTENT_SORT', [('date', -1)])

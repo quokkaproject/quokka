@@ -1,7 +1,7 @@
 from flask import current_app as app, render_template, abort
 from flask.views import MethodView
-from .models import make_model, make_paginator, Category, Tag
-from quokka.utils.text import slugify_category, normalize_var
+from .models import make_model, make_paginator, Category, Tag, Author
+from quokka.utils.text import slugify_category, normalize_var, slugify
 
 
 class BaseView(MethodView):
@@ -53,7 +53,7 @@ class BaseView(MethodView):
 
 class ArticleListView(BaseView):
 
-    def get(self, category=None, tag=None, page_number=1):
+    def get(self, category=None, tag=None, author=None, page_number=1):
         context = {}
         query = {'published': True}
         home_template = app.theme_context.get('HOME_TEMPLATE')
@@ -79,6 +79,19 @@ class ArticleListView(BaseView):
             template = 'tag.html'
             # https://github.com/schapman1974/tinymongo/issues/42
             query['tags_string'] = {'$regex': f'.*,{tag},.*'}
+        elif author:
+            content_type = 'author'
+            custom_template = f'{content_type}/{normalize_var(author)}.html'
+            template = 'author.html'
+            # https://github.com/schapman1974/tinymongo/issues/42
+            author_slugs = author.split('/')
+            if len(author_slugs) > 1:
+                query['$or'] = [
+                    {'authors_string': {'$regex': f'.*,{author_slug},.*'}}
+                    for author_slug in author_slugs
+                ]
+            else:
+                query['authors_string'] = {'$regex': f'.*,{author},.*'}
         elif home_template:
             # use custom template only when categoty is blank '/'
             # and INDEX_TEMPLATE is defined
@@ -96,7 +109,14 @@ class ArticleListView(BaseView):
             # but category pages should never show empty
             abort(404)
 
-        page_name = category or ''
+        page_name = ''
+        if category:
+            page_name = category
+        elif tag:
+            page_name = f'tag/{tag}'
+        elif author:
+            page_name = f'author/{author}'
+
         paginator = make_paginator(articles, name=page_name)
         page = paginator.page(page_number)
 
@@ -106,6 +126,7 @@ class ArticleListView(BaseView):
                 'page_name': page_name,
                 'category': Category(category) if category else None,
                 'tag': Tag(tag) if tag else None,
+                'author': Author(author) if author else None,
                 'articles_paginator': paginator,
                 'articles_page': page,
                 'articles_next_page': page.next_page,
@@ -128,7 +149,8 @@ class CategoryListView(BaseView):
                 [
                     make_model(article)
                     for article in app.db.article_set(
-                        {'category_slug': slugify_category(cat)}
+                        {'category_slug': slugify_category(cat),
+                         'published': True}
                     )
                 ]
             )
@@ -156,6 +178,31 @@ class TagListView(BaseView):
         context = {'tags': tags}
         self.set_elements_visibility(context, 'tags')
         return render_template('tags.html', **context)
+
+
+class AuthorListView(BaseView):
+    def get(self):
+        authors = [
+            (
+                Author(author),
+                [
+                    make_model(article)
+                    for article in app.db.article_set(
+                        {'authors_string': {
+                            '$regex': f'.*,{slugify(author)},.*'},
+                         'published': True}
+                    )
+                ]
+            )
+            for author in app.db.author_set(filter={'published': True})
+        ]
+
+        context = {
+            'authors': authors
+        }
+
+        self.set_elements_visibility(context, 'authors')
+        return render_template('authors.html', **context)
 
 
 class DetailView(BaseView):

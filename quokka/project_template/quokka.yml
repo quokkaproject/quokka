@@ -93,7 +93,7 @@ THEME:
     ## use < newest - older > instead of 1, 2, 3 >
     # USE_PAGER: false
     ## how many items per page
-    DEFAULT_PAGINATION: 2
+    DEFAULT_PAGINATION: 9
     DEFAULT_ORPHANS: 0
 
     USE_OPEN_GRAPH: true

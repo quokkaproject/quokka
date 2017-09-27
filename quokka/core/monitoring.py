@@ -20,8 +20,11 @@ def configure(app, admin=None):
     if app.config.get('DEBUG_TOOLBAR_ENABLED'):
         try:
             DebugToolbarExtension(app)
+            app.logger.info('Debug toolbar configured!!!')
         except TypeError:
-            raise ImportError('You must install flask_debugtoolbar')
+            app.logger.error('You must install flask_debugtoolbar')
+        except RuntimeError as e:
+            app.logger.error(str(e))
 
     if app.config.get('OPBEAT'):
         try:
@@ -31,10 +34,11 @@ def configure(app, admin=None):
             )
             app.logger.info('opbeat configured!!!')
         except TypeError:
-            raise ImportError('You must install opbeat')
+            app.logger.error('You must install opbeat')
 
     if app.config.get('SENTRY_ENABLED', False):
         try:
             app.sentry = Sentry(app)
+            app.logger.info('Sentry configured!!!')
         except TypeError:
-            raise ImportError('You must install raven (Sentry)')
+            app.logger.error('You must install raven (Sentry)')

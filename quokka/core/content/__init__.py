@@ -1,9 +1,9 @@
 from quokka.core.app import QuokkaModule
 from .admin import AdminArticlesView, AdminPagesView
 from .views import (
-    DetailView, PreviewView, ArticleListView, CategoryListView, TagListView
+    DetailView, PreviewView, ArticleListView, CategoryListView, TagListView,
+    AuthorListView
 )
-# from .models import Content
 from .utils import url_for_content, strftime
 
 
@@ -52,7 +52,7 @@ def configure(app):
     module = QuokkaModule(__name__)
     ext = app.config.get("CONTENT_EXTENSION", "html")
 
-    # INDEX
+    # INDEX|HOME
     # handle /
     module.add_url_rule('/', view_func=ArticleListView.as_view('index'))
     # handle /index.html
@@ -68,7 +68,7 @@ def configure(app):
     module.add_url_rule(f'/<int:page_number>/index.{ext}',
                         view_func=ArticleListView.as_view('indexpagnamed'))
 
-    # AUTHOR
+    # USER
     # handle /@authorname/
     # handle /@authorname/2/
     # handle /@authorname/index.html
@@ -76,11 +76,32 @@ def configure(app):
     # handle /@authorname/2/index.html
 
     # AUTHORS
-    # handle /author/authorname/othername/n.../
-    # handle /author/authorname/othername/n.../2/
-    # handle /author/authorname/othername/n.../index.html
-    # handle /author/authorname/othername/n.../2.html
-    # handle /author/authorname/othername/n.../2/index.html
+    # handle /authors/
+    module.add_url_rule(f'/authors/',
+                        view_func=AuthorListView.as_view('authors'))
+    # handle /authors/index.html
+    module.add_url_rule(f'/authors/index.{ext}',
+                        view_func=AuthorListView.as_view('authorsnamed'))
+    # AUTHOR
+    # handle /author/name/
+    module.add_url_rule('/author/<path:author>/',
+                        view_func=ArticleListView.as_view('author'))
+
+    # handle /author/name/index.html
+    module.add_url_rule(f'/author/<path:author>/index.{ext}',
+                        view_func=ArticleListView.as_view('authornamed'))
+
+    # handle /author/name/2
+    module.add_url_rule('/author/<path:author>/<int:page_number>/',
+                        view_func=ArticleListView.as_view('authorpag'))
+
+    # handle /author/name/2.html
+    module.add_url_rule(f'/author/<path:author>/<int:page_number>.{ext}',
+                        view_func=ArticleListView.as_view('authorpagext'))
+
+    # handle /author/name/2/index.html
+    module.add_url_rule(f'/author/<path:author>/<int:page_number>/index.{ext}',
+                        view_func=ArticleListView.as_view('authorpagnamed'))
 
     # TAGS
     # handle /tags/
@@ -89,7 +110,7 @@ def configure(app):
     # handle /tags/index.html
     module.add_url_rule(f'/tags/index.{ext}',
                         view_func=TagListView.as_view('tagsnamed'))
-
+    # TAG
     # handle /tag/tagname/
     module.add_url_rule('/tag/<string:tag>/',
                         view_func=ArticleListView.as_view('tag'))
@@ -113,6 +134,7 @@ def configure(app):
     # handle /categories/index.html
     module.add_url_rule(f'/categories/index.{ext}',
                         view_func=CategoryListView.as_view('categoriesnamed'))
+    # CATEGORY
     # handle /blog/subcategory/
     module.add_url_rule('/<path:category>/',
                         view_func=ArticleListView.as_view('cat'))
@@ -129,7 +151,7 @@ def configure(app):
     module.add_url_rule(f'/<path:category>/<int:page_number>/index.{ext}',
                         view_func=ArticleListView.as_view('catpagnamed'))
 
-    # CONTENT
+    # ARTICLE|PAGE
     # handle /article-name.html and /foo/bar/article-name.html
     module.add_url_rule(f'/<path:slug>.{ext}',
                         view_func=DetailView.as_view('detail'))
@@ -137,25 +159,6 @@ def configure(app):
     # handle the .preview of drafts
     module.add_url_rule('/<path:slug>.preview',
                         view_func=PreviewView.as_view('preview'))
-
-    # # handle /category/
-    # module.add_url_rule(
-    #     f'/category/',
-    #     view_func=lambda: redirect(f'/category/index.{ext}'),
-    #     endpoint='categoryroot'
-    # )
-
-    # # handle /category/index.html
-    # module.add_url_rule(f'/category/index.{ext}',
-    #                     view_func=CategoryListView.as_view('category_index'))
-
-    # # handle /category/foo.html and /category/foo/bar.html
-    # module.add_url_rule(f'/category/<path:category>.{ext}',
-    #                     view_func=ArticleListView.as_view('category'))
-
-    # # handle /category/foo2.html and /category/foo/bar2.html
-    # module.add_url_rule(f'/category/<path:category><int:page_number>.{ext}',
-    #                     view_func=ArticleListView.as_view('category_paginate'))
 
     # add template globals to app
     app.add_template_global(url_for_content)

@@ -8,7 +8,12 @@ from dynaconf.loaders import yaml_loader, env_loader
 
 
 def configure_dynaconf(app):
-    settings_file = 'quokka.yml'
+    # extra vars in .secrets.yml override values on quokka.yml
+    # secrets file is a hidden file and must be excluded on .gitignore
+    # all password, token and other sensitive must go there
+    # or exported as env var ex: QUOKKA_SECRET_KEY=12345
+
+    settings_file = 'quokka.yml,.secrets.yml'
     initial_envmode = app.config.get('ENVMODE')
 
     # Extension is supposed to override envmode
@@ -17,12 +22,7 @@ def configure_dynaconf(app):
         ENVVAR_FOR_DYNACONF="QUOKKA_SETTINGS_MODULE",
         DYNACONF_NAMESPACE='QUOKKA',
         SETTINGS_MODULE_FOR_DYNACONF=settings_file,
-        DYNACONF_SILENT_ERRORS=True,
-        # extra yaml file override values on settings.yml
-        # secrets file is a hidden file and must be excluded on .gitignore
-        # all password, token and other sensitive must go there
-        # or exported as env var ex: QUOKKA_SECRET_KEY=12345
-        YAML='.secrets.yml'
+        DYNACONF_SILENT_ERRORS=True
     )
 
     # Configure extra environment

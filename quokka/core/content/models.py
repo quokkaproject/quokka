@@ -87,7 +87,21 @@ class Author(Orderable):
 
     @property
     def name(self):
-        return ', '.join(self.authors)
+        if isinstance(self.authors, str):
+            return self.authors.replace('-', ' ').replace('/', ' & ').title()
+        elif isinstance(self.authors, (list, tuple)):
+            return ', '.join(self.authors)
+
+    @property
+    def slug(self):
+        if isinstance(self.authors, str):
+            return slugify(self.authors)
+        if len(self.authors) > 1:
+            return '/'.join(
+                slugify(author) for author in self.authors
+            )
+        else:
+            return slugify(self.authors[0])
 
     @property
     def social(self):
@@ -96,10 +110,7 @@ class Author(Orderable):
 
     @property
     def url(self):
-        authors_list = '/'.join(
-            slugify(author) for author in self.authors
-        )
-        return f'authors/{authors_list}'
+        return f'author/{self.slug}'
 
     def __str__(self):
         return self.name

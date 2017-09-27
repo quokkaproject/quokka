@@ -255,8 +255,9 @@ support 100% coming only for malt and bootstrap3 themes
 - [x] handle spaces in category names/tagnames slugify?
 - [x] categories page
 - [x] tags/tag page
+- [x] authors/author page
+- [ ] Show pretty name of category/tag in category/tag page
 - [ ] optionally prettify datetime
-- [ ] authors/author page
 - [ ] list only pages with 'show_in_menu' metadata on menu
 - [ ] list only categories with 'show_in_menu' metadata on menu (will require metadata admin)
 - [ ] sort options for menu
@@ -299,6 +300,10 @@ support 100% coming only for malt and bootstrap3 themes
 - [ ] admin: requires login by default
 - [ ] admin: requires login if running external
 - [ ] admin: load content formats from plugin
+- [ ] cli: ensure and write test for installation (tox)
+- [ ] cli: init should copy secrets file
+- [ ] cli: dynaconf should ignore missing file error
+- [ ] cli: if no SECRET_KEY random have to be created (simplelogin?)
 - [ ] cli: decorations
 - [ ] cli: click completion
 - [ ] cli: module custom commands
@@ -321,3 +326,4 @@ support 100% coming only for malt and bootstrap3 themes
 - [ ] replace `flit` and find a better way to release
 - [ ] import scripts (quokka old, wordpress, feed)
 - [ ] handle extensions for static file and generate it based on rules
+- [ ] redirect system for old site migrations
