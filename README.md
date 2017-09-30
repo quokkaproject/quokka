@@ -293,6 +293,7 @@ support 100% coming only for malt and bootstrap3 themes
 - [ ] create a SHOW ONLY ROOT CATEGORIES ON MENU
 - [ ] create a USE_CATEGORIES_DROPDOWN
 - [ ] create a USE_PAGES_DROPDOWN
+- [ ] create MENU_MAX_ITEMS: int
 - [ ] @author profile page (customizable)
 - [ ] feeds
 - [ ] sitemap
@@ -309,6 +310,8 @@ support 100% coming only for malt and bootstrap3 themes
 - [ ] implement pre-render and post-renders
 - [ ] replacement marks [[x:y]]
 - [ ] preview should require login
+- [ ] admin: search
+- [ ] admin: actions
 - [ ] admin: move content creation logic and defaults to `model.Content`
 - [ ] admin: WYSIWYG editors
 - [ ] admin: rst format
@@ -351,7 +354,6 @@ support 100% coming only for malt and bootstrap3 themes
 - [ ] import scripts (quokka old, wordpress, feed)
 - [ ] handle extensions for static file and generate it based on rules
 - [ ] redirect system for old site migrations
-
 
 ## BUGS
 
