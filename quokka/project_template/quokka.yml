@@ -367,6 +367,7 @@ DEV:
     - flask_debugtoolbar.panels.template.TemplateDebugPanel
     ## TODO: Migrate mongoengine panel to tinyDB and Pymongo
     # - flask_mongoengine.panels.MongoDebugPanel
+    - flask_debugtoolbar.panels.route_list.RouteListDebugPanel
     - flask_debugtoolbar.panels.logger.LoggingPanel
     - flask_debugtoolbar.panels.profiler.ProfilerDebugPanel
     - flask_debugtoolbar.panels.config_vars.ConfigVarsDebugPanel

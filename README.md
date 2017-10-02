@@ -274,6 +274,8 @@ Access http://localhost:5000/admin and http://localhost
 This is the list of tasks to be completed until `1.0.0` can be released.
 support 100% coming only for malt and bootstrap3 themes
 
+This list is also available on https://github.com/rochacbruno/quokka_ng/issues
+
 - [x] variable map (from content to theme)
 - [x] list only categories with content in menu
 - [x] handle spaces in category names/tagnames slugify?
