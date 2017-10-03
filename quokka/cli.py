@@ -114,14 +114,14 @@ def init(name, destiny, source, theme, modules):
     # Copy project template from quokka root
     copyfolder(source, destiny)
     click.echo(
-        b('🐹 Quokka project created 🐹')
+        b('🐹  Quokka project created 🐹')
     )
-    lecho('📝 Name', name, green)
-    lecho('📁 Location', destiny, green)
+    lecho('📝  Name', name, green)
+    lecho('📁  Location', destiny, green)
     if source == project_template:
-        lecho('📚 Template', 'default', green)
+        lecho('📚  Template', 'default', green)
     else:
-        lecho('📚 Template', source, green)
+        lecho('📚  Template', source, green)
 
     # Fetch themes and extensions
     fetch_theme(theme, destiny)
@@ -137,9 +137,9 @@ def init(name, destiny, source, theme, modules):
     )
 
     click.echo(blue(f'➡ Go to {destiny}'))
-    click.echo(blue('⚙ run `quokka runserver` to start!'))
-    click.echo(blue('📄 Check the documentation on http://quokkaproject.org'))
-    click.echo(yellow('🐹 Happy Quokka! 🐹'))
+    click.echo(blue('⚙  Run `quokka runserver` to start!'))
+    click.echo(blue('📄  Check the documentation on http://quokkaproject.org'))
+    click.echo(yellow('🐹  Happy Quokka! 🐹'))
 
 
 @cli.command()
