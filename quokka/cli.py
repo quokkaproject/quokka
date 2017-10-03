@@ -182,3 +182,7 @@ def main():
     manage.cli.MANAGE_FILE = 'quokka.yml'
     manager = init_cli(cli)
     return manager()
+
+
+if __name__ == "__main__":
+    main()
