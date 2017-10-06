@@ -1,9 +1,24 @@
-FROM alpine
-MAINTAINER Bruno Rocha <rochacbruno@gmail.com>
-WORKDIR /tmp
-COPY requirements.txt /tmp/
-COPY requirements_dev.txt /tmp/
-RUN apk update
-RUN apk add gcc python py-pip jpeg libjpeg jpeg-dev zlib zlib-dev tiff freetype git py-pillow python-dev musl-dev bash
-RUN pip install -r /tmp/requirements.txt
-RUN pip install -r /tmp/requirements_dev.txt
+FROM python:3-jessie
+MAINTAINER Eric Ho <dho.eric@gmail.com>
+
+ENV FLIT_ROOT_INSTALL 1
+RUN mkdir -p /usr/src/app
+WORKDIR /usr/src/app
+
+RUN pip install \
+	flit \
+	pypandoc \
+	pygments
+
+RUN apt-get update && \
+	apt-get install -y \
+		pandoc && \
+	rm -rf /var/lib/apt/lists/*
+
+COPY . /usr/src/app/
+RUN flit install -s
+
+WORKDIR /work
+EXPOSE 5000
+ENTRYPOINT ["quokka"]
+CMD ["runserver","--host","0.0.0.0","--port","5000"]
