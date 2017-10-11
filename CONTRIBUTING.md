@@ -11,7 +11,7 @@ Types of Contributions
 
 ### Report Bugs
 
-Report bugs at <https://github.com/quokkaproject/quokka/issues>
+Report bugs at <https://github.com/rochacbruno/quokka_ng/issues>
 
 If you are reporting a bug, please include:
 
@@ -28,7 +28,7 @@ open to whoever wants to implement it.
 
 ### Implement Features
 
-Look through the [roadmap](/roadmap.md) file. Anything there is open to whoever wants to implement it, if you have any doubts about the item, open an issue or enter in GITTER Chat
+Look through the [Issues](https://github.com/rochacbruno/quokka_ng/issues) board. Anything there is open to whoever wants to implement it, if you have any doubts please leave a comment the issue asking for clarification.
 
 ### Write Documentation
 
@@ -41,7 +41,7 @@ in docstrings, or in project documentation website, or even on the web in blog p
 ### Submit Feedback and ask for new features
 
 The best way to send feedback is to file an issue at
-<https://github.com/quokkaproject/quokka/issues>
+<https://github.com/rochacbruno/quokka_ng/issues>
 
 If you are proposing a feature:
 
@@ -57,48 +57,37 @@ Get Started!
 Ready to contribute? Here’s how to set up Quokka CMS
 for local development.
 
-1.  Fork the quokka repo on GitHub.
+1.  Fork the [quokka](https://github.com/rochacbruno/quokka_ng) repo on GitHub.
 2.  Clone your fork locally:
 
-        $ git clone git@github.com:your_name_here/quokka.git
+        $ git clone git@github.com:your_name_here/quokka_ng.git
+        $ cd quokka_ng/
 
-3.  Install your local copy into a virtualenv. Assuming you have
-    virtualenvwrapper installed, this is how you set up your fork for
-    local development:
+3.  Install your local copy into a virtualenv:
 
-        $ mkvirtualenv quokkadev
-        $ cd quokka/
-        $ pip install -r requirements/requirements.txt
-        $ pip install -r requirements/test.txt
+        $ make create_env
+        $ . venv/bin/activate
+        $ make install
 
- > Make sure you have MongoDB installed locally or in an accessible server
+4. Run Quokka:
 
-4.  Create a branch for local development:
+        $ make devserver
+
+5.  Create a branch for local development:
 
         $ git checkout -b name-of-your-bugfix-or-feature
 
     Now you can make your changes locally.
 
-5.  When you’re done making changes, check that your changes pass flake8
-    and the tests, including testing other Python versions with tox:
+6.  When you’re done making changes, check that your changes pass flake8
+    and the tests:
 
         $ make test
 
-6.  Commit your changes and push your branch to GitHub:
+7.  Commit your changes and push your branch to GitHub:
 
         $ git add .
         $ git commit -m "Your detailed description of your changes."
         $ git push origin name-of-your-bugfix-or-feature
 
-7.  Submit a pull request through the GitHub website or github CLI.
-
-Pull Request Guidelines
-=======================
-
-Before you submit a pull request, check that it meets these guidelines:
-
-1.  the Pull Request should be send against **development** branch only
-2.  The pull request should include tests.
-3.  If the pull request adds functionality, the docs should be updated.
-4.  The pull request should work on Travis CI. Check <https://travis-ci.org/quokkaproject/quokka/pull_requests> and make sure that the tests pass for all supported Python versions.
-> Travis CI will include feedback in your Pull Requests
+8.  Submit a pull request through the GitHub website or github CLI.
