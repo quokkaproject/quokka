@@ -24,7 +24,7 @@ def get_content_formats(instances=False):
         }
     )
     if instances:
-        for identifier, data in content_formats:
+        for _, data in content_formats:
             data['content_format_instance'] = import_string(
                 data['content_format_class']
             )()

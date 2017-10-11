@@ -10,7 +10,7 @@ from werkzeug import secure_filename
 def dated_path(obj, file_data):
     try:
         prefix = getattr(obj, 'model_name')
-    except:
+    except BaseException:
         prefix = "undefined"
 
     parts = op.splitext(file_data.filename)

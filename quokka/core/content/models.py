@@ -173,13 +173,13 @@ class Content:
         # TODO: get metadata from database
         # TODO: implement libratar/gravatar
         return {
-           # 'cover': 'foo',
-           # 'author_gravatar': 'http://i.pravatar.cc/300',
-           # 'about_author': 'About Author',
-           # 'translations': ['en'],
-           # 'og_image': 'foo',
-           # 'series': 'aa',
-           # 'asides': 'aaa'
+            # 'cover': 'foo',
+            # 'author_gravatar': 'http://i.pravatar.cc/300',
+            # 'about_author': 'About Author',
+            # 'translations': ['en'],
+            # 'og_image': 'foo',
+            # 'series': 'aa',
+            # 'asides': 'aaa'
         }
 
     @property

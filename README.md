@@ -1,13 +1,20 @@
-# Quokka CMS
+# Quokka
 
 ![quokka](/docs/emoji_small.png)
 
-## The Happiest CMS in the world
+## The Happiest CMF in the world
 
-Quokka CMS is a Content Management System written in Python.
+Quokka is a Content Management Framework written in Python.
 
-A lightweight framework to build websites, portals, blogs, applications
-and anything related to publishing content to the web.
+A lightweight framework to build CMS (Content Management System) as 
+websites, portals, blogs, applications and anything related to publishing
+content to the web.
+
+Quokka is not limited to CMS area, it is also possible to create Quokka extensions
+to provide any kind of web application based on Python and Flask.
+
+Quokka can also (optionally) generate a static website from the contents generated
+in its admin interface.
 
 ## Features
 

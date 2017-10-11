@@ -273,7 +273,7 @@ class AdminContentView(ModelView):
         if self._filters:
             data = []
 
-            for flt, flt_name, value in filters:
+            for flt, _, value in filters:
                 f = self._filters[flt]
                 data = f.apply(data, f.clean(value))
 
