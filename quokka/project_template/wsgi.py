@@ -17,7 +17,7 @@ if __name__ == "__main__":
                         help='Turn debug on')
     args = parser.parse_args()
     run_simple(
-        args.host or '0.0.0.0',
+        args.host or '127.0.0.1',
         int(args.port) if args.port else 5000,
         application,
         use_reloader=args.reloader or False,
