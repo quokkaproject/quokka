@@ -27,6 +27,7 @@ def url_for_content(content):
         return f'{slug}.preview'
 
 
+# TODO: remove this and use model
 def url_for_category(category):
     # TODO: handle extension for static site
     # ext = app.config.get("CONTENT_EXTENSION", "html")

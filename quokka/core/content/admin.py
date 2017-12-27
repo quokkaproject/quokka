@@ -165,6 +165,9 @@ class AdminContentView(ModelView):
             # each custom module should be identified by admin and format class
             self.add_module_metadata(model)
 
+        getattr(self, 'before_save', lambda *a, **k: None)(
+            form, model, is_created
+        )
         get_format(model).before_save(form, model, is_created)
 
         if not model.get('slug'):
@@ -235,6 +238,11 @@ class AdminContentView(ModelView):
                 model[f'{field}_slug'] = data
 
     def after_model_change(self, form, model, is_created):
+        # call admin custom hook
+        getattr(self, 'after_save', lambda *a, **k: None)(
+            form, model, is_created
+        )
+        # call the method from format
         get_format(model).after_save(form, model, is_created)
 
     def add_module_metadata(self, model):
@@ -357,3 +365,68 @@ class AdminPagesView(AdminContentView):
         rules.Field('comments'),
         rules.csrf_token
     ]
+
+
+class AdminBlocksView(AdminContentView):
+    """Only blocks"""
+    base_query = {'content_type': 'block'}
+    create_defaults = {'comments': False}
+    column_list = (
+        'title',
+        'date',
+        'modified',
+        'language',
+        'published'
+    )
+    column_sortable_list = (
+        'title',
+        'date',
+        'modified',
+        'language',
+        'published'
+    )
+    quokka_form_create_rules = [
+        rules.FieldSet(('title', 'summary')),
+        rules.FieldSet(('content_format',)),
+        rules.csrf_token
+    ]
+    quokka_form_edit_rules = [
+        rules.FieldSet(('title', 'summary')),
+        rules.Field('content'),
+        # rules.FieldSet(('category', 'authors', 'tags')),
+        rules.FieldSet(('date',)),
+        rules.FieldSet(('slug',)),
+        rules.Field('published'),
+        rules.Field('comments'),
+        rules.Field('block_items'),
+        rules.csrf_token
+    ]
+
+    def before_save(self, form, model, is_created):
+        if 'block_items' in model:
+            model['block_items'].sort(key=lambda x: x['order'])
+            for i, item in enumerate(model['block_items']):
+
+                item.pop('csrf_token', None)
+                item['order'] = i
+
+                for ref in ['author', 'category', 'tag']:
+                    if item['item'].startswith(f"{ref}::"):
+                        item[f"{ref}_id"] = item['item'].split('::')[-1]
+                    else:
+                        item[f"{ref}_id"] = None
+
+                content_types = ('article::', 'page::', 'block::')
+                if item['item'].startswith(content_types):
+                    full_slug = item['item'].split('::')[-1]
+                    slug = full_slug.split('/')[-1]
+                    category = full_slug.rpartition('/')[0]
+                    args = {'slug': slug}
+                    if category:
+                        args['category'] = category
+
+                    content = current_app.db.get('index', args)
+                    if content:
+                        item['index_id'] = content['_id']
+                else:
+                    item['index_id'] = None

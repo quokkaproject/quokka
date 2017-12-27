@@ -4,6 +4,7 @@ import json
 from .parsers import markdown
 from flask import current_app as app, Markup
 from flask_admin.helpers import get_form_data
+from flask_admin.model.fields import InlineFieldList, InlineFormField
 from quokka.admin.forms import Form, fields, rules, validators
 from werkzeug.utils import import_string
 
@@ -61,7 +62,8 @@ def validate_category(form, field):
     denied_categories = app.config.get(
         'DENIED_CATEGORIES',
         ['tag', 'tags', 'categories', 'author', 'authors', 'user',
-         'index', 'feed', 'admin', 'adm', 'login', 'logout', 'sitemap']
+         'index', 'feed', 'admin', 'adm', 'login', 'logout', 'sitemap',
+         'block']
     )
     if field.data is not None:
         items = field.data.split(',')
@@ -79,6 +81,36 @@ def get_category_kw(field):
     categories = sorted(list(set(categories)))
     return {'data-tags': json.dumps(categories),
             'data-placeholder': 'One category or leave blank'}
+
+
+def validate_block_item(form, field):
+    if field.data is not None:
+        items = field.data.split(',')
+        if len(items) > 1:
+            return 'You can select only one URL for each item'
+
+
+def get_block_item_kw(field):
+    items = [
+        f"{d['content_type']}::{d['title']}::{d['category']}/{d['slug']}"
+        for d in app.db.content_set()
+        if d['title'] not in app.theme_context.get('TEXTBLOCKS', [])
+    ]
+    index = app.theme_context.get('INDEX_CATEGORY')
+    items.append(f"category::{index}")
+    items.extend([
+        f"category::{category}"
+        for category in app.db.category_set() if category
+    ])
+    items.extend([
+        f"tag::{tag}" for tag in app.db.tag_set()
+    ])
+    items.extend([
+        f"author::{author}" for author in app.db.author_set()
+    ])
+    block_items = sorted(list(set(items)))
+    return {'data-tags': json.dumps(block_items),
+            'data-placeholder': 'Start typing, select existing or add new URL'}
 
 
 def get_default_category():
@@ -159,6 +191,36 @@ class CreateForm(BaseForm):
     )
 
 
+class BlockItemForm(Form):
+    item = fields.Select2TagsField(
+        'Item',
+        [validators.required(),
+         validators.CallableValidator(validate_block_item)],
+        save_as_list=False,
+        render_kw=get_block_item_kw,
+        description=(
+            'Enter absolute URL `http://..` or `/foo/bar.html` '
+            'or select existing content.'
+        )
+    )
+    name = fields.StringField('Name', description='optional')
+    order = fields.IntegerField('Order', default=0)
+    item_type = fields.SmartSelect2Field(
+        'Type',
+        [validators.required()],
+        default='link',
+        choices=lambda: [
+            item for item in
+            app.config.get('BLOCK_ITEM_TYPES', [('Link', 'link')])
+        ]
+    )
+
+    index_id = fields.HiddenField('index_id')
+    category_id = fields.HiddenField('category_id')
+    tag_id = fields.HiddenField('tag_id')
+    author_id = fields.HiddenField('author_id')
+
+
 class BaseEditForm(BaseForm):
     """Edit form with all missing fields except `content`"""
 
@@ -211,6 +273,11 @@ class BaseEditForm(BaseForm):
             'data-off': "Disabled",
             "data-onstyle": 'success'
         }
+    )
+
+    # to be used only for Block type
+    block_items = InlineFieldList(
+        InlineFormField(BlockItemForm), label='Items'
     )
 
 

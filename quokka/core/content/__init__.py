@@ -1,5 +1,5 @@
 from quokka.core.app import QuokkaModule
-from .admin import AdminArticlesView, AdminPagesView
+from .admin import AdminArticlesView, AdminPagesView, AdminBlocksView
 from .views import (
     DetailView, PreviewView, ArticleListView, CategoryListView, TagListView,
     AuthorListView
@@ -23,10 +23,17 @@ def configure(app):
         endpoint='pageview'
     )
 
+    app.admin.register(
+        app.db.index,
+        AdminBlocksView,
+        name='Blocks',
+        endpoint='blockview'
+    )
+
     # Admin admin index panel icons
     app.admin.add_icon(
         endpoint='quokka.core.content.admin.articleview.create_view',
-        icon='glyphicon-list-alt',
+        icon='glyphicon-edit',
         text='New<br>Article'
     )
 
@@ -34,6 +41,12 @@ def configure(app):
         endpoint='quokka.core.content.admin.pageview.create_view',
         icon='glyphicon-file',
         text='New<br>Page'
+    )
+
+    app.admin.add_icon(
+        endpoint='quokka.core.content.admin.blockview.create_view',
+        icon='glyphicon-th-list',
+        text='New<br>Block'
     )
 
     # app.admin.add_icon(
@@ -126,6 +139,23 @@ def configure(app):
     # handle /tag/tagname/2/index.html
     module.add_url_rule(f'/tag/<string:tag>/<int:page_number>/index.{ext}',
                         view_func=ArticleListView.as_view('tagpagnamed'))
+
+    # BLOCKS
+    # handle /block/slug.html
+    module.add_url_rule('/block/<string:block>/',
+                        view_func=ArticleListView.as_view('block'))
+    # handle /block/blockname/index.html
+    module.add_url_rule(f'/block/<string:block>/index.{ext}',
+                        view_func=ArticleListView.as_view('blocknamed'))
+    # handle /block/blockname/2/
+    module.add_url_rule('/block/<string:block>/<int:page_number>/',
+                        view_func=ArticleListView.as_view('blockpag'))
+    # handle /block/blockname/2.html
+    module.add_url_rule(f'/block/<string:block>/<int:page_number>.{ext}',
+                        view_func=ArticleListView.as_view('blockpagext'))
+    # handle /block/blockname/2/index.html
+    module.add_url_rule(f'/block/<string:block>/<int:page_number>/index.{ext}',
+                        view_func=ArticleListView.as_view('blockpagnamed'))
 
     # CATEGORIES
     # handle /categories/

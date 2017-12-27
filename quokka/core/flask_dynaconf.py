@@ -102,8 +102,6 @@ def configure_dynaconf(app):
         silent=True
     )
 
-    # TODO: LOAD THEME VARS FROM MODEL
-
     # mark strings as safe Markup
     for k, v in app.theme_context.items():
         if isinstance(v, str):

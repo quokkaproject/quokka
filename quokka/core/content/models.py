@@ -2,6 +2,7 @@ import functools
 from .utils import url_for_content
 from .formats import get_format
 from .paginator import Paginator
+from flask import url_for
 from flask import current_app as app
 from quokka.utils.text import slugify, slugify_category
 from quokka.utils.dateformat import pretty_date
@@ -244,7 +245,8 @@ class Content:
     @property
     def banner(self):
         # TODO: get it from model
-        return 'http://lorempixel.com/1000/200/abstract/'
+        # return 'http://lorempixel.com/1000/600/abstract/'
+        return url_for('theme_static', filename='img/island.jpg')
 
     @property
     def image(self):
@@ -293,23 +295,26 @@ class Content:
 
 
 class Article(Content):
-    pass
+    """Represents dated authored article"""
 
 
 class Page(Content):
-    pass
+    """Represents a static page"""
 
 
-def make_model(content):
+class Block(Content):
+    """Represents a block of items"""
+
+
+def make_model(content, content_type=None):
     if isinstance(content, Content):
         return content
 
-    if content['content_type'] == 'article':
-        return Article(content)
-    elif content['content_type'] == 'page':
-        return Page(content)
+    content_type = content_type or content.get('content_type')
+    content_type = content_type.lower()
+    model_name = content_type.capitalize()
 
-    return Content(content)
+    return globals().get(model_name, Content)(content)
 
 
 def make_paginator(object_list, *args, **kwargs):

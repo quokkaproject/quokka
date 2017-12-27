@@ -6,42 +6,35 @@
                     {{ SITENAME }}
                 </a>
 
-                {% set _MENUITEMS = [] %}
-
                 {% if MENUITEMS %}
-                    {% for item in MENUITEMS %}
-                        {% do _MENUITEMS.append(item) %}
-                    {% endfor %}
-                {% endif %}
-
-                {% if DISPLAY_CATEGORIES_ON_MENU %}
-                    {% for cat, null in categories %}
-                       {% do _MENUITEMS.append((cat.name, cat.url)) %}
-                    {% endfor %}
-                {% endif %}
-
-                {% if not PAGES_SORT_ATTRIBUTE -%}
-                    {% set PAGES_SORT_ATTRIBUTE = 'title' %}
-                {%- endif %}
-
-                {% if DISPLAY_PAGES_ON_MENU %}
-                    {% for p in pages | sort(attribute=PAGES_SORT_ATTRIBUTE) %}
-                       {% do _MENUITEMS.append((p.menulabel|default(p.title), p.url)) %}
-                    {% endfor %}
-                {% endif %}
-
-                {% if _MENUITEMS %}
                 <ul class="right hide-on-med-and-down">
-                    {% for name, url in _MENUITEMS %}
-                    {% if page is defined %}
-                        {% set href = page.url %}
-                    {% elif page_name is defined %}
-                        {% set href = page_name %}
-                    {% else %}
-                        {% set href = None %}
-                    {% endif %}
-                    <li {% if href == url %}class="active"{% endif %}><a href="{{ SITEURL }}/{{ url}}">{{ name}}</a></li>
+                    {% for name, url in MENUITEMS %}
+                        {% if page is defined %}
+                            {% set href = page.url %}
+                        {% elif page_name is defined %}
+                            {% set href = page_name %}
+                        {% else %}
+                            {% set href = None %}
+                        {% endif %}
+            
+                        {% if is_list(url) %}
+                            <ul id="dropdown{{loop.index}}" class="dropdown-content">
+                                {% for subname, sublink in url %}
+                                    <li><a href="{{ SITEURL }}/{{ sublink }}"> {{ subname }} </a></li>
+                                {% endfor %} 
+                                <!-- <li class="divider"></li> -->
+                            </ul>
+                            <li{% if href == url %}class="active"{% endif %}>
+                                <a class="dropdown-button" href="#!" data-activates="dropdown{{loop.index}}">   
+                                    {{ name }} <i class="material-icons right">arrow_drop_down</i>
+                                </a>
+                            </li>
+                        {% else %}
+                            <li {% if href == url %}class="active"{% endif %}><a href="{{ SITEURL }}/{{ url}}">{{ name }}</a></li>
+                        {% endif %}
+
                     {% endfor %}
+                    <!-- TODO: add support for materialize icons -->
 
                 </ul>
 
@@ -58,7 +51,7 @@
                             </div>
                         </div>
                     </li>
-                    {% for name, url in _MENUITEMS %}
+                    {% for name, url in MENUITEMS %}
                     {% if page is defined %}
                         {% set href = page.url %}
                     {% elif page_name is defined %}

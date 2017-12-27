@@ -63,12 +63,7 @@
                                         <td>{{ content['content_type'] }}</td>
                                         <td>
                                                 <i class={% if content['published'] %} "fa fa-check-circle glyphicon glyphicon-ok-circle icon-ok-circle" {% else %} "fa fa-minus-circle glyphicon glyphicon-minus-sign icon-minus-sign" {% endif %}></i>
-                                                {% if content['content_type'] == 'article' %}
-                                                    {% set edit_url = url_for('quokka.core.content.admin.articleview.edit_view', id=content['_id']) %}
-                                                {% else %}
-                                                    {% set edit_url = url_for('quokka.core.content.admin.pageview.edit_view', id=content['_id']) %}
-                                                {% endif %}
-
+                                                {% set edit_url = url_for('quokka.core.content.admin.{content_type}view.edit_view'.format(**content), id=content['_id']) %}
                                                 <a class="btn btn-success btn-xs" href="{{ edit_url }}">
                                                 <i class="fa fa-pencil glyphicon glyphicon-pencil"></i> {{_gettext('Edit')}}</a>
                                                 <a class="btn btn-primary btn-xs" target="_blank" href="/{{url_for_content(content)}}">

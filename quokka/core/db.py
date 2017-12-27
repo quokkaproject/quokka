@@ -67,6 +67,7 @@ class QuokkaDB(object):
         return collection
 
     def get_collection(self, collection):
+        """Get the corresponding database collection/table"""
         col_name = self.collections.get(collection, collection)
         db_name = self.get_db_name(col_name)
         return self.connection[db_name][col_name]
@@ -147,6 +148,9 @@ class QuokkaDB(object):
     def tag_set(self, sort=True, **kwargs):
         return self.value_set('index', 'tags', flat=True, sort=sort, **kwargs)
 
+    def category_set(self, sort=True, **kwargs):
+        return self.value_set('index', 'category', sort=sort, **kwargs)
+
     def content_set(self, *args, **kwargs):
         return self.index.find(*args, **kwargs)
 
@@ -171,6 +175,19 @@ class QuokkaDB(object):
         elif isinstance(args[0], dict):
             args[0]['content_type'] = 'page'
         return self.content_set(*args, **kwargs)
+
+    def block_set(self, *args, **kwargs):
+            kwargs.setdefault(
+                'sort',
+                self.app.theme_context.get(
+                    'BLOCK_ORDER_BY', [('title', -1)]
+                )
+            )
+            if not args:
+                args = [{'content_type': 'block'}]
+            elif isinstance(args[0], dict):
+                args[0]['content_type'] = 'block'
+            return self.content_set(*args, **kwargs)
 
     def select(self, colname, *args, **kwargs):
         return self.get_collection(colname).find(*args, **kwargs)
@@ -238,7 +255,7 @@ def is_equal(model, other):
     versioned_keys = [
         'title', 'summary', 'tags', 'category', 'date',
         'content', 'authors', 'slug', 'status', 'published',
-        'comments'
+        'comments', 'block_items'
     ]
     for key in versioned_keys:
         if model.get(key) != other.get(key):

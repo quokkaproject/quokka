@@ -57,31 +57,59 @@ THEME:
     SITETITLE: The site title
     SITESUBTITLE: The site subtitle
 
+    MENUBLOCKS:
+      - MENUITEMS
+      - LINKS
+      - SOCIAL
+
+    TEXTBLOCKS:
+      - SITELOGO
+      - SITENAME
+      - TAGLINE
+      - SITEDESCRIPTION
+      - SITE_SUMMARY
+      - SITETITLE
+      - SITESUBTITLE
+      - BANNER
+      - BANNER_SUBTITLE
+      - BANNER_TEXT
+      - FOOTER_ABOUT
+      - HEADER_COVER
+      - HEADER_COLOR
+      - AUTHOR_ABOUT
+      - MALT_BASE_COLOR
+      - PYGMENTS_STYLE
+      - HOME_TEMPLATE
+      - ABOUT_ME
+      - AVATAR
+      - AUTHOR
+      - BOOTSTRAP_THEME
+      - DISQUS_SITENAME
+
     # GOOGLE_ANALYTICS: 'code-here'
     # GAUGES: 'code-here'
     # PIWIK_URL: 'url-here'
     # PIWIK_SSL_URL: 'url-here'
     # PIWIK_SITE_ID: 'code-here'
     DISQUS_SITENAME: quokkaproject
-    DISPLAY_PAGES_ON_MENU: true
-    DISPLAY_CATEGORIES_ON_MENU: true
+    # DISPLAY_PAGES_ON_MENU: true
+    # DISPLAY_CATEGORIES_ON_MENU: true
     ## contents posted on `blog` category is always showed as list
     LIST_CATEGORIES: ['blog']
     ## This is a link `/all` which will return all content independent
     ## of its category, normally the same as `/` but for themes where
     ## the INDEX_TEMPLATE is set to other than index.html it is useful
-    ## exmaple: portal websites
     INDEX_CATEGORY: index
     # ARCHIVES_URL:
     # MAIN_MENU: false
-    MENUITEMS: [['Index', 'index']]
-    LINKS: [['blog', '/blog'], ['all', '/all']]
-    SOCIAL:
-      - ['twitter', 'http://twitter.com/rochacbruno']
-      - ['facebook', 'http://facebook.com/rochacbruno']
-      - ['linkedin', 'http://linkedin.com/in/rochacbruno']
-      - ['github', 'http://github.com/rochacbruno']
-      - ['stack-overflow', 'http://stackoverflow.com/users/559935']
+    #MENUITEMS: [['Index', 'index']]
+    #LINKS: [['blog', '/blog']]
+    #SOCIAL:
+    #  - ['twitter', 'http://twitter.com/rochacbruno']
+    #  - ['facebook', 'http://facebook.com/rochacbruno']
+    #  - ['linkedin', 'http://linkedin.com/in/rochacbruno']
+    #  - ['github', 'http://github.com/rochacbruno']
+    #  - ['stack-overflow', 'http://stackoverflow.com/users/559935']
     SITE_KEYWORDS: quokka, cms, flask, quokkaproject
     PAGE_ORDER_BY: [['title', -1]]
     # ARTICLE_ORDER_BY: [['date', -1]]
@@ -235,12 +263,12 @@ THEME_BOOTSTRAP3:
     # PAGES_SORT_ATTRIBUTE:
 
 THEME_MALT:
-    SITELOGO: http://lorempixel.com/200/200/business/
+    SITELOGO: /theme/img/logo.png
     ## http://materializecss.com/color.html
     MALT_BASE_COLOR: teal
     PYGMENTS_STYLE: native
     ## If Article has banner and banner_subtitle metadata it will be overwritten
-    BANNER: http://lorempixel.com/1000/200/abstract/
+    BANNER: /theme/img/island.jpg
     BANNER_SUBTITLE: Hello World
     BANNER_TEXT: Hello Again
     # BANNER_ALL_PAGES: true
@@ -258,13 +286,15 @@ THEME_MALT:
 
     DISPLAY_BREADCRUMBS: false
 
+    MENU_DROPDOWN_ENABLED: true
+
     DYNAMIC_VARS:
       - {var: SHOW_BACK_TOP, where: [article, page], value: true}
       - {var: DISPLAY_BREADCRUMBS, where: [category, tag, author], value: true}
       - {var: HIDE_CATEGORY, where: [category, tag, author, index], value: false}
       - {var: CARD_SIZE, where: [category, tag, author], value: "s12 m6 l4"}
       - {var: CARD_SIZE, where: [index, all], value: "s12 m12 l12"}
-      - {var: MENUITEMS, where: home, value: [['Index', 'index']]}
+      # - {var: MENUITEMS, where: home, value: [['Index', 'index']]}
       # remove below to enable coments on pages
       # (can also be controled individually by `comments = 'closed|opened' metadata`)
       - {var: HIDE_COMMENTS, where: page, value: true}
@@ -407,6 +437,7 @@ QUOKKA:
     - quokka.core.monitoring.configure
     - quokka.core.themes.configure
     - quokka.core.context_processors.configure
+    - quokka.core.template_filters.configure
     - quokka.core.content.configure
     - quokka.admin.configure_file_admin
     - quokka.admin.configure_extra_views
@@ -483,7 +514,7 @@ QUOKKA:
 
   ## [ --- ADMIN INTERFACE --- ]
   ADMIN:
-    name: My website
+    name: CMS
     url: /admin
 
   ## Custom message or html to include on admin top
@@ -502,6 +533,10 @@ QUOKKA:
   ADMIN_INDEX_CONTENT_SORT:
   #   - ['column', asc|-desc]
       - ['date', -1]
+
+  BLOCK_ITEM_TYPES:
+    - ['link', 'Link']
+    - ['dropdown', 'Dropdown']
 
   ## Swatch options in https://bootswatch.com/
   ## spacelab | paper | cerulean | united | more...
