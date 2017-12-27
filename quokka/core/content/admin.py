@@ -80,6 +80,7 @@ class AdminContentView(ModelView):
         'authors_string',
         'tags_slug',
         'tags_string',
+        'custom_vars',
     ]
 
     # column_export_list = []
@@ -363,6 +364,7 @@ class AdminPagesView(AdminContentView):
         rules.FieldSet(('slug',)),
         rules.Field('published'),
         rules.Field('comments'),
+        rules.Field('custom_vars'),
         rules.csrf_token
     ]
 
@@ -399,6 +401,7 @@ class AdminBlocksView(AdminContentView):
         rules.Field('published'),
         rules.Field('comments'),
         rules.Field('block_items'),
+        rules.Field('custom_vars'),
         rules.csrf_token
     ]
 

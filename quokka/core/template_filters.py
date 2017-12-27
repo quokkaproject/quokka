@@ -1,4 +1,5 @@
 # coding: utf-8
+from quokka.utils.blocks import get_block, get_blocks
 
 
 def is_list(obj):
@@ -9,3 +10,5 @@ def configure(app):
     """Configure Jinja filters and globals"""
     # app.jinja_env.filters['isinstance'] = is_instance
     app.add_template_global(is_list)
+    app.add_template_global(get_block)
+    app.add_template_global(get_blocks)

@@ -191,6 +191,21 @@ class CreateForm(BaseForm):
     )
 
 
+class CustomVariablesForm(Form):
+    key = fields.StringField(
+        'Key', [validators.required()],
+        description='lower_snake_case'
+    )
+    value = fields.StringField(
+        'Value', [validators.required()],
+        description=(
+            'Optionally define format using @int,@float,@bool,@json '
+            'ex:`@float 42.1` or `@int 42` or `@bool false` '
+            'or `@json ["item1", "item2"]`'
+        )
+    )
+
+
 class BlockItemForm(Form):
     item = fields.Select2TagsField(
         'Item',
@@ -211,8 +226,12 @@ class BlockItemForm(Form):
         default='link',
         choices=lambda: [
             item for item in
-            app.config.get('BLOCK_ITEM_TYPES', [('Link', 'link')])
+            app.config.get('BLOCK_ITEM_TYPES', [('link', 'Link')])
         ]
+    )
+
+    custom_vars = InlineFieldList(
+        InlineFormField(CustomVariablesForm), label='Custom Variables'
     )
 
     index_id = fields.HiddenField('index_id')
@@ -280,6 +299,10 @@ class BaseEditForm(BaseForm):
         InlineFormField(BlockItemForm), label='Items'
     )
 
+    custom_vars = InlineFieldList(
+        InlineFormField(CustomVariablesForm), label='Custom Variables'
+    )
+
 
 class BaseFormat(object):
     identifier = None
@@ -292,6 +315,7 @@ class BaseFormat(object):
         rules.FieldSet(('slug',)),
         rules.Field('published'),
         rules.Field('comments'),
+        rules.Field('custom_vars'),
         rules.csrf_token
     ]
 
