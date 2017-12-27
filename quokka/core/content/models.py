@@ -173,7 +173,7 @@ class Content:
     def metadata(self):
         # TODO: get metadata from database
         # TODO: implement libratar/gravatar
-        return {
+        # return {
             # 'cover': 'foo',
             # 'author_gravatar': 'http://i.pravatar.cc/300',
             # 'about_author': 'About Author',
@@ -181,7 +181,13 @@ class Content:
             # 'og_image': 'foo',
             # 'series': 'aa',
             # 'asides': 'aaa'
-        }
+        # }
+        data = {}
+        data.update({
+            cvar['key']: cvar['value']
+            for cvar in self.data.get('custom_vars', [])
+        })
+        return data
 
     @property
     def author_gravatar(self):
@@ -199,7 +205,8 @@ class Content:
 
     @property
     def summary(self):
-        return self.data.get('summary') or ''
+        # return self.metadata.get('summary') or self.data.get('summary') or ''
+        return self.get('summary', '')
 
     @property
     def header_cover(self):
@@ -281,17 +288,34 @@ class Content:
     def menulabel(self):
         return self.title
 
+    @property
+    def name(self):
+        return self.title
+
     def __getattr__(self, attr):
         value = self.metadata.get(attr) or self.data.get(attr)
         if not value:
             raise AttributeError(f'{self} do not have {attr}')
         return value
 
+    def __getitem__(self, item):
+        return self.__getattr__(item)
+
     def __str__(self):
-        return self.data['title']
+        for name in ['title', 'name', '_id']:
+            if self.data.get(name):
+                return self.data[name]
+        return str(self.__class__)
 
     def __html__(self):
         return str(self)
+
+    def get(self, name, *args, **kwargs):
+        return self.metadata.get(
+            name
+        ) or self.data.get(
+            name, *args, **kwargs
+        )
 
 
 class Article(Content):
@@ -305,15 +329,59 @@ class Page(Content):
 class Block(Content):
     """Represents a block of items"""
 
+    @property
+    def block_items(self):
+        return [
+            make_model(item) for item in self.data['block_items']
+        ]
+
+
+class BlockItem(Content):
+    """Represents an item inside a block"""
+
+    @property
+    def is_block(self):
+        return isinstance(self.item, Block)
+
+    @property
+    def is_dropdown(self):
+        return self.item_type == 'dropdown'
+
+    @property
+    def item(self):
+        if self.metadata.get('index_id') or self.data.get('index_id'):
+            return make_model(app.db.get('index', {'_id': self.index_id}))
+        for ref in ['author', 'category', 'tag']:
+            data = self.data.get(f"{ref}_id")
+            if data:
+                return make_model(data, ref)
+        return self.metadata.get('item') or self.data.get('item')
+
+    @property
+    def name(self):
+        given_name = self.metadata.get('name') or self.data.get('name')
+        given_title = self.metadata.get('title')
+        try:
+            item_name = self.item.name
+        except AttributeError:
+            item_name = self.item
+
+        return given_name or given_title or item_name
+
+    @property
+    def url(self):
+        try:
+            return self.item.url
+        except AttributeError:
+            return self.data['item']
+
 
 def make_model(content, content_type=None):
     if isinstance(content, Content):
         return content
-
-    content_type = content_type or content.get('content_type')
-    content_type = content_type.lower()
-    model_name = content_type.capitalize()
-
+    content_type = content_type or content.get('content_type', 'content')
+    words = [word.capitalize() for word in content_type.lower().split('_')]
+    model_name = ''.join(words)
     return globals().get(model_name, Content)(content)
 
 

@@ -238,6 +238,7 @@ class BlockItemForm(Form):
     category_id = fields.HiddenField('category_id')
     tag_id = fields.HiddenField('tag_id')
     author_id = fields.HiddenField('author_id')
+    content_type = fields.HiddenField('content_type', default='block_item')
 
 
 class BaseEditForm(BaseForm):

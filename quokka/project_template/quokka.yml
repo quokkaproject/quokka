@@ -299,37 +299,39 @@ THEME_MALT:
       # (can also be controled individually by `comments = 'closed|opened' metadata`)
       - {var: HIDE_COMMENTS, where: page, value: true}
 
-    MALT_HOME:
-        - color: blue-grey lighten-5
-          title: Services
-          items:
-            - title: Community
-              icon: fa-comments
-              text: We love the community...
-              action: ['read more', 'http://community']
-            - title: Services
-              icon: fa-list
-              text: We have the right service for you...
-              action: ['read more', 'http://community']
-            - title: Technology
-              icon: fa-globe
-              text: We know the best tech...
-              action: ['read more', 'http://community']
-        - color: grey lighten-5
-          title: Products
-          items:
-            - title: Prod 1
-              icon: fa-user
-              text: Prod 1 is awesome...
-              action: ['read more', 'http://community']
-            - title: Prod 2
-              icon: fa-edit
-              text: Prod 2 solves your problem...
-              action: ['read more', 'http://community']
-            - title: Prod 3
-              icon: fa-gear
-              text: You need prod 3...
-              action: ['read more', 'http://community']
+    # MALT_HOME will be overwritten by database item
+    # unpublish there to hide it
+    # MALT_HOME:
+    #     - color: blue-grey lighten-5
+    #       title: Services
+    #       items:
+    #         - title: Community
+    #           icon: fa-comments
+    #           text: We love the community...
+    #           action: ['read more', 'http://community']
+    #         - title: Services
+    #           icon: fa-list
+    #           text: We have the right service for you...
+    #           action: ['read more', 'http://community']
+    #         - title: Technology
+    #           icon: fa-globe
+    #           text: We know the best tech...
+    #           action: ['read more', 'http://community']
+    #     - color: grey lighten-5
+    #       title: Products
+    #       items:
+    #         - title: Prod 1
+    #           icon: fa-user
+    #           text: Prod 1 is awesome...
+    #           action: ['read more', 'http://community']
+    #         - title: Prod 2
+    #           icon: fa-edit
+    #           text: Prod 2 solves your problem...
+    #           action: ['read more', 'http://community']
+    #         - title: Prod 3
+    #           icon: fa-gear
+    #           text: You need prod 3...
+    #           action: ['read more', 'http://community']
 
     CONTENT_VAR_MAP:
       ## attributes taken from article/page and its export name

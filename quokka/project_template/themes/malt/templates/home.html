@@ -19,6 +19,9 @@
                 {% if 'title' in section %}
                     <h2 class="center">{{ section['title'] }}</h2>
                 {% endif %}
+                {% if section.get('text') %}
+                    <p>{{ section['text'] }}</p>
+                {% endif %}
                 {% if 'items' in section %}
                 <!--   Icon Section   -->
                 <div class="row">
