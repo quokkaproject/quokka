@@ -62,13 +62,6 @@ def get_text_block(title, app=None):
         return make_model(block).content
 
 
-def custom_var_dict(cvarlist):
-    return {
-        cvar['key']: cvar['value']
-        for cvar in cvarlist
-    }
-
-
 def get_quokka_home(app=None):
     app = app or current_app
     quokka_home = get_block('QUOKKA_HOME')

@@ -6,6 +6,7 @@ from flask import url_for
 from flask import current_app as app
 from quokka.utils.text import slugify, slugify_category
 from quokka.utils.dateformat import pretty_date
+from quokka.utils.custom_vars import custom_var_dict
 
 
 DEFAULT_DATE_FORMAT = '%a %d %B %Y'
@@ -183,10 +184,7 @@ class Content:
             # 'asides': 'aaa'
         # }
         data = {}
-        data.update({
-            cvar['key']: cvar['value']
-            for cvar in self.data.get('custom_vars', [])
-        })
+        data.update(custom_var_dict(self.data.get('custom_vars')))
         return data
 
     @property
