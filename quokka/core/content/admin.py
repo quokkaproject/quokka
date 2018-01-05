@@ -5,10 +5,10 @@ from flask import current_app
 from quokka.admin.forms import ValidationError, rules
 from quokka.admin.views import ModelView
 from quokka.core.auth import get_current_user
-from quokka.utils.routing import get_content_url
 from quokka.utils.text import slugify, slugify_category
 
 from .formats import CreateForm, get_format
+from .utils import url_for_content
 
 
 class AdminContentView(ModelView):
@@ -160,6 +160,10 @@ class AdminContentView(ModelView):
         return super(AdminContentView, self).get_save_return_url(model,
                                                                  is_created)
 
+    def get_existent_record(self, form, model):
+        return current_app.db.get('index', {'slug': model['slug'],
+                                            'category': model['category']})
+
     def on_model_change(self, form, model, is_created):
 
         if is_created:
@@ -178,12 +182,13 @@ class AdminContentView(ModelView):
             # When category is hidden on form it should be ''
             model['category'] = ''
 
-        existent = current_app.db.get('index', {'slug': model['slug'],
-                                                'category': model['category']})
+        existent = self.get_existent_record(form, model)
 
         if (is_created and existent) or (
                 existent and existent['_id'] != model['_id']):
-            raise ValidationError(f'{get_content_url(model)} already exists')
+            raise ValidationError(
+                f'{url_for_content(model, include_ext=False)} already exists'
+            )
 
         now = dt.datetime.now()
         current_user = get_current_user()
@@ -404,6 +409,14 @@ class AdminBlocksView(AdminContentView):
         rules.Field('custom_vars'),
         rules.csrf_token
     ]
+
+    def get_existent_record(self, form, model):
+        return current_app.db.get(
+            'index',
+            {'slug': model['slug'],
+             'category': model['category'],
+             'content_type': 'block'}
+        )
 
     def before_save(self, form, model, is_created):
         if 'block_items' in model:
