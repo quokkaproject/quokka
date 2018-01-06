@@ -300,7 +300,7 @@ THEME_MALT:
     MENU_DROPDOWN_ENABLED: true
 
     DYNAMIC_VARS:
-      - {var: SHOW_BACK_TOP, where: [article, page], value: true}
+      - {var: SHOW_BACK_TOP, where: [article, page, author, tag, category], value: true}
       - {var: DISPLAY_BREADCRUMBS, where: [category, tag, author], value: true}
       - {var: HIDE_CATEGORY, where: [category, tag, author, index], value: false}
       - {var: CARD_SIZE, where: [category, tag, author], value: "s12 m6 l4"}

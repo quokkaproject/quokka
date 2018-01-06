@@ -2,6 +2,8 @@
     {% set content = article %}
 {% elif page is defined %}
     {% set content = page %}
+{% elif author is defined %}
+    {% set content = author %}
 {% endif %}
 
 {% if DISQUS_SITENAME %}
