@@ -39,3 +39,17 @@ def normalize_var(text, s='_'):
     ).replace(
         '@', s
     )
+
+
+def make_social_link(network, txt):
+    """from a name like `username` return http://social.com/username"""
+    if txt.startswith(('http://', 'https://', 'www.')):
+        return txt
+    if '/' in txt:
+        return f'http://{txt}'
+    return f'{network}/{txt}'
+
+
+def make_social_name(txt):
+    """from a link like http://foo.com/username returns username"""
+    return txt.split('/')[-1]

@@ -86,6 +86,17 @@ THEME:
       - BOOTSTRAP_THEME
       - DISQUS_SITENAME
 
+    SOCIALNETWORKS:
+      - ['twitter', 'http://twitter.com']
+      - ['facebook', 'http://facebook.com']
+      - ['instagram', 'http://instagram.com']
+      - ['pinterest', 'http://pinterest.com']
+      - ['aboutme', 'http://about.me']
+      - ['site', 'http://']
+      - ['blog', 'http://']
+      - ['youtube', 'http://youtube.com']
+      - ['github', 'http://github.com']
+
     # GOOGLE_ANALYTICS: 'code-here'
     # GAUGES: 'code-here'
     # PIWIK_URL: 'url-here'

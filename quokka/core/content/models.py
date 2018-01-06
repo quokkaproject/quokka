@@ -4,7 +4,9 @@ from .formats import get_format
 from .paginator import Paginator
 from flask import url_for
 from flask import current_app as app
-from quokka.utils.text import slugify, slugify_category
+from quokka.utils.text import (
+    slugify, slugify_category, make_social_link, make_social_name
+)
 from quokka.utils.dateformat import pretty_date
 from quokka.utils.custom_vars import custom_var_dict
 
@@ -95,6 +97,7 @@ class Category(Orderable):
 class Author(Orderable):
     def __init__(self, authors):
         self.authors = authors
+        self._profile_page = 'empty'
 
     @property
     def name(self):
@@ -125,6 +128,21 @@ class Author(Orderable):
 
     def __str__(self):
         return self.name
+
+    @property
+    def profile_page(self):
+        if self._profile_page == 'empty':
+            profile = app.db.get(
+                'index',
+                {'content_type': 'block',
+                 'slug': self.slug,
+                 'published': True}
+            )
+            if profile:
+                self._profile_page = Block(profile)
+            else:
+                self._profile_page = None
+        return self._profile_page
 
 
 class Tag(Orderable):
@@ -193,11 +211,13 @@ class Content:
 
     @property
     def author_avatar(self):
+        if self.author.profile_page:
+            return self.author.profile_page.author_avatar
         return self.metadata.get(
             'author_avatar',
-            app.theme_context.get(
+            app.theme_context(
                 'AVATAR',
-                'http://i.pravatar.cc/300'
+                'https://api.adorable.io/avatars/250/quokkacms.png'
             )
         )
 
@@ -332,6 +352,30 @@ class Block(Content):
         return [
             make_model(item) for item in self.data['block_items']
         ]
+
+    @property
+    def author_avatar(self):
+        if self.metadata.get('gravatar_email'):
+            return f"https://avatars.io/gravatar/{make_social_name(self.metadata.get('gravatar_email'))}"  # noqa
+        if self.metadata.get('twitter'):
+            return f"https://avatars.io/twitter/{make_social_name(self.metadata.get('twitter'))}"  # noqa
+        if self.metadata.get('facebook'):
+            return f"https://avatars.io/facebook/{make_social_name(self.metadata.get('facebook'))}"  # noqa
+        if self.metadata.get('instagram'):
+            return f"https://avatars.io/instagram/{make_social_name(self.metadata.get('instagram'))}"  # noqa
+        return self.metadata.get(
+            'author_avatar',
+            f'https://api.adorable.io/avatars/250/{self.slug}.png'
+        )
+
+    @property
+    def social_links(self):
+        links = []
+        for social, social_link in app.theme_context.get('SOCIALNETWORKS', []):
+            link = self.metadata.get(social)
+            if link:
+                links.append((social, make_social_link(social_link, link)))
+        return links
 
 
 class BlockItem(Content):

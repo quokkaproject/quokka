@@ -17,11 +17,61 @@
    {% set label = 'author' %}
 {% endif %}
 
+{% if author.profile_page.profile_title %}
+    {% set profile_title = author.profile_page.profile_title %}
+{% elif author.profile_page.summary %}
+    {% set profile_title = author.profile_page.summary %}
+{% endif %}
+
 {% block title %}
-Articles by {{ label }} '{{ author.name }}' | {{ SITENAME }}
+    {{ profile_title or "Articles by {label} '{author.name}'".format(author=author, label=label) }} | {{ SITENAME }}
+{% endblock %}
+
+{% if author.profile_page.banner_color %}
+    {% set BANNER_COLOR = author.profile_page.banner_color %}
+{% elif author.profile_page.banner_image %}
+    {% set BANNER = author.profile_page.banner_image %}
+{% endif %}
+
+{% block bannerimage %}
+   {% if author.profile_page.author_avatar %}
+       <img src="{{author.profile_page.author_avatar}}" title="{{ author.name }}" alt="{{ author.name }}" class="logo"/>
+   {% else %}
+       {% if SHOW_SITELOGO|default(True) %}
+           <img src="{{ SITEURL }}{{ SITELOGO }}" title="{{ SITENAME }}" alt="{{ SITENAME }}" class="logo"/>
+       {% endif %}
+   {% endif %}
 {% endblock %}
 
 {% block bannertext %}
-<h2>Articles by {{ label }}</h2>
-<h1>'{{ author.name }}'</h1>
+{% if author.profile_page.summary %}
+    <h2>'{{ author.name }}'</h2>
+    <p>{{ author.profile_page.summary }}</p>
+{% else %}
+    <h2>Articles by {{ label }}</h2>
+    <h1>'{{ author.name }}'</h1>
+{% endif %}
 {% endblock %}
+
+
+{% block content_head %}
+    {% if author.profile_page %}    
+    <div class="col s12">
+        <div class="card">
+            <div class="row card-content">
+                {{ author.profile_page.content }}
+                <ul class="social-links">
+                    {% for name, url in author.profile_page.social_links %}
+                        <li>
+                            <a class="black-text" href="{{ url }}" title="{{ name}}">
+                                <i class="fa fa-{{ name }}"></i> {{ name }}
+                            </a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+{% endblock %}
+

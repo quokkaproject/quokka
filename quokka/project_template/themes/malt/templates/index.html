@@ -35,6 +35,7 @@
             {% set BREADCRUMB_ELEMENTS = [("Categories", "categories/index.html")] %}
         {% endif %}
         {% include "includes/breadcrumbs.html" %}
+        {% block content_head %}{% endblock %}
         {% for article in (articles_page.object_list if articles_page else articles) %}
         <div class="col {{ CARD_SIZE }}">
             <div class="card">
