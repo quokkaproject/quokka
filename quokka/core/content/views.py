@@ -1,7 +1,17 @@
-from flask import current_app as app, render_template, abort
+import hashlib
+import PyRSS2Gen as pyrss
+from datetime import datetime, timedelta
+from flask import current_app as app, render_template, abort, request
 from flask.views import MethodView
+
+# from werkzeug.contrib.atom import AtomFeed
+# The werkzeug AtomFeed escapes all html tags
+from quokka.utils.atom import AtomFeed
+
 from .models import make_model, make_paginator, Category, Tag, Author
-from quokka.utils.text import slugify_category, normalize_var, slugify
+from quokka.utils.text import (
+    slugify_category, normalize_var, slugify, cdata, make_external_url
+)
 
 
 class BaseView(MethodView):
@@ -80,7 +90,8 @@ class BaseView(MethodView):
 
 class ArticleListView(BaseView):
 
-    def get(self, category=None, tag=None, author=None, page_number=1):
+    def get(self, category=None, tag=None, author=None,
+            page_number=1, ext=None):
         context = {}
         query = {'published': True}
         home_template = app.theme_context.get('HOME_TEMPLATE')
@@ -88,8 +99,13 @@ class ArticleListView(BaseView):
         index_category = app.theme_context.get('INDEX_CATEGORY')
         content_type = 'index'
         template = custom_template = 'index.html'
+        ext = ext or app.config.get('CONTENT_EXTENSION', 'html')
+        FEED_ALL_ATOM = app.theme_context.get('FEED_ALL_ATOM')
+        FEED_ALL_RSS = app.theme_context.get('FEED_ALL_RSS')
 
         if category:
+            FEED_ALL_ATOM = f"{category}/index.atom"
+            FEED_ALL_RSS = f"{category}/index.rss"
             content_type = 'category'
             custom_template = f'{content_type}/{normalize_var(category)}.html'
             if category != index_category:
@@ -101,12 +117,16 @@ class ArticleListView(BaseView):
             else:
                 content_type = 'index'
         elif tag:
+            FEED_ALL_ATOM = f"tag/{tag}/index.atom"
+            FEED_ALL_RSS = f"tag/{tag}/index.rss"
             content_type = 'tag'
             custom_template = f'{content_type}/{normalize_var(tag)}.html'
             template = 'tag.html'
             # https://github.com/schapman1974/tinymongo/issues/42
             query['tags_string'] = {'$regex': f'.*,{tag},.*'}
         elif author:
+            FEED_ALL_ATOM = f"author/{author}/index.atom"
+            FEED_ALL_RSS = f"author/{author}/index.rss"
             content_type = 'author'
             custom_template = f'{content_type}/{normalize_var(author)}.html'
             template = 'author.html'
@@ -157,14 +177,106 @@ class ArticleListView(BaseView):
                 'articles_paginator': paginator,
                 'articles_page': page,
                 'articles_next_page': page.next_page,
-                'articles_previous_page': page.previous_page
+                'articles_previous_page': page.previous_page,
+                'FEED_ALL_ATOM': FEED_ALL_ATOM,
+                'FEED_ALL_RSS': FEED_ALL_RSS
             }
         )
 
         self.set_elements_visibility(context, content_type)
         self.set_elements_visibility(context, category)
         templates = [f'custom/{custom_template}', template]
+
+        return self.render(ext, content_type, templates, **context)
+
+    def render(self, ext, content_type, templates, **context):
+        extension_map = app.config.get('CONTENT_EXTENSION_MAP', {})
+        method_name = extension_map.get(ext, 'render_template')
+        return getattr(self, method_name)(content_type, templates, **context)
+
+    def render_template(self, content_type, templates, **context):
         return render_template(templates, **context)
+
+    def render_atom(self, content_type, templates, **context):
+        feed_name = (
+            f"{app.theme_context.get('SITENAME')}"
+            f" | {content_type.title()} | atom feed"
+        )
+        if context.get('articles_page'):
+            contents = context['articles_page'].object_list
+        else:
+            contents = context['articles']
+
+        feed = AtomFeed(
+            feed_name,
+            feed_url=request.url,
+            url=request.url_root
+        )
+        for content in contents:
+            content = make_model(content)
+            feed.add(
+                content.title,
+                cdata(content.content),
+                content_type="html",
+                author=content.author,
+                url=make_external_url(content.url),
+                updated=content.modified,
+                published=content.date
+            )
+        return feed.get_response()
+        # return BaseResponse(self.to_string(), mimetype='application/atom+xml')
+
+    def render_rss(self, content_type, templates, **context):
+
+        feed_name = description = (
+            f"{app.theme_context.get('SITENAME')}"
+            f" | {content_type.title()} | RSS feed"
+        )
+
+        if context.get('articles_page'):
+            contents = context['articles_page'].object_list
+        else:
+            contents = context['articles']
+
+        rss = pyrss.RSS2(
+            title=feed_name,
+            link=request.url_root,
+            description=description,
+            language=app.config.get('RSS_LANGUAGE', 'en-us'),
+            copyright=app.config.get('RSS_COPYRIGHT', 'All rights reserved.'),
+            lastBuildDate=datetime.now(),
+            categories=[str(context.get('tag') or context.get('category'))],
+        )
+
+        # set rss.pubDate to the newest post in the collection
+        # back 10 years in the past
+        rss_pubdate = datetime.today() - timedelta(days=365 * 10)
+
+        for content in contents:
+            content = make_model(content)
+
+            if content.date > rss_pubdate:
+                rss_pubdate = content.date
+
+            rss.items.append(
+                pyrss.RSSItem(
+                    title=content.title,
+                    link=make_external_url(content.url),
+                    description=cdata(content.content),
+                    author=str(content.author),
+                    categories=[str(content.tags)],
+                    guid=hashlib.sha1(
+                        content.title.encode('utf-8') +
+                        content.url.encode('utf-8')
+                    ).hexdigest(),
+                    pubDate=content.date,
+                )
+            )
+
+        # set the new published date after iterating the contents
+        rss.pubDate = rss_pubdate
+
+        return rss.to_xml(encoding=app.config.get('RSS_ENCODING', 'utf-8'))
 
 
 class CategoryListView(BaseView):
@@ -235,7 +347,7 @@ class AuthorListView(BaseView):
 class DetailView(BaseView):
     is_preview = False
 
-    def get(self, slug):
+    def get(self, slug, ext=None):
         category, _, item_slug = slug.rpartition('/')
         content = app.db.get_with_content(
             slug=item_slug,

@@ -215,7 +215,7 @@ class Content:
             return self.author.profile_page.author_avatar
         return self.metadata.get(
             'author_avatar',
-            app.theme_context(
+            app.theme_context.get(
                 'AVATAR',
                 'https://api.adorable.io/avatars/250/quokkacms.png'
             )

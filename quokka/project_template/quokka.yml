@@ -150,6 +150,9 @@ THEME:
     DEFAULT_DATE_FORMAT: '%a %d %B %Y'
 
 
+    FEED_ALL_RSS: index/index.rss
+    FEED_ALL_ATOM: index/index.atom
+
 ## ▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬ஜ۩۞۩ஜ▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬
 ## ▓▓▓▒▒▒░░░                 THEME SPECIFIC VARIABLES                ░░░▒▒▒▓▓▓
 ## ▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬ஜ۩۞۩ஜ▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬
@@ -440,6 +443,7 @@ QUOKKA:
   ## [ --- EXTENSIONS --- ]
   ## Use EXTRA_EXTENSIONS for thirty party extensions
   CORE_EXTENSIONS:
+    # - quokka.core.regex_url_support.Regex
     - flask_babelex.Babel
     - quokka.core.logger.configure
     - quokka.core.db.QuokkaDB
@@ -634,8 +638,16 @@ QUOKKA:
   ## Media root folder (to store uploaded files)
   MEDIA_ROOT: uploads
 
-  ## content urls will end with .html
+  ## by default content urls will end with .html
   CONTENT_EXTENSION: html
+
+  ## Accepted extension and its render method
+  CONTENT_EXTENSION_MAP:
+    html: render_template
+    htm: render_template
+    rss: render_rss
+    atom: render_atom
+    feed: render_atom
 
   ## Default categories to be listed on create form
   ## all existing categories on database will also be listed

@@ -65,6 +65,10 @@ def configure(app):
     module = QuokkaModule(__name__)
     ext = app.config.get("CONTENT_EXTENSION", "html")
 
+    extensions = list(app.config.get('CONTENT_EXTENSION_MAP', {}).keys())
+    ext_list = ','.join(extensions or ['html', 'htm', 'rss', 'atom'])
+    ext = f'<any({ext_list}):ext>'
+
     # INDEX|HOME
     # handle /
     module.add_url_rule('/', view_func=ArticleListView.as_view('index'))

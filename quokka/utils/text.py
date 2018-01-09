@@ -1,3 +1,5 @@
+from flask import request
+from urllib.parse import urljoin
 from slugify.main import Slugify
 
 slugify = Slugify()
@@ -53,3 +55,13 @@ def make_social_link(network, txt):
 def make_social_name(txt):
     """from a link like http://foo.com/username returns username"""
     return txt.split('/')[-1]
+
+
+def cdata(data):
+    if not data:
+        return ""
+    return f"<![CDATA[\n{data}\n]]>"
+
+
+def make_external_url(url):
+    return urljoin(request.url_root, url)
