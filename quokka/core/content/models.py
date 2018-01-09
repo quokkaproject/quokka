@@ -5,7 +5,8 @@ from .paginator import Paginator
 from flask import url_for
 from flask import current_app as app
 from quokka.utils.text import (
-    slugify, slugify_category, make_social_link, make_social_name
+    slugify, slugify_category, make_social_link,
+    make_social_name, make_external_url
 )
 from quokka.utils.dateformat import pretty_date
 from quokka.utils.custom_vars import custom_var_dict
@@ -16,6 +17,9 @@ DEFAULT_DATE_FORMAT = '%a %d %B %Y'
 
 @functools.total_ordering
 class Orderable:
+
+    is_content = False  # to use in templates
+
     def __eq__(self, other):
         if isinstance(other, self.__class__):
             return self.slug == other.slug
@@ -45,6 +49,10 @@ class Orderable:
 
     def __html__(self):
         return str(self)
+
+    @property
+    def external_url(self):
+        return make_external_url(self.url)
 
 
 class Series(Orderable):
@@ -92,6 +100,20 @@ class Category(Orderable):
 
     def __str__(self):
         return self.category
+
+
+class Fixed(Orderable):
+    """Fixed pages like /authors/ and /tags/ and /categories/"""
+    def __init__(self, name):
+        self.name = name
+        self.slug = slugify_category(name)
+
+    @property
+    def url(self):
+        return self.slug
+
+    def __str__(self):
+        return self.name
 
 
 class Author(Orderable):
@@ -162,6 +184,9 @@ class Tag(Orderable):
 
 
 class Content:
+
+    is_content = True  # to use in templates
+
     def __init__(self, data):
         self.data = data
         self.format = get_format(data)
@@ -169,6 +194,10 @@ class Content:
     @property
     def url(self):
         return url_for_content(self)
+
+    @property
+    def external_url(self):
+        return make_external_url(self.url)
 
     @property
     def locale_date(self):

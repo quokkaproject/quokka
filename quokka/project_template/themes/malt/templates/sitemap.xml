@@ -1,0 +1,16 @@
+{%- macro render_item(item) -%}
+<url>
+    <loc>{{item.external_url|safe}}</loc>
+    {% if item.is_content %}
+    <lastmod>{{item.modified.strftime('%Y-%m-%d')}}</lastmod>
+    {% endif %}
+    <changefreq>daily</changefreq>
+    <priority>0.2</priority>
+</url>
+{%- endmacro -%}
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+    {%- for item in contents -%}
+        {{ render_item(item) }}
+    {%- endfor -%}
+</urlset>
