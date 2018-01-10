@@ -111,6 +111,8 @@ THEME:
     ## of its category, normally the same as `/` but for themes where
     ## the INDEX_TEMPLATE is set to other than index.html it is useful
     INDEX_CATEGORY: index
+    ## This is the category to search for uncategorized items ex: /root
+    ROOT_CATEGORY: root
     # ARCHIVES_URL:
     # MAIN_MENU: false
     #MENUITEMS: [['Index', 'index']]
@@ -428,7 +430,7 @@ QUOKKA:
   ## [ --- SECURITY --- ]
   ## Enable login for admin access
   ## NOTE: in wsgi.py this is set as true by default
-  # ADMIN_REQUIRES_LOGIN: true
+  ADMIN_REQUIRES_LOGIN: true
   ## Enable login for website (ADMIN_REQUIRES_LOGIN should be also true)
   # WEBSITE_REQUIRES_LOGIN: false
   ## if WEBSITE_REQUIRES_LOGIN is true
@@ -439,6 +441,16 @@ QUOKKA:
   ## Secret Key must be in .secrets.yml or QUOKKA_SECRET_KEY env var.
   # SECRET_KEY: abcderf
   WTF_CSRF_ENABLED: true
+
+  INTERNAL_URLS:
+    - ['Categories', 'categories']
+    - ['Tags', 'tags']
+    - ['Authors', 'authors']
+    - ['Admin', 'admin']
+    - ['Login', 'login']
+    - ['Logout', 'logout']
+    - ['RSS', 'index/index.rss']
+    - ['Atom', 'index/index.atom']
 
   ## [ --- EXTENSIONS --- ]
   ## Use EXTRA_EXTENSIONS for thirty party extensions

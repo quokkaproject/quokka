@@ -8,6 +8,8 @@ from tinymongo import TinyMongoClient
 from tinymongo.serializers import DateTimeSerializer
 from tinymongo.tinymongo import generate_id
 
+from quokka.utils.text import split_all_category_roots
+
 
 class QuokkaTinyMongoClient(TinyMongoClient):
     @property
@@ -149,7 +151,11 @@ class QuokkaDB(object):
         return self.value_set('index', 'tags', flat=True, sort=sort, **kwargs)
 
     def category_set(self, sort=True, **kwargs):
-        return self.value_set('index', 'category', sort=sort, **kwargs)
+        results = self.value_set('index', 'category', sort=sort, **kwargs)
+        cats = []
+        for result in results:
+            cats.extend(split_all_category_roots(result))
+        return sorted(set(cats)) if sort is True else set(cats)
 
     def content_set(self, *args, **kwargs):
         return self.index.find(*args, **kwargs)

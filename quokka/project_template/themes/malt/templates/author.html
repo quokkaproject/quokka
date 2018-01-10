@@ -79,7 +79,7 @@
 {% block content_tail %}
 <div class="col s12">
     <div class="card">
-        {% if author.profile_page.comments != "closed" %}
+        {% if author.profile_page and author.profile_page.comments != "closed" %}
             {% include "includes/comments.html" %}
         {% endif %}
     </div>

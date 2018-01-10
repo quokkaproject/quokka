@@ -37,3 +37,7 @@ create_env:
 devserver:
 	$(info "Running quokka project template...")
 	@cd quokka/project_template; quokka runserver
+
+shell:
+	$(info "Running quokka shell...")
+	@cd quokka/project_template; quokka shell

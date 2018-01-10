@@ -224,7 +224,6 @@ class ArticleListView(BaseView):
                 published=content.date
             )
         return feed.get_response()
-        # return BaseResponse(self.to_string(), mimetype='application/atom+xml')
 
     def render_rss(self, content_type, templates, **context):
 
@@ -280,26 +279,32 @@ class ArticleListView(BaseView):
 
 
 class CategoryListView(BaseView):
-    def get(self):
-        # TODO: Split categories by `/` to get roots
+
+    def build_query(self, cat):
+        query = {'published': True}
+        if cat == app.theme_context.get('INDEX_CATEGORY', 'index'):
+            return query
+        if cat:
+            query['category_slug'] = {
+                '$regex': f"^{slugify_category(cat).rstrip('/')}"
+            }
+        else:
+            query['category_slug'] = cat
+        return query
+
+    def get(self, ext=None):
         categories = [
             (
                 Category(cat),
                 [
                     make_model(article)
-                    for article in app.db.article_set(
-                        {'category_slug': slugify_category(cat),
-                         'published': True}
-                    )
+                    for article in app.db.article_set(self.build_query(cat))
                 ]
             )
-            for cat in app.db.value_set(
-                'index', 'category',
-                filter={'published': True},
-                sort=True
-            )
+            for cat in app.db.category_set(
+                filter={'published': True}
+            ) + ['index']
         ]
-
         context = {
             'categories': categories
         }
@@ -309,7 +314,7 @@ class CategoryListView(BaseView):
 
 
 class TagListView(BaseView):
-    def get(self, page_number=1):
+    def get(self, page_number=1, ext=None):
         tags = [
             (Tag(tag), [])
             for tag in app.db.tag_set(filter={'published': True})
@@ -320,7 +325,7 @@ class TagListView(BaseView):
 
 
 class AuthorListView(BaseView):
-    def get(self):
+    def get(self, ext=None):
         authors = [
             (
                 Author(author),

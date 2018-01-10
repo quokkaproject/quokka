@@ -76,7 +76,7 @@ def validate_category(form, field):
 
 
 def get_category_kw(field):
-    categories = app.db.value_set('index', 'category', sort=False)
+    categories = list(app.db.category_set(sort=False))
     categories.extend(app.config.get('CATEGORIES', []))
     categories = sorted(list(set(categories)))
     return {'data-tags': json.dumps(categories),
@@ -107,6 +107,20 @@ def get_block_item_kw(field):
     ])
     items.extend([
         f"author::{author}" for author in app.db.author_set()
+    ])
+    items.extend([
+        f"url::{item[0]}::{item[1]}"
+        for item in app.config.get('INTERNAL_URLS', [])
+    ])
+    items.extend([
+        f"url::category_feed_{category}::{category}/index.{ext}"
+        for ext in ['rss', 'atom']
+        for category in app.db.category_set() if category
+    ])
+    items.extend([
+        f"url::tag_feed_{tag}::{tag}/index.{ext}"
+        for ext in ['rss', 'atom']
+        for tag in app.db.tag_set()
     ])
     block_items = sorted(list(set(items)))
     return {'data-tags': json.dumps(block_items),
