@@ -116,6 +116,14 @@ class Fixed(Orderable):
         return self.name
 
 
+class Url(Fixed):
+    """For compatibility"""
+
+    def __init__(self, name):
+        self.name = name
+        self.slug = name
+
+
 class Author(Orderable):
     def __init__(self, authors):
         self.authors = authors
@@ -422,7 +430,7 @@ class BlockItem(Content):
     def item(self):
         if self.metadata.get('index_id') or self.data.get('index_id'):
             return make_model(app.db.get('index', {'_id': self.index_id}))
-        for ref in ['author', 'category', 'tag']:
+        for ref in ['author', 'category', 'tag', 'url']:
             data = self.data.get(f"{ref}_id")
             if data:
                 return make_model(data, ref)

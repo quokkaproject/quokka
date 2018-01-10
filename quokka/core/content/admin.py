@@ -426,7 +426,7 @@ class AdminBlocksView(AdminContentView):
                 item.pop('csrf_token', None)
                 item['order'] = i
 
-                for ref in ['author', 'category', 'tag']:
+                for ref in ['author', 'category', 'tag', 'url']:
                     if item['item'].startswith(f"{ref}::"):
                         item[f"{ref}_id"] = item['item'].split('::')[-1]
                     else:
