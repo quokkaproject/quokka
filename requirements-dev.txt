@@ -9,4 +9,4 @@ flake8
 flake8-bugbear
 isort
 twine
-wheel
+wheel==0.30.0
