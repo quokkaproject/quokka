@@ -4,7 +4,7 @@ ipdb
 flask_debugtoolbar
 pytest_flask
 codecov
-pytest-cov
+pytest-cov==2.5.1
 flake8
 flake8-bugbear
 isort
