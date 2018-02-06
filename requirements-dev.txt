@@ -6,7 +6,7 @@ pytest_flask
 codecov
 pytest-cov
 flake8
-flake8-bugbear
+flake8-bugbear==18.2.0
 isort
 twine
 wheel
