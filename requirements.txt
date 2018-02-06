@@ -12,7 +12,7 @@ awesome_slugify
 flask_babelex
 mistune
 flask_simplelogin
-frozen_flask
+frozen_flask==0.15
 pillow
 pyrss2gen
 requests
