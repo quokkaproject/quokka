@@ -17,4 +17,4 @@ pillow
 pyrss2gen
 requests
 pygments
-six
+six==1.11.0
