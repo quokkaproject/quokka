@@ -3,7 +3,7 @@ ipython
 ipdb
 flask_debugtoolbar
 pytest_flask
-codecov
+codecov==2.0.15
 pytest-cov
 flake8
 flake8-bugbear
