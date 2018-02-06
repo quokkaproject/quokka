@@ -3,7 +3,7 @@ import_string
 flask_admin
 wtforms_components
 pymongo==2.4.1  # pyup: ignore
-tinymongo
+tinymongo==0.2.0
 tinydb_serialization
 manage
 dynaconf
