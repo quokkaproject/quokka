@@ -5,7 +5,7 @@ wtforms_components
 pymongo==2.4.1  # pyup: ignore
 tinymongo
 tinydb_serialization
-manage
+manage==0.1.13
 dynaconf
 quokka_flask_htmlbuilder
 awesome_slugify
