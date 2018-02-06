@@ -10,7 +10,7 @@ Flask-Gravatar==0.4.2
 Flask-Mistune==0.1.1
 flask-mongoengine==0.8.2
 Flask-OAuthlib==0.9.3
-flask-security==1.7.5
+flask-security==3.0.0
 Pillow==4.0.0
 PyRSS2Gen==1.1
 requests==2.13.0
