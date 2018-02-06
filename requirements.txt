@@ -15,6 +15,6 @@ flask_simplelogin
 frozen_flask
 pillow
 pyrss2gen
-requests
+requests==2.18.4
 pygments
 six
