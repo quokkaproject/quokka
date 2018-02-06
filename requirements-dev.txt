@@ -2,7 +2,7 @@ pytest
 ipython
 ipdb
 flask_debugtoolbar
-pytest_flask
+pytest_flask==0.10.0
 codecov
 pytest-cov
 flake8
