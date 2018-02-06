@@ -1,6 +1,6 @@
 pytest
 ipython
-ipdb
+ipdb==0.10.3
 flask_debugtoolbar
 pytest_flask
 codecov
