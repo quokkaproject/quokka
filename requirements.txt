@@ -1,7 +1,7 @@
 flask
 import_string
 flask_admin
-wtforms_components
+wtforms_components==0.10.3
 pymongo==2.4.1  # pyup: ignore
 tinymongo
 tinydb_serialization
