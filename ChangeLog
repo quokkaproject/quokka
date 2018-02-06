@@ -1,0 +1,87 @@
+CHANGES
+=======
+
+* Fix dropdown arrow
+* Clenup on README
+* Support for bare urls in MENU block items
+* Split root categories fix #24
+* Implemented sitemap Fix #19
+* Implemented atom and rss feeds fix #18
+* Implemented atom and rss feeds fix #18
+* Author page can have comments box
+* Fix #17 author profile page added creating a Block with the same name/slug turns to author profile page customizable header, text, social links, image and banner background
+* removed unused code form utils.routing
+* Refactored url\_for\_content
+* modularized custom\_vars
+* better home blocks based on models
+* Custom vars and WIP to get HOME items in admin
+* Adding Collection Type and dynamic MENUITEMS fix #7 fix #12 fix #16 fix #10 fix #9  (#82)
+* bind to 127..
+* Updated README :hamster:
+* Update CONTRIBUTING.md file (#81)
+* Add Dockerfile (#79)
+* adding a \_\_main\_\_ to allow \`python -m quokka <command>\` on windows (#76)
+* More spacing after leading emoji (#75)
+* Update .gitattributes
+* Create .gitattributes
+* Turn todo into issues
+* more todo :hamster:
+* date formatting, comments control
+* added BUG section to readme
+* Added contributor instructions
+* author pages, dynaconf multi yaml, pygments, secret\_key warnings
+* Tags page
+* Category and Tags page + CONTENT\_VAR\_MAP
+* Updated README
+* more theme adjusts
+* DYNAMIC\_VARS to rule them all!! :hamster:
+* added CATCHALL\_CATEGORY to use woth homepaged themes
+* wiser url handles + better malt template adjust
+* Added \`mdbook\` and its sources
+* Added full theme under project\_template (while development only)
+* Added support for malt theme
+* Theming tweeks
+* templates sidebar adjusts
+* adjusted pagination
+* INdex and article pages working for pelican themes
+* Allow forced overload of pelican themes
+* Allow overload of Pelican vars using environment variables
+* pelican bootstrap3 adjusts
+* adding new pelican templates related files
+* Adapting pelican themes part1
+* Allow custom admin panel icons
+* More unused code cleanup
+* Remodeled admin index page using panels
+* added module metadata to allow custom render of template
+* Clone action enabled (A first attempt to fix enter key on select2)
+* implemented content versioning :)
+* Struggling with versioning and wtforms
+* versioning
+* dynamize admin db access
+* adding new files
+* Another hige refactor
+* allow modules in project\_folder
+* removed more unused deps
+* removed unused deps
+* reaaranged file structures
+* added \`make install\`
+* deleted unused files
+* removed setup.py
+* Refactor database access
+* flit things up
+* changed collection names
+* Before and after save events
+* formatted 'publish' button and form rules
+* renamed content\_type to content\_format and started form edit\_rules
+* Implemented edit form content type and validators
+* Dynamic content forms added
+* All the form fields and widgets comes from single place
+* Added data serialization to tinymongo and more widgets
+* Starting to write the Base Content Form
+* renamed ext to core - porting the first module
+* added .secrets.yml concept, content translations, configs
+* Loaded extensions, admin working, ported extensions, themes, settings
+* Ported extensions
+* Added security and admin
+* added project templates folder
+* Fisrt commit of Quokka New Generation

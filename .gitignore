@@ -1,5 +1,4 @@
 *.py[cod]
-*.cfg
 
 # C extensions
 *.so
@@ -84,3 +83,7 @@ old_*
 .envrc
 
 docs/book
+
+.eggs
+
+README.rst

@@ -1,21 +1,5 @@
-Core Developers
----------------
-Bruno Rocha - brunorocha.org
-
-contributors
-------------
-https://github.com/quokkaproject/quokka/graphs/contributors
-
-Attributions
-------------
-Guido Van Rossum for Python
-Armin Ronacher for Flask, Click & Jinja
-Bruno Rocha for dynaconf, manage, import_string
-Serge S. Koval for Flask-Admin
-Alexis Metaireau for Pelican (& themes)
-Stephen Chapman, Jason Jones for TinyMongo
-Mongo Inc for Pymongo
-Magnun Leno for Malt theme
-Daan Debie for Bootstrap3 theme
-Lepture for Mistune
-Simon Sapin for Frozen Flask
+Benjamin Doherty <bendohmv@gmail.com>
+Bruno Rocha <rochacbruno@gmail.com>
+Bruno Rocha <rochacbruno@users.noreply.github.com>
+Eric Ho <dho.eric@gmail.com>
+Filipe Amaral <filipe@britecore.com>

@@ -1,0 +1,20 @@
+flask
+import_string
+flask_admin
+wtforms_components
+pymongo==2.4.1  # pyup: ignore
+tinymongo
+tinydb_serialization
+manage
+dynaconf
+quokka_flask_htmlbuilder
+awesome_slugify
+flask_babelex
+mistune
+flask_simplelogin
+frozen_flask
+pillow
+pyrss2gen
+requests
+pygments
+six

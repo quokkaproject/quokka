@@ -28,7 +28,18 @@ in its admin interface.
 
 ## Quick Start
 
-### Install quokka
+### Install and run for development mode
+
+```bash
+git clone https://github.com/rochacbruno/quokka
+cd quokka
+python3 -m venv venv
+. venv/bin/activate
+make install
+make devserver
+```
+
+### Or install quokka from PyPI
 
 ```bash
 python3 -m venv venv

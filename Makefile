@@ -14,18 +14,27 @@ clean:
 	@find ./ -name 'Thumbs.db' -exec rm -f {} \;
 	@find ./ -name '*~' -exec rm -f {} \;
 	@rm -rf dist/
+	@rm -rf build/
+	@rm -rf README.rst
+	@rm -rf .eggs/
 	@rm -rf *.egg
 	@rm -rf *.egg-info
 
-install:
-	@pip install flit pypandoc pygments
-	@flit install -s
 
-build:
-	@flit build
+reqs:
+	@pip install pbr pypandoc pygments
 
-publish:
-	@flit publish
+pandoc: reqs
+	@pandoc --from=markdown --to=rst --output=README.rst README.md
+
+install: clean pandoc
+	@python setup.py develop
+
+build: clean pandoc
+	@python setup.py sdist bdist_wheel --universal
+
+publish: build
+	@twine upload dist/*
 
 tree:
 	@tree  -L 1 -a -I __pycache__ --dirsfirst --noreport

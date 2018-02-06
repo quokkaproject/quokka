@@ -1,0 +1,12 @@
+pytest
+ipython
+ipdb
+flask_debugtoolbar
+pytest_flask
+codecov
+pytest-cov
+flake8
+flake8-bugbear
+isort
+twine
+wheel
