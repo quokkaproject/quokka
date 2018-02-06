@@ -1,7 +1,7 @@
 pytest
 ipython
 ipdb
-flask_debugtoolbar
+flask_debugtoolbar==0.10.1
 pytest_flask
 codecov
 pytest-cov
