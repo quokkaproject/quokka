@@ -7,6 +7,6 @@ codecov
 pytest-cov
 flake8
 flake8-bugbear
-isort
+isort==4.3.3
 twine
 wheel
