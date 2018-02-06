@@ -1,6 +1,6 @@
 # Quokka
 
-![quokka](/docs/emoji_small.png)
+![quokka](https://github.com/rochacbruno/quokka/raw/master/docs/emoji_small.png)
 
 ## The Happiest CMF in the world
 

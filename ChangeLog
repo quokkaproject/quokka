@@ -1,6 +1,7 @@
 CHANGES
 =======
 
+* Removed flit in favor of pbr
 * Fix dropdown arrow
 * Clenup on README
 * Support for bare urls in MENU block items
