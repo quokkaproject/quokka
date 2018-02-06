@@ -11,7 +11,7 @@ quokka_flask_htmlbuilder
 awesome_slugify
 flask_babelex
 mistune
-flask_simplelogin
+flask_simplelogin==0.0.6
 frozen_flask
 pillow
 pyrss2gen
