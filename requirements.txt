@@ -9,7 +9,7 @@ manage
 dynaconf
 quokka_flask_htmlbuilder
 awesome_slugify
-flask_babelex
+flask_babelex==0.9.3
 mistune
 flask_simplelogin
 frozen_flask
