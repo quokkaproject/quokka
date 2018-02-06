@@ -16,5 +16,5 @@ frozen_flask
 pillow
 pyrss2gen
 requests
-pygments
+pygments==2.2.0
 six
