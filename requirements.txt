@@ -8,7 +8,7 @@ tinydb_serialization
 manage
 dynaconf
 quokka_flask_htmlbuilder
-awesome_slugify
+awesome_slugify==1.6.5
 flask_babelex
 mistune
 flask_simplelogin
