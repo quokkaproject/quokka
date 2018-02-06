@@ -6,7 +6,7 @@ pymongo==2.4.1  # pyup: ignore
 tinymongo
 tinydb_serialization
 manage
-dynaconf
+dynaconf==0.5.2
 quokka_flask_htmlbuilder
 awesome_slugify
 flask_babelex
