@@ -1,6 +1,6 @@
 flask
 import_string
-flask_admin
+flask_admin==1.5.0
 wtforms_components
 pymongo==2.4.1  # pyup: ignore
 tinymongo
