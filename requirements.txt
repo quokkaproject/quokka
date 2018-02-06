@@ -10,7 +10,7 @@ dynaconf
 quokka_flask_htmlbuilder
 awesome_slugify
 flask_babelex
-mistune
+mistune==0.8.3
 flask_simplelogin
 frozen_flask
 pillow
