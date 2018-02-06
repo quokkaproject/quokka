@@ -1,5 +1,5 @@
 pytest
-ipython
+ipython==6.2.1
 ipdb
 flask_debugtoolbar
 pytest_flask
