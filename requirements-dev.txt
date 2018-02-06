@@ -8,5 +8,5 @@ pytest-cov
 flake8
 flake8-bugbear
 isort
-twine
+twine==1.9.1
 wheel
