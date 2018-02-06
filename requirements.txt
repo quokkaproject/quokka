@@ -1,5 +1,5 @@
 flask
-import_string
+import_string==0.1.0
 flask_admin
 wtforms_components
 pymongo==2.4.1  # pyup: ignore
