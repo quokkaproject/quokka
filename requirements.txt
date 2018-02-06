@@ -13,7 +13,7 @@ flask_babelex
 mistune
 flask_simplelogin
 frozen_flask
-pillow
+pillow==5.0.0
 pyrss2gen
 requests
 pygments
