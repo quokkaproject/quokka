@@ -14,7 +14,7 @@ mistune
 flask_simplelogin
 frozen_flask
 pillow
-pyrss2gen
+pyrss2gen==1.1
 requests
 pygments
 six
