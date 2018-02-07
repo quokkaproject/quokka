@@ -1,4 +1,4 @@
-.PHONY: docs test pep8 clean install build publish tree create_env devserver pandoc
+.PHONY: docs test pep8 clean install build publish tree create_env devserver pandoc adduser
 
 test: pep8
 	QUOKKA_MODE=test py.test --cov=quokka -l --tb=short --maxfail=1 tests/
@@ -50,3 +50,8 @@ devserver:
 shell:
 	$(info "Running quokka shell...")
 	@cd quokka/project_template; quokka shell
+
+
+adduser:
+	$(info "Running quokka adduser...")
+	@cd quokka/project_template; quokka adduser

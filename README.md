@@ -16,19 +16,24 @@ to provide any kind of web application based on Python and Flask.
 Quokka can also (optionally) generate a static website from the contents generated
 in its admin interface.
 
-## Features
+## Features (some to be implemented)
 
 - Web based content management admin interface
 - Multiple content formats (markdown, rst, html, plaintext)
 - Compatibility with any of the [Pelican Themes](pelican-themes.org)
 - Flat file NoSQL database **TinyDB** or optionally **MongoDB** for scale deployments
-- Host the Quokka server or generate a static website
+- Host the Quokka on **server** or generate a **static** website
 - Extensible via modules/plugins
 - Powered by Python, Flask, Flask-Admin, TinyMongo and Pelican Themes
 
 ## Quick Start
 
+
+> NOTE: QuokkaCMS requires Python 3.6+
+
+
 ### Install and run for development mode
+> this is the recommended way while 1.0.0 is not released
 
 ```bash
 git clone https://github.com/rochacbruno/quokka
@@ -36,10 +41,15 @@ cd quokka
 python3 -m venv venv
 . venv/bin/activate
 make install
+make adduser
 make devserver
 ```
 
+then access http://localhost:5000 and http://localhost:5000/admin
+edit the `quokka/project_template/quokka.yml` and start hacking the code!
+
 ### Or install quokka from PyPI
+> May not be stable until 1.0.0 is released
 
 ```bash
 python3 -m venv venv
@@ -47,9 +57,7 @@ python3 -m venv venv
 pip3 install quokka
 ```
 
-> NOTE: QuokkaCMS requires Python 3.6+
-
-### Start a project
+#### and start a project
 
 ```bash
 
@@ -105,25 +113,30 @@ quokka init mywebsite --theme http://github.com/user/theme --modules="commerce,f
 
 > the above looks for `quokka_commerce` and `quokka_foo` in PyPI and installs it
 
-Set important configurations
+#### Set important configurations
 
 ```bash
 quokka init mywebsite --theme http://github.com/user/theme --config="auth_enabled=false"
 ```
 
-> That is optional, you have to edit `quokka.yml` to tune your settings.
+> That is optional, you can to edit `quokka.yml` to tune your settings.
 
-### Run your website
+#### Create an admin user
+```
+quokka adduser
+```
+
+#### Run your website
 
 ```bash
 quokka runserver --port 5000
 ```
 
-### Access admin interface
+#### Access admin interface
 
 http://localhost:5000/admin
 
-### Access your site
+#### Access your site
 
 http://localhost:5000
 
@@ -265,11 +278,11 @@ Take a look at [Contributing Guidelines](/CONTRIBUTING.md)
 
 ### Setup a contributor environment
 
-Ensure you have `Python3.6+` clone this repo and:
+Ensure you have `Python3.6+` fork this repo and:
 
 ```bash
-git clone https://github.com/$YOURNAME/quokka_ng
-cd quokka_ng
+git clone https://github.com/$YOURNAME/quokka
+cd quokka
 
 # create a Python3.6 virtual env
 make create_env
@@ -277,8 +290,11 @@ make create_env
 # activate the venv
 . venv/bin/activate
 
-# install Quokka in --editable mode (using flit)
+# install Quokka in --editable mode (using pbr)
 make install
+
+# Create a new admin user
+make adduser
 
 # run quokka
 make devserver
@@ -289,7 +305,29 @@ Access http://localhost:5000/admin and http://localhost
 
 ## ROADMAP
 
-This list is available on https://github.com/rochacbruno/quokka_ng/issues
+This list is available on https://github.com/rochacbruno/quokka/issues
 
 This is the list of tasks to be completed until `1.0.0` can be released.
 support 100% coming only for `malt` and `bootstrap3` themes
+
+
+## Screenshots
+
+### The main Admin page
+
+![home cms](https://user-images.githubusercontent.com/458654/35923897-a6f321be-0c08-11e8-95ff-5510862326ea.png)
+
+
+### Pelican themes compatible
+
+An article showing in Malt theme
+![start contributing to quokka project my site](https://user-images.githubusercontent.com/458654/35923881-a128c9d2-0c08-11e8-94b4-813588209f04.png)
+
+The same article using Bootstrap 3 theme
+
+![start contributing to quokka project my site2](https://user-images.githubusercontent.com/458654/35924086-32840ebe-0c09-11e8-861e-db1a66b87326.png)
+
+> See more on screenshots on https://github.com/rochacbruno/quokka/issues/647
+
+
+# Start contributing right now!
