@@ -320,10 +320,11 @@ support 100% coming only for `malt` and `bootstrap3` themes
 
 ### Pelican themes compatible
 
-An article showing in Malt theme
+An article showing in Malt theme  
+
 ![start contributing to quokka project my site](https://user-images.githubusercontent.com/458654/35923881-a128c9d2-0c08-11e8-94b4-813588209f04.png)
 
-The same article using Bootstrap 3 theme
+The same article using Bootstrap 3 theme  
 
 ![start contributing to quokka project my site2](https://user-images.githubusercontent.com/458654/35924086-32840ebe-0c09-11e8-861e-db1a66b87326.png)
 
