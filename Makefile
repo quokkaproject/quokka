@@ -1,4 +1,4 @@
-.PHONY: docs test pep8 clean install build publish tree create_env devserver
+.PHONY: docs test pep8 clean install build publish tree create_env devserver pandoc
 
 test: pep8
 	QUOKKA_MODE=test py.test --cov=quokka -l --tb=short --maxfail=1 tests/

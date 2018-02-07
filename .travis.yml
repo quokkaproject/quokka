@@ -2,6 +2,9 @@ language: python
 python:
   - "3.6"
 services: mongodb
+addons:
+  apt_packages:
+    - pandoc
 install:
   - "pip install --upgrade -r requirements.txt"
   - "pip install --upgrade -r requirements-dev.txt"
