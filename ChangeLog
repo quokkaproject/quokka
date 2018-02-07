@@ -1,6 +1,14 @@
 CHANGES
 =======
 
+0.4.0
+-----
+
+* Using absolute url for logo-emoji
+
+0.3.5
+-----
+
 * Removed flit in favor of pbr
 * Fix dropdown arrow
 * Clenup on README
