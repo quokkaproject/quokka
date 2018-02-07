@@ -1,0 +1,13 @@
+language: python
+python:
+  - "3.6"
+services: mongodb
+install:
+  - "pip install --upgrade -r requirements.txt"
+  - "pip install --upgrade -r requirements-dev.txt"
+  - make install
+script: make test
+after_success:
+  - coveralls
+notifications:
+  slack: quokkaproject:pjF8y81mqwXxQRtf5sGz5zqr

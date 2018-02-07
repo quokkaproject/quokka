@@ -1,4 +1,4 @@
-flask>=0.1.12
+flask>=0.12.2
 import_string>=0.1.0
 flask_admin>=1.5.0
 wtforms_components>=0.10.3
