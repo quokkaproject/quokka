@@ -55,6 +55,8 @@ def runserver(app=None, reloader=None, debug=None,
     host = host or app.config.get('HOST', '127.0.0.1')
     port = port or app.config.get('PORT', 5000)
 
+    app.theme_context['SITEURL'] = f"//{host}:{port}"
+
     app.run(
         use_reloader=reloader,
         debug=debug,
