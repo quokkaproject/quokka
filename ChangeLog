@@ -1,6 +1,13 @@
 CHANGES
 =======
 
+* Small whitespace fix
+* Added some screenshots and fixed navbar
+* Added basic test to pass travis CI
+* Travis misses pandoc
+* Fix Flask version and added travis and pyup conf
+* Pinned deps
+
 0.4.0
 -----
 

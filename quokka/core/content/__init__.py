@@ -27,7 +27,8 @@ def configure(app):
         app.db.index,
         AdminBlocksView,
         name='Blocks',
-        endpoint='blockview'
+        endpoint='blockview',
+        category='Administration'
     )
 
     # Admin admin index panel icons
