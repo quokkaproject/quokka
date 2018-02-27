@@ -1,7 +1,7 @@
 import getpass
 from flask import current_app
 from quokka.admin.views import ModelView
-from quokka.admin.forms import Form, fields
+from quokka.admin.forms import Form, fields, ValidationError
 from werkzeug.security import check_password_hash, generate_password_hash
 from flask_simplelogin import SimpleLogin, get_username
 
@@ -21,9 +21,23 @@ def create_user(**data):
 
 
 class UserForm(Form):
-    username = fields.StringField('Username')
+    username = fields.StringField(
+        'Username',
+        description='used as login'
+    )
+    fullname = fields.StringField(
+        'Full Name',
+        description='shows in author page'
+    )
     email = fields.StringField('Email')
-    password = fields.PasswordField('Password')
+    password = fields.PasswordField(
+        'Password',
+        description=(
+            "For new users provide a password. <br>"
+            "For existing users provide for change. <br>"
+            "or leave blank to keep existing password. <br>"
+        )
+    )
 
 
 class UserView(ModelView):
@@ -35,10 +49,37 @@ class UserView(ModelView):
     page_size = 20
     can_set_page_size = True
 
+    def on_form_prefill(self, form, id):
+        # username cannot be changed
+        form.username.render_kw = {'readonly': True}
+
     # Correct user_id reference before saving
-    def on_model_change(self, form, model):
-        model['_id'] = model.get('username')
-        # todo reencrypt password if changed
+    def on_model_change(self, form, model, is_created):
+        username = model.get('username')
+        password = model.get('password')
+
+        if is_created:
+            # if password is blank raise error
+            if not password:
+                raise ValidationError('Password is required for new users')
+            # new user so hash the new password
+            model['_id'] = username
+            model['password'] = generate_password_hash(
+                password, method='pbkdf2:sha256'
+            )
+        else:
+            # existing user, so compare if password is provided and changed
+            current = current_app.db.users.find_one({'username': username})
+            if password and current.get('password') != password:
+                # if a different password provided, hash it
+                model['password'] = generate_password_hash(
+                    password, method='pbkdf2:sha256'
+                )
+            else:
+                # if password is blank in form, keep the current
+                model['password'] = current['password']
+
+        model.pop('csrf_token', None)
         return model
 
 
@@ -64,6 +105,11 @@ def configure_user_admin(app):
             UserView,
             name='Users',
             category='Administration'
+        )
+        app.admin.add_icon(
+            endpoint='quokka.core.auth.usersview.create_view',
+            icon='glyphicon-user',
+            text='New<br>User'
         )
 
 
