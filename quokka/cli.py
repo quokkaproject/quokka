@@ -44,7 +44,7 @@ def with_app(f):
 @click.option('--reloader/--no-reloader', default=None)
 @click.option('--debug/--no-debug', default=None)
 @click.option('--host', default=None)
-@click.option('--port', default=None)
+@click.option('--port', default=None, type=int)
 @click.option('--envmode', default=None)
 @with_app
 def runserver(app=None, reloader=None, debug=None,
