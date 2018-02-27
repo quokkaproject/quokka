@@ -11,7 +11,7 @@ Types of Contributions
 
 ### Report Bugs
 
-Report bugs at <https://github.com/rochacbruno/quokka_ng/issues>
+Report bugs at <https://github.com/rochacbruno/quokka/issues>
 
 If you are reporting a bug, please include:
 
@@ -28,7 +28,7 @@ open to whoever wants to implement it.
 
 ### Implement Features
 
-Look through the [Issues](https://github.com/rochacbruno/quokka_ng/issues) board. Anything there is open to whoever wants to implement it, if you have any doubts please leave a comment the issue asking for clarification.
+Look through the [Issues](https://github.com/rochacbruno/quokka/issues) board. Anything there is open to whoever wants to implement it, if you have any doubts please leave a comment the issue asking for clarification.
 
 ### Write Documentation
 
@@ -41,7 +41,7 @@ in docstrings, or in project documentation website, or even on the web in blog p
 ### Submit Feedback and ask for new features
 
 The best way to send feedback is to file an issue at
-<https://github.com/rochacbruno/quokka_ng/issues>
+<https://github.com/rochacbruno/quokka/issues>
 
 If you are proposing a feature:
 
@@ -57,11 +57,11 @@ Get Started!
 Ready to contribute? Here’s how to set up Quokka CMS
 for local development.
 
-1.  Fork the [quokka](https://github.com/rochacbruno/quokka_ng) repo on GitHub.
+1.  Fork the [quokka](https://github.com/rochacbruno/quokka) repo on GitHub.
 2.  Clone your fork locally:
 
-        $ git clone git@github.com:your_name_here/quokka_ng.git
-        $ cd quokka_ng/
+        $ git clone git@github.com:your_name_here/quokka.git
+        $ cd quokka/
 
 3.  Install your local copy into a virtualenv:
 
