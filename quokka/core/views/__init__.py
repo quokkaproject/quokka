@@ -39,8 +39,9 @@ def configure(app):
 
     @app.route('/favicon.ico')
     def favicon():
-        # TODO: Dynamize
-        return redirect(url_for('static', filename='favicon.ico'), code=301)
+        filename = current_app.theme_context.get(
+            'FAVICON_FILENAME', 'favicon.ico')
+        return redirect(url_for('static', filename=filename), code=301)
 
     app.add_quokka_url_rule('/sitemap.xml',
                             view_func=SiteMapView.as_view('sitemap'))
