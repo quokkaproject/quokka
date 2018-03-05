@@ -48,7 +48,8 @@ def create_admin(app=None):
     return QuokkaAdmin(
         app,
         index_view=index_view,
-        template_mode=app.config.get('FLASK_ADMIN_TEMPLATE_MODE')
+        template_mode=app.config.get('FLASK_ADMIN_TEMPLATE_MODE'),
+        base_template='admin/quokka/master.html'
     )
 
 

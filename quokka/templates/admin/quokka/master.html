@@ -1,0 +1,14 @@
+{% extends 'admin/base.html' %}
+
+{% block access_control %}
+{% if is_logged_in() %}
+<div class="btn-group pull-right">
+    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <i class="icon-user glyphicon glyphicon-user glyphsize"></i> {{ get_username() }} <span class="caret"></span>
+    </button>
+    <ul class="dropdown-menu">
+        <li><a href="{{url_for('simplelogin.logout')}}">Log out</a></li>
+    </ul>
+</div>
+{% endif %}
+{% endblock %}
