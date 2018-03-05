@@ -3,6 +3,7 @@ import PyRSS2Gen as pyrss
 from datetime import datetime, timedelta
 from flask import current_app as app, render_template, abort, request
 from flask.views import MethodView
+from flask_simplelogin import is_logged_in
 
 # from werkzeug.contrib.atom import AtomFeed
 # The werkzeug AtomFeed escapes all html tags
@@ -358,12 +359,17 @@ class DetailView(BaseView):
             slug=item_slug,
             category_slug=category
         )
+
         if not content:
             abort(404)
 
         content = make_model(content)
         if content.status == 'draft' and not self.is_preview:
             abort(404)
+
+        if self.is_preview and not is_logged_in():
+            # access denied
+            abort(403)
 
         context = {
             'category': content.category,
