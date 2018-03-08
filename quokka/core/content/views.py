@@ -389,5 +389,4 @@ class DetailView(BaseView):
 
 
 class PreviewView(DetailView):
-    # TODO: requires login if login is enabled
     is_preview = True

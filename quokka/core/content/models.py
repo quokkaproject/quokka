@@ -291,6 +291,10 @@ class Content:
         return "draft" if not self.data.get('published') else "published"
 
     @property
+    def published(self):
+        return self.data.get('published')
+
+    @property
     def lang(self):
         return self.data.get('language')
 

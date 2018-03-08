@@ -563,6 +563,8 @@ QUOKKA:
   #   - ['column', asc|-desc]
       - ['date', -1]
 
+  ADMIN_DATE_FORMAT: '%Y-%m-%d'
+
   BLOCK_ITEM_TYPES:
     - ['link', 'Link']
     - ['dropdown', 'Dropdown']
