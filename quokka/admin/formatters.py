@@ -1,29 +1,33 @@
-
+from flask import current_app as app
 from flask_htmlbuilder.htmlbuilder import html
-from quokka.admin.utils import _l
+from quokka.core.content.models import make_model
 
 
 def format_datetime(self, request, obj, fieldname, *args, **kwargs):
+    """Returns the formated datetime in string from object"""
+    model = make_model(obj)
     return html.div(style='min-width:130px;')(
-        getattr(obj, fieldname).strftime(self.get_datetime_format())
+        getattr(model, fieldname).strftime(
+            app.config.get('ADMIN_DATE_FORMAT', '%Y-%m-%d')
+        )
     )
 
 
-def view_on_site(self, request, obj, fieldname, *args, **kwargs):
-    available = obj.is_available
-    endpoint = kwargs.pop(
-        'endpoint',
-        'quokka.core.detail' if available else 'quokka.core.preview'
-    )
+def format_view_on_site(self, request, obj, fieldname, *args, **kwargs):
+    """Returns button to view or preview depending on content status"""
+    model = make_model(obj)
     return html.a(
-        href=obj.get_absolute_url(endpoint),
+        href=model.external_url,
         target='_blank',
-    )(html.i(class_="icon icon-eye-open", style="margin-right: 5px;")(),
-      _l('View on site') if available else _l('Preview on site'))
+    )(html.i(class_="icon fa fa-globe glyphicon glyphicon-globe",
+             style="margin-right: 5px;")(),
+      'View' if model.published else 'Preview')
 
 
 def format_ul(self, request, obj, fieldname, *args, **kwars):
-    field = getattr(obj, fieldname)
+    """Given a list of data format it is ul/li"""
+    model = make_model(obj)
+    field = getattr(model, fieldname)
     column_formatters_args = getattr(self, 'column_formatters_args', {})
     _args = column_formatters_args.get('ul', {}).get(fieldname, {})
     ul = html.ul(style=_args.get('style', "min-width:200px;max-width:300px;"))
@@ -33,7 +37,9 @@ def format_ul(self, request, obj, fieldname, *args, **kwars):
 
 
 def format_link(self, request, obj, fieldname, *args, **kwars):
-    value = getattr(obj, fieldname)
+    """Format a link from the model"""
+    model = make_model(obj)
+    value = getattr(model, fieldname)
     return html.a(href=value, title=value, target='_blank')(
         html.i(class_="icon  icon-resize-small",
                style="margin-right: 5px;")()
@@ -41,7 +47,9 @@ def format_link(self, request, obj, fieldname, *args, **kwars):
 
 
 def format_status(self, request, obj, fieldname, *args, **kwargs):
-    status = getattr(obj, fieldname)
+    """Format the status published or not published and other booleans"""
+    model = make_model(obj)
+    status = getattr(model, fieldname)
     column_formatters_args = getattr(self, 'column_formatters_args', {})
     _args = column_formatters_args.get('status', {}).get(fieldname, {})
     labels = _args.get('labels', {})
@@ -51,16 +59,18 @@ def format_status(self, request, obj, fieldname, *args, **kwargs):
     )(status)
 
 
-def get_url(self, request, obj, fieldname, *args, **kwargs):
+def format_url(self, request, obj, fieldname, *args, **kwargs):
+    """Get the url of a content object"""
     column_formatters_args = getattr(self, 'column_formatters_args', {})
     _args = column_formatters_args.get('get_url', {}).get(fieldname, {})
-    attribute = _args.get('attribute')
-    method = _args.get('method', 'get_absolute_url')
-    text = getattr(obj, fieldname, '')
+    attribute = _args.get('attribute', 'url')
+    method = _args.get('method', 'url')
+    model = make_model(obj)
+    text = getattr(model, fieldname, '')
     if attribute:
-        target = getattr(obj, attribute, None)
+        target = getattr(model, attribute, None)
     else:
-        target = obj
+        target = model
 
     url = getattr(target, method, lambda: '#')()
 

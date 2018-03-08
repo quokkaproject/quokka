@@ -56,7 +56,7 @@ class CloneAction(object):
         return redirect(url_for('.edit_view', id=clone['_id']))
 
 
-# TODO: Serialize and activate thia action
+# TODO: Serialize and activate this action
 class ExportAction(object):
     @action('export_to_json', 'Export as json')
     def export_to_json(self, ids):
