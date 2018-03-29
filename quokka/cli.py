@@ -146,15 +146,21 @@ def init(name, destiny, source, theme, modules):
 
 @cli.command()
 @click.option('--username', required=True, prompt=True)
+@click.option('--fullname', required=False, prompt=True)
 @click.option('--email', required=False, default=None, prompt=True)
 @click.option('--password', required=True, prompt=True, hide_input=True,
               confirmation_prompt=True)
 @with_app
-def adduser(app, username, email, password):
+def adduser(app, username, fullname, email, password):
     """Add new user with admin access"""
     with app.app_context():
         try:
-            create_user(username=username, password=password, email=email)
+            create_user(
+                username=username,
+                fullname=fullname,
+                password=password,
+                email=email
+            )
         except DuplicateKeyError as e:
             click.echo(str(e).replace('_id', 'username'))
         else:

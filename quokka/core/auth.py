@@ -41,8 +41,8 @@ class UserForm(Form):
 
 
 class UserView(ModelView):
-    column_list = ('username', 'email')
-    column_sortable_list = ('username', 'email')
+    column_list = ('username', 'fullname', 'email')
+    column_sortable_list = ('username', 'fullname', 'email')
 
     form = UserForm
 
