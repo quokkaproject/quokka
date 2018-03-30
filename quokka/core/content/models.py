@@ -396,6 +396,9 @@ class Block(Content):
 
     @property
     def author_avatar(self):
+        if self.metadata.get('author_avatar'):
+            # TODO: deal with uploads here
+            return self.metadata.get('author_avatar')
         if self.metadata.get('gravatar_email'):
             return f"https://avatars.io/gravatar/{make_social_name(self.metadata.get('gravatar_email'))}"  # noqa
         if self.metadata.get('twitter'):
@@ -404,10 +407,7 @@ class Block(Content):
             return f"https://avatars.io/facebook/{make_social_name(self.metadata.get('facebook'))}"  # noqa
         if self.metadata.get('instagram'):
             return f"https://avatars.io/instagram/{make_social_name(self.metadata.get('instagram'))}"  # noqa
-        return self.metadata.get(
-            'author_avatar',
-            f'https://api.adorable.io/avatars/250/{self.slug}.png'
-        )
+        return f'https://api.adorable.io/avatars/250/{self.slug}.png'
 
     @property
     def social_links(self):

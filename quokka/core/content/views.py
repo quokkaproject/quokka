@@ -152,9 +152,10 @@ class ArticleListView(BaseView):
             for article in app.db.article_set(query)
         ]
 
-        if content_type not in ['index', 'home', 'direct'] and not articles:
+        if content_type not in ['index', 'home', 'direct', 'author'] and not articles:  # noqa
             # on `index`, `home` and direct templates no need for articles
-            # but category pages should never show empty
+            # but category pages should never show empty unless it is author
+            # profile
             abort(404)
 
         page_name = ''

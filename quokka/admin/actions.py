@@ -2,9 +2,13 @@
 import json
 import random
 from copy import deepcopy
+from datetime import datetime
 
+from flask import Markup
 from flask import Response, current_app, flash, redirect, url_for
 from flask_admin.actions import action
+
+from quokka.utils.text import slugify
 
 
 class PublishAction(object):
@@ -54,6 +58,101 @@ class CloneAction(object):
         self.coll.insert(clone)
         self.after_model_change(None, clone, True)
         return redirect(url_for('.edit_view', id=clone['_id']))
+
+
+class UserProfileBlockAction(object):
+    @action(
+        'create_userprofile',
+        'Create user profile block',
+        'Are you sure you want to create user profile block?'
+    )
+    def action_create_userprofile(self, ids):
+        for _id in ids:
+            user = current_app.db.users.find_one({'_id': _id})
+            if not user.get('fullname'):
+                user['fullname'] = user['username']
+                current_app.db.users.update_one(
+                    {'_id': user['_id']}, {'fullname': user['fullname']}
+                )
+                # This update looks like having a cache
+                # self.coll.update_one(
+                #     {'_id': _id}, {'fullname': user['fullname']}
+                # )
+            fullslug = slugify(user['fullname'])
+            existing_block = current_app.db.get(
+                'index', {'content_type': 'block', 'slug': fullslug}
+            )
+            if existing_block:
+                blocklink = url_for(
+                    'quokka.core.content.admin.blockview.edit_view',
+                    id=existing_block['_id']
+                )
+                flash(Markup(
+                    f'Profile block for {user["username"]} '
+                    f'already exists at: '
+                    f'<a href="{blocklink}">{existing_block["_id"]}</a>'
+                ))
+            else:
+                # TODO: move creation logic to a model like obj
+                new_data = {
+                    'title': user['fullname'],
+                    'slug': fullslug,
+                    'summary': f'Profile page for {user["username"]}',
+                    'published': True,
+                    'comments': False,
+                    'content_type': 'block',
+                    'version': 0,
+                    'date': datetime.now(),
+                    'modified': datetime.now(),
+                    'language': 'en',
+                    'content_format': 'markdown',
+                    'created_by': 'admin',
+                    'modified_by': 'admin',
+                    'category': '',
+                    'category_slug': '',
+                    'custom_vars': [
+                        {'key': 'profile_title',
+                         'value': f'@note change this field to customize html page title'},  # noqa
+                        {'key': 'twitter',
+                         'value': f'@note Fill this field with user twitter profile e.g: http://twitter.com/{user["username"]}'},  # noqa
+                        {'key': 'facebook',
+                         'value': f'@note Fill this field with user facebook profile e.g: http://facebook.com/{user["username"]}'},  # noqa
+                        {'key': 'pinterest',
+                         'value': f'@note Fill this field with user pinterest profile e.g: http://pinterest.com/{user["username"]}'},  # noqa
+                        {'key': 'github',
+                         'value': f'@note Fill this field with user github profile e.g http://github.com/{user["username"]}'},  # noqa
+                        {'key': 'aboutme',
+                         'value': f'@note Fill this field with user about.me profile e.g: http://aboutme.com/{user["username"]}'},  # noqa
+                        {'key': 'instagram',
+                         'value': f'@note Fill this field with user instagram profile e.g: http://instagram.com/{user["username"]}'},  # noqa
+                        {'key': 'site',
+                         'value': '@note Fill this field with user website link'},  # noqa
+                        {'key': 'banner_color', 'value': '@note Fill this field with a color code or name e.g: #ffcc00 or yellow'},  # noqa
+                        {'key': 'banner_image', 'value': '@note Fill this field witha banner image url e.g: http://site.com/image.jpg'},  # noqa
+                        {'key': 'gravatar_email', 'value': '@note Fill this field with gravatar registered email e.g: user@site.com'},  # noqa
+                        {'key': 'author_avatar', 'value': '@note Fill this field with an absolute url to a profile image e.g: http://site.com/image.png'},  # noqa
+                    ],
+                    'quokka_create_form_class': 'FormMeta',
+                    'quokka_create_form_module': 'quokka.core.content.formats',
+                    'quokka_format_class': 'MarkdownFormat',
+                    'quokka_format_module': 'quokka.core.content.formats',
+                    'quokka_module': 'quokka.core.content.admin',
+                    'tags_slug': None,
+                    'block_items': [],
+                    'authors_slug': None,
+                }
+                new = current_app.db.insert('index', new_data)
+                new_data['_id'] = new.inserted_id
+                current_app.db.push_content(new_data)
+                newlink = url_for(
+                    'quokka.core.content.admin.blockview.edit_view',
+                    id=new.inserted_id
+                )
+                flash(Markup(
+                    f'Profile block for {user["username"]} '
+                    f'Created at: '
+                    f'<a href="{newlink}">{new.inserted_id}</a>'
+                ))
 
 
 # TODO: Serialize and activate this action

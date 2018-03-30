@@ -207,6 +207,9 @@ class QuokkaDB(object):
     def insert(self, colname, *args, **kwargs):
         return self.get_collection(colname).insert(*args, **kwargs)
 
+    def update(self, colname, query, doc):
+        return self.get_collection(colname).update_one(query, doc)
+
     def push_content(self, model):
         """Insert or Update content related to model"""
         collection = self.get_content_collection(model['_id'])

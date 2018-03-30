@@ -4,7 +4,9 @@ import pymongo
 from flask import current_app
 from quokka.admin.forms import ValidationError, rules
 from quokka.admin.views import ModelView
-from quokka.admin.formatters import format_datetime, format_view_on_site
+from quokka.admin.formatters import (
+    format_datetime, format_view_on_site, format_custom_vars
+)
 from quokka.core.auth import get_current_user
 from quokka.utils.text import slugify, slugify_category
 
@@ -48,7 +50,8 @@ class AdminContentView(ModelView):
     column_formatters = {
         'date': format_datetime,
         'modified': format_datetime,
-        'view': format_view_on_site
+        'view': format_view_on_site,
+        'custom_vars': format_custom_vars
     }
 
     column_sortable_list = (

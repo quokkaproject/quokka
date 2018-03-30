@@ -1,4 +1,5 @@
 from flask import current_app as app
+from flask import Markup
 from flask_htmlbuilder.htmlbuilder import html
 from quokka.core.content.models import make_model
 
@@ -75,3 +76,13 @@ def format_url(self, request, obj, fieldname, *args, **kwargs):
     url = getattr(target, method, lambda: '#')()
 
     return html.a(href=url)(text if text not in [None, 'None'] else '')
+
+
+def format_custom_vars(self, request, obj, fieldname, *args, **kwargs):
+    ul = html.ul(style="min-width:200px;max-width:300px;")
+    lis = [
+        html.li(
+            html.strong(f'{item["key"]}:'), f' {item["value"]}'
+        ) for item in obj.get('custom_vars', [])
+    ]
+    return ul(*lis)
