@@ -20,9 +20,9 @@ def configure_dynaconf(app):
     FlaskDynaconf(
         app,
         ENVVAR_FOR_DYNACONF="QUOKKA_SETTINGS_MODULE",
-        DYNACONF_NAMESPACE='QUOKKA',
+        NAMESPACE_FOR_DYNACONF='QUOKKA',
         SETTINGS_MODULE_FOR_DYNACONF=settings_file,
-        DYNACONF_SILENT_ERRORS=True
+        SILENT_ERRORS_FOR_DYNACONF=True
     )
 
     # Configure extra environment
@@ -42,8 +42,13 @@ def configure_dynaconf(app):
             silent=True
         )
 
+    class ThemeContext(dict):
+        @property
+        def logger(self):
+            return app.config.logger
+
     # configure theme options
-    app.theme_context = {
+    app.theme_context = ThemeContext({
         'JINJA_ENVIRONMENT': app.jinja_env,
         'DEFAULT_LANG': app.config.get('BABEL_DEFAULT_LOCALE'),
         'default_locale': app.config.get('BABEL_DEFAULT_LOCALE'),
@@ -65,7 +70,8 @@ def configure_dynaconf(app):
         'FAVICON_FILENAME': 'favicon.ico',
         # 'AVATAR': 'LOAD FROM UPLOADS',
         'NEWEST_FIRST_ARCHIVES': True
-    }
+    })
+
     # load theme variables from YAML file
     yaml_loader.load(
         obj=app.theme_context,
