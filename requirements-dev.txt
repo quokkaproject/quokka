@@ -14,3 +14,4 @@ flask>=1.0
 logzero
 pytest-mock
 pytest-django
+mock
