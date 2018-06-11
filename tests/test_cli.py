@@ -61,6 +61,9 @@ def test_copy_folder_file_exists():
          raise
 
 
+#https://semaphoreci.com/community/tutorials/getting-started-with-mocking-in-python
+#https://github.com/pytest-dev/pytest-mock
+#https://medium.com/@bfortuner/python-unit-testing-with-pytest-and-mock-197499c4623c
 #def test_with_app():
     #@with_app
     
