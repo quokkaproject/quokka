@@ -1,7 +1,7 @@
 .PHONY: docs test pep8 clean install build publish tree create_env devserver pandoc adduser
 
 test: pep8
-	py.test
+	pytest
 
 pep8:
 	@flake8 quokka --ignore=F403 --exclude=migrations
