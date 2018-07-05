@@ -2,6 +2,9 @@
 
 ![quokka](https://github.com/rochacbruno/quokka/raw/master/docs/emoji_small.png)
 
+[![Build Status](https://api.travis-ci.org/rochacbruno/quokka.svg?branch=master)](http://travis-ci.org/rochacbruno/quokka)
+
+
 ## The Happiest CMF in the world
 
 Quokka is a Content Management Framework written in Python.
