@@ -89,3 +89,4 @@ docs/book
 .eggs
 
 README.rst
+/nbproject/private/

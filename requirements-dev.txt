@@ -12,3 +12,7 @@ twine>=1.9.1
 wheel>=0.30.0
 flask>=1.0
 logzero
+pytest_mock
+mock
+pytest_django
+pyyaml
