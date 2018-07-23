@@ -55,7 +55,8 @@ def test_copy_folder_file_exists():
     try:
         copyfolder(directory_pwd+file_test, directory_pwd+directory_test+file_test)
         assert os.path.isfile(directory_pwd+directory_test+file_test) is True
-
+        #todo: apply code to remove: cli-test-file
+        
     except OSError as e:
         if e.errno != errno.EEXIST:
             raise
@@ -67,33 +68,39 @@ def test_copy_folder_file_exists():
 #https://github.com/pytest-dev/pytest-mock
 #https://medium.com/@bfortuner/python-unit-testing-with-pytest-and-mock-197499c4623c
 #TypeError: test_check() takes 1 positional argument but 2 were given
-#@mock.patch('manage.cli')
-#@mock.patch('quokka.cli.with_app')
-#def test_check(mocker):
-#    mocker.patch("click.echo")
-#    check()
-#    click.echo.assert_called_once_with("Extensions.")
-    #pprint(app.extensions)
-    #click.echo("Modules.")
-    #pprint(app.blueprints)
-    #click.echo("App.")
-    #return app
-    
-#    mocker.patch('click.echo')
-    #mocker.patch('pprint')
-#    check(None)
-#    click.echo.assert_called_once_with("Extensions.")
-    #pprint.assert_called_once_with("app.extensions")
-    #click.echo.assert_called_once_with("Modules.")
-    #pprint.assert_called_once_with("app.blueprints")
-    #click.echo.assert_called_once_with("App.")
 
-#AssertionError: Expected 'decorator' to be called once. Called 0 times.
-def test_with_app(mocker):
-    mocker.patch("quokka.create_app")
-#    mocker.patch("click.echo")
-    with_app('f')
-#    quokka.create_app.decorator.assert_called_once_with('env')
+
+class AppMock():
+
+    def __init__(param):
+        return None
+    
+    def extensions():
+        pass
+    
+    def blueprints():
+        pass
+
+
+#criar mock para:
+#@cli.command()
+#@with_app
+@mock.patch("manage.cli")
+@mock.patch("quokka.cli.with_app")
+@mock.patch("quokka.cli.click")
+@mock.patch("pprint.pprint")
+def test_check(mock_pprint, mock_click, mock_with_app, mock_cli):
+    app = AppMock()
+    check(app)
+    mock_click.echo.assert_called_with("App.")
+
+
+#@mock.patch("functools.wraps")
+#@mock.patch("quokka.cli.decorator")
+#@mock.patch("quokka.create_app")
+#def test_with_app(mock_create_app, mock_wraps):
+    #with_app('f')
+    #assert mock_wraps.wraps.called is True
 
 def test_init(mocker):
     pass
