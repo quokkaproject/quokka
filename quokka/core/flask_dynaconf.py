@@ -4,7 +4,8 @@ should be loaded directly in create_app"""
 
 from flask import Markup
 from dynaconf.contrib import FlaskDynaconf
-from dynaconf.loaders import yaml_loader, env_loader
+from dynaconf.utils import DynaconfDict
+from dynaconf.loaders import yaml_loader, env_loader, default_loader
 
 
 def configure_dynaconf(app):
@@ -20,7 +21,7 @@ def configure_dynaconf(app):
     FlaskDynaconf(
         app,
         ENVVAR_FOR_DYNACONF="QUOKKA_SETTINGS_MODULE",
-        NAMESPACE_FOR_DYNACONF='QUOKKA',
+        GLOBAL_ENV_FOR_DYNACONF='QUOKKA',
         SETTINGS_MODULE_FOR_DYNACONF=settings_file,
         SILENT_ERRORS_FOR_DYNACONF=True
     )
@@ -30,25 +31,20 @@ def configure_dynaconf(app):
     if envmode is not None:
         yaml_loader.load(
             obj=app.config,
-            namespace=envmode,
+            env=envmode,
             filename=settings_file
         )
         # overload with envvars
         env_loader.load_from_env(
             identifier=envmode,
             key=None,
-            namespace=f'quokka_{envmode}',
+            env=f'quokka_{envmode}',
             obj=app.config,
             silent=True
         )
 
-    class ThemeContext(dict):
-        @property
-        def logger(self):
-            return app.config.logger
-
     # configure theme options
-    app.theme_context = ThemeContext({
+    app.theme_context = DynaconfDict({
         'JINJA_ENVIRONMENT': app.jinja_env,
         'DEFAULT_LANG': app.config.get('BABEL_DEFAULT_LOCALE'),
         'default_locale': app.config.get('BABEL_DEFAULT_LOCALE'),
@@ -72,17 +68,19 @@ def configure_dynaconf(app):
         'NEWEST_FIRST_ARCHIVES': True
     })
 
+    default_loader(app.theme_context)
+
     # load theme variables from YAML file
     yaml_loader.load(
         obj=app.theme_context,
-        namespace='theme',
-        filename=app.config.get('SETTINGS_MODULE')
+        env='theme',
+        filename=app.config.get('SETTINGS_MODULE_FOR_DYNACONF')
     )
     # overrride with QUOKKA_THEME_ prefixed env vars if exist
     env_loader.load_from_env(
         identifier='theme',
         key=None,
-        namespace='quokka_theme',
+        env='quokka_theme',
         obj=app.theme_context,
         silent=True
     )
@@ -96,14 +94,14 @@ def configure_dynaconf(app):
     # load theme specific variables from YAML
     yaml_loader.load(
         obj=app.theme_context,
-        namespace=f'theme_{app.theme_context.get("ACTIVE")}',
-        filename=app.config.get('SETTINGS_MODULE')
+        env=f'theme_{app.theme_context.get("ACTIVE")}',
+        filename=app.config.get('SETTINGS_MODULE_FOR_DYNACONF')
     )
     # overrride with QUOKKA_THEME_THEMENAME prefixed env vars if exist
     env_loader.load_from_env(
         identifier=f'theme_{app.theme_context.get("ACTIVE")}',
         key=None,
-        namespace=f'quokka_theme_{app.theme_context.get("ACTIVE")}',
+        env=f'quokka_theme_{app.theme_context.get("ACTIVE")}',
         obj=app.theme_context,
         silent=True
     )
