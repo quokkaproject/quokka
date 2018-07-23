@@ -7,7 +7,7 @@ from quokka import create_app
 from pytest_mock import mocker 
 from manage.cli import cli, init_cli
 import pytest, os, errno, pathlib, os.path, pytest_mock
-from quokka.cli import copyfolder, with_app, check, main, init
+from quokka.cli import copyfolder, with_app, check, main, init, runserver
 
 directory_pwd = os.getcwd()+"/tests/"
 directory_test = "copy-directory-test/"
@@ -50,12 +50,12 @@ def test_copy_folder_error_second_param():
             raise
 
 
+#TODO: apply code to remove: cli-test-file
 def test_copy_folder_file_exists():
     
     try:
         copyfolder(directory_pwd+file_test, directory_pwd+directory_test+file_test)
         assert os.path.isfile(directory_pwd+directory_test+file_test) is True
-        #todo: apply code to remove: cli-test-file
         
     except OSError as e:
         if e.errno != errno.EEXIST:
@@ -145,5 +145,13 @@ def test_main(mocker):
     mocker.patch("manage.cli.init_cli")
 #    quokka.cli.main()
 #    manage.cli.init_cli.assert_called_once_with(cli)
+
+
+@mock.patch("click.command")
+@mock.patch("click.option")
+@mock.patch("quokka.cli.with_app")
+def test_runserver(mocker_option, mocker_command, mocker_with_app):
+    pass
+
 
 
