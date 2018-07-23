@@ -54,8 +54,10 @@ edit the `quokka/project_template/quokka.yml` and start hacking the code!
 ```bash
 python3 -m venv venv
 . venv/bin/activate
-pip3 install quokka
+pip3 install --pre quokka
 ```
+
+> NOTE: use `--pre` to get pre releases updates (dev version)
 
 #### and start a project
 

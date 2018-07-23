@@ -1,6 +1,7 @@
 CHANGES
 =======
 
+* 0.4.1
 * removed unused \_\_version\_\_
 * Fix wrong template call
 * Update Readme.md - fix link to Pelican Themes (#666)
