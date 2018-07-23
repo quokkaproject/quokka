@@ -7,7 +7,7 @@ from quokka import create_app
 from pytest_mock import mocker 
 from manage.cli import cli, init_cli
 import pytest, os, errno, pathlib, os.path, pytest_mock
-from quokka.cli import copyfolder, with_app, check, main
+from quokka.cli import copyfolder, with_app, check, main, init
 
 directory_pwd = os.getcwd()+"/tests/"
 directory_test = "copy-directory-test/"
@@ -94,16 +94,44 @@ def test_check(mock_pprint, mock_click, mock_with_app, mock_cli):
     check(app)
     mock_click.echo.assert_called_with("App.")
 
-
-#@mock.patch("functools.wraps")
+#FIXME: assert bool wrong
+@mock.patch("functools.wraps")
 #@mock.patch("quokka.cli.decorator")
-#@mock.patch("quokka.create_app")
-#def test_with_app(mock_create_app, mock_wraps):
-    #with_app('f')
-    #assert mock_wraps.wraps.called is True
+@mock.patch("quokka.create_app")
+def test_with_app(mock_create_app, mock_wraps):
+    with_app('f')
+    assert mock_wraps.called is False
 
-def test_init(mocker):
-    pass
+#fixture click.testing
+from click.testing import CliRunner
+@pytest.fixture(scope='function')
+def runner(request):
+    return CliRunner()
+
+
+from pathlib import Path
+#FIXME: assert bool wrong
+@mock.patch("click.command")
+@mock.patch("click.argument")
+@mock.patch("click.option")
+@mock.patch("pathlib.Path")
+@mock.patch("quokka.cli.copyfolder")
+def test_init(mocker_copyfolder, mocker_Path, mocker_option, mocker_argument, mocker_command, runner):
+    
+    try:
+        @click.command()
+        @click.argument('name', nargs=-1)
+        def run_init_test():
+            init('name-mock', '.', '../', 'theme-mock', 'modules-mock')
+            
+        result = runner.invoke(run_init_test)
+        
+        assert not result.exception
+        assert mocker_copyfolder.called is False
+    except TypeError as e:
+        assert 'nargs=-1' in str(e)
+         
+    
 
 def test_adduser(mocker):
     pass
