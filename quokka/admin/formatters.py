@@ -1,5 +1,4 @@
 from flask import current_app as app
-from flask import Markup
 from flask_htmlbuilder.htmlbuilder import html
 from quokka.core.content.models import make_model
 
