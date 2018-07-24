@@ -1,4 +1,4 @@
-FROM python:3-jessie
+FROM python:3.7.0-stretch
 MAINTAINER Eric Ho <dho.eric@gmail.com>
 
 RUN mkdir -p /usr/src/app
