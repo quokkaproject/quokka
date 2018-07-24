@@ -1,12 +1,10 @@
-FROM python:3-jessie
+FROM python:3.7.0-stretch
 MAINTAINER Eric Ho <dho.eric@gmail.com>
 
-ENV FLIT_ROOT_INSTALL 1
 RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
 
 RUN pip install \
-	flit \
 	pypandoc \
 	pygments
 
@@ -16,7 +14,8 @@ RUN apt-get update && \
 	rm -rf /var/lib/apt/lists/*
 
 COPY . /usr/src/app/
-RUN flit install -s
+
+RUN python setup.py develop
 
 WORKDIR /work
 EXPOSE 5000
