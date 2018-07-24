@@ -1,7 +1,5 @@
 """Quokka CMS!"""
 
-__version__ = '0.3.4'
-
 from pathlib import Path
 from quokka.core.app import QuokkaApp
 from quokka.core import configure_extensions, configure_extension

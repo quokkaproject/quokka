@@ -1,6 +1,22 @@
 CHANGES
 =======
 
+* 0.4.1
+* removed unused \_\_version\_\_
+* Fix wrong template call
+* Update Readme.md - fix link to Pelican Themes (#666)
+* Preparing for Dynaconf 1.0.0 (#661)
+* Dynaconf upgraded to 0.7.0
+* Fix #629 user and author profile management
+* Added full name to user
+* Fix #631 added view|preview links to admin column views (#658)
+* Fix #639 preview requires login
+* fix #654 added logout button to admin navbar
+* Get favicon filename from theme\_context (#656)
+* Added user creation and edit to admin (#652)
+* In runserver command SITEURL is dynamically set
+* Changed the port parameter to int. (#651)
+* Updated url for the project in contributing.md (#649)
 * Small whitespace fix
 * Added some screenshots and fixed navbar
 * Added basic test to pass travis CI
