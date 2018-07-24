@@ -20,7 +20,7 @@ in its admin interface.
 
 - Web based content management admin interface
 - Multiple content formats (markdown, rst, html, plaintext)
-- Compatibility with any of the [Pelican Themes](pelican-themes.org)
+- Compatibility with any of the [Pelican Themes](http://www.pelicanthemes.com/)
 - Flat file NoSQL database **TinyDB** or optionally **MongoDB** for scale deployments
 - Host the Quokka on **server** or generate a **static** website
 - Extensible via modules/plugins
@@ -54,8 +54,10 @@ edit the `quokka/project_template/quokka.yml` and start hacking the code!
 ```bash
 python3 -m venv venv
 . venv/bin/activate
-pip3 install quokka
+pip3 install --pre quokka
 ```
+
+> NOTE: use `--pre` to get pre releases updates (dev version)
 
 #### and start a project
 
