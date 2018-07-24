@@ -15,6 +15,8 @@ RUN apt-get update && \
 
 COPY . /usr/src/app/
 
+RUN python setup.py develop
+
 WORKDIR /work
 EXPOSE 5000
 ENTRYPOINT ["quokka"]
