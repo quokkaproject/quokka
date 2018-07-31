@@ -82,4 +82,35 @@ def test_create_app_base_function_configure_extension_called_is_true(mock_config
     quokka.create_app_base(test=True, ext_list=list_ext)
     assert mock_configure_extension.called is True
 
+@mock.patch("quokka.core.app.QuokkaApp")
+@mock.patch("quokka.core.flask_dynaconf.configure_dynaconf")
+@mock.patch("quokka.core.configure_extension")
+def test_create_app_base_function_configure_extension_called_is_true_and_settings(mock_configure_extension, mock_configure_dynaconf, mock_QuokkaApp):
+    list_ext = ['quokka.core.app.QuokkaApp', 
+                'quokka.core.flask_dynaconf.configure_dynaconf',
+                'quokka.core.configure_extension']
+    quokka.create_app_base(test=True, ext_list=list_ext, settings={'a':'1', 'b':'2', 'c':'3', 'd':'4', 'e':'5'})
+    assert mock_configure_extension.called is True
+
+@mock.patch("quokka.core.app.QuokkaApp")
+@mock.patch("quokka.core.flask_dynaconf.configure_dynaconf")
+@mock.patch("quokka.core.configure_extension")
+def test_create_app_base_function_configure_dynaconf_called_is_true_and_settings(mock_configure_extension, mock_configure_dynaconf, mock_QuokkaApp):
+    list_ext = ['quokka.core.app.QuokkaApp', 
+                'quokka.core.flask_dynaconf.configure_dynaconf',
+                'quokka.core.configure_extension']
+    quokka.create_app_base(test=True, ext_list=list_ext, settings={'a':'1', 'b':'2', 'c':'3', 'd':'4', 'e':'5'})
+    assert mock_configure_dynaconf.called is True
+
+@mock.patch("quokka.core.app.QuokkaApp")
+@mock.patch("quokka.core.flask_dynaconf.configure_dynaconf")
+@mock.patch("quokka.core.configure_extension")
+def test_create_app_base_function_QuokkaApp_called_is_true_and_settings(mock_configure_extension, mock_configure_dynaconf, mock_QuokkaApp):
+    list_ext = ['quokka.core.app.QuokkaApp', 
+                'quokka.core.flask_dynaconf.configure_dynaconf',
+                'quokka.core.configure_extension']
+    quokka.create_app_base(test=True, ext_list=list_ext, settings={'a':'1', 'b':'2', 'c':'3', 'd':'4', 'e':'5'})
+    assert mock_QuokkaApp.called is True
+
+
 
