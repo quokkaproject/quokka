@@ -11,11 +11,29 @@ class MockTestApp(object):
         self.config = config
         return self.config
 
-def test_create_app(mocker):
+def test_create_app_called_params_default(mocker):
     mocker.patch("quokka.create_app_base")
     mocker.patch("quokka.core.configure_extensions")
-    create_app()
+    quokka.create_app()
     quokka.create_app_base.assert_called_once_with(test=False)
+
+def test_create_app_called_test_false(mocker):
+    mocker.patch("quokka.create_app_base")
+    mocker.patch("quokka.core.configure_extensions")
+    quokka.create_app(test=False)
+    quokka.create_app_base.assert_called_once_with(test=False)
+
+def test_create_app_called_test_true(mocker):
+    mocker.patch("quokka.create_app_base")
+    mocker.patch("quokka.core.configure_extensions")
+    quokka.create_app(test=True)
+    quokka.create_app_base.assert_called_once_with(test=True)
+    
+def test_create_app_called_test_true_and_settings_dict(mocker):
+    mocker.patch("quokka.create_app_base")
+    mocker.patch("quokka.core.configure_extensions")
+    quokka.create_app(test=True, settings={'a':'1', 'b':'2', 'c':'3', 'd':'4', 'e':'5'})
+    quokka.create_app_base.assert_called_once_with(test=True, settings={'a':'1', 'b':'2', 'c':'3', 'd':'4', 'e':'5'})
 
 @mock.patch("quokka.core.app.QuokkaApp")
 @mock.patch("quokka.core.flask_dynaconf.configure_dynaconf")
