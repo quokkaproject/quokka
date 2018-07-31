@@ -1,3 +1,10 @@
+"""
+https://semaphoreci.com/community/tutorials/getting-started-with-mocking-in-python
+https://github.com/pytest-dev/pytest-mock
+https://medium.com/@bfortuner/python-unit-testing-with-pytest-and-mock-197499c4623c
+TypeError: test_check() takes 1 positional argument but 2 were given
+"""
+
 import mock
 import click
 import quokka
@@ -9,6 +16,7 @@ from manage.cli import cli, init_cli
 import pytest, os, errno, pathlib, os.path, pytest_mock
 from quokka.cli import copyfolder, with_app, check, main, init, runserver
 
+#fixtures
 directory_pwd = os.getcwd()+"/tests/"
 directory_test = "copy-directory-test/"
 file_test = "cli-test-file"
@@ -64,11 +72,6 @@ def test_copy_folder_file_exists():
     except RuntimeError:
         raise
 
-#https://semaphoreci.com/community/tutorials/getting-started-with-mocking-in-python
-#https://github.com/pytest-dev/pytest-mock
-#https://medium.com/@bfortuner/python-unit-testing-with-pytest-and-mock-197499c4623c
-#TypeError: test_check() takes 1 positional argument but 2 were given
-
 
 class AppMock():
 
@@ -81,10 +84,6 @@ class AppMock():
     def blueprints():
         pass
 
-
-#criar mock para:
-#@cli.command()
-#@with_app
 @mock.patch("manage.cli")
 @mock.patch("quokka.cli.with_app")
 @mock.patch("quokka.cli.click")
@@ -107,7 +106,6 @@ from click.testing import CliRunner
 @pytest.fixture(scope='function')
 def runner(request):
     return CliRunner()
-
 
 from pathlib import Path
 #FIXME: assert bool wrong
@@ -132,20 +130,13 @@ def test_init(mocker_copyfolder, mocker_Path, mocker_option, mocker_argument, mo
         assert 'nargs=-1' in str(e)
          
     
-
-def test_adduser(mocker):
+@mock.patch("click.command")
+@mock.patch("click.option")
+def test_adduser(mock_option, mock_command):
     pass
 
 def test_execute(mocker):
     pass
-
-#error: missing command
-@mock.patch('manage.cli')
-def test_main(mocker):
-    mocker.patch("manage.cli.init_cli")
-#    quokka.cli.main()
-#    manage.cli.init_cli.assert_called_once_with(cli)
-
 
 @mock.patch("click.command")
 @mock.patch("click.option")
@@ -153,5 +144,11 @@ def test_main(mocker):
 def test_runserver(mocker_option, mocker_command, mocker_with_app):
     pass
 
+#error: missing command
+#@mock.patch('manage.cli')
+#def test_main(mocker):
+    #mocker.patch("manage.cli.init_cli")
+#    quokka.cli.main()
+#    manage.cli.init_cli.assert_called_once_with(cli)
 
 
