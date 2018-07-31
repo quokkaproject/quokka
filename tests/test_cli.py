@@ -58,12 +58,12 @@ def test_copy_folder_error_second_param():
             raise
 
 
-#TODO: apply code to remove: cli-test-file
 def test_copy_folder_file_exists():
     
     try:
         copyfolder(directory_pwd+file_test, directory_pwd+directory_test+file_test)
         assert os.path.isfile(directory_pwd+directory_test+file_test) is True
+        os.unlink(directory_pwd+directory_test+file_test)
         
     except OSError as e:
         if e.errno != errno.EEXIST:
