@@ -66,8 +66,8 @@ def runserver(app=None, reloader=None, debug=None,
     )
 
 
-#@cli.command()
-#@with_app
+@cli.command()
+@with_app
 def check(app=None):
     """Prints app status"""
     click.echo("Extensions.")
