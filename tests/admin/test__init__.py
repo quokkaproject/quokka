@@ -5,6 +5,9 @@ import quokka
 from flask_admin import Admin
 from quokka.admin.views import FileAdmin, IndexView, ModelView
 from quokka.admin import create_admin, QuokkaAdmin, configure_admin
+from quokka.core.app import QuokkaApp
+from quokka.core.flask_dynaconf import configure_dynaconf    
+
 
 @mock.patch("quokka.admin.views.IndexView")
 @mock.patch("quokka.admin.QuokkaAdmin")
@@ -105,16 +108,31 @@ def test_configure_admin_called_param_app_string_empty_err(mock_create_admin, mo
         except FileExistsError:
             raise
 
-#WIP:def 
+
 @mock.patch("quokka.admin.views.IndexView")
 @mock.patch("quokka.admin.QuokkaAdmin")
 @mock.patch("quokka.admin.create_admin")
 @mock.patch("flask_admin.Admin")
-def test_configure_admin_called_is_True(mock_Admin, mock_create_admin, mock_QuokkaAdmin, mock_IndexView):
-    pass
-    #quokka.admin.configure_admin(app=mock_Admin, admin=None)
-    #assert mock_create_admin.called is True
-    #assert mock_create_admin.called is True
+def test_configure_admin_called_param_admin_None_assert_True(mock_Admin, mock_create_admin, mock_QuokkaAdmin, mock_IndexView):
+    appQk = QuokkaApp('quokka')
+    configure_dynaconf(appQk)
+    quokka.admin.configure_admin(app=appQk, admin=None)
+    assert mock_create_admin.called is True
+
+
+
+#@mock.patch("quokka.admin.views.IndexView")
+#@mock.patch("quokka.admin.QuokkaAdmin")
+#@mock.patch("quokka.admin.create_admin")
+#@mock.patch("flask_admin.Admin")
+#def test_configure_admin_called_is_True(mock_Admin, mock_create_admin, mock_QuokkaAdmin, mock_IndexView):
+    #appQk = QuokkaApp('quokka')
+    #configure_dynaconf(appQk)
+
+    ##quokka.admin.configure_admin(app=appQk, admin=mock_QuokkaAdmin)
+    #quokka.admin.configure_admin(app=appQk, admin=None)
+    #assert mock_create_admin.called is False
+    ##assert mock_create_admin.called is True
 
 
 
