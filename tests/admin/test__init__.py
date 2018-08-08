@@ -52,7 +52,6 @@ def test_create_admin_failed_param_app_string_empty_err(mock_Admin, mock_QuokkaA
 @mock.patch("flask_admin.Admin")
 def test_create_admin_called_IndexView_False(mock_Admin, mock_QuokkaAdmin, mock_IndexView):
     quokka.admin.create_admin(app=mock_Admin)
-    #assert mock_QuokkaAdmin(app=mock_Admin) is True 
     assert mock_IndexView.called is False
 
 
@@ -62,7 +61,6 @@ def test_create_admin_called_IndexView_False(mock_Admin, mock_QuokkaAdmin, mock_
 def test_create_admin_called_QuokkaAdmin_False(mock_Admin, mock_QuokkaAdmin, mock_IndexView):
     quokka.admin.create_admin(app=mock_Admin)
     assert mock_QuokkaAdmin(app=mock_Admin).called is False
-    #assert mock_IndexView.called is False
 
 
 @mock.patch("quokka.admin.views.IndexView")
@@ -107,6 +105,7 @@ def test_configure_admin_called_param_app_string_empty_err(mock_create_admin, mo
         except FileExistsError:
             raise
 
+#WIP:def 
 @mock.patch("quokka.admin.views.IndexView")
 @mock.patch("quokka.admin.QuokkaAdmin")
 @mock.patch("quokka.admin.create_admin")

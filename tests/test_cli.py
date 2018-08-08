@@ -15,8 +15,10 @@ from pytest_mock import mocker
 from manage.cli import cli, init_cli
 import pytest, os, errno, pathlib, os.path, pytest_mock
 from quokka.cli import copyfolder, with_app, check, main, init, runserver
+from click.testing import CliRunner
+from pathlib import Path
 
-#fixtures
+#pytest - fixtures
 directory_pwd = os.getcwd()+"/tests/"
 directory_test = "copy-directory-test/"
 file_test = "cli-test-file"
@@ -73,6 +75,7 @@ def test_copy_folder_file_exists():
         raise
 
 
+#pytest - fixture class
 class AppMock():
 
     def __init__(param):
@@ -84,6 +87,7 @@ class AppMock():
     def blueprints():
         pass
 
+#WIP: using class above to this pytest def
 #FIXME: add fixture and mocking
 #@mock.patch("manage.cli")
 #@mock.patch("quokka.cli.with_app")
@@ -95,22 +99,19 @@ class AppMock():
     #mock_click.echo.assert_called_with("App.")
 
 
-#FIXME: assert bool wrong
 @mock.patch("functools.wraps")
-#@mock.patch("quokka.cli.decorator")
 @mock.patch("quokka.create_app")
 def test_with_app(mock_create_app, mock_wraps):
     with_app('f')
     assert mock_wraps.called is False
 
-#fixture click.testing
-from click.testing import CliRunner
+
+#pytest - fixture click.testing
 @pytest.fixture(scope='function')
 def runner(request):
     return CliRunner()
 
-from pathlib import Path
-#FIXME: assert bool wrong
+
 @mock.patch("click.command")
 @mock.patch("click.argument")
 @mock.patch("click.option")
@@ -131,21 +132,26 @@ def test_init(mocker_copyfolder, mocker_Path, mocker_option, mocker_argument, mo
     except TypeError as e:
         assert 'nargs=-1' in str(e)
          
-    
+
+#WIP    
 @mock.patch("click.command")
 @mock.patch("click.option")
 def test_adduser(mock_option, mock_command):
     pass
 
+#WIP
 def test_execute(mocker):
     pass
 
+#WIP
 @mock.patch("click.command")
 @mock.patch("click.option")
 @mock.patch("quokka.cli.with_app")
 def test_runserver(mocker_option, mocker_command, mocker_with_app):
     pass
 
+#WIP
+#FIXME: rewrite this pytest method
 #error: missing command
 #@mock.patch('manage.cli')
 #def test_main(mocker):
