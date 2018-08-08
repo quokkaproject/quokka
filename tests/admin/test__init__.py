@@ -69,6 +69,22 @@ def test_create_admin_called_QuokkaAdmin_False(mock_Admin, mock_QuokkaAdmin, moc
 @mock.patch("quokka.admin.views.IndexView")
 @mock.patch("quokka.admin.QuokkaAdmin")
 @mock.patch("flask_admin.Admin")
+def test_create_admin_called_QuokkaAdmin_is_not_None(mock_Admin, mock_QuokkaAdmin, mock_IndexView):
+    appQk = QuokkaApp('quokka')
+    configure_dynaconf(appQk)
+    resp = quokka.admin.create_admin(app=appQk)
+    assert resp is not None
+
+
+def test_create_admin_called_QuokkaAdmin_is_instance_resp_name_admin():
+    appQk = QuokkaApp('quokka')
+    configure_dynaconf(appQk)
+    resp = quokka.admin.create_admin(app=appQk)
+    assert resp.name == 'Admin' 
+
+@mock.patch("quokka.admin.views.IndexView")
+@mock.patch("quokka.admin.QuokkaAdmin")
+@mock.patch("flask_admin.Admin")
 @mock.patch("quokka.admin.create_admin")
 def test_configure_admin_called_param_app_None_err(mock_create_admin, mock_Admin, mock_QuokkaAdmin, mock_IndexView):
     
@@ -123,11 +139,31 @@ def test_configure_admin_called_param_admin_None_assert_True(mock_Admin, mock_cr
 @mock.patch("quokka.admin.QuokkaAdmin")
 @mock.patch("quokka.admin.create_admin")
 @mock.patch("flask_admin.Admin")
-def test_configure_admin_called_param_admin_None_assert_True(mock_Admin, mock_create_admin, mock_QuokkaAdmin, mock_IndexView):
+def test_configure_admin_called_param_admin_mock_quokka_admin_assert_False(mock_Admin, mock_create_admin, mock_QuokkaAdmin, mock_IndexView):
     appQk = QuokkaApp('quokka')
     configure_dynaconf(appQk)
     quokka.admin.configure_admin(app=appQk, admin=mock_QuokkaAdmin)
     assert mock_create_admin.called is False
+
+@mock.patch("quokka.admin.views.IndexView")
+@mock.patch("quokka.admin.QuokkaAdmin")
+@mock.patch("quokka.admin.create_admin")
+@mock.patch("flask_admin.Admin")
+def test_configure_admin_called_param_admin_None_assert_is_not_None(mock_Admin, mock_create_admin, mock_QuokkaAdmin, mock_IndexView):
+    appQk = QuokkaApp('quokka')
+    configure_dynaconf(appQk)
+    resp = quokka.admin.configure_admin(app=appQk, admin=None)
+    assert resp != None
+
+@mock.patch("quokka.admin.views.IndexView")
+@mock.patch("quokka.admin.QuokkaAdmin")
+@mock.patch("quokka.admin.create_admin")
+@mock.patch("flask_admin.Admin")
+def test_configure_admin_called_param_admin_None_assert_is_Quokka_Admin_instance(mock_Admin, mock_create_admin, mock_QuokkaAdmin, mock_IndexView):
+    appQkk = QuokkaApp('quokka')
+    configure_dynaconf(appQkk)
+    resp = quokka.admin.configure_admin(app=appQkk, admin=None)
+    assert resp.name == 'Quokka Admin'
 
 
 
