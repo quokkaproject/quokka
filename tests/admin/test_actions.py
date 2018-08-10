@@ -4,37 +4,126 @@ import json
 import random
 from copy import deepcopy
 from datetime import datetime
-from flask import Markup
-from flask import Response, current_app, flash, redirect, url_for
+from flask import Response, current_app, flash, redirect, url_for, Markup
 from flask_admin.actions import action
 from quokka.utils.text import slugify
-from quokka.admin.actions import PublishAction
+from quokka.admin.actions import PublishAction, CloneAction, UserProfileBlockAction, ExportAction
+from quokka.core.app import QuokkaApp
+from quokka.core.flask_dynaconf import configure_dynaconf
 
-#pytest: WIP
-def test_PublishAction_class_def_action_toggle_publish_method_instance():
-    pass
-#>>> pa = PublishAction()                          
-#>>> type(pa)
-#<class 'quokka.admin.actions.PublishAction'>
-#>>> print(pa)
-#<quokka.admin.actions.PublishAction object at 0x7fcf203936d8>
-#>>> print(pa)                      
-#<quokka.admin.actions.PublishAction object at 0x7fcf203936d8>
-#>>> print(pa.action_toggle_publish('1234'))
-#Traceback (most recent call last):
-  #File "<stdin>", line 1, in <module>
-  #File "/home/marcosptf/developer/quokka/quokka/admin/actions.py", line 22, in action_toggle_publish
-    #model = current_app.db.get_with_content(_id=_id)
-  #File "/home/marcosptf/developer/quokka/.venv/lib64/python3.6/site-packages/werkzeug/local.py", line 347, in __getattr__
-    #return getattr(self._get_current_object(), name)
-  #File "/home/marcosptf/developer/quokka/.venv/lib64/python3.6/site-packages/werkzeug/local.py", line 306, in _get_current_object
-    #return self.__local()
-  #File "/home/marcosptf/developer/quokka/.venv/lib64/python3.6/site-packages/flask/globals.py", line 51, in _find_app
-    #raise RuntimeError(_app_ctx_err_msg)
-#RuntimeError: Working outside of application context.
 
-#This typically means that you attempted to use functionality that needed
-#to interface with the current application object in some way. To solve
-#this, set up an application context with app.app_context().  See the
-#documentation for more information.
-#>>> 
+def test_PublishAction_class_def_action_toggle_publish_method_instance_error_outside_context():
+    
+    with pytest.raises(RuntimeError) as err:
+        try:
+            pa = PublishAction()              
+            pa.action_toggle_publish('12345')
+            assert "Working outside of application context." in str(err.value)
+
+        except TypeError as e:
+            assert 'nargs=-1' in str(e)
+
+        except OSError as e:
+            if e.errno != errno.EEXIST:
+                raise
+
+        except FileExistsError:
+            raise        
+
+        except Exception:
+            raise
+
+
+def test_CloneAction_class_def_action_clone_item_method_instance_error_outside_context():
+    
+    with pytest.raises(RuntimeError) as err:
+        try:
+            ca = CloneAction()              
+            ca.action_clone_item('12345')
+            assert "Working outside of application context." in str(err.value)
+
+        except TypeError as e:
+            assert 'nargs=-1' in str(e)
+
+        except OSError as e:
+            if e.errno != errno.EEXIST:
+                raise
+
+        except FileExistsError:
+            raise        
+
+        except Exception:
+            raise
+
+
+def test_UserProfileBlockAction_class_def_action_create_userprofile_method_instance_error_outside_context():
+    
+    with pytest.raises(RuntimeError) as err:
+        try:
+            upba = UserProfileBlockAction()              
+            upba.action_create_userprofile('12345')
+            assert "Working outside of application context." in str(err.value)
+
+        except TypeError as e:
+            assert 'nargs=-1' in str(e)
+
+        except OSError as e:
+            if e.errno != errno.EEXIST:
+                raise
+
+        except FileExistsError:
+            raise        
+
+        except Exception:
+            raise
+
+
+def test_ExportAction_class_def_export_to_json_method_instance_error_outside_context():
+    
+    with pytest.raises(AttributeError) as err:
+        try:
+            ea = ExportAction()              
+            ea.export_to_json('12345')
+            assert "object has no attribute" in str(err.value)
+
+        except TypeError as e:
+            assert 'nargs=-1' in str(e)
+
+        except OSError as e:
+            if e.errno != errno.EEXIST:
+                raise
+        
+        except RuntimeError:
+            raise
+
+        except FileExistsError:
+            raise        
+
+        except Exception:
+            raise
+
+
+def test_ExportAction_class_def_export_to_csv_method_instance_error_outside_context():
+    
+    with pytest.raises(AttributeError) as err:
+        try:
+            ea = ExportAction()              
+            ea.export_to_csv('12345')
+            assert "object has no attribute" in str(err.value)
+
+        except TypeError as e:
+            assert 'nargs=-1' in str(e)
+
+        except OSError as e:
+            if e.errno != errno.EEXIST:
+                raise
+
+        except FileExistsError:
+            raise
+        
+        except RuntimeError:
+            raise
+
+        except Exception:
+            raise
+
