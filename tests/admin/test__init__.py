@@ -271,9 +271,111 @@ def test_configure_extra_views_called_param_admin_None_assert_None(mock_Admin, m
     configure_dynaconf(appQk)
     assert quokka.admin.configure_extra_views(app=appQk) is None
 
+ 
+@mock.patch("quokka.admin.views.IndexView")
+@mock.patch("quokka.admin.QuokkaAdmin")
+@mock.patch("flask_admin.Admin")
+def test_QuokkaAdmin_class_instance_error(mock_Admin, mock_QuokkaAdmin, mock_IndexView):
+    
+    with pytest.raises(AttributeError) as err:
+        try:
+            qa = QuokkaAdmin(Admin)
+            assert "type object 'Admin' has no attribute" in str(err.value)
+
+        except OSError as e:
+            if e.errno != errno.EEXIST:
+                raise
+            
+        except RuntimeError:
+            raise
+
+        except FileExistsError:
+            raise
 
 
+def test_QuokkaAdmin_class_instance_register_method():
+    appQk = QuokkaApp('quokka')
+    configure_dynaconf(appQk)
+    
+    qa = QuokkaAdmin(
+        appQk,
+        index_view=IndexView(),
+        template_mode=appQk.config.get('FLASK_ADMIN_TEMPLATE_MODE'),
+        base_template='admin/quokka/master.html'
+    )
+    assert qa.name == "Admin"
 
 
+def test_QuokkaAdmin_class_instance_add_icon_method_assert_endpoint():
+    appQk = QuokkaApp('quokka')
+    configure_dynaconf(appQk)
+    
+    qa = QuokkaAdmin(
+        appQk,
+        index_view=IndexView(),
+        template_mode=appQk.config.get('FLASK_ADMIN_TEMPLATE_MODE'),
+        base_template='admin/quokka/master.html'
+    )
+    
+    qa.add_icon("http://endpoint.pytest", "icon.png", "text.pytest")
+    assert 'http://endpoint.pytest' in appQk.config.get('ADMIN_ICONS')[0]
 
 
+def test_QuokkaAdmin_class_instance_add_icon_method_assert_icon():
+    appQk = QuokkaApp('quokka')
+    configure_dynaconf(appQk)
+    
+    qa = QuokkaAdmin(
+        appQk,
+        index_view=IndexView(),
+        template_mode=appQk.config.get('FLASK_ADMIN_TEMPLATE_MODE'),
+        base_template='admin/quokka/master.html'
+    )
+    
+    qa.add_icon("http://endpoint.pytest", "icon.png", "text.pytest")
+    assert 'icon.png' in appQk.config.get('ADMIN_ICONS')[0]
+
+
+def test_QuokkaAdmin_class_instance_add_icon_method_assert_text_pytest():
+    appQk = QuokkaApp('quokka')
+    configure_dynaconf(appQk)
+    
+    qa = QuokkaAdmin(
+        appQk,
+        index_view=IndexView(),
+        template_mode=appQk.config.get('FLASK_ADMIN_TEMPLATE_MODE'),
+        base_template='admin/quokka/master.html'
+    )
+    
+    qa.add_icon("http://endpoint.pytest", "icon.png", "text.pytest")
+    assert 'text.pytest' in appQk.config.get('ADMIN_ICONS')[0]
+
+
+def test_QuokkaAdmin_class_instance_add_icon_method_assert_add_content_format():
+    appQk = QuokkaApp('quokka')
+    configure_dynaconf(appQk)
+    
+    with pytest.raises(TypeError) as err:
+        try:
+            qa = QuokkaAdmin(
+                appQk,
+                index_view=IndexView(),
+                template_mode=appQk.config.get('FLASK_ADMIN_TEMPLATE_MODE'),
+                base_template='admin/quokka/master.html'
+            )
+            qa.add_content_format()
+            assert "takes 0 positional arguments but 1 was given" in str(err.value)
+
+        except OSError as e:
+            if e.errno != errno.EEXIST:
+                raise
+            
+        except RuntimeError:
+            raise
+
+        except FileExistsError:
+            raise
+
+
+    
+    
