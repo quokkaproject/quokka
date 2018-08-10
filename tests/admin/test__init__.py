@@ -19,6 +19,9 @@ def test_create_admin_failed_param_app_None_err(mock_Admin, mock_QuokkaAdmin, mo
             quokka.admin.create_admin(app=None)
             assert "object has no attribute" in str(err.value)
 
+        except TypeError as e:
+            assert 'nargs=-1' in str(e)
+
         except OSError as e:
             if e.errno != errno.EEXIST:
                 raise
@@ -27,6 +30,9 @@ def test_create_admin_failed_param_app_None_err(mock_Admin, mock_QuokkaAdmin, mo
             raise
 
         except FileExistsError:
+            raise        
+
+        except Exception:
             raise
 
 
@@ -40,6 +46,9 @@ def test_create_admin_failed_param_app_string_empty_err(mock_Admin, mock_QuokkaA
             quokka.admin.create_admin(app="")
             assert "object has no attribute" in str(err.value)
 
+        except TypeError as e:
+            assert 'nargs=-1' in str(e)
+
         except OSError as e:
             if e.errno != errno.EEXIST:
                 raise
@@ -48,7 +57,11 @@ def test_create_admin_failed_param_app_string_empty_err(mock_Admin, mock_QuokkaA
             raise
 
         except FileExistsError:
+            raise        
+
+        except Exception:
             raise
+
 
 @mock.patch("quokka.admin.views.IndexView")
 @mock.patch("quokka.admin.QuokkaAdmin")
@@ -93,6 +106,9 @@ def test_configure_admin_called_param_app_None_err(mock_create_admin, mock_Admin
             quokka.admin.configure_admin(app=None, admin=None)
             assert "object has no attribute" in str(err.value)
 
+        except TypeError as e:
+            assert 'nargs=-1' in str(e)
+
         except OSError as e:
             if e.errno != errno.EEXIST:
                 raise
@@ -101,7 +117,11 @@ def test_configure_admin_called_param_app_None_err(mock_create_admin, mock_Admin
             raise
 
         except FileExistsError:
+            raise        
+
+        except Exception:
             raise
+
 
 @mock.patch("quokka.admin.views.IndexView")
 @mock.patch("quokka.admin.QuokkaAdmin")
@@ -114,6 +134,9 @@ def test_configure_admin_called_param_app_string_empty_err(mock_create_admin, mo
             quokka.admin.configure_admin(app="", admin=None)
             assert "object has no attribute" in str(err.value)
 
+        except TypeError as e:
+            assert 'nargs=-1' in str(e)
+
         except OSError as e:
             if e.errno != errno.EEXIST:
                 raise
@@ -122,6 +145,9 @@ def test_configure_admin_called_param_app_string_empty_err(mock_create_admin, mo
             raise
 
         except FileExistsError:
+            raise        
+
+        except Exception:
             raise
 
 
@@ -176,6 +202,9 @@ def test_configure_file_admin_called_param_app_None_err(mock_create_admin, mock_
             quokka.admin.configure_file_admin(app=None)
             assert "object has no attribute" in str(err.value)
 
+        except TypeError as e:
+            assert 'nargs=-1' in str(e)
+
         except OSError as e:
             if e.errno != errno.EEXIST:
                 raise
@@ -184,6 +213,9 @@ def test_configure_file_admin_called_param_app_None_err(mock_create_admin, mock_
             raise
 
         except FileExistsError:
+            raise        
+
+        except Exception:
             raise
 
 @mock.patch("quokka.admin.views.IndexView")
@@ -197,6 +229,9 @@ def test_configure_file_admin_called_param_app_string_empty_err(mock_create_admi
             quokka.admin.configure_file_admin(app="")
             assert "object has no attribute" in str(err.value)
 
+        except TypeError as e:
+            assert 'nargs=-1' in str(e)
+
         except OSError as e:
             if e.errno != errno.EEXIST:
                 raise
@@ -205,6 +240,9 @@ def test_configure_file_admin_called_param_app_string_empty_err(mock_create_admi
             raise
 
         except FileExistsError:
+            raise        
+
+        except Exception:
             raise
 
 
@@ -230,6 +268,9 @@ def test_configure_extra_views_called_param_app_None_err(mock_create_admin, mock
             quokka.admin.configure_extra_views(app=None)
             assert "object has no attribute" in str(err.value)
 
+        except TypeError as e:
+            assert 'nargs=-1' in str(e)
+
         except OSError as e:
             if e.errno != errno.EEXIST:
                 raise
@@ -238,6 +279,9 @@ def test_configure_extra_views_called_param_app_None_err(mock_create_admin, mock
             raise
 
         except FileExistsError:
+            raise        
+
+        except Exception:
             raise
 
 @mock.patch("quokka.admin.views.IndexView")
@@ -251,6 +295,9 @@ def test_configure_extra_views_called_param_app_string_empty_err(mock_create_adm
             quokka.admin.configure_extra_views(app="")
             assert "object has no attribute" in str(err.value)
 
+        except TypeError as e:
+            assert 'nargs=-1' in str(e)
+
         except OSError as e:
             if e.errno != errno.EEXIST:
                 raise
@@ -259,6 +306,9 @@ def test_configure_extra_views_called_param_app_string_empty_err(mock_create_adm
             raise
 
         except FileExistsError:
+            raise        
+
+        except Exception:
             raise
 
 
@@ -282,6 +332,9 @@ def test_QuokkaAdmin_class_instance_error(mock_Admin, mock_QuokkaAdmin, mock_Ind
             qa = QuokkaAdmin(Admin)
             assert "type object 'Admin' has no attribute" in str(err.value)
 
+        except TypeError as e:
+            assert 'nargs=-1' in str(e)
+
         except OSError as e:
             if e.errno != errno.EEXIST:
                 raise
@@ -290,6 +343,9 @@ def test_QuokkaAdmin_class_instance_error(mock_Admin, mock_QuokkaAdmin, mock_Ind
             raise
 
         except FileExistsError:
+            raise        
+
+        except Exception:
             raise
 
 
@@ -374,8 +430,12 @@ def test_QuokkaAdmin_class_instance_add_icon_method_assert_add_content_format():
             raise
 
         except FileExistsError:
+            raise        
+
+        except Exception:
             raise
 
 
-    
-    
+
+
+
