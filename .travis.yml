@@ -1,6 +1,6 @@
 language: python
 python:
-  - "3.6"
+  - "3.7"
 services: mongodb
 addons:
   apt_packages:
@@ -11,6 +11,7 @@ install:
   - make install
 script: make test
 after_success:
+  - codecov
   - coveralls
 notifications:
   slack: quokkaproject:pjF8y81mqwXxQRtf5sGz5zqr
