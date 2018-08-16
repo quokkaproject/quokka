@@ -82,6 +82,13 @@ def test_create_admin_called_QuokkaAdmin_False(mock_Admin, mock_QuokkaAdmin, moc
 @mock.patch("quokka.admin.views.IndexView")
 @mock.patch("quokka.admin.QuokkaAdmin")
 @mock.patch("flask_admin.Admin")
+def test_create_admin_called_QuokkaApp_is_instance_of(mock_Admin, mock_QuokkaAdmin, mock_IndexView):
+    appQk = QuokkaApp('quokka')
+    assert isinstance(appQk, QuokkaApp) == True
+
+@mock.patch("quokka.admin.views.IndexView")
+@mock.patch("quokka.admin.QuokkaAdmin")
+@mock.patch("flask_admin.Admin")
 def test_create_admin_called_QuokkaAdmin_is_not_None(mock_Admin, mock_QuokkaAdmin, mock_IndexView):
     appQk = QuokkaApp('quokka')
     configure_dynaconf(appQk)
@@ -347,6 +354,20 @@ def test_QuokkaAdmin_class_instance_error(mock_Admin, mock_QuokkaAdmin, mock_Ind
 
         except Exception:
             raise
+
+
+
+def test_QuokkaAdmin_class_is_instance_of():
+    appQk = QuokkaApp('quokka')
+    configure_dynaconf(appQk)
+    
+    qa = QuokkaAdmin(
+        appQk,
+        index_view=IndexView(),
+        template_mode=appQk.config.get('FLASK_ADMIN_TEMPLATE_MODE'),
+        base_template='admin/quokka/master.html'
+    )
+    assert isinstance(qa, QuokkaAdmin) == True
 
 
 def test_QuokkaAdmin_class_instance_register_method():
