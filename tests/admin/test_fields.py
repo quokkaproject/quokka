@@ -135,5 +135,36 @@ def test_SmartSelect2Field_class_assert_pre_validate_method():
             raise
 
 
+def test_ThumbWidget_data_template_property():
+    tw = ThumbWidget();
+    assert tw.data_template == '<div class="image-thumbnail"> <img %(image)s></div>'
 
+def test_ThumbWidget_empty_template_property():
+    tw = ThumbWidget();
+    assert tw.empty_template == ''
+
+def test_ThumbField_get_args_empty():
+    tf = ThumbField()
+    assert tf.args == ()
+
+def test_ThumbField_get_kwargs_empty():
+    tf = ThumbField()
+    assert tf.kwargs == {}
+
+def test_ThumbField_creation_counter_property():
+    tf = ThumbField()
+    assert tf.creation_counter == 16
+
+
+def test_ContentImageField_get_args_property():
+    cif = ContentImageField()
+    assert cif.args == ()
+
+def test_ContentImageField_get_kwargs_property():
+    cif = ContentImageField()
+    assert cif.kwargs == {}
+    
+def test_ContentImageField_get_kwargs_property():
+    cif = ContentImageField()
+    assert cif.creation_counter == 18
 
