@@ -12,6 +12,23 @@ from quokka.core.app import QuokkaApp
 from quokka.core.flask_dynaconf import configure_dynaconf
 
 
+def test_PublishAction_class_instance_of():
+    pa = PublishAction()
+    assert isinstance(pa, PublishAction) == True
+
+def test_CloneAction_class_instance_of():
+    ca = CloneAction()             
+    assert isinstance(ca, CloneAction) == True    
+
+def test_UserProfileBlockAction_class_instance_of():
+    upba = UserProfileBlockAction()
+    assert isinstance(upba, UserProfileBlockAction) == True    
+
+def test_ExportAction_class_instance_of():
+    ea = ExportAction()              
+    assert isinstance(ea, ExportAction) == True    
+
+    
 def test_PublishAction_class_def_action_toggle_publish_method_instance_error_outside_context():
     
     with pytest.raises(RuntimeError) as err:
