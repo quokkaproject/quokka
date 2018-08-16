@@ -13,6 +13,10 @@ from quokka.admin.views import RequiresLogin, FileAdmin, IndexView, ModelView
 #pytest - fixtures - setUp();
 rl = RequiresLogin()
 fa = FileAdmin("/home/")
+#class IndexView(RequiresLogin, AdminIndexView):
+iv = IndexView() 
+#class ModelView(CloneAction, PublishAction, RequiresLogin, PyMongoModelView):
+#mv = ModelView()
 
 def test_RequiresLogin_class_is_instance_of():
     assert isinstance(rl, RequiresLogin) == True
