@@ -4,10 +4,25 @@ from flask_admin import form
 from flask_admin.form.upload import ImageUploadInput
 from quokka.admin.fields import SmartSelect2Field, ThumbWidget, ThumbField, ContentImageField
 
+def test_SmartSelect2Field_isinstance_of_False():
+    ss2f = SmartSelect2Field()
+    assert isinstance(ss2f, SmartSelect2Field) == False
 
+def test_ThumbWidget_isinstance_of():
+    tw = ThumbWidget()
+    assert isinstance(tw, ThumbWidget) == True
+
+def test_ThumbField_isinstance_of_False():
+    tf = ThumbField()
+    assert isinstance(tf, ThumbField) == False
+
+def test_ContentImageField_isinstance_of_False():
+    cif = ContentImageField()
+    assert isinstance(cif, ContentImageField) == False
+    
 def test_SmartSelect2Field_class_assert_creation_counter_property():
     ss2f = SmartSelect2Field()
-    assert ss2f.creation_counter == 7
+    assert ss2f.creation_counter == 10
     
 def test_SmartSelect2Field_class_assert_iter_choices_method():
     with pytest.raises(AttributeError) as err:
@@ -153,7 +168,7 @@ def test_ThumbField_get_kwargs_empty():
 
 def test_ThumbField_creation_counter_property():
     tf = ThumbField()
-    assert tf.creation_counter == 16
+    assert tf.creation_counter == 19
 
 
 def test_ContentImageField_get_args_property():
@@ -166,5 +181,5 @@ def test_ContentImageField_get_kwargs_property():
     
 def test_ContentImageField_get_kwargs_property():
     cif = ContentImageField()
-    assert cif.creation_counter == 18
+    assert cif.creation_counter == 21
 
