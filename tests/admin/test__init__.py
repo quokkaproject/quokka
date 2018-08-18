@@ -8,7 +8,9 @@ from quokka.admin import create_admin, QuokkaAdmin, configure_admin
 from quokka.core.app import QuokkaApp
 from quokka.core.flask_dynaconf import configure_dynaconf    
 
-
+##################################################
+#pytest - Quokka - quokka/admin/test__init__.py  #
+##################################################
 @mock.patch("quokka.admin.views.IndexView")
 @mock.patch("quokka.admin.QuokkaAdmin")
 @mock.patch("flask_admin.Admin")
