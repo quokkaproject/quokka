@@ -168,7 +168,7 @@ def test_ThumbField_get_kwargs_empty():
 
 def test_ThumbField_creation_counter_property():
     tf = ThumbField()
-    assert tf.creation_counter == 19
+    assert tf.creation_counter == 52
 
 
 def test_ContentImageField_get_args_property():
