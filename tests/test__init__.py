@@ -5,12 +5,19 @@ from pytest_mock import mocker
 from quokka.core.app import QuokkaApp
 from quokka.core.flask_dynaconf import configure_dynaconf
 
+################################
+#pytest - fixtures - setUp();  #
+################################
 class MockTestApp(object):
     
     def __init__(self, config):
         self.config = config
         return self.config
 
+
+#####################################
+#pytest - Quokka - test__init__.py  #
+#####################################
 def test_create_app_called_params_default(mocker):
     mocker.patch("quokka.create_app_base")
     mocker.patch("quokka.core.configure_extensions")
