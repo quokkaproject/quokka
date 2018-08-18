@@ -22,7 +22,7 @@ def test_ContentImageField_isinstance_of_False():
     
 def test_SmartSelect2Field_class_assert_creation_counter_property():
     ss2f = SmartSelect2Field()
-    assert ss2f.creation_counter == 10
+    assert ss2f.creation_counter == 43
     
 def test_SmartSelect2Field_class_assert_iter_choices_method():
     with pytest.raises(AttributeError) as err:
