@@ -181,5 +181,5 @@ def test_ContentImageField_get_kwargs_property():
     
 def test_ContentImageField_get_kwargs_property():
     cif = ContentImageField()
-    assert cif.creation_counter == 21
+    assert cif.creation_counter == 54
 
