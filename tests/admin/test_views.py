@@ -140,6 +140,48 @@ def test_IndexView():
 def test_IndexView_class_is_instance_of():
     assert isinstance(iv, IndexView) == True
 
+def test_IndexView_admin_property_is_None():
+    assert iv.admin == None
+
+def test_IndexView_admin_blueprint_is_None():
+    assert iv.blueprint == None
+
+def test_IndexView_admin_category_is_None():
+    assert iv.category == None
+
+def test_IndexView_admin_endpoint_is_admin():
+    assert iv.endpoint == "admin"
+
+def test_IndexView_admin_boolean_method_is_accessible_is_True():
+    assert iv.is_accessible() == True
+
+def test_IndexView_admin_boolean_method_is_visible_is_True():
+    assert iv.is_visible() == True
+
+def test_IndexView_admin_menu_property_is_None():
+    assert iv.menu == None
+
+def test_IndexView_admin_menu_class_name_property_is_None():
+    assert iv.menu == None
+
+def test_IndexView_menu_icon_type_property_is_None():
+    assert iv.menu == None
+
+def test_IndexView_menu_icon_value_property_is_None():
+    assert iv.menu == None
+
+def test_IndexView_name_property_is_None():
+    assert iv.name == "Home"
+
+def test_IndexView_static_folder_property_is_static_folder():
+    assert iv.static_folder == "static"
+
+def test_IndexView_static_url_path_property_is_None():
+    assert iv.static_url_path == None
+
+def test_IndexView_url_property_is_Admin():
+    assert iv.url == "/admin"
+
 
 
 
