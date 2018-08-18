@@ -3,7 +3,7 @@ from flask_htmlbuilder.htmlbuilder import html
 from quokka.core.content.models import make_model
 
 
-def format_datetime(self, request, obj, fieldname, *args, **kwargs):
+def format_datetime(request, obj, fieldname, *args, **kwargs):
     """Returns the formated datetime in string from object"""
     model = make_model(obj)
     return html.div(style='min-width:130px;')(
@@ -13,7 +13,7 @@ def format_datetime(self, request, obj, fieldname, *args, **kwargs):
     )
 
 
-def format_view_on_site(self, request, obj, fieldname, *args, **kwargs):
+def format_view_on_site(request, obj, fieldname, *args, **kwargs):
     """Returns button to view or preview depending on content status"""
     model = make_model(obj)
     return html.a(
@@ -24,11 +24,11 @@ def format_view_on_site(self, request, obj, fieldname, *args, **kwargs):
       'View' if model.published else 'Preview')
 
 
-def format_ul(self, request, obj, fieldname, *args, **kwars):
+def format_ul(request, obj, fieldname, *args, **kwars):
     """Given a list of data format it is ul/li"""
     model = make_model(obj)
     field = getattr(model, fieldname)
-    column_formatters_args = getattr(self, 'column_formatters_args', {})
+    column_formatters_args = getattr('column_formatters_args', {})
     _args = column_formatters_args.get('ul', {}).get(fieldname, {})
     ul = html.ul(style=_args.get('style', "min-width:200px;max-width:300px;"))
     placeholder = _args.get('placeholder', u"{i}")
@@ -36,7 +36,7 @@ def format_ul(self, request, obj, fieldname, *args, **kwars):
     return ul(*lis)
 
 
-def format_link(self, request, obj, fieldname, *args, **kwars):
+def format_link(request, obj, fieldname, *args, **kwars):
     """Format a link from the model"""
     model = make_model(obj)
     value = getattr(model, fieldname)
@@ -46,11 +46,11 @@ def format_link(self, request, obj, fieldname, *args, **kwars):
     )
 
 
-def format_status(self, request, obj, fieldname, *args, **kwargs):
+def format_status(request, obj, fieldname, *args, **kwargs):
     """Format the status published or not published and other booleans"""
     model = make_model(obj)
     status = getattr(model, fieldname)
-    column_formatters_args = getattr(self, 'column_formatters_args', {})
+    column_formatters_args = getattr('column_formatters_args', {})
     _args = column_formatters_args.get('status', {}).get(fieldname, {})
     labels = _args.get('labels', {})
     return html.span(
@@ -59,9 +59,9 @@ def format_status(self, request, obj, fieldname, *args, **kwargs):
     )(status)
 
 
-def format_url(self, request, obj, fieldname, *args, **kwargs):
+def format_url(request, obj, fieldname, *args, **kwargs):
     """Get the url of a content object"""
-    column_formatters_args = getattr(self, 'column_formatters_args', {})
+    column_formatters_args = getattr('column_formatters_args', {})
     _args = column_formatters_args.get('get_url', {}).get(fieldname, {})
     attribute = _args.get('attribute', 'url')
     method = _args.get('method', 'url')
@@ -77,7 +77,7 @@ def format_url(self, request, obj, fieldname, *args, **kwargs):
     return html.a(href=url)(text if text not in [None, 'None'] else '')
 
 
-def format_custom_vars(self, request, obj, fieldname, *args, **kwargs):
+def format_custom_vars(request, obj, fieldname, *args, **kwargs):
     ul = html.ul(style="min-width:200px;max-width:300px;")
     lis = [
         html.li(

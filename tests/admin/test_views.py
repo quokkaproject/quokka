@@ -35,8 +35,8 @@ def test_FileAdmin_class_instance_of_None_param_base_path():
                 raise
 
         except FileExistsError:
-            raise        
-        
+            raise
+
         except RuntimeError:
             raise
 
