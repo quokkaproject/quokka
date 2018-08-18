@@ -18,11 +18,33 @@ from quokka.cli import copyfolder, with_app, check, main, init, runserver
 from click.testing import CliRunner
 from pathlib import Path
 
-#pytest - fixtures
+################################
+#pytest - fixtures - setUp();  #
+################################
 directory_pwd = os.getcwd()+"/tests/"
 directory_test = "copy-directory-test/"
 file_test = "cli-test-file"
 
+class AppMock():
+
+    def __init__(param):
+        return None
+    
+    def extensions():
+        pass
+    
+    def blueprints():
+        pass
+
+#pytest - fixture click.testing
+@pytest.fixture(scope='function')
+def runner(request):
+    return CliRunner()
+
+
+#################################
+#pytest - Quokka - test_cli.py  #
+#################################
 def test_copy_folder_error_first_param():
     with pytest.raises(FileNotFoundError) as error:
         try:
@@ -91,18 +113,6 @@ def test_copy_folder_file_exists():
         raise
 
 
-#pytest - fixture class
-class AppMock():
-
-    def __init__(param):
-        return None
-    
-    def extensions():
-        pass
-    
-    def blueprints():
-        pass
-
 #WIP: using class above to this pytest def
 #FIXME: add fixture and mocking
 #@mock.patch("manage.cli")
@@ -120,13 +130,6 @@ class AppMock():
 def test_with_app(mock_create_app, mock_wraps):
     with_app('f')
     assert mock_wraps.called is False
-
-
-#pytest - fixture click.testing
-@pytest.fixture(scope='function')
-def runner(request):
-    return CliRunner()
-
 
 @mock.patch("click.command")
 @mock.patch("click.argument")
