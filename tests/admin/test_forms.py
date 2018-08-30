@@ -14,12 +14,15 @@ from wtforms import widgets as _widgets
 from wtforms import validators  # noqa
 from wtforms.validators import ValidationError
 
+#class unused
 def test_PassiveField():
     pass
 
+#class unused
 def test_PassiveHiddenField():
     pass
 
+#class unused
 def test_PassiveStringField():
     pass
 
