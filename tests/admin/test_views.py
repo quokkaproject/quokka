@@ -183,10 +183,12 @@ def test_IndexView_url_property_is_Admin():
     assert iv.url == "/admin"
 
 
-
-
-#WIP:
-###################################################
+#################################################################
+##WIP:                                                          #
+#                                                               #
+#im working in this above pytest, is not working, after         #
+#i fix i will uncomment this code and commit this;              #
+#################################################################
 #pytest - debugger 
 
 #class ModelView(CloneAction, PublishAction, RequiresLogin, PyMongoModelView):
@@ -196,8 +198,6 @@ def test_IndexView_url_property_is_Admin():
 #def test_ModelView_class_is_instance_of():
     #assert isinstance(mv, ModelView)
 
-
-###################################################
 #(.venv) [marcosptf@localhost quokka]$ python3.6
 #Python 3.6.1 (default, May 15 2017, 11:42:04) 
 #[GCC 6.3.1 20161221 (Red Hat 6.3.1-1)] on linux
