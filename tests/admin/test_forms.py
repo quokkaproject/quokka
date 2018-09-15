@@ -75,18 +75,4 @@ def test_CallableValidator_Class_method__init__is_called(mock_CallableValidator)
     cv = CallableValidator(pytest_function_param(), None)
     assert mock_CallableValidator.called is False
 
-@mock.patch("quokka.admin.forms.CallableValidator")
-def test_CallableValidator_class_method__call__is_called(mock_CallableValidator):
-    pass
-""" WIP:
-    def pytest_function_param(form, field):
-        return None
-
-    cv = CallableValidator(pytest_function_param(None, None), "pytest-message-string")
-    cv.__call__(None, None)
-    assert mock_CallableValidator.called is False
-"""
-
-
-
 
