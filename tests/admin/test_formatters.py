@@ -6,6 +6,7 @@ from quokka.core.content.models import make_model
 from quokka.admin.formatters import format_datetime, \
     format_view_on_site, format_ul, format_link, \
     format_status, format_url, format_custom_vars
+from quokka.core.content.models import Content
 
 
 ################################
@@ -17,11 +18,12 @@ from quokka.admin.formatters import format_datetime, \
 #####################################################
 #pytest - Quokka - quokka/admin/test_formatters.py  #
 #####################################################
-@mock.patch("quokka.core.content.models.make_model")
-def test_format_datetime(mock_model):
-    pass
-    #format_datetime(request='', obj='', fieldname='')
-    #assert mock_model.called is True
+#WIP:
+#@mock.patch("quokka.core.content.models.Content")
+#@mock.patch("quokka.core.content.models.make_model")
+#def test_format_datetime(mock_make_model, mock_Content):
+#    format_datetime(request='', obj=mock_Content, fieldname='')
+#    assert mock_make_model.called is True
 
 def test_format_view_on_site():
     pass
