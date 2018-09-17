@@ -1,3 +1,9 @@
+###################################################################
+#quokka/admin/wtforms_html5.py                                    #
+#                                                                 #
+#this python script above is a debugger file, impossible to test  #
+#                                                                 #
+###################################################################
 from __future__ import absolute_import, unicode_literals
 from wtforms.fields.core import UnboundField
 from wtforms.meta import DefaultMeta
