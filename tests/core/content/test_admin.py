@@ -4,7 +4,7 @@ import datetime as dt
 import pymongo
 from flask import current_app
 from quokka.admin.forms import ValidationError, rules
-from quokka.admin.views import ModelView
+from quokka.admin.views import ModelView, RequiresLogin
 from quokka.admin.formatters import (
     format_datetime, format_view_on_site, format_custom_vars
 )
@@ -13,92 +13,75 @@ from quokka.utils.text import slugify, slugify_category
 from quokka.core.content.formats import CreateForm, get_format
 from quokka.core.content.utils import url_for_content
 from quokka.core.content.admin import AdminContentView, AdminArticlesView, AdminPagesView, AdminBlocksView
+from flask_admin.contrib.pymongo import ModelView
+from quokka.admin.actions import CloneAction, PublishAction
 
+@mock.patch("quokka.core.content.admin.AdminContentView")
+@mock.patch("flask_admin.contrib.pymongo.ModelView")
+@mock.patch("quokka.admin.views.RequiresLogin")
+@mock.patch("quokka.admin.actions.PublishAction")
+@mock.patch("quokka.admin.actions.CloneAction")
+def test_AdminContentView(mock_CloneAction, mock_PublishAction, mock_RequiresLogin, mock_ModelView, mock_AdminContentView):
+    #mock_actions = ['mock_attr1', 'mock_attr2', 'mock_attr3']
 
-#WIP:
-"""
-(.venv) [marcosptf@localhost quokka]$ python3.6
-Python 3.6.1 (default, May 15 2017, 11:42:04) 
-[GCC 6.3.1 20161221 (Red Hat 6.3.1-1)] on linux
-Type "help", "copyright", "credits" or "license" for more information.
->> import mock
->>> import pytest
->>> import datetime as dt
->>> import pymongo
->>> from flask import current_app
->>> from quokka.admin.forms import ValidationError, rules
->>> from quokka.admin.views import ModelView
->>> from quokka.admin.formatters import (
-...     format_datetime, format_view_on_site, format_custom_vars
-... )
-Traceback (most recent call last):
-  File "<stdin>", line 1, in <module>
-  File "/home/marcosptf/developer/quokka/quokka/admin/formatters.py", line 3, in <module>
-    from quokka.core.content.models import make_model
-  File "/home/marcosptf/developer/quokka/quokka/core/content/__init__.py", line 2, in <module>
-    from .admin import AdminArticlesView, AdminPagesView, AdminBlocksView
-  File "/home/marcosptf/developer/quokka/quokka/core/content/admin.py", line 7, in <module>
-    from quokka.admin.formatters import (
-ImportError: cannot import name 'format_datetime'
->>> from quokka.core.auth import get_current_user
->>> from quokka.utils.text import slugify, slugify_category
->>> from quokka.core.content.formats import CreateForm, get_format
->>> from quokka.core.content.utils import url_for_content
->>> from quokka.core.content.admin import AdminContentView, AdminArticlesView, AdminPagesView, AdminBlocksView
->>> 
->>> 
->>> acv = AdminContentView(ModelView)
-Traceback (most recent call last):
-  File "<stdin>", line 1, in <module>
-  File "/home/marcosptf/developer/quokka/.venv/lib64/python3.6/site-packages/flask_admin/contrib/pymongo/view.py", line 97, in __init__
-    name = self._prettify_name(coll.name)
-AttributeError: type object 'ModelView' has no attribute 'name'
->>> 
->>> mv = ModelView()
-Traceback (most recent call last):
-  File "<stdin>", line 1, in <module>
-TypeError: __init__() missing 1 required positional argument: 'coll'
->>> mv = ModelView('mock-coll')
-Traceback (most recent call last):
-  File "<stdin>", line 1, in <module>
-  File "/home/marcosptf/developer/quokka/.venv/lib64/python3.6/site-packages/flask_admin/contrib/pymongo/view.py", line 97, in __init__
-    name = self._prettify_name(coll.name)
-AttributeError: 'str' object has no attribute 'name'
->>> param = {'name' : 'mock-name'}
->>> print(param)
-{'name': 'mock-name'}
->>> print(param.name)
-Traceback (most recent call last):
-  File "<stdin>", line 1, in <module>
-AttributeError: 'dict' object has no attribute 'name'
->>> print(param['name'])
-mock-name
->>> class ParamModelViewMock():
-...     def name():
-...         return "param-mock"
-... 
->>> 
->>> pmvm = ParamModelViewMock()
->>> 
->>> mv = ModelView(pmvm)
-Traceback (most recent call last):
-  File "<stdin>", line 1, in <module>
-  File "/home/marcosptf/developer/quokka/.venv/lib64/python3.6/site-packages/flask_admin/contrib/pymongo/view.py", line 97, in __init__
-    name = self._prettify_name(coll.name)
-  File "/home/marcosptf/developer/quokka/.venv/lib64/python3.6/site-packages/flask_admin/model/base.py", line 1646, in _prettify_name
-    return prettify_name(name)
-  File "/home/marcosptf/developer/quokka/.venv/lib64/python3.6/site-packages/flask_admin/model/helpers.py", line 10, in prettify_name
-    return name.replace('_', ' ').title()
-AttributeError: 'function' object has no attribute 'replace'
->>> 
->>> 
+    mock_mv = mock_ModelView(mock_CloneAction, mock_PublishAction, mock_RequiresLogin, mock_ModelView)
+    #mock_mv._action = ['mock_attr1', 'mock_attr2', 'mock_attr3']
+    acv =  mock_AdminContentView(mock_mv)
+    acv.create_form()
+    #print("debugger-pytest=>"+acv)
+    #print(dir(acv))
+    assert acv.create_form.mock_calls is True
 
 """
-def test_AdminContentView():
-    pass
+(.venv) [marcosptf@localhost quokka]$ pytest tests/core/content/test_admin.py
+=============================================================================== test session starts ===============================================================================
+platform linux -- Python 3.6.1, pytest-3.6.4, py-1.5.4, pluggy-0.7.1
+rootdir: /home/marcosptf/developer/quokka, inifile:
+plugins: mock-1.10.0, flask-0.10.0, django-3.3.3, cov-2.5.1
+collected 3 items                                                                                                                                                                 
 
-def test_AdminArticlesView():
-    pass
+tests/core/content/test_admin.py F..                                                                                                                                        [100%]
+
+==================================================================================== FAILURES =====================================================================================
+______________________________________________________________________________ test_AdminContentView ______________________________________________________________________________
+
+mock_CloneAction = <MagicMock name='CloneAction' id='140166471221032'>, mock_PublishAction = <MagicMock name='PublishAction' id='140166471220304'>
+mock_RequiresLogin = <MagicMock name='RequiresLogin' id='140166471220976'>, mock_ModelView = <MagicMock name='ModelView' id='140166470577792'>
+mock_AdminContentView = <MagicMock name='AdminContentView' id='140166470598496'>
+
+    @mock.patch("quokka.core.content.admin.AdminContentView")
+    @mock.patch("flask_admin.contrib.pymongo.ModelView")
+    @mock.patch("quokka.admin.views.RequiresLogin")
+    @mock.patch("quokka.admin.actions.PublishAction")
+    @mock.patch("quokka.admin.actions.CloneAction")
+    def test_AdminContentView(mock_CloneAction, mock_PublishAction, mock_RequiresLogin, mock_ModelView, mock_AdminContentView):
+        #mock_actions = ['mock_attr1', 'mock_attr2', 'mock_attr3']
+    
+        mock_mv = mock_ModelView(mock_CloneAction, mock_PublishAction, mock_RequiresLogin, mock_ModelView)
+        #mock_mv._action = ['mock_attr1', 'mock_attr2', 'mock_attr3']
+        acv =  mock_AdminContentView(mock_mv)
+        acv.create_form()
+        #print("debugger-pytest=>"+acv)
+        #print(dir(acv))
+>       assert acv.create_form.mock_calls is True
+E       AssertionError: assert [call()] is True
+E        +  where [call()] = <MagicMock name='AdminContentView().create_form' id='140166470648104'>.mock_calls
+E        +    where <MagicMock name='AdminContentView().create_form' id='140166470648104'> = <MagicMock name='AdminContentView()' id='140166470631552'>.create_form
+
+tests/core/content/test_admin.py:33: AssertionError
+======================================================================= 1 failed, 2 passed in 0.88 seconds ========================================================================
+(.venv) [marcosptf@localhost quokka]$ 
+
+
+
+"""
+#@mock.patch("flask_admin.contrib.pymongo.ModelView")
+#@mock.patch("quokka.admin.views.RequiresLogin")
+#@mock.patch("quokka.admin.actions.PublishAction")
+#@mock.patch("quokka.admin.actions.CloneAction")
+#def test_AdminArticlesView():
+#    #aav = AdminArticlesView()
+#    pass
 
 def test_AdminPagesView():
     pass
