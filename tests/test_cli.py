@@ -1,10 +1,3 @@
-"""
-https://semaphoreci.com/community/tutorials/getting-started-with-mocking-in-python
-https://github.com/pytest-dev/pytest-mock
-https://medium.com/@bfortuner/python-unit-testing-with-pytest-and-mock-197499c4623c
-TypeError: test_check() takes 1 positional argument but 2 were given
-"""
-
 import mock
 import click
 import quokka
