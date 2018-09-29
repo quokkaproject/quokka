@@ -1,6 +1,6 @@
 import pytest
 import mock
-from .echo import green, lecho, red
+from quokka.utils.echo import green, lecho, red
 
 
 def test_fetch_theme():
