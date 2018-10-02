@@ -49,6 +49,7 @@ git clone https://github.com/rochacbruno/quokka
 cd quokka
 python3 -m venv venv
 . venv/bin/activate
+pip3 install --upgrade pip
 make install
 make adduser
 make devserver
@@ -56,6 +57,23 @@ make devserver
 
 then access http://localhost:5000 and http://localhost:5000/admin
 edit the `quokka/project_template/quokka.yml` and start contributing to the code!
+
+> NOTE: In dev mode the project in `quokka/project_template/` is used and a database is created inside it.
+
+### To install for use/deployment
+
+> NOTE: this project is a Work In Progress, consider installing in development mode
+
+```
+python3 -m venv venv
+. venv/bin/activate
+pip3 install --upgrade pip
+pip3 install -e git+https://github.com/rochacbruno/quokka.git#egg=quokka
+quokka init mysite
+cd mysite
+quokka adduser
+quokka runserver
+```
 
 
 # Using Quokka CMS
