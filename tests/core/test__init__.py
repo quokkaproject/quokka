@@ -1,6 +1,6 @@
-import mock                                                                                                                                                                    
-import pytest                                                                                                                                                                  
-from inspect import getargspec                                                                                                                                                 
+import mock                                                                                                                                                 
+import pytest                                                                                                                                               
+from inspect import getargspec                                                                                                                              
 import sys
 import import_string
 from quokka import create_app
@@ -15,7 +15,6 @@ from quokka.core.content import configure
 from quokka import create_app
 from quokka.core.content import configure
 from quokka.core import configure_extension, configure_extensions
-
 
 ################################################################################
 #pytest - fixtures                                                             #
@@ -115,7 +114,7 @@ def test_ce_has_static_folder():
 def test_ce_import_name():
     assert ce.import_name == "quokka"
 
-def test_ce_jinja_env():
+def test_ce_jinja_properties_env():
     assert ce.jinja_env.auto_reload == False
     assert ce.jinja_env.block_end_string == "%}"
     assert ce.jinja_env.block_start_string == "{%"
@@ -125,8 +124,12 @@ def test_ce_jinja_env():
     assert ce.jinja_env.enable_async == False
     assert ce.jinja_env.exception_formatter == None
     assert ce.jinja_env.exception_handler == None
+
+def test_ce_jinja_env_extensions():    
     assert ce.jinja_env.extensions['jinja2.ext.AutoEscapeExtension'] != ""
     assert ce.jinja_env.extensions['jinja2.ext.WithExtension'] != ""
+
+def test_ce_jinja_env_filters_not_empty():    
     assert ce.jinja_env.filters['abs'] != ""
     assert ce.jinja_env.filters['attr'] != ""    
     assert ce.jinja_env.filters['batch'] != ""    
@@ -171,97 +174,117 @@ def test_ce_jinja_env():
     assert ce.jinja_env.filters['wordwrap'] != ""    
 
 def test_ce_jinja_loader():
-    assert ce.jinja_loader == ""
+    assert ce.jinja_loader.encoding == 'utf-8'
+    assert ce.jinja_loader.followlinks == False
+    assert ce.jinja_loader.has_source_access == True
+    assert ce.jinja_loader.searchpath != ""
 
 def test_ce_jinja_options():
-    assert ce.jinja_options == ""
+    assert ce.jinja_options['extensions'][0] == 'jinja2.ext.autoescape'
+    assert ce.jinja_options['extensions'][1] == 'jinja2.ext.with_'
 
 def test_ce_logger():
-    assert ce.logger == ""
-
+    assert ce.logger.disabled == False
+    assert ce.logger.level == 0
+    assert ce.logger.manager.disable == 0
+    assert ce.logger.manager.emittedNoHandlerWarning == False
+    assert ce.logger.manager.loggerClass == None
+    assert ce.logger.manager.root.name == 'root'    
+   
 def test_ce_name():
-    assert ce.name == ""
+    assert ce.name == "quokka"
 
 def test_ce_permanent_session_lifetime():
-    assert ce.permanent_session_lifetime == ""
+    assert ce.permanent_session_lifetime.days == 31
+    assert ce.permanent_session_lifetime.max.days == 999999999
+    assert ce.permanent_session_lifetime.microseconds == 0
+    assert ce.permanent_session_lifetime.min.days == -999999999
+    assert ce.permanent_session_lifetime.seconds == 0
 
 def test_ce_preserve_context_on_exception():
-    assert ce.preserve_context_on_exception == ""
+    assert ce.preserve_context_on_exception == False
 
 def test_ce_propagate_exceptions():
-    assert ce.propagate_exceptions == ""
+    assert ce.propagate_exceptions == True
 
 def test_ce_root_path():
-    assert ce.root_path == ""
+    assert ce.root_path != ""
 
 def test_ce_secret_key():
-    assert ce.secret_key == ""
+    assert ce.secret_key == None
 
 def test_ce_send_file_max_age_default():
-    assert ce.send_file_max_age_default == ""
+    assert ce.send_file_max_age_default.days == 0
+    assert ce.send_file_max_age_default.microseconds == 0
+    assert ce.send_file_max_age_default.seconds == 43200
 
 def test_ce_session_cookie_name():
-    assert ce.session_cookie_name == ""
+    assert ce.session_cookie_name == "session"
 
 def test_ce_session_interface():
-    assert ce.session_interface == ""
+    assert ce.session_interface.key_derivation == "hmac"
+    assert ce.session_interface.pickle_based == False
+    assert ce.session_interface.salt == "cookie-session"
 
 def test_ce_shell_context_processors():
-    assert ce.shell_context_processors == ""
+    assert ce.shell_context_processors == []
 
 def test_ce_static_folder():
-    assert ce.static_folder == ""
+    assert ce.static_folder != ""
 
 def test_ce_static_url_path():
-    assert ce.static_url_path == ""
+    assert ce.static_url_path == "/static"
 
 def test_ce_subdomain_matching():
-    assert ce.subdomain_matching == ""
+    assert ce.subdomain_matching == False
 
 def test_ce_teardown_appcontext_funcs():
-    assert ce.teardown_appcontext_funcs == ""
+    assert ce.teardown_appcontext_funcs == []
 
 def test_ce_teardown_request_funcs():
-    assert ce.teardown_request_funcs == ""
-
-def test_ce_template_context_processors():
-    assert ce.template_context_processors == ""
+    assert ce.teardown_request_funcs == {}
 
 def test_ce_template_folder():
-    assert ce.template_folder == ""
+    assert ce.template_folder == "templates"
 
 def test_ce_templates_auto_reload():
-    assert ce.templates_auto_reload == ""
+    assert ce.templates_auto_reload == False
 
 def test_ce_test_cli_runner_class():
-    assert ce.test_cli_runner_class == ""
+    assert ce.test_cli_runner_class == None
 
 def test_ce_test_client_class():
-    assert ce.test_client_class == ""
+    assert ce.test_client_class == None
 
 def test_ce_testing():
-    assert ce.testing == ""
+    assert ce.testing == True
 
 def test_ce_theme_context():
-    assert ce.theme_context == ""
+    assert ce.theme_context['DEFAULT_LANG'] == None
+    assert ce.theme_context['PAGES'] == []
+    assert ce.theme_context['tags'] == []
+    assert ce.theme_context['articles'] == []
+    assert ce.theme_context['categories'] == []
+    assert ce.theme_context['tag_cloud'] == []
+    assert ce.theme_context['USE_LESS'] == False
 
 def test_ce_url_build_error_handlers():
-    assert ce.url_build_error_handlers == ""
+    assert ce.url_build_error_handlers == []
 
 def test_ce_url_default_functions():
-    assert ce.url_default_functions == ""
+    assert ce.url_default_functions == {}
 
 def test_ce_url_map():
-    assert ce.url_map == ""
+    assert ce.url_map.charset == 'utf-8'
+    assert ce.url_map.default_subdomain == ''
+    assert ce.url_map.encoding_errors == 'replace'
+    assert ce.url_map.host_matching == False
+    assert ce.url_map.redirect_defaults == True
+    assert ce.url_map.sort_key == None
+    assert ce.url_map.sort_parameters == False
+    assert ce.url_map.strict_slashes == True
 
 def test_ce_use_x_sendfile():
-    assert ce.use_x_sendfile == ""
-
-def test_ce_view_functions():
-    assert ce.view_functions == ""
-
-
-
-
+    assert ce.use_x_sendfile == False
 
 
