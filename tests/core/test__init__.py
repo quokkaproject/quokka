@@ -1,6 +1,6 @@
-import mock                                                                                                                                                 
-import pytest                                                                                                                                               
-from inspect import getargspec                                                                                                                              
+import mock
+import pytest
+from inspect import getargspec
 import sys
 import import_string
 from quokka import create_app
