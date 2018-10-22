@@ -17,19 +17,27 @@ from quokka.core.app import QuokkaApp, QuokkaModule
 ################################################################################
 appQk = QuokkaApp('quokka')
 configure_dynaconf(appQk)
+module = QuokkaModule(__name__)
 
 
 #################################################################################
 #pytest - Quokka - tests/core/test_app.py                                       #
 #################################################################################
 
-def test_class_QuokkaApp():
-    pass
-    
 
 def test_class_QuokkaModule():
-    pass
-    
+    assert module.deferred_functions == []
+    assert module.has_static_folder == False
+    assert module.json_decoder == None
+    assert module.json_encoder == None
+    assert module.root_path != ""
+    assert module.static_folder == None
+    assert module.static_url_path == None
+    assert module.subdomain == None
+    assert module.template_folder == 'templates'
+    assert module.url_prefix == None
+    assert module.url_values_defaults == {}
+    assert module.warn_on_modifications == False
 
 
 def test_QuokkaApp_class_is_instance_of():
@@ -131,8 +139,26 @@ def test_QuokkaApp_class_instance_add_icon_method_assert_add_content_format():
             raise
 
 
+def test_QuokkaApp_class_blueprint_property():
+    assert appQk.blueprints != {}
 
+def test_QuokkaApp_class_debug_property():
+    assert appQk.debug == False
 
+def test_QuokkaApp_class_env_property():
+    assert appQk.env == 'production'
+
+def test_QuokkaApp_class_extensions_property():
+    assert appQk.extensions != {}
+
+def test_QuokkaApp_class_got_first_request():
+    assert appQk.got_first_request == False
+
+def test_QuokkaApp_class_get_name_property():
+    assert appQk.name == 'quokka'
+
+def test_QuokkaApp_class_has_static_folder_property():
+    assert appQk.has_static_folder == True
 
 
 
