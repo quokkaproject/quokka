@@ -17,31 +17,36 @@ from flask_admin.contrib.pymongo import ModelView
 from quokka.admin.actions import CloneAction, PublishAction
 
 
-"""
-['assert_any_call', 'assert_called', 'assert_called_once', 'assert_called_once_with', 'assert_called_with', 'assert_has_calls', 'assert_not_called', 'attach_mock', 'call_args', 'call_args_list', 'call_count', 'called', 'configure_mock', 'method_calls', 'mock_add_spec', 'mock_calls', 'reset_mock', 'return_value', 'side_effect']
-"""
+################################################################################
+#pytest - fixtures                                                             #
+################################################################################
+class TestClassPytestExtendsAdminContentView(AdminContentView):
+    def mock_init_method(self):
+        return super(AdminContentView, self)
 
-#@mock.patch("quokka.core.content.admin.AdminContentView")
-#@mock.patch("flask_admin.contrib.pymongo.ModelView")
-#@mock.patch("quokka.admin.views.RequiresLogin")
-#@mock.patch("quokka.admin.actions.PublishAction")
-#@mock.patch("quokka.admin.actions.CloneAction")
-#def test_AdminContentView(mock_CloneAction, mock_PublishAction, mock_RequiresLogin, mock_ModelView, mock_AdminContentView):
-#    #mock_actions = ['mock_attr1', 'mock_attr2', 'mock_attr3']
-#
-#    mock_mv = mock_ModelView(mock_CloneAction, mock_PublishAction, mock_RequiresLogin, mock_ModelView)
-#    print(dir(mock_CloneAction))
-#    #mock_mv._action = ['mock_attr1', 'mock_attr2', 'mock_attr3']
-#    #mock_acv =  mock_AdminContentView(mock_mv)
-#    #acv.create_form()
-#    #print("debugger-pytest=>"+acv)
-#    #print(dir(mock_acv.create_form()))
-#    #assert mock_acv.create_form.assert_any_call is True
-#    #assert isinstance(mock_mv, mock_ModelView) == True
-#    assert mock_mv.assert_not_called is True
+class TestClassMockColl():
+    name = "mock-name"
 
-def test_AdminContentView():
-    pass 
+coll = TestClassMockColl()
+
+
+#################################################################################
+#pytest - Quokka - tests/core/content/test_admin.py                             #
+#################################################################################
+def test_AdminContentViewMakeInstance():
+    mock_class = TestClassPytestExtendsAdminContentView(coll)
+    assert isinstance(mock_class, TestClassPytestExtendsAdminContentView) == True
+
+def test_AdminContentView_create_defaults():
+    mock_class = TestClassPytestExtendsAdminContentView(coll)
+    AdminContentView_mocked = mock_class.mock_init_method()
+    assert AdminContentView_mocked.__thisclass__.create_defaults == {}
+
+def test_AdminContentView_base_query():
+    mock_class = TestClassPytestExtendsAdminContentView(coll)
+    AdminContentView_mocked = mock_class.mock_init_method()
+    assert  AdminContentView_mocked.__thisclass__.base_query == {}
+
 
 #@mock.patch("flask_admin.contrib.pymongo.ModelView")
 #@mock.patch("quokka.admin.views.RequiresLogin")
@@ -56,5 +61,17 @@ def test_AdminPagesView():
 
 def test_AdminBlocksView():
     pass
+
+
+
+
+
+
+
+
+
+
+
+
 
 
