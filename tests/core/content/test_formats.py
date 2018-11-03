@@ -3,6 +3,7 @@ import pytest
 import datetime as dt
 import getpass
 import json
+from flask_admin import Admin
 from quokka.core.content.parsers import markdown
 from flask import current_app as app, Markup
 from flask_admin.helpers import get_form_data
@@ -19,31 +20,123 @@ from quokka.core.content.formats import (
         HTMLEditForm, HTMLFormat, MarkdownFormat, MarkdownEditForm
 )
 
+################################################################################
+#pytest - !!!module warning!!!                                                 # 
+#the module quokka.core.content.formats                                        #
+#contains def and class not used by this project, nobody call this module      #
+################################################################################
+
 
 ################################################################################
 #pytest - fixtures                                                             #
 ################################################################################
+mock_obj = {'content_format' : 'debugger'}
 
 
 #################################################################################
 #pytest - Quokka - tests/core/content/test_formats_.py                          #
 #################################################################################
-def test_get_content_formats():
-    pass
+def test_get_content_formats_def_instance_error_outside_context():
+    
+    with pytest.raises(RuntimeError) as err:
+        try:
+            get_content_formats()
+            assert "Working outside of application context." in str(err.value)
+
+        except TypeError as e:
+            assert 'nargs=-1' in str(e)
+
+        except OSError as e:
+            if e.errno != errno.EEXIST:
+                raise
+
+        except FileExistsError:
+            raise        
+
+        except Exception:
+            raise
 
 
-def test_get_content_format_choices():
-    pass
+
+def test_get_content_format_choices_def_instance_error_outside_context():
+    with pytest.raises(RuntimeError) as err:
+        try:
+            get_content_format_choices()
+            assert "Working outside of application context." in str(err.value)
+
+        except TypeError as e:
+            assert 'nargs=-1' in str(e)
+
+        except OSError as e:
+            if e.errno != errno.EEXIST:
+                raise
+
+        except FileExistsError:
+            raise        
+
+        except Exception:
+            raise
 
 
-def test_get_format():
-    pass
+def test_get_format_def_instance_error_outside_context():
+    with pytest.raises(RuntimeError) as err:
+        try:
+            get_format(mock_obj)
+            assert "Working outside of application context." in str(err.value)
 
-def test_get_edit_form():
-    pass
+        except TypeError as e:
+            assert 'nargs=-1' in str(e)
 
-def test_validate_category():
-    pass
+        except OSError as e:
+            if e.errno != errno.EEXIST:
+                raise
+
+        except FileExistsError:
+            raise        
+
+        except Exception:
+            raise
+
+
+def test_get_edit_form_def_instance_error_outside_context():
+    with pytest.raises(RuntimeError) as err:
+        try:
+            get_edit_form(mock_obj)
+            assert "Working outside of application context." in str(err.value)
+
+        except TypeError as e:
+            assert 'nargs=-1' in str(e)
+
+        except OSError as e:
+            if e.errno != errno.EEXIST:
+                raise
+
+        except FileExistsError:
+            raise        
+
+        except Exception:
+            raise
+
+
+def test_get_edit_form_def_instance_error_outside_context():
+    with pytest.raises(RuntimeError) as err:
+        try:
+            validate_category()
+            assert "Working outside of application context." in str(err.value)
+
+        except TypeError as e:
+            assert 'nargs=-1' in str(e)
+
+        except OSError as e:
+            if e.errno != errno.EEXIST:
+                raise
+
+        except FileExistsError:
+            raise        
+
+        except Exception:
+            raise
+
 
 def test_get_category_kw():
     pass
