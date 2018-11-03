@@ -22,7 +22,7 @@ class MockTestClassPytestExtendsAdminContentView(AdminContentView):
     def mock_init_method(self):
         return super(AdminContentView, self)
 
-class TestAdminArticlesView(AdminArticlesView):
+class MockTestAdminArticlesView(AdminArticlesView):
     def init_super_method(self):
         return super(AdminArticlesView, self)
 
@@ -166,9 +166,9 @@ def test_warnings_MockTestClassPytestExtendsAdminContentView():
                 return super(AdminContentView, self)
         warnings.warn("cannot collect test class", RuntimeWarning)
 
-def test_warnings_TestAdminArticlesView():
+def test_warnings_MockTestAdminArticlesView():
     with pytest.warns(RuntimeWarning):
-        class TestAdminArticlesView(AdminArticlesView):
+        class MockTestAdminArticlesView(AdminArticlesView):
             def init_super_method(self):
                 return super(AdminArticlesView, self)
         warnings.warn("cannot collect test class", RuntimeWarning)
@@ -262,11 +262,11 @@ def test_AdminContentView_quokka_column_details_list():
     assert  AdminContentView_mocked.__thisclass__.column_details_list == mock_column_details_list
 
 def test_AdminArticlesView_base_query():
-    mock_class = TestAdminArticlesView(coll)
+    mock_class = MockTestAdminArticlesView(coll)
     assert mock_class.base_query == mock_base_query_article
 
 def test_AdminArticlesView_create_defaults():
-    mock_class = TestAdminArticlesView(coll)
+    mock_class = MockTestAdminArticlesView(coll)
     assert mock_class.create_defaults == mock_create_defauts_article
 
 def test_AdminPagesView_mock_base_query():
