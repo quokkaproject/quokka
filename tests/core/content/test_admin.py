@@ -26,10 +26,10 @@ class MockTestAdminArticlesView(AdminArticlesView):
     def init_super_method(self):
         return super(AdminArticlesView, self)
 
-class TestAdminPagesView(AdminPagesView):
+class MockTestAdminPagesView(AdminPagesView):
     def init_super_method(self):
         return super(AdminPagesView, self)
-                          
+
 class TestAdminBlocksView(AdminBlocksView):
     def init_super_method(self):
         return super(AdminBlocksView, self)
@@ -173,9 +173,9 @@ def test_warnings_MockTestAdminArticlesView():
                 return super(AdminArticlesView, self)
         warnings.warn("cannot collect test class", RuntimeWarning)
 
-def test_warnings_TestAdminPagesView():
+def test_warnings_MockTestAdminPagesView():
     with pytest.warns(RuntimeWarning):
-        class TestAdminPagesView(AdminPagesView):
+        class MockTestAdminPagesView(AdminPagesView):
             def init_super_method(self):
                 return super(AdminPagesView, self)
         warnings.warn("cannot collect test class", RuntimeWarning)
@@ -270,22 +270,22 @@ def test_AdminArticlesView_create_defaults():
     assert mock_class.create_defaults == mock_create_defauts_article
 
 def test_AdminPagesView_mock_base_query():
-    mock_class = TestAdminPagesView(coll)
+    mock_class = MockTestAdminPagesView(coll)
     AdminPagesView_mocked = mock_class.init_super_method()
     assert AdminPagesView_mocked.__thisclass__.base_query == mock_base_query
 
 def test_AdminPagesView_mock_create_defaults():
-    mock_class = TestAdminPagesView(coll)
+    mock_class = MockTestAdminPagesView(coll)
     AdminPagesView_mocked = mock_class.init_super_method()
     assert AdminPagesView_mocked.__thisclass__.create_defaults == mock_create_defaults
     
 def test_AdminPagesView_mock_quokka_form_create_rules():
-    mock_class = TestAdminPagesView(coll)
+    mock_class = MockTestAdminPagesView(coll)
     AdminPagesView_mocked = mock_class.init_super_method()
     assert AdminPagesView_mocked.__thisclass__.quokka_form_create_rules != mock_quokka_form_create_rules
 
 def test_AdminPagesView_mock_quokka_form_mock_quokka_form_edit_rules():
-    mock_class = TestAdminPagesView(coll)
+    mock_class = MockTestAdminPagesView(coll)
     AdminPagesView_mocked = mock_class.init_super_method()
     assert AdminPagesView_mocked.__thisclass__.quokka_form_edit_rules != mock_quokka_form_edit_rules
 
