@@ -121,7 +121,7 @@ def test_get_edit_form_def_instance_error_outside_context():
 def test_get_edit_form_def_instance_error_outside_context():
     with pytest.raises(RuntimeError) as err:
         try:
-            validate_category()
+            validate_category(None, fields)
             assert "Working outside of application context." in str(err.value)
 
         except TypeError as e:
