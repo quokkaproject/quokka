@@ -9,7 +9,15 @@ from flask_admin.helpers import get_form_data
 from flask_admin.model.fields import InlineFieldList, InlineFormField
 from quokka.admin.forms import Form, fields, rules, validators
 from werkzeug.utils import import_string
-from quokka.core.content.formats import get_content_formats, get_content_format_choices, get_format,get_edit_form,validate_category, get_category_kw, validate_block_item,get_block_item_kw, get_default_category, get_authors_kw, get_default_author,get_tags_kw,get_default_language,BaseForm,CreateForm,CustomVariablesForm,BlockItemForm,BaseEditForm,BaseFormat,PlainEditForm,PlainFormat,HTMLEditForm,HTMLFormat,MarkdownFormat, MarkdownEditForm
+from quokka.core.content.formats import (
+        get_content_formats, get_content_format_choices, get_format, 
+        get_edit_form, validate_category, get_category_kw, 
+        validate_block_item, get_block_item_kw, get_default_category, 
+        get_authors_kw, get_default_author, get_tags_kw, get_default_language,
+        BaseForm, CreateForm, CustomVariablesForm, BlockItemForm,
+        BaseEditForm, BaseFormat, PlainEditForm, PlainFormat,
+        HTMLEditForm, HTMLFormat, MarkdownFormat, MarkdownEditForm
+)
 
 
 def test_get_content_formats():
