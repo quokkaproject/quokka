@@ -107,7 +107,6 @@ mock_quokka_form_create_rules = [
 mock_quokka_form_edit_rules = [
     rules.FieldSet(('title', 'summary')),
     rules.Field('content'),
-    # rules.FieldSet(('category', 'authors', 'tags')),
     rules.FieldSet(('date',)),
     rules.FieldSet(('slug',)),
     rules.Field('published'),
@@ -149,7 +148,6 @@ mock_quokka_form_create_rules_admin_block = [
 mock_quokka_form_edit_rules_admin_block = [
     rules.FieldSet(('title', 'summary')),
     rules.Field('content'),
-    # rules.FieldSet(('category', 'authors', 'tags')),
     rules.FieldSet(('date',)),
     rules.FieldSet(('slug',)),
     rules.Field('published'),
