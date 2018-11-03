@@ -18,7 +18,7 @@ from quokka.admin.actions import CloneAction, PublishAction
 ################################################################################
 #pytest - fixtures                                                             #
 ################################################################################
-class TestClassPytestExtendsAdminContentView(AdminContentView):
+class MockTestClassPytestExtendsAdminContentView(AdminContentView):
     def mock_init_method(self):
         return super(AdminContentView, self)
 
@@ -159,9 +159,9 @@ mock_quokka_form_edit_rules_admin_block = [
 #################################################################################
 #pytest - Quokka - tests/core/content/test_admin.py                             #
 #################################################################################
-def test_warnings_TestClassPytestExtendsAdminContentView():
+def test_warnings_MockTestClassPytestExtendsAdminContentView():
     with pytest.warns(RuntimeWarning):
-        class TestClassPytestExtendsAdminContentView(AdminContentView):
+        class MockTestClassPytestExtendsAdminContentView(AdminContentView):
             def mock_init_method(self):
                 return super(AdminContentView, self)
         warnings.warn("cannot collect test class", RuntimeWarning)
@@ -188,76 +188,76 @@ def test_warnings_TestAdminBlocksView():
         warnings.warn("cannot collect test class", RuntimeWarning)
 
 def test_AdminContentViewMakeInstance():
-    mock_class = TestClassPytestExtendsAdminContentView(coll)
-    assert isinstance(mock_class, TestClassPytestExtendsAdminContentView) == True
+    mock_class = MockTestClassPytestExtendsAdminContentView(coll)
+    assert isinstance(mock_class, MockTestClassPytestExtendsAdminContentView) == True
 
 def test_AdminContentView_create_defaults():
-    mock_class = TestClassPytestExtendsAdminContentView(coll)
+    mock_class = MockTestClassPytestExtendsAdminContentView(coll)
     AdminContentView_mocked = mock_class.mock_init_method()
     assert AdminContentView_mocked.__thisclass__.create_defaults == {}
 
 def test_AdminContentView_base_query():
-    mock_class = TestClassPytestExtendsAdminContentView(coll)
+    mock_class = MockTestClassPytestExtendsAdminContentView(coll)
     AdminContentView_mocked = mock_class.mock_init_method()
     assert  AdminContentView_mocked.__thisclass__.base_query == {}
 
 def test_AdminContentView_quokka_form_edit_rules():
-    mock_class = TestClassPytestExtendsAdminContentView(coll)
+    mock_class = MockTestClassPytestExtendsAdminContentView(coll)
     AdminContentView_mocked = mock_class.mock_init_method()
     assert  AdminContentView_mocked.__thisclass__.quokka_form_edit_rules == None
 
 def test_AdminContentView_quokka_form_create_rules():
-    mock_class = TestClassPytestExtendsAdminContentView(coll)
+    mock_class = MockTestClassPytestExtendsAdminContentView(coll)
     AdminContentView_mocked = mock_class.mock_init_method()
     assert  AdminContentView_mocked.__thisclass__.quokka_form_create_rules == None
 
 def test_AdminContentView_quokka_details_modal():
-    mock_class = TestClassPytestExtendsAdminContentView(coll)
+    mock_class = MockTestClassPytestExtendsAdminContentView(coll)
     AdminContentView_mocked = mock_class.mock_init_method()
     assert  AdminContentView_mocked.__thisclass__.details_modal == True
 
 def test_AdminContentView_quokka_can_view_details():
-    mock_class = TestClassPytestExtendsAdminContentView(coll)
+    mock_class = MockTestClassPytestExtendsAdminContentView(coll)
     AdminContentView_mocked = mock_class.mock_init_method()
     assert  AdminContentView_mocked.__thisclass__.can_view_details == True
 
 def test_AdminContentView_quokka_create_template():
-    mock_class = TestClassPytestExtendsAdminContentView(coll)
+    mock_class = MockTestClassPytestExtendsAdminContentView(coll)
     AdminContentView_mocked = mock_class.mock_init_method()
     assert  AdminContentView_mocked.__thisclass__.create_template == 'admin/quokka/create.html'
     
 def test_AdminContentView_quokka_edit_template():
-    mock_class = TestClassPytestExtendsAdminContentView(coll)
+    mock_class = MockTestClassPytestExtendsAdminContentView(coll)
     AdminContentView_mocked = mock_class.mock_init_method()
     assert  AdminContentView_mocked.__thisclass__.edit_template == 'admin/quokka/edit.html'
 
 def test_AdminContentView_quokka_page_size():
-    mock_class = TestClassPytestExtendsAdminContentView(coll)
+    mock_class = MockTestClassPytestExtendsAdminContentView(coll)
     AdminContentView_mocked = mock_class.mock_init_method()
     assert  AdminContentView_mocked.__thisclass__.page_size == 20
 
 def test_AdminContentView_quokka_can_set_page_size():
-    mock_class = TestClassPytestExtendsAdminContentView(coll)
+    mock_class = MockTestClassPytestExtendsAdminContentView(coll)
     AdminContentView_mocked = mock_class.mock_init_method()
     assert  AdminContentView_mocked.__thisclass__.can_set_page_size == True
 
 def test_AdminContentView_quokka_column_list():
-    mock_class = TestClassPytestExtendsAdminContentView(coll)
+    mock_class = MockTestClassPytestExtendsAdminContentView(coll)
     AdminContentView_mocked = mock_class.mock_init_method()
     assert  AdminContentView_mocked.__thisclass__.column_list == mock_column_list
 
 def test_AdminContentView_quokka_column_sortable_list():
-    mock_class = TestClassPytestExtendsAdminContentView(coll)
+    mock_class = MockTestClassPytestExtendsAdminContentView(coll)
     AdminContentView_mocked = mock_class.mock_init_method()
     assert  AdminContentView_mocked.__thisclass__.column_sortable_list == mock_column_sortable_list
 
 def test_AdminContentView_quokka_column_default_sort():
-    mock_class = TestClassPytestExtendsAdminContentView(coll)
+    mock_class = MockTestClassPytestExtendsAdminContentView(coll)
     AdminContentView_mocked = mock_class.mock_init_method()
     assert  AdminContentView_mocked.__thisclass__.column_default_sort == mock_column_default_sort
 
 def test_AdminContentView_quokka_column_details_list():
-    mock_class = TestClassPytestExtendsAdminContentView(coll)
+    mock_class = MockTestClassPytestExtendsAdminContentView(coll)
     AdminContentView_mocked = mock_class.mock_init_method()
     assert  AdminContentView_mocked.__thisclass__.column_details_list == mock_column_details_list
 
