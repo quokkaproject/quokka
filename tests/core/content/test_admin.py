@@ -30,7 +30,7 @@ class MockTestAdminPagesView(AdminPagesView):
     def init_super_method(self):
         return super(AdminPagesView, self)
 
-class TestAdminBlocksView(AdminBlocksView):
+class MockTestAdminBlocksView(AdminBlocksView):
     def init_super_method(self):
         return super(AdminBlocksView, self)
 
@@ -180,9 +180,9 @@ def test_warnings_MockTestAdminPagesView():
                 return super(AdminPagesView, self)
         warnings.warn("cannot collect test class", RuntimeWarning)
 
-def test_warnings_TestAdminBlocksView():
+def test_warnings_MockTestAdminBlocksView():
     with pytest.warns(RuntimeWarning):
-        class TestAdminBlocksView(AdminBlocksView):
+        class MockTestAdminBlocksView(AdminBlocksView):
             def init_super_method(self):
                 return super(AdminBlocksView, self)
         warnings.warn("cannot collect test class", RuntimeWarning)
@@ -290,32 +290,32 @@ def test_AdminPagesView_mock_quokka_form_mock_quokka_form_edit_rules():
     assert AdminPagesView_mocked.__thisclass__.quokka_form_edit_rules != mock_quokka_form_edit_rules
 
 def test_AdminBlocksView_mock_quokka_mock_base_query_admin_block():
-    mock_class = TestAdminBlocksView(coll)
+    mock_class = MockTestAdminBlocksView(coll)
     AdminPagesView_mocked = mock_class.init_super_method()
     assert AdminPagesView_mocked.__thisclass__.base_query == mock_base_query_admin_block
 
 def test_AdminBlocksView_mock_quokka_mock_create_defaults_admin_block():
-    mock_class = TestAdminBlocksView(coll)
+    mock_class = MockTestAdminBlocksView(coll)
     AdminPagesView_mocked = mock_class.init_super_method()
     assert AdminPagesView_mocked.__thisclass__.create_defaults == mock_create_defaults_admin_block
 
 def test_AdminBlocksView_mock_quokka_mock_column_list_admin_block():
-    mock_class = TestAdminBlocksView(coll)
+    mock_class = MockTestAdminBlocksView(coll)
     AdminPagesView_mocked = mock_class.init_super_method()
     assert AdminPagesView_mocked.__thisclass__.column_list == mock_column_list_admin_block
 
 def test_AdminBlocksView_mock_quokka_mock_column_sortable_list_admin_block():
-    mock_class = TestAdminBlocksView(coll)
+    mock_class = MockTestAdminBlocksView(coll)
     AdminPagesView_mocked = mock_class.init_super_method()
     assert AdminPagesView_mocked.__thisclass__.column_sortable_list == mock_column_sortable_list_admin_block
 
 def test_AdminBlocksView_mock_quokka_mock_quokka_form_create_rules_admin_block():
-    mock_class = TestAdminBlocksView(coll)
+    mock_class = MockTestAdminBlocksView(coll)
     AdminPagesView_mocked = mock_class.init_super_method()
     assert AdminPagesView_mocked.__thisclass__.quokka_form_create_rules != mock_quokka_form_create_rules_admin_block
 
 def test_AdminBlocksView_mock_quokka_mock_quokka_form_edit_rules_admin_block():
-    mock_class = TestAdminBlocksView(coll)
+    mock_class = MockTestAdminBlocksView(coll)
     AdminPagesView_mocked = mock_class.init_super_method()
     assert AdminPagesView_mocked.__thisclass__.quokka_form_edit_rules != mock_quokka_form_edit_rules_admin_block
 
