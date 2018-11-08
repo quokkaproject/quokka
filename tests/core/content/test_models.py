@@ -356,13 +356,4 @@ def test_BlockItem_class_property_external_url_atribute_error():
             raise
 
 
-def test_make_model():
-    pass
-
-
-def test_make_paginator():
-    pass
-
-
-
 
