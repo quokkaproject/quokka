@@ -309,9 +309,28 @@ def test_Page_class_property_external_url_atribute_error():
             raise
 
 
+def test_Block_class_property_external_url_atribute_error():
 
-def test_class_Block():
-    pass
+    with pytest.raises(RuntimeError) as err:
+        try:
+            block = Block(data="2018-11-01")
+            assert "working outside of request context." in str(err.value)
+
+        except TypeError as e:
+            assert 'nargs=-1' in str(e)
+
+        except OSError as e:
+            if e.errno != errno.eexist:
+                raise
+
+        except AttributeError:
+            raise
+
+        except FileExistsError:
+            raise
+
+        except Exception:
+            raise
 
 
 def test_class_BlockItem():
