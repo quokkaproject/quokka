@@ -356,10 +356,6 @@ def test_BlockItem_class_property_external_url_atribute_error():
             raise
 
 
-
-def test_class_BlockItem():
-    pass
-
 def test_make_model():
     pass
 
