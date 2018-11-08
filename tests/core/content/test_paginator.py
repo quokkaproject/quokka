@@ -7,7 +7,7 @@ from collections import namedtuple
 from math import ceil
 from flask import current_app as app
 import six
-from quokka.core.content.paginator import Paginator
+from quokka.core.content.paginator import Paginator, Page
 
 
 ################################################################################

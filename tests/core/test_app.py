@@ -23,22 +23,38 @@ module = QuokkaModule(__name__)
 #################################################################################
 #pytest - Quokka - tests/core/test_app.py                                       #
 #################################################################################
-
-
-def test_class_QuokkaModule():
+def test_class_QuokkaModule_deferred_functions_property():
     assert module.deferred_functions == []
-    assert module.has_static_folder == False
-    assert module.json_decoder == None
-    assert module.json_encoder == None
-    assert module.root_path != ""
-    assert module.static_folder == None
-    assert module.static_url_path == None
-    assert module.subdomain == None
-    assert module.template_folder == 'templates'
-    assert module.url_prefix == None
-    assert module.url_values_defaults == {}
-    assert module.warn_on_modifications == False
 
+def test_class_QuokkaModule_has_static_folder_is_False():
+    assert module.has_static_folder == False
+    
+def test_class_QuokkaModule_json_decoder():
+    assert module.json_decoder == None
+
+def test_class_QuokkaModule_root_path_property():
+    assert module.root_path != ""
+
+def test_class_QuokkaModule_has_static_folder():
+    assert module.static_folder == None
+
+def test_class_QuokkaModule_url_path_property():
+    assert module.static_url_path == None
+
+def test_class_QuokkaModule_subdomain_property():
+    assert module.subdomain == None
+
+def test_class_QuokkaModule_template_folder_property():
+    assert module.template_folder == 'templates'
+
+def test_class_QuokkaModule_url_fix_property():
+    assert module.url_prefix == None
+
+def test_class_QuokkaModule_url_values_defaults_property():
+    assert module.url_values_defaults == {}
+
+def test_class_QuokkaModule_warn_on_modifications_property():    
+    assert module.warn_on_modifications == False
 
 def test_QuokkaApp_class_is_instance_of():
     configure_dynaconf(appQk)
