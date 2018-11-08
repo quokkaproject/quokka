@@ -34,6 +34,7 @@ category = Category("mock-category")
 fixed = Fixed(name="mock-name")
 url = Url(name="mock-name")
 author = Author(authors="mock-authors")
+tag = Tag(name="mock-name")
 
 
 #######################################################
@@ -208,23 +209,32 @@ def test_Url_class_property_external_url_atribute_error():
 def test_class_Authors_property_authors():
     assert author.authors == 'mock-authors'
 
-def test_class_Authors_property_authors():
+def test_class_Authors_property_is_content():
     assert author.is_content == False
 
-def test_class_Authors_property_authors():
+def test_class_Authors_property_name():
     assert author.name == 'Mock Authors'
 
-def test_class_Authors_property_authors():
+def test_class_Authors_property_slug():
     assert author.slug == 'mock-authors'
 
-def test_class_Authors_property_authors():
+def test_class_Authors_property_social():
     assert author.social == {}
 
-def test_class_Authors_property_authors():
+def test_class_Authors_property_url():
     assert author.url == 'author/mock-authors'
 
-def test_Tag():
-    pass
+def test_class_Tag_property_is_content():
+    assert tag.is_content == False
+
+def test_class_Tag_property_name():
+    assert tag.name == 'mock-name'
+
+def test_class_Tag_property_slug():
+    assert tag.slug == 'mock-name'
+
+def test_class_Tag_property_url():
+    assert tag.url == 'tag/mock-name/index.html'
 
 def test_Content():
     pass
