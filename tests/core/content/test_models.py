@@ -33,6 +33,7 @@ series = Series("mock-name")
 category = Category("mock-category")
 fixed = Fixed(name="mock-name")
 url = Url(name="mock-name")
+author = Author(authors="mock-authors")
 
 
 #######################################################
@@ -204,9 +205,23 @@ def test_Url_class_property_external_url_atribute_error():
             raise
 
 
+def test_class_Authors_property_authors():
+    assert author.authors == 'mock-authors'
 
-def test_Author():
-    pass
+def test_class_Authors_property_authors():
+    assert author.is_content == False
+
+def test_class_Authors_property_authors():
+    assert author.name == 'Mock Authors'
+
+def test_class_Authors_property_authors():
+    assert author.slug == 'mock-authors'
+
+def test_class_Authors_property_authors():
+    assert author.social == {}
+
+def test_class_Authors_property_authors():
+    assert author.url == 'author/mock-authors'
 
 def test_Tag():
     pass
