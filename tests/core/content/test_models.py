@@ -236,13 +236,54 @@ def test_class_Tag_property_slug():
 def test_class_Tag_property_url():
     assert tag.url == 'tag/mock-name/index.html'
 
-def test_Content():
-    pass
+
+def test_Content_class_property_external_url_atribute_error():
+
+    with pytest.raises(RuntimeError) as err:
+        try:
+            content = Content(data="2018-11-01")
+            assert "working outside of request context." in str(err.value)
+
+        except TypeError as e:
+            assert 'nargs=-1' in str(e)
+
+        except OSError as e:
+            if e.errno != errno.eexist:
+                raise
+
+        except AttributeError:
+            raise
+
+        except FileExistsError:
+            raise
+
+        except Exception:
+            raise
 
 
-def test_class_Article():
-    pass
-    
+def test_Article_class_property_external_url_atribute_error():
+
+    with pytest.raises(RuntimeError) as err:
+        try:
+            article = Article(data="2018-11-01")
+            assert "working outside of request context." in str(err.value)
+
+        except TypeError as e:
+            assert 'nargs=-1' in str(e)
+
+        except OSError as e:
+            if e.errno != errno.eexist:
+                raise
+
+        except AttributeError:
+            raise
+
+        except FileExistsError:
+            raise
+
+        except Exception:
+            raise
+
 
 def test_class_Page():
     pass
