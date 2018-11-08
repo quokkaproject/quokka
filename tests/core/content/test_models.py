@@ -1,3 +1,4 @@
+import pytest
 import mock
 import click
 import functools
@@ -12,18 +13,85 @@ from quokka.utils.text import (
 )
 from quokka.utils.dateformat import pretty_date
 from quokka.utils.custom_vars import custom_var_dict
+from quokka.core.content.models import (
+    Orderable, Series, Category, Fixed, Url, Author,
+    Tag, Content, Article, Page, Block, BlockItem,
+    make_model, make_paginator
+)
 
 
+################################################################################
+#pytest - fixtures                                                             #
+################################################################################
 DEFAULT_DATE_FORMAT = '%a %d %B %Y'
 
+class MockExtendsOrderableTestClass(Orderable):
+    def debug_is_content(self):
+        return self.is_content
 
-#@functools.total_ordering
+series = Series("mock-name")
+
+
+#######################################################
+#pytest - Quokka - tests/core/content/test_models.py  #
+#######################################################
 def test_Orderable():
-    pass
+    meotc = MockExtendsOrderableTestClass()
+    assert meotc.is_content == False
+
+def test_SeriesClass_all_property():
+    assert series.all == []
+
+def test_SeriesClass_all_next():
+    assert series.all_next == []
+
+def test_SeriesClass_all_prrevious():
+    assert series.all_previous == []
+
+def test_SeriesClass_index():
+    assert series.index == 1
+
+def test_SeriesClass_is_content():
+    assert series.is_content == False
+
+def test_SeriesClass_name():
+    assert series.name == 'mock-name'
+
+def test_SeriesClass_next():
+    assert series.next == []
+
+def test_SeriesClass_previous():
+    assert series.previous == []
+
+def test_SeriesClass_slug():
+    assert series.slug == 'mock-name'
+ 
+def test_Series_class_property_external_url_atribute_error():
+
+    with pytest.raises(AttributeError) as err:
+        try:
+            series.external_url(url="mock-url")
+            assert "object has no attribute url" in str(err.value)
+
+        except TypeError as e:
+            assert 'nargs=-1' in str(e)
+
+        except OSError as e:
+            if e.errno != errno.EEXIST:
+                raise
+        
+        except RuntimeError:
+            raise
+
+        except FileExistsError:
+            raise
+
+        except Exception:
+            raise
 
 
-def test_Series():
-    pass
+
+
 
 def test_Category():
     pass
