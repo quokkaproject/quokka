@@ -30,7 +30,8 @@ class MockExtendsOrderableTestClass(Orderable):
         return self.is_content
 
 series = Series("mock-name")
-
+category = Category("mock-category")
+fixed = Fixed(name="mock-name")
 
 #######################################################
 #pytest - Quokka - tests/core/content/test_models.py  #
@@ -89,15 +90,82 @@ def test_Series_class_property_external_url_atribute_error():
         except Exception:
             raise
 
+ 
+def test_Category_class_property_external_url_atribute_error():
+
+    with pytest.raises(RuntimeError) as err:
+        try:
+            category.external_url
+            assert "Working outside of request context." in str(err.value)
+
+        except TypeError as e:
+            assert 'nargs=-1' in str(e)
+
+        except OSError as e:
+            if e.errno != errno.EEXIST:
+                raise
+        
+        except AttributeError:
+            raise
+
+        except FileExistsError:
+            raise
+
+        except Exception:
+            raise
 
 
+def test_Category_class_property_category():
+    assert category.category == 'mock-category'
+
+def test_Category_class_property_is_content():
+    assert category.is_content == False
+
+def test_Category_class_property_name():
+    assert category.name == 'Mock Category'
+
+def test_Category_class_property_slug():
+    assert category.slug == 'mock-category'
+
+def test_Category_class_property_url():
+    assert category.url == 'mock-category'
+
+def test_Fixed_class_property_is_content():
+    assert fixed.is_content == False
+
+def test_Fixed_class_property_name():
+    assert fixed.name == 'mock-name'
+
+def test_Fixed_class_property_slug():
+    assert fixed.slug == 'mock-name'
+
+def test_Fixed_class_property_url():    
+    assert fixed.url == 'mock-name'
+
+def test_Fixed_class_property_external_url_atribute_error():
+
+    with pytest.raises(RuntimeError) as err:
+        try:
+            fixed.external_url
+            assert "Working outside of request context." in str(err.value)
+
+        except TypeError as e:
+            assert 'nargs=-1' in str(e)
+
+        except OSError as e:
+            if e.errno != errno.EEXIST:
+                raise
+        
+        except AttributeError:
+            raise
+
+        except FileExistsError:
+            raise
+
+        except Exception:
+            raise
 
 
-def test_Category():
-    pass
-
-def test_Fixed():
-    pass
 
 def test_Url():
     pass
