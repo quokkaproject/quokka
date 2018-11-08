@@ -32,6 +32,8 @@ class MockExtendsOrderableTestClass(Orderable):
 series = Series("mock-name")
 category = Category("mock-category")
 fixed = Fixed(name="mock-name")
+url = Url(name="mock-name")
+
 
 #######################################################
 #pytest - Quokka - tests/core/content/test_models.py  #
@@ -166,9 +168,42 @@ def test_Fixed_class_property_external_url_atribute_error():
             raise
 
 
+def test_Url_class_property_is_content():
+    assert url.is_content == False
 
-def test_Url():
-    pass
+def test_Url_class_property_name():
+    assert url.name == 'mock-name'
+
+def test_Url_class_property_slug():
+    assert url.slug == 'mock-name'
+
+def test_Url_class_property_url():    
+    assert url.url == 'mock-name'
+
+def test_Url_class_property_external_url_atribute_error():
+
+    with pytest.raises(RuntimeError) as err:
+        try:
+            url.external_url
+            assert "Working outside of request context." in str(err.value)
+
+        except TypeError as e:
+            assert 'nargs=-1' in str(e)
+
+        except OSError as e:
+            if e.errno != errno.EEXIST:
+                raise
+        
+        except AttributeError:
+            raise
+
+        except FileExistsError:
+            raise
+
+        except Exception:
+            raise
+
+
 
 def test_Author():
     pass
