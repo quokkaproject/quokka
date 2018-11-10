@@ -45,9 +45,3 @@ def test_class_HighlightMixin():
             raise
 
 
-
-def test_class_HighlightRenderer():
-    pass
-
-
-
