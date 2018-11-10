@@ -27,9 +27,30 @@ from quokka.core.content.views import (
     PreviewView
 )
 
-def test_class_BaseView():
-    pass
 
+#######################################################
+#pytest - fixtures                                    #
+#######################################################
+baseview = BaseView()
+
+
+#######################################################
+#pytest - Quokka - tests/core/content/test_views.py   #
+#######################################################
+def test_class_BaseView_is_subclass():
+    assert issubclass(BaseView, MethodView) == True
+
+def test_class_BaseView_is_instance():
+    assert isinstance(baseview, BaseView) == True
+
+def test_class_BaseView_decorators():
+    assert baseview.decorators == ()
+
+def test_class_BaseView_methods():
+    assert baseview.methods is None
+
+def test_class_BaseView_provide_automatic_options_property():
+    assert baseview.provide_automatic_options is None
 
 def test_class_ArticleListView():
     pass
