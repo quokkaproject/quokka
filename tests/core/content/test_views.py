@@ -1,3 +1,4 @@
+import pytest
 import mock
 import click
 import hashlib
