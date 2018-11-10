@@ -2,16 +2,30 @@ import mock
 import click
 import hashlib
 import PyRSS2Gen as pyrss
-from datetime import datetime, timedelta
-from flask import current_app as app, render_template, abort, request
+from datetime import (
+    datetime, timedelta
+)
+from flask import (
+    current_app as app, render_template,
+    abort, request
+)
 from flask.views import MethodView
 from flask_simplelogin import is_logged_in
 from quokka.utils.atom import AtomFeed
-from quokka.core.content.models import make_model, make_paginator, Category, Tag, Author
-from quokka.utils.text import (
-    slugify_category, normalize_var, slugify, cdata, make_external_url
+from quokka.core.content.models import (
+    make_model, make_paginator,
+    Category, Tag, Author
 )
-from quokka.core.content.views import BaseView 
+from quokka.utils.text import (
+    slugify_category, normalize_var,
+    slugify, cdata, make_external_url
+)
+from quokka.core.content.views import (
+    BaseView, ArticleListView,
+    CategoryListView, TagListView,
+    AuthorListView, DetailView,
+    PreviewView
+)
 
 def test_class_BaseView():
     pass
