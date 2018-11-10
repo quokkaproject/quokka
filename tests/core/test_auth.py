@@ -64,27 +64,23 @@ def test_create_user():
 
 
 def test_class_UserForm():
-    pass
+    
+    with pytest.raises(RuntimeError) as err:
+        try:
+            userform = UserForm()
+            assert "Working outside of application context." in str(err.value)
 
+        except TypeError as e:
+            assert 'nargs=-1' in str(e)
 
-def test_format_profile():
-    pass
+        except OSError as e:
+            if e.errno != errno.EEXIST:
+                raise
 
-def test_class_UserView():
-    pass
+        except FileExistsError:
+            raise        
 
-def test_validate_login():
-    pass
+        except Exception:
+            raise
 
-
-def test_configure():
-    pass
-
-
-def test_configure_user_admin():
-    pass
-
-
-def test_get_current_user():
-    pass
 
