@@ -19,6 +19,11 @@ slugify_category = Slugify()
 slugify_category.to_lower = True
 slugify_category.safe_chars = '/'
 abbrev = abbreviate("pytest-mock")
+norma = normalize_var("http://yahoo.com")
+make_link = make_social_link(network="twitter", txt="http://twitter.com/python")
+make_name = make_social_name('http://twitter.com/python')
+data = cdata("py-cdata")
+split = split_all_category_roots(cat="categoria1/categoria2/categoria3")
 
 
 ##################################
@@ -29,26 +34,43 @@ def test_abbreviate():
     assert abbrev == 'pytest-mock'
 
 def test_normalize_var():
-    pass
+    assert norma == "http:__yahoo.com"
 
 
 def test_make_social_link():
-    pass
-
+    assert make_link == 'http://twitter.com/python'
 
 
 def test_make_social_name():
-    pass
+    assert make_name == 'python'
 
-
-def test_data():
-    pass
-
+def test_cdata():
+    assert data == '<![CDATA[\npy-cdata\n]]>'    
 
 def test_make_external_url():
-    pass
+
+    with pytest.raises(RuntimeError) as err:
+        try:
+            make_external_url("http://it.yahoo.com")
+            assert "Working outside of application context." in str(err.value)
+
+        except TypeError as e:
+            assert 'nargs=-1' in str(e)
+
+        except OSError as e:
+            if e.errno != errno.EEXIST:
+                raise
+
+        except FileExistsError:
+            raise
+
+        except Exception:
+            raise
+
 
 
 def test_split_all_category_roots():
-    pass
-    
+    assert split[0] == 'categoria1/categoria2/categoria3'
+    assert split[1] == 'categoria1/categoria2'
+    assert split[2] == 'categoria1'
+
