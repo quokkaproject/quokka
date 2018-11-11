@@ -2,7 +2,7 @@
 
 ![quokka](https://github.com/rochacbruno/quokka/raw/master/docs/emoji_small.png)
 
-## The Happiest CMF in the world
+## The Happiest CMS in the world
 
 Quokka is a Content Management Framework written in Python.
 
@@ -16,7 +16,7 @@ to provide any kind of web application based on Python and Flask.
 Quokka can also (optionally) generate a static website from the contents generated
 in its admin interface.
 
-## Features (some to be implemented)
+## Features
 
 - Web based content management admin interface
 - Multiple content formats (markdown, rst, html, plaintext)
@@ -26,43 +26,61 @@ in its admin interface.
 - Extensible via modules/plugins
 - Powered by Python, Flask, Flask-Admin, TinyMongo and Pelican Themes
 
-## Quick Start
+## Demo
 
+> Use this if you want to see how Quokka works
+
+```
+docker run --rm -it -p 5000:5000 quokka/quokka
+```
+Go to http://localhost:5000/admin and login using admin/admin
+
+## Quick Start
 
 > NOTE: QuokkaCMS requires Python 3.6+
 
 
-### Install and run for development mode
-> this is the recommended way while 1.0.0 is not released
+### To install and run for development mode 
+
+> Use this if you want to contribute to quokka, PyPi releases will be provided soon.
 
 ```bash
 git clone https://github.com/rochacbruno/quokka
 cd quokka
 python3 -m venv venv
 . venv/bin/activate
+pip3 install --upgrade pip
 make install
 make adduser
 make devserver
 ```
 
 then access http://localhost:5000 and http://localhost:5000/admin
-edit the `quokka/project_template/quokka.yml` and start hacking the code!
+edit the `quokka/project_template/quokka.yml` and start contributing to the code!
 
-### Or install quokka from PyPI
-> May not be stable until 1.0.0 is released
+> NOTE: In dev mode the project in `quokka/project_template/` is used and a database is created inside it.
 
-```bash
+### To install for use/deployment
+
+> NOTE: this project is a Work In Progress, consider installing in development mode
+
+```
 python3 -m venv venv
 . venv/bin/activate
-pip3 install --pre quokka
+pip3 install --upgrade pip
+pip3 install -e git+https://github.com/rochacbruno/quokka.git#egg=quokka
+quokka init mysite
+cd mysite
+quokka adduser
+quokka runserver
 ```
 
-> NOTE: use `--pre` to get pre releases updates (dev version)
 
-#### and start a project
+# Using Quokka CMS
+
+#### Start a project
 
 ```bash
-
 $ quokka init NewWebsite --theme=flex --modules=gitpages,heroku
 ...
 ```

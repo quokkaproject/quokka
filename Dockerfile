@@ -1,23 +1,55 @@
-FROM python:3.7.0-stretch
-MAINTAINER Eric Ho <dho.eric@gmail.com>
+# This Dockerfile uses Docker Multi-Stage Builds
+# See https://docs.docker.com/engine/userguide/eng-image/multistage-build/
+# Requires Docker v17.05
 
-RUN mkdir -p /usr/src/app
+# Base image for build and runtime
+FROM python:3.7-slim-stretch AS base
+LABEL maintainer="Eric Ho <dho.eric@gmail.com>"
+
 WORKDIR /usr/src/app
+ENV DEBIAN_FRONTEND=noninteractive \
+    PBR_VERSION=4.2.0
+
+# Build image
+FROM base AS build
+
+# Install build packages
+RUN apt-get update && apt-get install -yq --no-install-recommends \
+            pandoc \
+            build-essential \
+            python3-dev \
+        && apt-get clean \
+        && rm -rf /var/lib/apt/lists/*
 
 RUN pip install \
-	pypandoc \
-	pygments
+        pypandoc \
+        pygments \
+        pbr==${PBR_VERSION}
 
-RUN apt-get update && \
-	apt-get install -y \
-		pandoc && \
-	rm -rf /var/lib/apt/lists/*
-
+# Copy app
 COPY . /usr/src/app/
 
+# Generate docs
+RUN pandoc --from=markdown --to=rst --output=README.rst README.md
+
+# Install app
 RUN python setup.py develop
 
-WORKDIR /work
+# Runtime image
+FROM base AS run
+
+# Copy from build image
+COPY --from=build /usr/src/app/ /usr/src/app/
+COPY --from=build /usr/local/lib/python3.7/ /usr/local/lib/python3.7/
+COPY --from=build /usr/local/bin/quokka /usr/local/bin/quokka
+
+WORKDIR /usr/src/app/quokka/project_template
+
+# Setup admin user
+# Default user and password: admin/admin
+RUN quokka adduser --username admin --password admin --fullname admin --email 'admin@localhost'
+
 EXPOSE 5000
+
 ENTRYPOINT ["quokka"]
-CMD ["runserver","--host","0.0.0.0","--port","5000"]
+CMD [ "runserver", "--host", "0.0.0.0", "--port", "5000" ]

@@ -1,0 +1,9 @@
+*.pyc
+Thumbs.db
+*~
+dist/
+README.rst
+.eggs/
+*.egg
+*.egg-info
+.git
