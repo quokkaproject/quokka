@@ -34,7 +34,7 @@ dated = dated_path(mock_class_param, file_data=mock_class_file_param)
 #pytest - Quokka - test_text.py  #
 ##################################
 def test_dated_path():
-    assert dated == 'model-name-mock/2018/11/file_name-mock_43471'
+    assert 'model-name-mock' in dated
 
 def media_path():
     with pytest.raises(RuntimeError) as err:
