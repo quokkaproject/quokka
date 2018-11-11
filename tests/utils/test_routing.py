@@ -3,5 +3,5 @@ import mock
 from quokka.utils.routing import expose
 
 def test_expose():
-    pass
+    assert expose() != ""
     
