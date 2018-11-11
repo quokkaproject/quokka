@@ -106,18 +106,6 @@ def test_copy_folder_file_exists():
         raise
 
 
-#WIP: using class above to this pytest def
-#FIXME: add fixture and mocking
-#@mock.patch("manage.cli")
-#@mock.patch("quokka.cli.with_app")
-#@mock.patch("quokka.cli.click")
-#@mock.patch("pprint.pprint")
-#def test_check(mock_pprint, mock_click, mock_with_app, mock_cli):
-    #app = AppMock()
-    #check(app)
-    #mock_click.echo.assert_called_with("App.")
-
-
 @mock.patch("functools.wraps")
 @mock.patch("quokka.create_app")
 def test_with_app(mock_create_app, mock_wraps):
@@ -157,31 +145,5 @@ def test_init(mocker_copyfolder, mocker_Path, mocker_option, mocker_argument, mo
 
     except Exception:
         raise
-
-#WIP    
-@mock.patch("click.command")
-@mock.patch("click.option")
-def test_adduser(mock_option, mock_command):
-    pass
-
-#WIP
-def test_execute(mocker):
-    pass
-
-#WIP
-@mock.patch("click.command")
-@mock.patch("click.option")
-@mock.patch("quokka.cli.with_app")
-def test_runserver(mocker_option, mocker_command, mocker_with_app):
-    pass
-
-#WIP
-#FIXME: rewrite this pytest method
-#error: missing command
-#@mock.patch('manage.cli')
-#def test_main(mocker):
-    #mocker.patch("manage.cli.init_cli")
-#    quokka.cli.main()
-#    manage.cli.init_cli.assert_called_once_with(cli)
 
 
