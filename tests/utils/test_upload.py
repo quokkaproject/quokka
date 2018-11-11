@@ -6,16 +6,53 @@ from datetime import date
 from flask import current_app
 from speaklater import make_lazy_string
 from werkzeug import secure_filename
+from quokka.utils.upload import (
+    dated_path, media_path,
+    lazy_media_path
+)
 
 
+################################
+#pytest - fixtures - setUp();  #
+################################
+class MockClassParam():
+    model_name = None
+    def __init__(self):
+        self.model_name = "model-name-mock"
+
+class MockClassFileParam():
+    filename = None
+    def __init__(self):
+        self.filename = "file_name-mock"
+
+mock_class_param = MockClassParam()
+mock_class_file_param = MockClassFileParam()
+dated = dated_path(mock_class_param, file_data=mock_class_file_param)
+
+
+##################################
+#pytest - Quokka - test_text.py  #
+##################################
 def test_dated_path():
-    pass
+    assert dated == 'model-name-mock/2018/11/file_name-mock_43471'
 
 def media_path():
-    pass
+    with pytest.raises(RuntimeError) as err:
+        try:
+            media_path(suffix=None)
+            assert "Working outside of application context." in str(err.value)
+
+        except TypeError as e:
+            assert 'nargs=-1' in str(e)
+
+        except OSError as e:
+            if e.errno != errno.EEXIST:
+                raise
+
+        except FileExistsError:
+            raise
+
+        except Exception:
+            raise
 
 
-def lazy_media_path():
-    pass
-
- 
