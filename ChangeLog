@@ -1,6 +1,15 @@
 CHANGES
 =======
 
+* add tox.ini file
+* add tox support to quokka
+* Update README.md
+* Update setup.cfg
+* Update README.md
+* Re-factor Dockerfile to use multi-stage builds, fixes #606
+* debugger docker file (#669)
+* removing flit from dockerfile (#668)
+* added --pre release to readme
 * 0.4.1
 * removed unused \_\_version\_\_
 * Fix wrong template call
