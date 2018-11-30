@@ -32,46 +32,14 @@ tweet_view = TweetView(coll=mock_class_coll)
 #pytest - Quokka - test__init__.py  #
 #####################################
 def test_class_InnerForm():
-
     with pytest.raises(RuntimeError) as err:
-        try:
-            inner_form = InnerForm()
-            assert "Working outside of application context." in str(err.value)
-
-        except TypeError as e:
-            assert 'nargs=-1' in str(e)
-
-        except OSError as e:
-            if e.errno != errno.EEXIST:
-                raise
-
-        except FileExistsError:
-            raise
-
-        except Exception:
-            raise
-
+        inner_form = InnerForm()
+        assert "Working outside of application context." in str(err.value)
 
 def test_class_UserForm():
-
     with pytest.raises(RuntimeError) as err:
-        try:
-            user_form = UserForm()
-            assert "Working outside of application context." in str(err.value)
-
-        except TypeError as e:
-            assert 'nargs=-1' in str(e)
-
-        except OSError as e:
-            if e.errno != errno.EEXIST:
-                raise
-
-        except FileExistsError:
-            raise
-
-        except Exception:
-            raise
-
+        user_form = UserForm()
+        assert "Working outside of application context." in str(err.value)
 
 def test_class_UserView_action_disallowed_list():
     assert user_form.action_disallowed_list == []
@@ -131,25 +99,9 @@ def test_class_UserView_form_rules_property():
     assert user_form.form_rules is None
 
 def test_class_TweetForm():
- 
     with pytest.raises(RuntimeError) as err:
-        try:
-            user_form = TweetForm()
-            assert "Working outside of application context." in str(err.value)
-
-        except TypeError as e:
-            assert 'nargs=-1' in str(e)
-
-        except OSError as e:
-            if e.errno != errno.EEXIST:
-                raise
-
-        except FileExistsError:
-            raise
-
-        except Exception:
-            raise
-
+        user_form = TweetForm()
+        assert "Working outside of application context." in str(err.value)
 
 def test_class_TweetView_is_instance():
     assert isinstance(tweet_view, TweetView) == True
