@@ -1,6 +1,6 @@
 .PHONY: docs test pep8 clean install build publish tree create_env devserver pandoc adduser
 
-test:  pep8
+test: pep8
 	QUOKKA_MODE=test pytest -vvv --cov=quokka -l --tb=short --maxfail=1 tests/
 
 pep8:
