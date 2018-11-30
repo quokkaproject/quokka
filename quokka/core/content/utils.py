@@ -10,9 +10,10 @@ def url_for_content(content, include_ext=True):
     else:
         data = content
 
+    data_category_slug = data.get('category_slug')
+    data_slugify_category = slugify_category(data.get('category') or '')
     category_slug = (
-        data.get('category_slug') or
-        slugify_category(data.get('category') or '')
+        data_category_slug or data_slugify_category
     )
     slug = data.get('slug') or slugify(data.get('title'))
 

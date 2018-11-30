@@ -1,6 +1,7 @@
 
 from flask import current_app
 from wtforms.widgets import TextArea, TextInput
+from quokka.core.content.views import render_template
 
 
 class TextEditor(TextArea):
