@@ -15,22 +15,22 @@ regex = Regex(app)
 #######################################################
 #pytest - Quokka - tests/core/views/test_sitemap.py   #
 #######################################################
-def test_class_RegexConverter_is_subclass():
+def test_class_regexconverter_is_subclass():
     assert issubclass(RegexConverter, BaseConverter) == True
 
-def test_class_RegexConverter_isinstance():
+def test_class_regexconverter_isinstance():
     assert isinstance(regex_converter, RegexConverter) == True
 
-def test_class_RegexConverter_map_property():
+def test_class_regexconverter_map_property():
     assert regex_converter.map == 'quokka/mock/url'
 
-def test_class_RegexConverter_weight_property():
+def test_class_regexconverter_weight_property():
     assert regex_converter.weight == 100
 
-def test_class_Regex_isinstance():
+def test_class_regex_isinstance():
     assert isinstance(regex, Regex) == True
 
-def test_class_Regex_name():
+def test_class_regex_name():
     assert regex.app.name == 'quokka'
 
 

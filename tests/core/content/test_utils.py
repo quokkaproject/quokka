@@ -22,24 +22,9 @@ param_dict = {"java":"debugger", "slug":"slug-mock", "title":"title-mock"}
 #pytest - Quokka - tests/core/content/test_utils.py   #
 #######################################################
 def test_url_for_content():
-
     with pytest.raises(RuntimeError) as err:
-        try:
-            url = url_for_content(content=param_dict)
-            assert "Working outside of application context." in str(err.value)
-
-        except TypeError as e:
-            assert 'nargs=-1' in str(e)
-
-        except OSError as e:
-            if e.errno != errno.EEXIST:
-                raise
-
-        except FileExistsError:
-            raise
-
-        except Exception:
-            raise
+        url = url_for_content(content=param_dict)
+        assert "Working outside of application context." in str(err.value)
 
 def test_url_for_category():
     url = url_for_category("java-categoty-mock")

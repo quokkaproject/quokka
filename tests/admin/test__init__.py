@@ -14,91 +14,50 @@ from quokka.core.flask_dynaconf import configure_dynaconf
 @mock.patch("quokka.admin.views.IndexView")
 @mock.patch("quokka.admin.QuokkaAdmin")
 @mock.patch("flask_admin.Admin")
-def test_create_admin_failed_param_app_None_err(mock_Admin, mock_QuokkaAdmin, mock_IndexView):
-    
+def test_create_admin_failed_param_app_none_err(mock_Admin, mock_QuokkaAdmin, mock_IndexView):
     with pytest.raises(AttributeError) as err:
-        try:
-            quokka.admin.create_admin(app=None)
-            assert "object has no attribute" in str(err.value)
-
-        except TypeError as e:
-            assert 'nargs=-1' in str(e)
-
-        except OSError as e:
-            if e.errno != errno.EEXIST:
-                raise
-            
-        except RuntimeError:
-            raise
-
-        except FileExistsError:
-            raise        
-
-        except Exception:
-            raise
-
+        quokka.admin.create_admin(app=None)
+        assert "object has no attribute" in str(err.value)
 
 @mock.patch("quokka.admin.views.IndexView")
 @mock.patch("quokka.admin.QuokkaAdmin")
 @mock.patch("flask_admin.Admin")
 def test_create_admin_failed_param_app_string_empty_err(mock_Admin, mock_QuokkaAdmin, mock_IndexView):
-    
     with pytest.raises(AttributeError) as err:
-        try:
-            quokka.admin.create_admin(app="")
-            assert "object has no attribute" in str(err.value)
-
-        except TypeError as e:
-            assert 'nargs=-1' in str(e)
-
-        except OSError as e:
-            if e.errno != errno.EEXIST:
-                raise
-            
-        except RuntimeError:
-            raise
-
-        except FileExistsError:
-            raise        
-
-        except Exception:
-            raise
-
+        quokka.admin.create_admin(app="")
+        assert "object has no attribute" in str(err.value)
 
 @mock.patch("quokka.admin.views.IndexView")
 @mock.patch("quokka.admin.QuokkaAdmin")
 @mock.patch("flask_admin.Admin")
-def test_create_admin_called_IndexView_False(mock_Admin, mock_QuokkaAdmin, mock_IndexView):
+def test_create_admin_called_indexview_false(mock_Admin, mock_QuokkaAdmin, mock_IndexView):
     quokka.admin.create_admin(app=mock_Admin)
     assert mock_IndexView.called is False
 
-
 @mock.patch("quokka.admin.views.IndexView")
 @mock.patch("quokka.admin.QuokkaAdmin")
 @mock.patch("flask_admin.Admin")
-def test_create_admin_called_QuokkaAdmin_False(mock_Admin, mock_QuokkaAdmin, mock_IndexView):
+def test_create_admin_called_quokkaadmin_false(mock_Admin, mock_QuokkaAdmin, mock_IndexView):
     quokka.admin.create_admin(app=mock_Admin)
     assert mock_QuokkaAdmin(app=mock_Admin).called is False
 
-
 @mock.patch("quokka.admin.views.IndexView")
 @mock.patch("quokka.admin.QuokkaAdmin")
 @mock.patch("flask_admin.Admin")
-def test_create_admin_called_QuokkaApp_is_instance_of(mock_Admin, mock_QuokkaAdmin, mock_IndexView):
+def test_create_admin_called_quokkaapp_is_instance_of(mock_Admin, mock_QuokkaAdmin, mock_IndexView):
     appQk = QuokkaApp('quokka')
     assert isinstance(appQk, QuokkaApp) == True
 
 @mock.patch("quokka.admin.views.IndexView")
 @mock.patch("quokka.admin.QuokkaAdmin")
 @mock.patch("flask_admin.Admin")
-def test_create_admin_called_QuokkaAdmin_is_not_None(mock_Admin, mock_QuokkaAdmin, mock_IndexView):
+def test_create_admin_called_quokkaadmin_is_not_none(mock_Admin, mock_QuokkaAdmin, mock_IndexView):
     appQk = QuokkaApp('quokka')
     configure_dynaconf(appQk)
     resp = quokka.admin.create_admin(app=appQk)
     assert resp is not None
 
-
-def test_create_admin_called_QuokkaAdmin_is_instance_resp_name_admin():
+def test_create_admin_called_quokkaadmin_is_instance_resp_name_admin():
     appQk = QuokkaApp('quokka')
     configure_dynaconf(appQk)
     resp = quokka.admin.create_admin(app=appQk)
@@ -108,63 +67,25 @@ def test_create_admin_called_QuokkaAdmin_is_instance_resp_name_admin():
 @mock.patch("quokka.admin.QuokkaAdmin")
 @mock.patch("flask_admin.Admin")
 @mock.patch("quokka.admin.create_admin")
-def test_configure_admin_called_param_app_None_err(mock_create_admin, mock_Admin, mock_QuokkaAdmin, mock_IndexView):
-    
+def test_configure_admin_called_param_app_none_err(mock_create_admin, mock_Admin, mock_QuokkaAdmin, mock_IndexView):
     with pytest.raises(AttributeError) as err:
-        try:
-            quokka.admin.configure_admin(app=None, admin=None)
-            assert "object has no attribute" in str(err.value)
-
-        except TypeError as e:
-            assert 'nargs=-1' in str(e)
-
-        except OSError as e:
-            if e.errno != errno.EEXIST:
-                raise
-            
-        except RuntimeError:
-            raise
-
-        except FileExistsError:
-            raise        
-
-        except Exception:
-            raise
-
+        quokka.admin.configure_admin(app=None, admin=None)
+        assert "object has no attribute" in str(err.value)
 
 @mock.patch("quokka.admin.views.IndexView")
 @mock.patch("quokka.admin.QuokkaAdmin")
 @mock.patch("flask_admin.Admin")
 @mock.patch("quokka.admin.create_admin")
 def test_configure_admin_called_param_app_string_empty_err(mock_create_admin, mock_Admin, mock_QuokkaAdmin, mock_IndexView):
-    
     with pytest.raises(AttributeError) as err:
-        try:
-            quokka.admin.configure_admin(app="", admin=None)
-            assert "object has no attribute" in str(err.value)
-
-        except TypeError as e:
-            assert 'nargs=-1' in str(e)
-
-        except OSError as e:
-            if e.errno != errno.EEXIST:
-                raise
-            
-        except RuntimeError:
-            raise
-
-        except FileExistsError:
-            raise        
-
-        except Exception:
-            raise
-
+        quokka.admin.configure_admin(app="", admin=None)
+        assert "object has no attribute" in str(err.value)
 
 @mock.patch("quokka.admin.views.IndexView")
 @mock.patch("quokka.admin.QuokkaAdmin")
 @mock.patch("quokka.admin.create_admin")
 @mock.patch("flask_admin.Admin")
-def test_configure_admin_called_param_admin_None_assert_True(mock_Admin, mock_create_admin, mock_QuokkaAdmin, mock_IndexView):
+def test_configure_admin_called_param_admin_none_assert_true(mock_Admin, mock_create_admin, mock_QuokkaAdmin, mock_IndexView):
     appQk = QuokkaApp('quokka')
     configure_dynaconf(appQk)
     quokka.admin.configure_admin(app=appQk, admin=None)
@@ -174,7 +95,7 @@ def test_configure_admin_called_param_admin_None_assert_True(mock_Admin, mock_cr
 @mock.patch("quokka.admin.QuokkaAdmin")
 @mock.patch("quokka.admin.create_admin")
 @mock.patch("flask_admin.Admin")
-def test_configure_admin_called_param_admin_mock_quokka_admin_assert_False(mock_Admin, mock_create_admin, mock_QuokkaAdmin, mock_IndexView):
+def test_configure_admin_called_param_admin_mock_quokka_admin_assert_false(mock_Admin, mock_create_admin, mock_QuokkaAdmin, mock_IndexView):
     appQk = QuokkaApp('quokka')
     configure_dynaconf(appQk)
     quokka.admin.configure_admin(app=appQk, admin=mock_QuokkaAdmin)
@@ -184,7 +105,7 @@ def test_configure_admin_called_param_admin_mock_quokka_admin_assert_False(mock_
 @mock.patch("quokka.admin.QuokkaAdmin")
 @mock.patch("quokka.admin.create_admin")
 @mock.patch("flask_admin.Admin")
-def test_configure_admin_called_param_admin_None_assert_is_not_None(mock_Admin, mock_create_admin, mock_QuokkaAdmin, mock_IndexView):
+def test_configure_admin_called_param_admin_none_assert_is_not_none(mock_Admin, mock_create_admin, mock_QuokkaAdmin, mock_IndexView):
     appQk = QuokkaApp('quokka')
     configure_dynaconf(appQk)
     resp = quokka.admin.configure_admin(app=appQk, admin=None)
@@ -194,7 +115,7 @@ def test_configure_admin_called_param_admin_None_assert_is_not_None(mock_Admin, 
 @mock.patch("quokka.admin.QuokkaAdmin")
 @mock.patch("quokka.admin.create_admin")
 @mock.patch("flask_admin.Admin")
-def test_configure_admin_called_param_admin_None_assert_is_Quokka_Admin_instance(mock_Admin, mock_create_admin, mock_QuokkaAdmin, mock_IndexView):
+def test_configure_admin_called_param_admin_none_assert_is_quokka_admin_instance(mock_Admin, mock_create_admin, mock_QuokkaAdmin, mock_IndexView):
     appQkk = QuokkaApp('quokka')
     configure_dynaconf(appQkk)
     resp = quokka.admin.configure_admin(app=appQkk, admin=None)
@@ -204,162 +125,65 @@ def test_configure_admin_called_param_admin_None_assert_is_Quokka_Admin_instance
 @mock.patch("quokka.admin.QuokkaAdmin")
 @mock.patch("flask_admin.Admin")
 @mock.patch("quokka.admin.create_admin")
-def test_configure_file_admin_called_param_app_None_err(mock_create_admin, mock_Admin, mock_QuokkaAdmin, mock_IndexView):
-    
+def test_configure_file_admin_called_param_app_none_err(mock_create_admin, mock_Admin, mock_QuokkaAdmin, mock_IndexView):
     with pytest.raises(AttributeError) as err:
-        try:
-            quokka.admin.configure_file_admin(app=None)
-            assert "object has no attribute" in str(err.value)
-
-        except TypeError as e:
-            assert 'nargs=-1' in str(e)
-
-        except OSError as e:
-            if e.errno != errno.EEXIST:
-                raise
-            
-        except RuntimeError:
-            raise
-
-        except FileExistsError:
-            raise        
-
-        except Exception:
-            raise
+        quokka.admin.configure_file_admin(app=None)
+        assert "object has no attribute" in str(err.value)
 
 @mock.patch("quokka.admin.views.IndexView")
 @mock.patch("quokka.admin.QuokkaAdmin")
 @mock.patch("flask_admin.Admin")
 @mock.patch("quokka.admin.create_admin")
 def test_configure_file_admin_called_param_app_string_empty_err(mock_create_admin, mock_Admin, mock_QuokkaAdmin, mock_IndexView):
-    
     with pytest.raises(AttributeError) as err:
-        try:
-            quokka.admin.configure_file_admin(app="")
-            assert "object has no attribute" in str(err.value)
-
-        except TypeError as e:
-            assert 'nargs=-1' in str(e)
-
-        except OSError as e:
-            if e.errno != errno.EEXIST:
-                raise
-            
-        except RuntimeError:
-            raise
-
-        except FileExistsError:
-            raise        
-
-        except Exception:
-            raise
-
+        quokka.admin.configure_file_admin(app="")
+        assert "object has no attribute" in str(err.value)
 
 @mock.patch("quokka.admin.views.IndexView")
 @mock.patch("quokka.admin.QuokkaAdmin")
 @mock.patch("quokka.admin.create_admin")
 @mock.patch("flask_admin.Admin")
-def test_configure_file_admin_called_param_admin_None_assert_None(mock_Admin, mock_create_admin, mock_QuokkaAdmin, mock_IndexView):
+def test_configure_file_admin_called_param_admin_none_assert_none(mock_Admin, mock_create_admin, mock_QuokkaAdmin, mock_IndexView):
     appQk = QuokkaApp('quokka')
     configure_dynaconf(appQk)
     assert quokka.admin.configure_file_admin(app=appQk) is None
 
-
-
 @mock.patch("quokka.admin.views.IndexView")
 @mock.patch("quokka.admin.QuokkaAdmin")
 @mock.patch("flask_admin.Admin")
 @mock.patch("quokka.admin.create_admin")
-def test_configure_extra_views_called_param_app_None_err(mock_create_admin, mock_Admin, mock_QuokkaAdmin, mock_IndexView):
-    
+def test_configure_extra_views_called_param_app_none_err(mock_create_admin, mock_Admin, mock_QuokkaAdmin, mock_IndexView):
     with pytest.raises(AttributeError) as err:
-        try:
-            quokka.admin.configure_extra_views(app=None)
-            assert "object has no attribute" in str(err.value)
-
-        except TypeError as e:
-            assert 'nargs=-1' in str(e)
-
-        except OSError as e:
-            if e.errno != errno.EEXIST:
-                raise
-            
-        except RuntimeError:
-            raise
-
-        except FileExistsError:
-            raise        
-
-        except Exception:
-            raise
+        quokka.admin.configure_extra_views(app=None)
+        assert "object has no attribute" in str(err.value)
 
 @mock.patch("quokka.admin.views.IndexView")
 @mock.patch("quokka.admin.QuokkaAdmin")
 @mock.patch("flask_admin.Admin")
 @mock.patch("quokka.admin.create_admin")
 def test_configure_extra_views_called_param_app_string_empty_err(mock_create_admin, mock_Admin, mock_QuokkaAdmin, mock_IndexView):
-    
     with pytest.raises(AttributeError) as err:
-        try:
-            quokka.admin.configure_extra_views(app="")
-            assert "object has no attribute" in str(err.value)
-
-        except TypeError as e:
-            assert 'nargs=-1' in str(e)
-
-        except OSError as e:
-            if e.errno != errno.EEXIST:
-                raise
-            
-        except RuntimeError:
-            raise
-
-        except FileExistsError:
-            raise        
-
-        except Exception:
-            raise
-
+        quokka.admin.configure_extra_views(app="")
+        assert "object has no attribute" in str(err.value)
 
 @mock.patch("quokka.admin.views.IndexView")
 @mock.patch("quokka.admin.QuokkaAdmin")
 @mock.patch("quokka.admin.create_admin")
 @mock.patch("flask_admin.Admin")
-def test_configure_extra_views_called_param_admin_None_assert_None(mock_Admin, mock_create_admin, mock_QuokkaAdmin, mock_IndexView):
+def test_configure_extra_views_called_param_admin_none_assert_none(mock_Admin, mock_create_admin, mock_QuokkaAdmin, mock_IndexView):
     appQk = QuokkaApp('quokka')
     configure_dynaconf(appQk)
     assert quokka.admin.configure_extra_views(app=appQk) is None
-
  
 @mock.patch("quokka.admin.views.IndexView")
 @mock.patch("quokka.admin.QuokkaAdmin")
 @mock.patch("flask_admin.Admin")
-def test_QuokkaAdmin_class_instance_error(mock_Admin, mock_QuokkaAdmin, mock_IndexView):
-    
+def test_quokkaadmin_class_instance_error(mock_Admin, mock_QuokkaAdmin, mock_IndexView):
     with pytest.raises(AttributeError) as err:
-        try:
-            qa = QuokkaAdmin(Admin)
-            assert "type object 'Admin' has no attribute" in str(err.value)
+        qa = QuokkaAdmin(Admin)
+        assert "type object 'Admin' has no attribute" in str(err.value)
 
-        except TypeError as e:
-            assert 'nargs=-1' in str(e)
-
-        except OSError as e:
-            if e.errno != errno.EEXIST:
-                raise
-            
-        except RuntimeError:
-            raise
-
-        except FileExistsError:
-            raise        
-
-        except Exception:
-            raise
-
-
-
-def test_QuokkaAdmin_class_is_instance_of():
+def test_quokkaadmin_class_is_instance_of():
     appQk = QuokkaApp('quokka')
     configure_dynaconf(appQk)
     
@@ -371,8 +195,7 @@ def test_QuokkaAdmin_class_is_instance_of():
     )
     assert isinstance(qa, QuokkaAdmin) == True
 
-
-def test_QuokkaAdmin_class_instance_register_method():
+def test_quokkaadmin_class_instance_register_method():
     appQk = QuokkaApp('quokka')
     configure_dynaconf(appQk)
     
@@ -385,7 +208,7 @@ def test_QuokkaAdmin_class_instance_register_method():
     assert qa.name == "Admin"
 
 
-def test_QuokkaAdmin_class_instance_add_icon_method_assert_endpoint():
+def test_quokkaadmin_class_instance_add_icon_method_assert_endpoint():
     appQk = QuokkaApp('quokka')
     configure_dynaconf(appQk)
     
@@ -399,8 +222,7 @@ def test_QuokkaAdmin_class_instance_add_icon_method_assert_endpoint():
     qa.add_icon("http://endpoint.pytest", "icon.png", "text.pytest")
     assert 'http://endpoint.pytest' in appQk.config.get('ADMIN_ICONS')[0]
 
-
-def test_QuokkaAdmin_class_instance_add_icon_method_assert_icon():
+def test_quokkaadmin_class_instance_add_icon_method_assert_icon():
     appQk = QuokkaApp('quokka')
     configure_dynaconf(appQk)
     
@@ -414,8 +236,7 @@ def test_QuokkaAdmin_class_instance_add_icon_method_assert_icon():
     qa.add_icon("http://endpoint.pytest", "icon.png", "text.pytest")
     assert 'icon.png' in appQk.config.get('ADMIN_ICONS')[0]
 
-
-def test_QuokkaAdmin_class_instance_add_icon_method_assert_text_pytest():
+def test_quokkaadmin_class_instance_add_icon_method_assert_text_pytest():
     appQk = QuokkaApp('quokka')
     configure_dynaconf(appQk)
     
@@ -429,36 +250,17 @@ def test_QuokkaAdmin_class_instance_add_icon_method_assert_text_pytest():
     qa.add_icon("http://endpoint.pytest", "icon.png", "text.pytest")
     assert 'text.pytest' in appQk.config.get('ADMIN_ICONS')[0]
 
-
 def test_QuokkaAdmin_class_instance_add_icon_method_assert_add_content_format():
     appQk = QuokkaApp('quokka')
     configure_dynaconf(appQk)
     
     with pytest.raises(TypeError) as err:
-        try:
-            qa = QuokkaAdmin(
-                appQk,
-                index_view=IndexView(),
-                template_mode=appQk.config.get('FLASK_ADMIN_TEMPLATE_MODE'),
-                base_template='admin/quokka/master.html'
-            )
-            qa.add_content_format()
-            assert "takes 0 positional arguments but 1 was given" in str(err.value)
-
-        except OSError as e:
-            if e.errno != errno.EEXIST:
-                raise
-            
-        except RuntimeError:
-            raise
-
-        except FileExistsError:
-            raise        
-
-        except Exception:
-            raise
-
-
-
-
+        qa = QuokkaAdmin(
+            appQk,
+            index_view=IndexView(),
+            template_mode=appQk.config.get('FLASK_ADMIN_TEMPLATE_MODE'),
+            base_template='admin/quokka/master.html'
+        )
+        qa.add_content_format()
+        assert "takes 0 positional arguments but 1 was given" in str(err.value)
 

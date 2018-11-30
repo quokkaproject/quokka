@@ -38,21 +38,5 @@ def test_dated_path():
 
 def media_path():
     with pytest.raises(RuntimeError) as err:
-        try:
-            media_path(suffix=None)
-            assert "Working outside of application context." in str(err.value)
-
-        except TypeError as e:
-            assert 'nargs=-1' in str(e)
-
-        except OSError as e:
-            if e.errno != errno.EEXIST:
-                raise
-
-        except FileExistsError:
-            raise
-
-        except Exception:
-            raise
-
-
+        media_path(suffix=None)
+        assert "Working outside of application context." in str(err.value)

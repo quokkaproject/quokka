@@ -23,25 +23,9 @@ block = block_code(text="java-debugger-code", lang="pt")
 def test_block_code():
     assert block == '<pre class="pt"><code>java-debugger-code</code></pre>\n'
 
-def test_class_HighlightMixin():
-
+def test_class_highlightmixin():
     with pytest.raises(AttributeError) as err:
-        try:
-            high = HighlightMixin()
-            block = high.block_code(text="java-debugger-code", lang="pt")
-            assert "HighlightMixin object has no attribute options" in str(err.value)
-
-        except TypeError as e:
-            assert 'nargs=-1' in str(e)
-
-        except OSError as e:
-            if e.errno != errno.EEXIST:
-                raise
-
-        except FileExistsError:
-            raise
-
-        except Exception:
-            raise
-
+        high = HighlightMixin()
+        block = high.block_code(text="java-debugger-code", lang="pt")
+        assert "HighlightMixin object has no attribute options" in str(err.value)
 

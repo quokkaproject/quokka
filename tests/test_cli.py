@@ -40,71 +40,18 @@ def runner(request):
 #################################
 def test_copy_folder_error_first_param():
     with pytest.raises(FileNotFoundError) as error:
-        try:
-            copyfolder("", directory_pwd+directory_test+file_test)
-            assert "No such file or directory" in str(error.value)
-
-        except TypeError as e:
-            assert 'nargs=-1' in str(e)
-
-        except OSError as e:
-            if e.errno != errno.EEXIST:
-                raise
-            
-        except RuntimeError:
-            raise
-
-        except FileExistsError:
-            raise        
-
-        except Exception:
-            raise
+        copyfolder("", directory_pwd+directory_test+file_test)
+        assert "No such file or directory" in str(error.value)
 
 def test_copy_folder_error_second_param():
     with pytest.raises(FileNotFoundError) as error:
-        try:
-            copyfolder(directory_pwd+file_test, "")        
-            assert "No such file or directory" in str(error.value)
-
-        except TypeError as e:
-            assert 'nargs=-1' in str(e)
-
-        except OSError as e:
-            if e.errno != errno.EEXIST:
-                raise
-            
-        except RuntimeError:
-            raise
-
-        except FileExistsError:
-            raise        
-
-        except Exception:
-            raise
-
+        copyfolder(directory_pwd+file_test, "")        
+        assert "No such file or directory" in str(error.value)
 
 def test_copy_folder_file_exists():
-    try:
-        copyfolder(directory_pwd+file_test, directory_pwd+directory_test+file_test)
-        assert os.path.isfile(directory_pwd+directory_test+file_test) is True
-        os.unlink(directory_pwd+directory_test+file_test)
-        
-    except TypeError as e:
-        assert 'nargs=-1' in str(e)
-
-    except OSError as e:
-        if e.errno != errno.EEXIST:
-            raise
-        
-    except RuntimeError:
-        raise
-
-    except FileExistsError:
-        raise        
-
-    except Exception:
-        raise
-
+    copyfolder(directory_pwd+file_test, directory_pwd+directory_test+file_test)
+    assert os.path.isfile(directory_pwd+directory_test+file_test) is True
+    os.unlink(directory_pwd+directory_test+file_test)
 
 @mock.patch("functools.wraps")
 @mock.patch("quokka.create_app")
@@ -118,32 +65,12 @@ def test_with_app(mock_create_app, mock_wraps):
 @mock.patch("pathlib.Path")
 @mock.patch("quokka.cli.copyfolder")
 def test_init(mocker_copyfolder, mocker_Path, mocker_option, mocker_argument, mocker_command, runner):
-    
-    try:
-        @click.command()
-        @click.argument('name', nargs=-1)
-        def run_init_test():
-            init('name-mock', '.', '../', 'theme-mock', 'modules-mock')
-            
+    @click.command()
+    @click.argument('name', nargs=-1)
+    def run_init_test():
+        init('name-mock', '.', '../', 'theme-mock', 'modules-mock')
         result = runner.invoke(run_init_test)
         
         assert not result.exception
         assert mocker_copyfolder.called is False
-        
-    except TypeError as e:
-        assert 'nargs=-1' in str(e)
-
-    except OSError as e:
-        if e.errno != errno.EEXIST:
-            raise
-        
-    except RuntimeError:
-        raise
-
-    except FileExistsError:
-        raise        
-
-    except Exception:
-        raise
-
 

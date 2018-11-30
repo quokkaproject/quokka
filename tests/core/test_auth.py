@@ -43,44 +43,12 @@ param_data = {'username': 'mock-user', 'password':'mock-pass'}
 #pytest - Quokka - tests/core/test_app.py                                       #
 #################################################################################
 def test_create_user():
-
     with pytest.raises(ValueError) as err:
-        try:
-            debugger = create_user(data=param_data)
-            assert "username and password are required." in str(err.value)
-
-        except TypeError as e:
-            assert 'nargs=-1' in str(e)
-
-        except OSError as e:
-            if e.errno != errno.EEXIST:
-                raise
-
-        except FileExistsError:
-            raise        
-
-        except Exception:
-            raise
-
+        debugger = create_user(data=param_data)
+        assert "username and password are required." in str(err.value)
 
 def test_class_UserForm():
-    
     with pytest.raises(RuntimeError) as err:
-        try:
-            userform = UserForm()
-            assert "Working outside of application context." in str(err.value)
-
-        except TypeError as e:
-            assert 'nargs=-1' in str(e)
-
-        except OSError as e:
-            if e.errno != errno.EEXIST:
-                raise
-
-        except FileExistsError:
-            raise        
-
-        except Exception:
-            raise
-
+        userform = UserForm()
+        assert "Working outside of application context." in str(err.value)
 

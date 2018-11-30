@@ -22,27 +22,24 @@ mock_collections = {'index': 'index', 'contents': 'contents', 'uploads': 'upload
 #######################################################
 #pytest - Quokka - tests/core/views/test_sitemap.py   #
 #######################################################
-def test_class_QuokkaTinyMongoClient_isinstance():
+def test_class_quokkatinymongoclient_isinstance():
     assert isinstance(quokka_mongo, QuokkaTinyMongoClient) == True
 
-
-def test_class_QuokkaDB_isinstance():
+def test_class_quokkadb_isinstance():
     assert isinstance(quokka_db, QuokkaDB) == True
 
-def test_class_QuokkaDB_collections():
+def test_class_quokkadb_collections():
     assert quokka_db.collections == mock_collections
 
-def test_class_QuokkaDB_config():
+def test_class_quokkadb_config():
     assert quokka_db.config == {}
 
-def test_class_QuokkaDB_folder():
+def test_class_quokkadb_folder():
     assert quokka_db.folder == 'databases'
 
-def test_class_QuokkaDB_host():
+def test_class_quokkadb_host():
     assert quokka_db.host == 'localhost'
 
-def test_class_QuokkaDB_name():
+def test_class_quokkadb_name():
     assert quokka_db.name == 'quokka_db'
-
-
 

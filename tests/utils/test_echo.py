@@ -14,11 +14,8 @@ red = partial(click.style, bold=True, fg="red")
 yellow = partial(click.style, bold=True, fg="yellow")
 modules = "quokka"
 
-
 #################################
 #pytest - Quokka - test_cli.py  #
 #################################
 def test_lecho():
     assert lecho('Modules installed', modules, green) is None
-
- 

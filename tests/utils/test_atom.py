@@ -31,53 +31,17 @@ def test_escape():
 def test_make_text_block():
     assert make == '<name-param-mock>content-param-mock</name-param-mock>\n'
 
-
 def test_format_iso8601():
     format=format_iso8601(time)
     assert format != ""
 
-
-def test_class_AtomFeed():
-
+def test_class_atomfeed():
     with pytest.raises(ValueError) as err:
-        try:
-            atom = AtomFeed(title="title-mock", entries="entries-mock", kwargs=param_mock)
-            assert "id is required" in str(err.value)
+        atom = AtomFeed(title="title-mock", entries="entries-mock", kwargs=param_mock)
+        assert "id is required" in str(err.value)
 
-        except TypeError as e:
-            assert 'nargs=-1' in str(e)
-
-        except OSError as e:
-            if e.errno != errno.EEXIST:
-                raise
-
-        except FileExistsError:
-            raise
-
-        except Exception:
-            raise
-
-
-def test_class_FeedEntry():
-
+def test_class_feedentry():
     with pytest.raises(ValueError) as err:
-        try:
-            atom = FeedEntry(title="title-mock", entries="entries-mock", kwargs=param_mock)
-            assert "id is required" in str(err.value)
-
-        except TypeError as e:
-            assert 'nargs=-1' in str(e)
-
-        except OSError as e:
-            if e.errno != errno.EEXIST:
-                raise
-
-        except FileExistsError:
-            raise
-
-        except Exception:
-            raise
-
-
-
+        atom = FeedEntry(title="title-mock", entries="entries-mock", kwargs=param_mock)
+        assert "id is required" in str(err.value)
 

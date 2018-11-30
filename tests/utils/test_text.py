@@ -48,26 +48,9 @@ def test_cdata():
     assert data == '<![CDATA[\npy-cdata\n]]>'    
 
 def test_make_external_url():
-
     with pytest.raises(RuntimeError) as err:
-        try:
-            make_external_url("http://it.yahoo.com")
-            assert "Working outside of application context." in str(err.value)
-
-        except TypeError as e:
-            assert 'nargs=-1' in str(e)
-
-        except OSError as e:
-            if e.errno != errno.EEXIST:
-                raise
-
-        except FileExistsError:
-            raise
-
-        except Exception:
-            raise
-
-
+        make_external_url("http://it.yahoo.com")
+        assert "Working outside of application context." in str(err.value)
 
 def test_split_all_category_roots():
     assert split[0] == 'categoria1/categoria2/categoria3'

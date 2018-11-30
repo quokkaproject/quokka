@@ -41,40 +41,24 @@ paginator = Page(
 #################################################################################
 #pytest - Quokka - test_paginator.py                                            #
 #################################################################################
-def test_class_Paginator():
-
+def test_class_paginator():
     with pytest.raises(RuntimeError) as err:
-        try:
-            paginator = Paginator("pytest-mock")
-            assert "Working outside of application context." in str(err.value)
+        paginator = Paginator("pytest-mock")
+        assert "Working outside of application context." in str(err.value)
 
-        except TypeError as e:
-            assert 'nargs=-1' in str(e)
-
-        except OSError as e:
-            if e.errno != errno.EEXIST:
-                raise
-
-        except FileExistsError:
-            raise        
-
-        except Exception:
-            raise
-
-
-def test_class_Page_isinstance():
+def test_class_page_isinstance():
     assert isinstance(paginator, Page) == True
 
-def test_class_Page_extension_property():
+def test_class_page_extension_property():
     assert paginator.extension == ''
 
-def test_class_Page_name_property():
+def test_class_page_name_property():
     assert paginator.name == 'name-mock'
 
-def test_class_Page_number_property():
+def test_class_page_number_property():
     assert paginator.number == 12
 
-def test_class_Page_nnum_pages_property():
+def test_class_page_nnum_pages_property():
     assert paginator.paginator.num_pages == 25
 
 

@@ -45,7 +45,7 @@ def test_create_app_called_test_true_and_settings_dict(mocker):
 @mock.patch("quokka.core.app.QuokkaApp")
 @mock.patch("quokka.core.flask_dynaconf.configure_dynaconf")
 @mock.patch("quokka.core.configure_extension")
-def test_create_app_base_function_QuokkaApp_called_is_false(mock_configure_extension, mock_configure_dynaconf, mock_QuokkaApp):
+def test_create_app_base_function_quokkaapp_called_is_false(mock_configure_extension, mock_configure_dynaconf, mock_QuokkaApp):
     quokka.create_app_base(test=False, ext_list=None)
     assert mock_QuokkaApp.called is False
 
@@ -66,7 +66,7 @@ def test_create_app_base_function_configure_extension_called_is_false(mock_confi
 @mock.patch("quokka.core.app.QuokkaApp")
 @mock.patch("quokka.core.flask_dynaconf.configure_dynaconf")
 @mock.patch("quokka.core.configure_extension")
-def test_create_app_base_function_QuokkaApp_called_is_false_and_test_true(mock_configure_extension, mock_configure_dynaconf, mock_QuokkaApp):
+def test_create_app_base_function_quokkaapp_called_is_false_and_test_true(mock_configure_extension, mock_configure_dynaconf, mock_QuokkaApp):
     quokka.create_app_base(test=True, ext_list=[])
     assert mock_QuokkaApp.called is False
 
@@ -90,7 +90,7 @@ def test_create_app_base_function_configure_dynaconf_called_is_true(mock_configu
 @mock.patch("quokka.core.app.QuokkaApp")
 @mock.patch("quokka.core.flask_dynaconf.configure_dynaconf")
 @mock.patch("quokka.core.configure_extension")
-def test_create_app_base_function_QuokkaApp_called_is_true(mock_configure_extension, mock_configure_dynaconf, mock_QuokkaApp):
+def test_create_app_base_function_quokkaapp_called_is_true(mock_configure_extension, mock_configure_dynaconf, mock_QuokkaApp):
     list_ext = ['quokka.core.app.QuokkaApp', 
                 'quokka.core.flask_dynaconf.configure_dynaconf',
                 'quokka.core.configure_extension']
@@ -130,7 +130,7 @@ def test_create_app_base_function_configure_dynaconf_called_is_true_and_settings
 @mock.patch("quokka.core.app.QuokkaApp")
 @mock.patch("quokka.core.flask_dynaconf.configure_dynaconf")
 @mock.patch("quokka.core.configure_extension")
-def test_create_app_base_function_QuokkaApp_called_is_true_and_settings(mock_configure_extension, mock_configure_dynaconf, mock_QuokkaApp):
+def test_create_app_base_function_quokkaapp_called_is_true_and_settings(mock_configure_extension, mock_configure_dynaconf, mock_QuokkaApp):
     list_ext = ['quokka.core.app.QuokkaApp', 
                 'quokka.core.flask_dynaconf.configure_dynaconf',
                 'quokka.core.configure_extension']

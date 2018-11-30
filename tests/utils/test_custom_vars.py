@@ -13,28 +13,7 @@ def test_parse_data():
     assert data == 'java'
 
 def test_custom_var_dict():
- 
     with pytest.raises(TypeError) as err:
-        try:
-            custom_var_dict(cvarlist = ['java', 'clang', 'c++lang', 'lisp'])
-            assert "string indices must be integers" in str(err.value)
-
-        except ValueError as e:
-            assert 'nargs=-1' in str(e)
-
-        except OSError as e:
-            if e.errno != errno.EEXIST:
-                raise
-
-        except FileExistsError:
-            raise
-
-        except Exception:
-            raise
-
-
-   
-
-
-
+        custom_var_dict(cvarlist = ['java', 'clang', 'c++lang', 'lisp'])
+        assert "string indices must be integers" in str(err.value)
 

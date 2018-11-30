@@ -44,116 +44,113 @@ previewview = PreviewView()
 #######################################################
 #pytest - Quokka - tests/core/content/test_views.py   #
 #######################################################
-def test_class_BaseView_is_subclass():
+def test_class_baseview_is_subclass():
     assert issubclass(BaseView, MethodView) == True
 
-def test_class_BaseView_is_instance():
+def test_class_baseview_is_instance():
     assert isinstance(baseview, BaseView) == True
 
-def test_class_BaseView_decorators():
+def test_class_baseview_decorators():
     assert baseview.decorators == ()
 
-def test_class_BaseView_methods():
+def test_class_baseview_methods():
     assert baseview.methods is None
 
-def test_class_BaseView_provide_automatic_options_property():
+def test_class_baseview_provide_automatic_options_property():
     assert baseview.provide_automatic_options is None
 
-def test_class_ArticleListView_is_subclass():
+def test_class_articlelistview_is_subclass():
     assert issubclass(ArticleListView, BaseView) == True
 
-def test_class_ArticleListView_is_instance():
+def test_class_articlelistview_is_instance():
     assert isinstance(articlelistview, ArticleListView) == True
 
-def test_class_ArticleListView_decorators_property():
+def test_class_articlelistview_decorators_property():
     assert articlelistview.decorators == ()
 
-def test_class_ArticleListView_methods_property():
+def test_class_articlelistview_methods_property():
     assert articlelistview.methods == {'GET'}
 
-def test_class_ArticleListView_provide_automatic_options_property():
+def test_class_articlelistview_provide_automatic_options_property():
     assert articlelistview.provide_automatic_options is None
 
-def test_class_CategoryListView_is_subclass():
+def test_class_categorylistview_is_subclass():
     assert issubclass(CategoryListView, BaseView) == True
 
-def test_class_CategoryListView_is_instance():
+def test_class_categorylistview_is_instance():
     assert isinstance(categorylistview, CategoryListView) == True
 
-def test_class_CategoryListView_is_instance():
+def test_class_categorylistview_is_instance():
     assert categorylistview.decorators == ()
 
-def test_class_CategoryListView_methods_property():
+def test_class_categorylistview_methods_property():
     assert categorylistview.methods == {'GET'}
 
-def test_class_CategoryListView_provide_automatic_options():
+def test_class_categorylistview_provide_automatic_options():
     assert categorylistview.provide_automatic_options is None
 
-def test_class_TagListView_is_subclass():
+def test_class_taglistview_is_subclass():
     assert issubclass(TagListView, BaseView) == True
 
 def test_isinstance_TagListView_is_instance():
     assert isinstance(taglistview, TagListView) == True
 
-def test_class_TagListView_decorators():
+def test_class_taglistview_decorators():
     assert taglistview.decorators == ()
 
-def test_class_TagListView_methods_property():
+def test_class_taglistview_methods_property():
     assert taglistview.methods == {'GET'}
 
-def test_class_TagListView_provide_automatic_options():
+def test_class_taglistview_provide_automatic_options():
     assert taglistview.provide_automatic_options is None
 
-def test_class_AuthorListView_is_subclass():
+def test_class_authorlistview_is_subclass():
     assert issubclass(AuthorListView, BaseView) == True
 
-def test_class_AuthorListView_is_instance():
+def test_class_authorlistview_is_instance():
     assert isinstance(authorlistview, AuthorListView) == True
 
-def test_class_AuthorListView_decorators():
+def test_class_authorlistview_decorators():
     assert authorlistview.decorators == ()
 
-def test_class_AuthorListView_methods_property():
+def test_class_authorlistview_methods_property():
     assert authorlistview.methods == {'GET'}
 
-def test_class_AuthorListView_provide_automatic_options():
+def test_class_authorlistview_provide_automatic_options():
     assert authorlistview.provide_automatic_options is None
 
-def test_class_DetailView_is_subclass():
+def test_class_detailview_is_subclass():
     assert issubclass(DetailView, BaseView) == True
 
-def test_class_DetailView_is_instance():
+def test_class_detailview_is_instance():
     assert isinstance(detailview, DetailView) == True
 
-def test_class_DetailView_decorators():
+def test_class_detailview_decorators():
     assert detailview.decorators == ()
 
-def test_class_DetailView_methods_property():
+def test_class_detailview_methods_property():
     assert detailview.methods == {'GET'}
 
-def test_class_DetailView_provide_automatic_options():
+def test_class_detailview_provide_automatic_options():
     assert detailview.provide_automatic_options is None
 
-def test_class_DetailView_is_preview():
+def test_class_detailview_is_preview():
     assert detailview.is_preview is False
 
-def test_class_PreviewView_is_subclass():
+def test_class_previewview_is_subclass():
     assert issubclass(PreviewView, DetailView) == True
 
-def test_class_PreviewView_is_instance():
+def test_class_previewview_is_instance():
     assert isinstance(previewview, PreviewView) == True
 
-def test_class_PreviewView_decorators():
+def test_class_previewview_decorators():
     assert previewview.decorators == ()
 
-def test_class_PreviewView_methods_property():
+def test_class_previewview_methods_property():
     assert previewview.methods == {'GET'}
 
-def test_class_PreviewView_provide_automatic_options():
+def test_class_previewview_provide_automatic_options():
     assert previewview.provide_automatic_options is None
 
-def test_class_PreviewView_is_preview():
+def test_class_previewview_is_preview():
     assert previewview.is_preview is True
-
-
-

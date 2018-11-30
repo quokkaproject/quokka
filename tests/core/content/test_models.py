@@ -39,320 +39,148 @@ tag = Tag(name="mock-name")
 #######################################################
 #pytest - Quokka - tests/core/content/test_models.py  #
 #######################################################
-def test_Orderable():
+def test_orderable():
     meotc = MockExtendsOrderableTestClass()
     assert meotc.is_content == False
 
-def test_SeriesClass_all_property():
+def test_seriesClass_all_property():
     assert series.all == []
 
-def test_SeriesClass_all_next():
+def test_seriesClass_all_next():
     assert series.all_next == []
 
-def test_SeriesClass_all_prrevious():
+def test_seriesClass_all_prrevious():
     assert series.all_previous == []
 
-def test_SeriesClass_index():
+def test_seriesClass_index():
     assert series.index == 1
 
-def test_SeriesClass_is_content():
+def test_seriesClass_is_content():
     assert series.is_content == False
 
-def test_SeriesClass_name():
+def test_seriesClass_name():
     assert series.name == 'mock-name'
 
-def test_SeriesClass_next():
+def test_seriesClass_next():
     assert series.next == []
 
-def test_SeriesClass_previous():
+def test_seriesClass_previous():
     assert series.previous == []
 
-def test_SeriesClass_slug():
+def test_seriesClass_slug():
     assert series.slug == 'mock-name'
  
-def test_Series_class_property_external_url_atribute_error():
-
+def test_series_class_property_external_url_atribute_error():
     with pytest.raises(AttributeError) as err:
-        try:
-            series.external_url(url="mock-url")
-            assert "object has no attribute url" in str(err.value)
-
-        except TypeError as e:
-            assert 'nargs=-1' in str(e)
-
-        except OSError as e:
-            if e.errno != errno.EEXIST:
-                raise
-        
-        except RuntimeError:
-            raise
-
-        except FileExistsError:
-            raise
-
-        except Exception:
-            raise
-
+        series.external_url(url="mock-url")
+        assert "object has no attribute url" in str(err.value)
  
-def test_Category_class_property_external_url_atribute_error():
-
+def test_category_class_property_external_url_atribute_error():
     with pytest.raises(RuntimeError) as err:
-        try:
-            category.external_url
-            assert "Working outside of request context." in str(err.value)
+        category.external_url
+        assert "Working outside of request context." in str(err.value)
 
-        except TypeError as e:
-            assert 'nargs=-1' in str(e)
-
-        except OSError as e:
-            if e.errno != errno.EEXIST:
-                raise
-        
-        except AttributeError:
-            raise
-
-        except FileExistsError:
-            raise
-
-        except Exception:
-            raise
-
-
-def test_Category_class_property_category():
+def test_category_class_property_category():
     assert category.category == 'mock-category'
 
-def test_Category_class_property_is_content():
+def test_category_class_property_is_content():
     assert category.is_content == False
 
-def test_Category_class_property_name():
+def test_category_class_property_name():
     assert category.name == 'Mock Category'
 
-def test_Category_class_property_slug():
+def test_category_class_property_slug():
     assert category.slug == 'mock-category'
 
-def test_Category_class_property_url():
+def test_category_class_property_url():
     assert category.url == 'mock-category'
 
-def test_Fixed_class_property_is_content():
+def test_fixed_class_property_is_content():
     assert fixed.is_content == False
 
-def test_Fixed_class_property_name():
+def test_fixed_class_property_name():
     assert fixed.name == 'mock-name'
 
-def test_Fixed_class_property_slug():
+def test_fixed_class_property_slug():
     assert fixed.slug == 'mock-name'
 
-def test_Fixed_class_property_url():    
+def test_fixed_class_property_url():    
     assert fixed.url == 'mock-name'
 
-def test_Fixed_class_property_external_url_atribute_error():
-
+def test_fixed_class_property_external_url_atribute_error():
     with pytest.raises(RuntimeError) as err:
-        try:
-            fixed.external_url
-            assert "Working outside of request context." in str(err.value)
+        fixed.external_url
+        assert "Working outside of request context." in str(err.value)
 
-        except TypeError as e:
-            assert 'nargs=-1' in str(e)
-
-        except OSError as e:
-            if e.errno != errno.EEXIST:
-                raise
-        
-        except AttributeError:
-            raise
-
-        except FileExistsError:
-            raise
-
-        except Exception:
-            raise
-
-
-def test_Url_class_property_is_content():
+def test_url_class_property_is_content():
     assert url.is_content == False
 
-def test_Url_class_property_name():
+def test_url_class_property_name():
     assert url.name == 'mock-name'
 
-def test_Url_class_property_slug():
+def test_url_class_property_slug():
     assert url.slug == 'mock-name'
 
-def test_Url_class_property_url():    
+def test_url_class_property_url():    
     assert url.url == 'mock-name'
 
-def test_Url_class_property_external_url_atribute_error():
-
+def test_url_class_property_external_url_atribute_error():
     with pytest.raises(RuntimeError) as err:
-        try:
-            url.external_url
-            assert "Working outside of request context." in str(err.value)
+        url.external_url
+        assert "Working outside of request context." in str(err.value)
 
-        except TypeError as e:
-            assert 'nargs=-1' in str(e)
-
-        except OSError as e:
-            if e.errno != errno.EEXIST:
-                raise
-        
-        except AttributeError:
-            raise
-
-        except FileExistsError:
-            raise
-
-        except Exception:
-            raise
-
-
-def test_class_Authors_property_authors():
+def test_class_authors_property_authors():
     assert author.authors == 'mock-authors'
 
-def test_class_Authors_property_is_content():
+def test_class_authors_property_is_content():
     assert author.is_content == False
 
-def test_class_Authors_property_name():
+def test_class_authors_property_name():
     assert author.name == 'Mock Authors'
 
-def test_class_Authors_property_slug():
+def test_class_authors_property_slug():
     assert author.slug == 'mock-authors'
 
-def test_class_Authors_property_social():
+def test_class_authors_property_social():
     assert author.social == {}
 
-def test_class_Authors_property_url():
+def test_class_authors_property_url():
     assert author.url == 'author/mock-authors'
 
-def test_class_Tag_property_is_content():
+def test_class_tag_property_is_content():
     assert tag.is_content == False
 
-def test_class_Tag_property_name():
+def test_class_tag_property_name():
     assert tag.name == 'mock-name'
 
-def test_class_Tag_property_slug():
+def test_class_tag_property_slug():
     assert tag.slug == 'mock-name'
 
-def test_class_Tag_property_url():
+def test_class_tag_property_url():
     assert tag.url == 'tag/mock-name/index.html'
 
-
-def test_Content_class_property_external_url_atribute_error():
-
+def test_content_class_property_external_url_atribute_error():
     with pytest.raises(RuntimeError) as err:
-        try:
-            content = Content(data="2018-11-01")
-            assert "working outside of request context." in str(err.value)
+        content = Content(data="2018-11-01")
+        assert "working outside of request context." in str(err.value)
 
-        except TypeError as e:
-            assert 'nargs=-1' in str(e)
-
-        except OSError as e:
-            if e.errno != errno.eexist:
-                raise
-
-        except AttributeError:
-            raise
-
-        except FileExistsError:
-            raise
-
-        except Exception:
-            raise
-
-
-def test_Article_class_property_external_url_atribute_error():
-
+def test_article_class_property_external_url_atribute_error():
     with pytest.raises(RuntimeError) as err:
-        try:
-            article = Article(data="2018-11-01")
-            assert "working outside of request context." in str(err.value)
+        article = Article(data="2018-11-01")
+        assert "working outside of request context." in str(err.value)
 
-        except TypeError as e:
-            assert 'nargs=-1' in str(e)
-
-        except OSError as e:
-            if e.errno != errno.eexist:
-                raise
-
-        except AttributeError:
-            raise
-
-        except FileExistsError:
-            raise
-
-        except Exception:
-            raise
-
-
-def test_Page_class_property_external_url_atribute_error():
-
+def test_page_class_property_external_url_atribute_error():
     with pytest.raises(RuntimeError) as err:
-        try:
-            page = Page(data="2018-11-01")
-            assert "working outside of request context." in str(err.value)
+        page = Page(data="2018-11-01")
+        assert "working outside of request context." in str(err.value)
 
-        except TypeError as e:
-            assert 'nargs=-1' in str(e)
-
-        except OSError as e:
-            if e.errno != errno.eexist:
-                raise
-
-        except AttributeError:
-            raise
-
-        except FileExistsError:
-            raise
-
-        except Exception:
-            raise
-
-
-def test_Block_class_property_external_url_atribute_error():
-
+def test_block_class_property_external_url_atribute_error():
     with pytest.raises(RuntimeError) as err:
-        try:
-            block = Block(data="2018-11-01")
-            assert "working outside of request context." in str(err.value)
+        block = Block(data="2018-11-01")
+        assert "working outside of request context." in str(err.value)
 
-        except TypeError as e:
-            assert 'nargs=-1' in str(e)
-
-        except OSError as e:
-            if e.errno != errno.eexist:
-                raise
-
-        except AttributeError:
-            raise
-
-        except FileExistsError:
-            raise
-
-        except Exception:
-            raise
-
-def test_BlockItem_class_property_external_url_atribute_error():
-
+def test_blockitem_class_property_external_url_atribute_error():
     with pytest.raises(RuntimeError) as err:
-        try:
-            block = BlockItem(data="2018-11-01")
-            assert "working outside of request context." in str(err.value)
-
-        except TypeError as e:
-            assert 'nargs=-1' in str(e)
-
-        except OSError as e:
-            if e.errno != errno.eexist:
-                raise
-
-        except AttributeError:
-            raise
-
-        except FileExistsError:
-            raise
-
-        except Exception:
-            raise
-
-
+        block = BlockItem(data="2018-11-01")
+        assert "working outside of request context." in str(err.value)
 

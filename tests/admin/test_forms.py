@@ -16,50 +16,34 @@ from wtforms import validators  # noqa
 from wtforms.validators import ValidationError
 
 #class unused
-def test_PassiveField():
+def test_passivefield():
     pass
 
 #class unused
-def test_PassiveHiddenField():
+def test_passivehiddenfield():
     pass
 
 #class unused
-def test_PassiveStringField():
+def test_passivestringfield():
     pass
 
-def test_Form_Class_error_instance_outsite_flask_context():
+def test_form_class_error_instance_outsite_flask_context():
     with pytest.raises(RuntimeError) as err:
-        try:
-            f = Form()
-            assert "Working outside of application context." in str(err.value)
-
-        except OSError as e:
-            if e.errno != errno.EEXIST:
-                raise
-
-        except FileExistsError:
-            raise
-        
-        except TypeError:
-            raise
-
-        except Exception:
-            raise
-
+        f = Form()
+        assert "Working outside of application context." in str(err.value)
 
 @mock.patch("flask_wtf.FlaskForm")
 @mock.patch("quokka.admin.forms.Form")
-def test_Form_Class_method_get_translations_is_called(mock_Form, mock_FlaskForm):
+def test_form_class_method_get_translations_is_called(mock_Form, mock_FlaskForm):
 
     class TestFormClassExtends(mock_Form):
         mock_Form._get_translations()
 
     assert mock_Form(mock_FlaskForm)._get_translations().called is False
     
-
 @mock.patch("flask_wtf.FlaskForm")
 @mock.patch("quokka.admin.forms.Form")
-def test_Form_Class_property_translations_is_called(mock_Form, mock_FlaskForm):
+def test_Form_class_property_translations_is_called(mock_Form, mock_FlaskForm):
 
     class TestFormClassExtends(mock_Form):
         mock_Form._get_translations()
@@ -68,7 +52,7 @@ def test_Form_Class_property_translations_is_called(mock_Form, mock_FlaskForm):
 
 
 @mock.patch("quokka.admin.forms.CallableValidator")
-def test_CallableValidator_Class_method__init__is_called(mock_CallableValidator):
+def test_callablevalidator_class_method__init__is_called(mock_CallableValidator):
     def pytest_function_param():
         pass
 

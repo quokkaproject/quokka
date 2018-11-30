@@ -33,26 +33,8 @@ def test_ce_equals_app_instance():
 
 def test_ce_admin():
     with pytest.raises(KeyError) as err:
-        try:
-            ce.admin
-            assert "admin" in str(err.value)
-
-        except TypeError as e:
-            assert 'nargs=-1' in str(e)
-
-        except OSError as e:
-            if e.errno != errno.EEXIST:
-                raise
-
-        except FileExistsError:
-            raise
-
-        except RuntimeError:
-            raise
-
-        except Exception:
-            raise
-
+        ce.admin
+        assert "admin" in str(err.value)
 
 def test_ce_before_requests_funcs():
     assert ce.before_request_funcs == {}
@@ -62,27 +44,8 @@ def test_ce_blueprints():
 
 def test_ce_db():
     with pytest.raises(KeyError) as err:
-        try:
-            ce.db
-            assert "db" in str(err.value)
-
-        except TypeError as e:
-            assert 'nargs=-1' in str(e)
-
-        except OSError as e:
-            if e.errno != errno.EEXIST:
-                raise
-
-        except FileExistsError:
-            raise
-
-        except RuntimeError:
-            raise
-
-        except Exception:
-            raise
-
-
+        ce.db
+        assert "db" in str(err.value)
 
 def test_ce_debug():
     assert ce.debug == False

@@ -16,16 +16,16 @@ sitemapview = SiteMapView()
 #######################################################
 #pytest - Quokka - tests/core/views/test_sitemap.py   #
 #######################################################
-def test_class_SiteMapView_isinstance():
+def test_class_sitemapview_isinstance():
     assert isinstance(sitemapview, SiteMapView) is True
 
-def test_class_Sitemap_decorators_empty_tuple():
+def test_class_sitemap_decorators_empty_tuple():
     assert sitemapview.decorators == ()
 
-def test_class_Sitemap_mehots_dicionary_GET():    
+def test_class_sitemap_mehots_dicionary_GET():    
     assert  sitemapview.methods == {'GET'}
 
-def test_class_Sitemap_provide_automatic_options_property_is_None():
+def test_class_sitemap_provide_automatic_options_property_is_None():
     assert sitemapview.provide_automatic_options is None
 
 
