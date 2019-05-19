@@ -91,6 +91,7 @@ class BaseView(MethodView):
 
 class ArticleListView(BaseView):
 
+    #apply fixes to vulnerability XXE
     def get(self, category=None, tag=None, author=None,
             page_number=1, ext=None):
         context = {}
