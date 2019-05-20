@@ -80,6 +80,7 @@ quokka/project_template/static_build/*
 quokka/project_template/modules/*
 !quokka/project_template/modules/README.md
 
+.venv
 venv
 old_*
 .envrc
