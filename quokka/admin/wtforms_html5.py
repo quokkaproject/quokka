@@ -195,7 +195,7 @@ def set_title(field, render_kw=None):
     """
     if render_kw is None:
         render_kw = {}
-    if 'title' not in render_kw and getattr(field, 'description'):
+    if 'title' not in render_kw and getattr(field, 'description', None):
         render_kw['title'] = '{}'.format(field.description)
     return render_kw
 
