@@ -12,11 +12,9 @@ class SiteMapView(MethodView):
         config based paths, static paths
         """
         return (
-            self.get_index()  
-            + self.get_categories() 
-            + self.get_tags() 
-            + self.get_authors() 
-            + self.get_articles_and_pages()
+            self.get_index() + self.get_categories() +
+            self.get_tags() + self.get_authors() +
+            self.get_articles_and_pages()
         )
 
     def get_index(self):
