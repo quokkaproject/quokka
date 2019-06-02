@@ -185,7 +185,7 @@ class QuokkaDB(object):
     def block_set(self, *args, **kwargs):
         kwargs.setdefault('sort', self.app.theme_context.get(
             'BLOCK_ORDER_BY', [('title', -1)]
-            ))
+        ))
         if not args:
             args = [{'content_type': 'block'}]
         elif isinstance(args[0], dict):
