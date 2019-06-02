@@ -267,8 +267,8 @@ class ArticleListView(BaseView):
                     author=str(content.author),
                     categories=[str(content.tags)],
                     guid=hashlib.sha1(
-                        content.title.encode('utf-8') + 
-                        content.url.encode('utf-8')
+                        content.title.encode('utf-8')
+                        + content.url.encode('utf-8')
                     ).hexdigest(),
                     pubDate=content.date,
                 )
