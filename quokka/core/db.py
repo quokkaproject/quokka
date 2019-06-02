@@ -183,15 +183,15 @@ class QuokkaDB(object):
         return self.content_set(*args, **kwargs)
 
     def block_set(self, *args, **kwargs):
-            kwargs.setdefault('sort', self.app.theme_context.get(
-                    'BLOCK_ORDER_BY', [('title', -1)]
-                )
+        kwargs.setdefault('sort', self.app.theme_context.get(
+            'BLOCK_ORDER_BY', [('title', -1)]
             )
-            if not args:
-                args = [{'content_type': 'block'}]
-            elif isinstance(args[0], dict):
-                args[0]['content_type'] = 'block'
-            return self.content_set(*args, **kwargs)
+        )
+        if not args:
+            args = [{'content_type': 'block'}]
+        elif isinstance(args[0], dict):
+            args[0]['content_type'] = 'block'
+        return self.content_set(*args, **kwargs)
 
     def select(self, colname, *args, **kwargs):
         return self.get_collection(colname).find(*args, **kwargs)
