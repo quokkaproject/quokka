@@ -183,9 +183,7 @@ class QuokkaDB(object):
         return self.content_set(*args, **kwargs)
 
     def block_set(self, *args, **kwargs):
-            kwargs.setdefault(
-                'sort',
-                self.app.theme_context.get(
+            kwargs.setdefault('sort', self.app.theme_context.get(
                     'BLOCK_ORDER_BY', [('title', -1)]
                 )
             )
