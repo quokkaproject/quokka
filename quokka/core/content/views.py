@@ -259,6 +259,9 @@ class ArticleListView(BaseView):
             if content.date > rss_pubdate:
                 rss_pubdate = content.date
 
+            content_title = content.title.encode('utf-8')
+            content_url = content.url.encode('utf-8')
+
             rss.items.append(
                 pyrss.RSSItem(
                     title=content.title,
@@ -267,8 +270,7 @@ class ArticleListView(BaseView):
                     author=str(content.author),
                     categories=[str(content.tags)],
                     guid=hashlib.sha1(
-                        content.title.encode('utf-8') +
-                        content.url.encode('utf-8')
+                        content_title + content_url
                     ).hexdigest(),
                     pubDate=content.date,
                 )
