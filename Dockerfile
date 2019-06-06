@@ -3,7 +3,7 @@
 # Requires Docker v17.05
 
 # Base image for build and runtime
-FROM python:3.7-slim-stretch AS base
+FROM python:3.8.0a4-stretch AS base
 LABEL maintainer="Eric Ho <dho.eric@gmail.com>"
 
 WORKDIR /usr/src/app
@@ -40,7 +40,7 @@ FROM base AS run
 
 # Copy from build image
 COPY --from=build /usr/src/app/ /usr/src/app/
-COPY --from=build /usr/local/lib/python3.7/ /usr/local/lib/python3.7/
+COPY --from=build /usr/local/lib/python3.8/ /usr/local/lib/python3.8/
 COPY --from=build /usr/local/bin/quokka /usr/local/bin/quokka
 
 WORKDIR /usr/src/app/quokka/project_template

@@ -9,7 +9,7 @@ from werkzeug import secure_filename
 
 def dated_path(obj, file_data):
     try:
-        prefix = getattr(obj, 'model_name')
+        prefix = getattr(obj, 'model_name', None)
     except BaseException:
         prefix = "undefined"
 
