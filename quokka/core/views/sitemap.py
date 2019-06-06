@@ -13,7 +13,7 @@ class SiteMapView(MethodView):
         """
         content = self.get_index() + self.get_categories()
         content += self.get_tags() + self.get_authors()
-        content += self.get_articles_and_pages() 
+        content += self.get_articles_and_pages()
 
         return (
             content
