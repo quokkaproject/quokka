@@ -255,6 +255,8 @@ class ArticleListView(BaseView):
 
         for content in contents:
             content = make_model(content)
+            content_data = content.title.encode('utf-8')
+            content_data += content.url.encode('utf-8')
 
             if content.date > rss_pubdate:
                 rss_pubdate = content.date
@@ -267,8 +269,7 @@ class ArticleListView(BaseView):
                     author=str(content.author),
                     categories=[str(content.tags)],
                     guid=hashlib.sha1(
-                        content.title.encode('utf-8') +
-                        content.url.encode('utf-8')
+                        content_data
                     ).hexdigest(),
                     pubDate=content.date,
                 )
