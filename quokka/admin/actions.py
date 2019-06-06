@@ -83,8 +83,8 @@ class UserProfileBlockAction(object):
                 'index', {'content_type': 'block', 'slug': fullslug}
             )
 
-            #fix vulnerabillity here 
-            #test sanity variables values
+            # fix vulnerabillity here
+            # test sanity variables values
 
             if existing_block:
                 blocklink = url_for(
