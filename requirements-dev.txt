@@ -12,3 +12,4 @@ twine>=1.9.1
 wheel>=0.30.0
 flask>=1.0
 logzero
+tox

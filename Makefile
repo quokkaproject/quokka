@@ -3,6 +3,9 @@
 test: pep8
 	QUOKKA_MODE=test py.test --cov=quokka -l --tb=short --maxfail=1 tests/
 
+tox: 	
+	QUOKKA_MODE=test tox 
+
 pep8:
 	@flake8 quokka --ignore=F403 --exclude=migrations
 
