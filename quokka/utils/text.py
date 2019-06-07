@@ -1,3 +1,4 @@
+import re
 from flask import request
 from urllib.parse import urljoin
 from slugify.main import Slugify
@@ -99,7 +100,6 @@ def remove_tags_from_string(data):
     """
     resp = re.sub('<[^>]*>', '', data)
     resp = re.sub('"', '', resp)
-    resp = re.sub('\(', '', resp)
-    resp = re.sub('\)', '', resp)
+    resp = re.sub('(', '', resp)
+    resp = re.sub(')', '', resp)
     return re.sub(';', '', resp)
-
