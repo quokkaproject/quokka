@@ -99,7 +99,12 @@ def remove_tags_from_string(data):
        and double quote from string prevent XSS
     """
     resp = re.sub('<[^>]*>', '', data)
-    resp = re.sub('"', '', resp)
-    resp = re.sub('(', '', resp)
-    resp = re.sub(')', '', resp)
-    return re.sub(';', '', resp)
+    return resp.replace(
+        '"', ''
+    ).replace(
+        ';', ''
+    ).replace(
+        '(', ''
+    ).replace(
+        ')', ''
+    )
