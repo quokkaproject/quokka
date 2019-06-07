@@ -91,3 +91,15 @@ def split_all_category_roots(cat):
         return cats
     else:
         return [cat]
+
+
+def remove_tags_from_string(data):
+    """remove tags html, commas, semicolon
+       and double quote from string prevent XSS
+    """
+    resp = re.sub('<[^>]*>', '', data)
+    resp = re.sub('"', '', resp)
+    resp = re.sub('\(', '', resp)
+    resp = re.sub('\)', '', resp)
+    return re.sub(';', '', resp)
+

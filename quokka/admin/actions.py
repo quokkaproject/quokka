@@ -8,7 +8,7 @@ from flask import Markup
 from flask import Response, current_app, flash, redirect, url_for
 from flask_admin.actions import action
 
-from quokka.utils.text import slugify
+from quokka.utils.text import slugify, remove_tags_from_string
 
 
 class PublishAction(object):
@@ -83,8 +83,9 @@ class UserProfileBlockAction(object):
                 'index', {'content_type': 'block', 'slug': fullslug}
             )
 
-            # fix vulnerabillity here
-            # test sanity variables values
+            # fix vulnerabillity here XSS
+            user['fullname'] = remove_tags_from_string(user['fullname'])
+            user['username'] = remove_tags_from_string(user['username'])
 
             if existing_block:
                 blocklink = url_for(
