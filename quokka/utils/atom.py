@@ -26,6 +26,7 @@ from datetime import datetime
 from werkzeug._compat import implements_to_string, string_types
 # from werkzeug.utils import escape
 from werkzeug.wrappers import BaseResponse
+from quokka.utils.text import remove_tags_from_string
 
 
 def escape(x):
@@ -165,20 +166,27 @@ class AtomFeed(object):
             dates = sorted([entry.updated for entry in self.entries])
             self.updated = dates and dates[-1] or datetime.utcnow()
 
+        self.title = remove_tags_from_string(self.title)
+
         yield u'<?xml version="1.0" encoding="utf-8"?>\n'
         yield u'<feed xmlns="http://www.w3.org/2005/Atom">\n'
         yield '  ' + _make_text_block('title', self.title, self.title_type)
         yield u'  <id>%s</id>\n' % escape(self.id)
         yield u'  <updated>%s</updated>\n' % format_iso8601(self.updated)
+
         if self.url:
             yield u'  <link href="%s" />\n' % escape(self.url)
+
         if self.feed_url:
             yield u'  <link href="%s" rel="self" />\n' % \
                 escape(self.feed_url)
+
         for link in self.links:
             yield u'  <link %s/>\n' % ''.join(
                 '%s="%s" ' % (k, escape(link[k])) for k in link)
+
         for author in self.author:
+            author['name'] = remove_tags_from_string(author['name'])
             yield u'  <author>\n'
             yield u'    <name>%s</name>\n' % escape(author['name'])
             if 'uri' in author:
@@ -186,16 +194,20 @@ class AtomFeed(object):
             if 'email' in author:
                 yield '    <email>%s</email>\n' % escape(author['email'])
             yield '  </author>\n'
+
         if self.subtitle:
             yield '  ' + _make_text_block('subtitle', self.subtitle,
                                           self.subtitle_type)
         if self.icon:
             yield u'  <icon>%s</icon>\n' % escape(self.icon)
+
         if self.logo:
             yield u'  <logo>%s</logo>\n' % escape(self.logo)
+
         if self.rights:
             yield '  ' + _make_text_block('rights', self.rights,
                                           self.rights_type)
+
         generator_name, generator_url, generator_version = self.generator
         if generator_name or generator_url or generator_version:
             tmp = [u'  <generator']
@@ -205,10 +217,12 @@ class AtomFeed(object):
                 tmp.append(u' version="%s"' % escape(generator_version))
             tmp.append(u'>%s</generator>\n' % escape(generator_name))
             yield u''.join(tmp)
+
         for entry in self.entries:
             for line in entry.generate():
                 yield u'  ' + line
         yield u'</feed>\n'
+
 
     def to_string(self):
         """Convert the feed into a string."""

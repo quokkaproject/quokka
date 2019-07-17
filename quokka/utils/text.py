@@ -1,3 +1,4 @@
+import re
 from flask import request
 from urllib.parse import urljoin
 from slugify.main import Slugify
@@ -91,3 +92,20 @@ def split_all_category_roots(cat):
         return cats
     else:
         return [cat]
+
+
+def remove_tags_from_string(data):
+    """remove tags html, commas, semicolon
+       and double quote from string prevent XSS
+    """
+    resp = re.sub('<[^>]*>', '', data)
+    return resp.replace(
+        '"', ''
+    ).replace(
+        ';', ''
+    ).replace(
+        '(', ''
+    ).replace(
+        ')', ''
+    )
+

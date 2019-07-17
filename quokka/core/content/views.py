@@ -8,10 +8,14 @@ from flask_simplelogin import is_logged_in
 # from werkzeug.contrib.atom import AtomFeed
 # The werkzeug AtomFeed escapes all html tags
 from quokka.utils.atom import AtomFeed
-
 from .models import make_model, make_paginator, Category, Tag, Author
 from quokka.utils.text import (
-    slugify_category, normalize_var, slugify, cdata, make_external_url
+    slugify_category,
+    normalize_var,
+    slugify,
+    cdata,
+    make_external_url,
+    remove_tags_from_string
 )
 
 
@@ -106,6 +110,7 @@ class ArticleListView(BaseView):
         FEED_ALL_RSS = app.theme_context.get('FEED_ALL_RSS')
 
         if category:
+            category = remove_tags_from_string(category)
             FEED_ALL_ATOM = f"{category}/index.atom"
             FEED_ALL_RSS = f"{category}/index.rss"
             content_type = 'category'
@@ -118,6 +123,7 @@ class ArticleListView(BaseView):
                     content_type = 'index'
             else:
                 content_type = 'index'
+
         elif tag:
             FEED_ALL_ATOM = f"tag/{tag}/index.atom"
             FEED_ALL_RSS = f"tag/{tag}/index.rss"
@@ -126,7 +132,9 @@ class ArticleListView(BaseView):
             template = 'tag.html'
             # https://github.com/schapman1974/tinymongo/issues/42
             query['tags_string'] = {'$regex': f'.*,{tag},.*'}
+
         elif author:
+            author = remove_tags_from_string(author)
             FEED_ALL_ATOM = f"author/{author}/index.atom"
             FEED_ALL_RSS = f"author/{author}/index.rss"
             content_type = 'author'
@@ -141,7 +149,9 @@ class ArticleListView(BaseView):
                 ]
             else:
                 query['authors_string'] = {'$regex': f'.*,{author},.*'}
+
         elif home_template:
+            home_template = remove_tags_from_string(home_template)
             # use custom template only when categoty is blank '/'
             # and INDEX_TEMPLATE is defined
             template = home_template
