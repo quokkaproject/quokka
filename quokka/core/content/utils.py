@@ -11,7 +11,7 @@ def url_for_content(content, include_ext=True):
         data = content
 
     category_slug_data = data.get('category_slug')
-    category_data = slugify_category(data.get('category') or '')
+    category_data = slugify_category(data.get('category', ''))
     category_slug = (
         category_slug_data or category_data
     )
