@@ -108,4 +108,3 @@ def remove_tags_from_string(data):
     ).replace(
         ')', ''
     )
-

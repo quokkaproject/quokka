@@ -223,7 +223,6 @@ class AtomFeed(object):
                 yield u'  ' + line
         yield u'</feed>\n'
 
-
     def to_string(self):
         """Convert the feed into a string."""
         return u''.join(self.generate())

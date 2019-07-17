@@ -8,3 +8,4 @@ def app():
     """Flask Pytest uses it"""
     os.chdir('quokka/project_template/')
     return create_app()
+
