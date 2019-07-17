@@ -11,12 +11,12 @@ class SiteMapView(MethodView):
         TODO: Should include extra paths, fixed paths
         config based paths, static paths
         """
+        content = self.get_index() + self.get_categories()
+        content += self.get_tags() + self.get_authors()
+        content += self.get_articles_and_pages()
+
         return (
-            self.get_index() +
-            self.get_categories() +
-            self.get_tags() +
-            self.get_authors() +
-            self.get_articles_and_pages()
+            content
         )
 
     def get_index(self):
