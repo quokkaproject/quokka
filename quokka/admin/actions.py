@@ -82,6 +82,7 @@ class UserProfileBlockAction(object):
             existing_block = current_app.db.get(
                 'index', {'content_type': 'block', 'slug': fullslug}
             )
+
             if existing_block:
                 blocklink = url_for(
                     'quokka.core.content.admin.blockview.edit_view',
