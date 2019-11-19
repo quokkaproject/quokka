@@ -141,7 +141,7 @@ class ArticleListView(BaseView):
             else:
                 query['authors_string'] = {'$regex': f'.*,{author},.*'}
         elif home_template:
-            # use custom template only when categoty is blank '/'
+            # use custom template only when category is blank '/'
             # and INDEX_TEMPLATE is defined
             template = home_template
             custom_template = f'{content_type}/{home_template}.html'
